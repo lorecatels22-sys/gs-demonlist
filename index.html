@@ -285,13 +285,80 @@
             box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
         }
 
+        /* PUNTI TOTALI GIOCATORI */
+
+        .giocatori {
+            position: relative;
+            z-index: 2;
+            width: min(900px, 88%);
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .giocatore-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 20px 14px 18px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-top: 3px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            text-decoration: none;
+            transition:
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .giocatore-card:hover {
+            transform: translateY(-3px);
+            background: rgba(42, 42, 42, 0.99);
+            border-color: #555;
+            border-top-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0, 0, 0, 0.3);
+        }
+
+        .giocatore-nome {
+            color: #f5f5f5;
+            font-size: 0.95rem;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+            text-align: center;
+        }
+
+        .giocatore-punti {
+            color: #00e676;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            text-shadow: 0 0 14px rgba(0, 230, 118, 0.4);
+        }
+
+        .giocatore-label {
+            color: #999;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .giocatore-card:hover .giocatore-punti {
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.6);
+        }
+
         /* CLASSIFICA */
 
         .classifica {
             position: relative;
             z-index: 2;
             width: min(900px, 88%);
-            margin: 48px auto 0;
+            margin: 30px auto 0;
             display: flex;
             flex-direction: column;
             gap: 14px;
@@ -415,6 +482,20 @@
             text-shadow: 0 0 8px rgba(0, 230, 118, 0.35);
         }
 
+        /* NOMI GIOCATORI CLICCABILI */
+
+        .progressi a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .progressi a:hover {
+            color: #7dffb8;
+            border-bottom-color: rgba(125, 255, 184, 0.7);
+        }
+
         /* INFORMAZIONI A DESTRA */
 
         .dati-destra {
@@ -488,9 +569,33 @@
                 letter-spacing: 1px;
             }
 
+            .giocatori {
+                width: 95%;
+                margin-top: 28px;
+                gap: 8px;
+            }
+
+            .giocatore-card {
+                padding: 14px 6px 12px;
+                gap: 4px;
+            }
+
+            .giocatore-nome {
+                font-size: 0.7rem;
+            }
+
+            .giocatore-punti {
+                font-size: 1.3rem;
+            }
+
+            .giocatore-label {
+                font-size: 0.48rem;
+                letter-spacing: 1px;
+            }
+
             .classifica {
                 width: 95%;
-                margin-top: 32px;
+                margin-top: 22px;
                 gap: 11px;
             }
 
@@ -551,6 +656,14 @@
         }
 
         @media (max-width: 420px) {
+            .giocatore-nome {
+                font-size: 0.6rem;
+            }
+
+            .giocatore-punti {
+                font-size: 1.05rem;
+            }
+
             .livello {
                 gap: 7px;
                 padding: 10px 6px;
@@ -611,7 +724,7 @@
                         <a href="who.html" class="dropdown-item">
                             <span>❓ Who?</span>
                         </a>
-                        <a href="https://giorgionesupremo.com/leaderboard.html" class="dropdown-item">
+                        <a href="leaderboard.html" class="dropdown-item">
                             <img src="lb.png" alt="Leaderboard">
                             <span>Leaderboard</span>
                         </a>
@@ -628,15 +741,15 @@
                 </a>
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
-                        <a href="https://giorgionesupremo.com/horse.html" class="dropdown-item">
+                        <a href="horse.html" class="dropdown-item">
                             <img src="horse.png" alt="H.O.R.S.E.">
                             <span>H.O.R.S.E.</span>
                         </a>
-                        <a href="https://giorgionesupremo.com/thedemonwheel.html" class="dropdown-item">
+                        <a href="thedemonwheel.html" class="dropdown-item">
                             <img src="tdw.png" alt="The Demon Wheel">
                             <span>The Demon Wheel</span>
                         </a>
-                        <a href="https://giorgionesupremo.com/roulette.html" class="dropdown-item">
+                        <a href="roulette.html" class="dropdown-item">
                             <img src="roulette.png" alt="Roulette">
                             <span>Roulette</span>
                         </a>
@@ -645,7 +758,7 @@
             </div>
 
             <!-- ANNOUNCEMENTS -->
-            <a href="https://giorgionesupremo.com/announcements.html" class="badge-link">
+            <a href="announcements.html" class="badge-link">
                 <img src="announcements.png" alt="Announcements">
                 <span>Announcements</span>
             </a>
@@ -656,6 +769,25 @@
             <p class="sottotitolo">Home of the gooners' demonlist</p>
             <div class="linea-titolo"></div>
         </header>
+
+        <!-- PUNTI TOTALI DEI GIOCATORI -->
+        <section class="giocatori">
+            <a href="pothersouls.html" class="giocatore-card">
+                <span class="giocatore-nome">Pothersouls</span>
+                <span class="giocatore-punti">--%</span>
+                <span class="giocatore-label">TOTAL POINTS</span>
+            </a>
+            <a href="dadefff.html" class="giocatore-card">
+                <span class="giocatore-nome">Dadefff</span>
+                <span class="giocatore-punti">--%</span>
+                <span class="giocatore-label">TOTAL POINTS</span>
+            </a>
+            <a href="leopelliz.html" class="giocatore-card">
+                <span class="giocatore-nome">Leopelliz</span>
+                <span class="giocatore-punti">--%</span>
+                <span class="giocatore-label">TOTAL POINTS</span>
+            </a>
+        </section>
 
         <section class="classifica">
 
@@ -668,9 +800,9 @@
                     <p>By Riot</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: 100%</p>
-                    <p>Dadefff: 14%</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                    <p><a href="dadefff.html">Dadefff</a>: 14%</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+250 pts (100%)</span>
@@ -687,9 +819,9 @@
                     <p>By JonathanGD</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: 100%</p>
-                    <p>Dadefff: 55%</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                    <p><a href="dadefff.html">Dadefff</a>: 55%</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+235 pts (100%)</span>
@@ -706,9 +838,9 @@
                     <p>By ScorchVx</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: 100%</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+220 pts (100%)</span>
@@ -725,9 +857,9 @@
                     <p>By DavJT</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: 100%</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+205 pts (100%)</span>
@@ -744,9 +876,9 @@
                     <p>By LazerBlitz</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: 100%</p>
-                    <p>Dadefff: 98%</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                    <p><a href="dadefff.html">Dadefff</a>: 98%</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+190 pts (100%)</span>
@@ -763,9 +895,9 @@
                     <p>By Ruf</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+175 pts (100%)</span>
@@ -782,9 +914,9 @@
                     <p>By Nox</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+160 pts (100%)</span>
@@ -801,9 +933,9 @@
                     <p>By ZenthicAlpha</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+145 pts (100%)</span>
@@ -820,9 +952,9 @@
                     <p>By JonathanGD</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+130 pts (100%)</span>
@@ -839,9 +971,9 @@
                     <p>By DavJT</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+115 pts (100%)</span>
@@ -858,9 +990,9 @@
                     <p>By AirSwipe</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+100 pts (100%)</span>
@@ -877,9 +1009,9 @@
                     <p>By Zobros</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+90 pts (100%)</span>
@@ -896,9 +1028,9 @@
                     <p>By FunnyGame</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+80 pts (100%)</span>
@@ -915,9 +1047,9 @@
                     <p>By Serponge</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+70 pts (100%)</span>
@@ -934,9 +1066,9 @@
                     <p>By FunnyGame &amp; More</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+60 pts (100%)</span>
@@ -953,9 +1085,9 @@
                     <p>By TheRealMiLk</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+50 pts (100%)</span>
@@ -972,9 +1104,9 @@
                     <p>By EugenBro &amp; Endevour</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+40 pts (100%)</span>
@@ -991,9 +1123,9 @@
                     <p>By TNTScrew</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+30 pts (100%)</span>
@@ -1010,9 +1142,9 @@
                     <p>By TheRealMiLk</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+20 pts (100%)</span>
@@ -1029,9 +1161,9 @@
                     <p>By Serponge</p>
                 </div>
                 <div class="progressi">
-                    <p>Pothersouls: --</p>
-                    <p>Dadefff: --</p>
-                    <p>Leopelliz: --</p>
+                    <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                    <p><a href="dadefff.html">Dadefff</a>: --</p>
+                    <p><a href="leopelliz.html">Leopelliz</a>: --</p>
                 </div>
                 <div class="dati-destra">
                     <span class="punti">+15 pts (100%)</span>
@@ -1044,7 +1176,7 @@
     </main>
 
     <footer>
-        G_S demon list - giorgionesupremo.com
+        G_S demon list
     </footer>
 
 </body>
