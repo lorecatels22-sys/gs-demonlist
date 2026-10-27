@@ -281,11 +281,13 @@
             position: relative;
             z-index: 2;
             width: min(900px, 88%);
-            margin: 48px auto 0;
+            margin: 40px auto 0;
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
+
+        /* SCHEDE INFORMATIVE */
 
         .scheda {
             padding: 24px 26px;
@@ -307,6 +309,181 @@
             color: #999;
             font-size: 0.85rem;
             line-height: 1.7;
+        }
+
+        .scheda ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .scheda li {
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .scheda li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #e54848;
+            box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
+        }
+
+        .scheda li strong {
+            color: #f5f5f5;
+        }
+
+        /* CARD GIOCATORI */
+
+        .giocatore {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            transition:
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .giocatore:hover {
+            transform: translateY(-3px);
+            background: rgba(42, 42, 42, 0.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #3a3a3a, #1e1e1e);
+            border: 2px solid #e54848;
+            box-shadow: 0 0 16px rgba(229, 72, 72, 0.4);
+            color: #fff;
+            font-size: 1.9rem;
+            font-weight: 800;
+            transition: box-shadow 0.22s ease, transform 0.22s ease;
+        }
+
+        .giocatore:hover .avatar {
+            box-shadow: 0 0 24px rgba(229, 72, 72, 0.65);
+            transform: scale(1.05);
+        }
+
+        .giocatore-info {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .giocatore-info h2 {
+            color: #f5f5f5;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            overflow-wrap: anywhere;
+        }
+
+        .ruolo {
+            display: inline-block;
+            color: #ff6666;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .giocatore-info p {
+            color: #999;
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        /* STATISTICHE */
+
+        .statistiche {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 14px;
+            background: rgba(0, 230, 118, 0.045);
+            border: 1px solid rgba(0, 230, 118, 0.13);
+            border-radius: 9px;
+            box-shadow:
+                0 0 12px rgba(0, 230, 118, 0.10),
+                0 0 25px rgba(0, 230, 118, 0.05);
+        }
+
+        .stat-valore {
+            color: #00e676;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(0, 230, 118, 0.35);
+            white-space: nowrap;
+        }
+
+        .stat-etichetta {
+            color: #999;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        /* PULSANTE PROFILO */
+
+        .vai-profilo {
+            flex-shrink: 0;
+            align-self: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            background: rgba(229, 72, 72, 0.12);
+            border: 1px solid #e54848;
+            border-radius: 20px;
+            color: #ff5555;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .vai-profilo:hover {
+            background: #e54848;
+            color: #fff;
+            transform: translateX(3px);
         }
 
         /* FOOTER */
@@ -354,11 +531,53 @@
 
             .contenuto {
                 width: 95%;
-                margin-top: 32px;
+                margin-top: 28px;
             }
 
             .scheda {
                 padding: 16px 14px;
+            }
+
+            .giocatore {
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 14px 12px;
+            }
+
+            .avatar {
+                width: 54px;
+                height: 54px;
+                font-size: 1.3rem;
+            }
+
+            .giocatore-info {
+                flex: 1 1 calc(100% - 70px);
+            }
+
+            .giocatore-info h2 {
+                font-size: 1rem;
+            }
+
+            .statistiche {
+                gap: 6px;
+            }
+
+            .stat {
+                padding: 6px 9px;
+            }
+
+            .stat-valore {
+                font-size: 0.8rem;
+            }
+
+            .stat-etichetta {
+                font-size: 0.48rem;
+                letter-spacing: 1px;
+            }
+
+            .vai-profilo {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -371,6 +590,7 @@
 
     <main>
 
+        <!-- NAVIGAZIONE -->
         <nav class="navigation-badges">
             <div class="dropdown-container">
                 <a class="badge-link">
@@ -428,26 +648,117 @@
         </header>
 
         <section class="contenuto">
+
+            <!-- INTRODUZIONE -->
             <article class="scheda">
-                <h2>Pothersouls</h2>
-                <p>Scrivi qui la descrizione.</p>
+                <h2>About the list</h2>
+                <p>Scrivi qui una breve presentazione della demon list: chi l'ha creata, come funziona e perché esiste.</p>
             </article>
 
-            <article class="scheda">
-                <h2>Dadefff</h2>
-                <p>Scrivi qui la descrizione.</p>
+            <!-- POTHERSOULS -->
+            <article class="giocatore">
+                <div class="avatar">P</div>
+                <div class="giocatore-info">
+                    <h2>Pothersouls</h2>
+                    <span class="ruolo">PLAYER</span>
+                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="statistiche">
+                        <div class="stat">
+                            <span class="stat-valore">--%</span>
+                            <span class="stat-etichetta">TOTAL POINTS</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">LEVELS BEATEN</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">HARDEST LEVEL</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="pothersouls.html" class="vai-profilo">
+                    <span>Profile</span>
+                    <span>&gt;</span>
+                </a>
             </article>
 
-            <article class="scheda">
-                <h2>Leopelliz</h2>
-                <p>Scrivi qui la descrizione.</p>
+            <!-- DADEFFF -->
+            <article class="giocatore">
+                <div class="avatar">D</div>
+                <div class="giocatore-info">
+                    <h2>Dadefff</h2>
+                    <span class="ruolo">PLAYER</span>
+                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="statistiche">
+                        <div class="stat">
+                            <span class="stat-valore">--%</span>
+                            <span class="stat-etichetta">TOTAL POINTS</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">LEVELS BEATEN</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">HARDEST LEVEL</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="dadefff.html" class="vai-profilo">
+                    <span>Profile</span>
+                    <span>&gt;</span>
+                </a>
             </article>
+
+            <!-- LEOPELLIZ -->
+            <article class="giocatore">
+                <div class="avatar">L</div>
+                <div class="giocatore-info">
+                    <h2>Leopelliz</h2>
+                    <span class="ruolo">PLAYER</span>
+                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="statistiche">
+                        <div class="stat">
+                            <span class="stat-valore">--%</span>
+                            <span class="stat-etichetta">TOTAL POINTS</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">LEVELS BEATEN</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-valore">--</span>
+                            <span class="stat-etichetta">HARDEST LEVEL</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="leopelliz.html" class="vai-profilo">
+                    <span>Profile</span>
+                    <span>&gt;</span>
+                </a>
+            </article>
+
+            <!-- REGOLE DEL PUNTEGGIO -->
+            <article class="scheda">
+                <h2>How points work</h2>
+                <ul>
+                    <li><strong>Ogni livello</strong> ha un valore in punti che dipende dalla sua posizione nella lista.</li>
+                    <li><strong>I punti totali</strong> di un giocatore sono la somma dei punti dei livelli completati.</li>
+                    <li><strong>I progressi parziali</strong> mostrano la percentuale raggiunta sui livelli non ancora completati.</li>
+                </ul>
+            </article>
+
+            <a href="index.html" class="badge-link" style="align-self: center; margin-top: 6px;">
+                <span>&lt; Back to the list</span>
+            </a>
+
         </section>
 
     </main>
 
     <footer>
-        G_S demon list - giorgionesupremo.com
+        G_S demon list
     </footer>
 
 </body>
