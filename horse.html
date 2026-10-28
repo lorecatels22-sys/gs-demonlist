@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H.O.R.S.E. - G_S demon list</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { background: #1e1e1e; scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            background: #1e1e1e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .barra-sinistra, .barra-destra {
+            position: absolute; top: 0; bottom: 0; width: 30vw; min-height: 100%;
+            background-image: url("./miguel.png");
+            background-repeat: repeat-y; background-size: 100% auto; background-position: top center;
+            opacity: 0.75; pointer-events: none; z-index: 0;
+        }
+        .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
+        main { position: relative; z-index: 1; min-height: 100vh; padding: 35px 0 90px; }
+        .navigation-badges {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: min(900px, 88%); margin: 0 auto 25px; flex-wrap: wrap; position: relative; z-index: 10;
+        }
+        .dropdown-container { position: relative; display: inline-block; }
+        .badge-link {
+            display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b; border-left: 3px solid #e85a5a;
+            border-radius: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            text-decoration: none; color: #f5f5f5; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            cursor: pointer;
+        }
+        .badge-link:hover {
+            transform: translateY(-2px); background: rgba(42, 42, 42, 0.99); border-color: #555;
+            border-left-color: #ff5555; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+        .badge-link img {
+            width: 24px; height: 24px; object-fit: cover; border-radius: 5px; border: 1px solid #555;
+            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .badge-link:hover img { filter: brightness(1.2); transform: scale(1.05); }
+        .torna-indietro { position: absolute; top: 35px; left: 24px; z-index: 20; }
+        .arrow {
+            font-size: 0.75rem; font-weight: 800; color: #999;
+            transition: transform 0.25s ease, color 0.25s ease; display: inline-block;
+        }
+        .dropdown-container:hover .arrow { transform: rotate(90deg); color: #ff5555; }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; padding-top: 10px; min-width: 175px; z-index: 100;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(0.96); transform-origin: top center;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s;
+        }
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
+        }
+        .dropdown-content {
+            background: rgba(28, 28, 28, 0.98); border: 1px solid #3b3b3b; border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); padding: 8px 0; display: flex; flex-direction: column;
+        }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #f5f5f5;
+            text-decoration: none; font-size: 0.78rem; font-weight: 700;
+            opacity: 0; transform: translateX(-12px);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+        }
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1; transform: translateX(0);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+        .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
+        .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
+        .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
+        .dropdown-item:hover { background: rgba(229, 72, 72, 0.15); color: #ff5555; }
+        .dropdown-item img {
+            width: 22px; height: 22px; object-fit: cover; border-radius: 4px; border: 1px solid #555;
+            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .dropdown-item:hover img { filter: brightness(1.2); transform: scale(1.05); }
+        header { text-align: center; padding: 0 15px; }
+        .testo-illuminato {
+            color: #fff; font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800;
+            letter-spacing: -1.5px; text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 25px rgba(255, 255, 255, 0.13); }
+            to { text-shadow: 0 0 35px rgba(229, 72, 72, 0.35); }
+        }
+        .sottotitolo {
+            margin-top: 14px; color: #999; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
+        }
+        .linea-titolo {
+            width: 75px; height: 3px; margin: 22px auto 0; border-radius: 10px;
+            background: #e54848; box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+            animation: linePulse 2s ease-in-out infinite;
+        }
+        @keyframes linePulse {
+            0%, 100% { width: 75px; opacity: 1; }
+            50% { width: 95px; opacity: 0.8; }
+        }
+        .contenuto {
+            position: relative; z-index: 2; width: min(900px, 88%); margin: 40px auto 0;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .scheda {
+            padding: 24px 26px; background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343; border-radius: 10px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            animation: fadeUp 0.5s ease both;
+        }
+        .scheda:nth-child(1) { animation-delay: 0.05s; }
+        .scheda:nth-child(2) { animation-delay: 0.15s; }
+        .scheda:nth-child(3) { animation-delay: 0.25s; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scheda h2 { color: #f5f5f5; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+        .scheda p { color: #999; font-size: 0.85rem; line-height: 1.7; margin-bottom: 10px; }
+        .scheda ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+        .scheda li {
+            color: #999; font-size: 0.85rem; line-height: 1.6; padding-left: 18px; position: relative;
+        }
+        .scheda li::before {
+            content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px;
+            border-radius: 50%; background: #e54848; box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
+        }
+        .scheda li strong { color: #f5f5f5; }
+
+        .form-sfida { display: flex; flex-direction: column; gap: 12px; }
+        .form-riga { display: flex; gap: 12px; flex-wrap: wrap; }
+        .form-gruppo { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 5px; }
+        .form-gruppo label { color: #999; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
+        .form-gruppo input, .form-gruppo select, .form-gruppo textarea {
+            background: rgba(20, 20, 20, 0.9); border: 1px solid #444; border-radius: 8px;
+            color: #f5f5f5; font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
+            padding: 10px 12px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            appearance: none; -webkit-appearance: none;
+        }
+        .form-gruppo select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+        .form-gruppo input:focus, .form-gruppo select:focus, .form-gruppo textarea:focus {
+            border-color: #e85a5a; box-shadow: 0 0 0 3px rgba(232, 90, 90, 0.15);
+        }
+        .form-gruppo textarea { resize: vertical; min-height: 70px; }
+        .form-gruppo select option { background: #222; color: #f5f5f5; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 18px; border: none; border-radius: 20px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem; font-weight: 700; cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary {
+            background: #e54848; color: #fff; box-shadow: 0 4px 12px rgba(229, 72, 72, 0.3);
+        }
+        .btn-primary:hover { background: #ff5555; box-shadow: 0 6px 16px rgba(229, 72, 72, 0.4); }
+        .btn-secondary {
+            background: rgba(60, 60, 60, 0.9); color: #ccc; border: 1px solid #555;
+        }
+        .btn-secondary:hover { background: rgba(80, 80, 80, 0.9); color: #fff; }
+        .btn-success {
+            background: rgba(0, 230, 118, 0.15); color: #00e676; border: 1px solid rgba(0, 230, 118, 0.4);
+        }
+        .btn-success:hover { background: rgba(0, 230, 118, 0.3); }
+        .btn-warning {
+            background: rgba(255, 193, 7, 0.12); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.35);
+        }
+        .btn-warning:hover { background: rgba(255, 193, 7, 0.25); }
+        .btn-danger {
+            background: rgba(229, 72, 72, 0.15); color: #ff5555; border: 1px solid #e54848;
+            padding: 6px 12px; font-size: 0.72rem;
+        }
+        .btn-danger:hover { background: #e54848; color: #fff; }
+        .btn-small { padding: 6px 12px; font-size: 0.72rem; border-radius: 14px; }
+
+        .sfida-card {
+            padding: 20px 22px; background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b;
+            border-left: 4px solid #e85a5a; border-radius: 10px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            margin-bottom: 14px;
+            animation: cardIn 0.4s ease both;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .sfida-card:hover {
+            transform: translateY(-3px);
+            background: rgba(42, 42, 42, 0.99);
+            border-left-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0, 0, 0, 0.3);
+        }
+        .sfida-card.finita { opacity: 0.65; border-left-color: #666; }
+        .sfida-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+            flex-wrap: wrap; gap: 8px;
+        }
+        .sfida-vs { color: #f5f5f5; font-size: 1.05rem; font-weight: 800; }
+        .sfida-vs span { color: #e85a5a; margin: 0 6px; }
+        .sfida-stato {
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; padding: 4px 10px; border-radius: 20px;
+            background: rgba(255, 193, 7, 0.12); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        .sfida-stato.finita {
+            background: rgba(158, 158, 158, 0.12); color: #9e9e9e; border-color: rgba(158, 158, 158, 0.3);
+        }
+        .current-task {
+            background: rgba(229, 72, 72, 0.08);
+            border: 1px solid rgba(229, 72, 72, 0.25);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+        }
+        .current-task strong { color: #ff5555; }
+        .sfida-giocatori { display: flex; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
+        .giocatore-sfida { flex: 1; min-width: 160px; }
+        .giocatore-sfida .nome {
+            color: #f5f5f5; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px;
+        }
+        .sfida-lettere { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+        .lettera {
+            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+            border-radius: 7px; font-weight: 800; font-size: 0.95rem;
+            background: rgba(60, 60, 60, 0.8); color: #666; border: 1px solid #444;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lettera.attiva {
+            background: rgba(229, 72, 72, 0.25); color: #ff5555; border-color: #e54848;
+            box-shadow: 0 0 14px rgba(229, 72, 72, 0.4);
+            animation: letterPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .lettera.completa {
+            background: #e54848; color: #fff; border-color: #e54848;
+            box-shadow: 0 0 18px rgba(229, 72, 72, 0.5);
+        }
+        @keyframes letterPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.25); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .azioni-sfida {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; align-items: center;
+        }
+        .phase-label {
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+            color: #888; margin-right: 6px;
+        }
+        .phase-label.active { color: #ffc107; }
+        .vuoto { text-align: center; color: #666; font-size: 0.9rem; padding: 30px 10px; }
+        .new-task-box {
+            margin-top: 12px; padding: 12px; background: rgba(20,20,20,0.6);
+            border-radius: 8px; border: 1px dashed #555; display: none; width: 100%;
+        }
+        .new-task-box.show { display: block; animation: fadeUp 0.3s ease; }
+        .sync-status {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .sync-status.online { color: #00e676; }
+        footer {
+            position: relative; z-index: 2; text-align: center; color: #666;
+            font-size: 0.75rem; letter-spacing: 1px; padding: 25px 10px 35px;
+        }
+        @media (max-width: 900px) {
+            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
+        }
+        @media (max-width: 700px) {
+            .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
+            main { padding-top: 30px; }
+            .torna-indietro { margin: 0 0 12px 10px; }
+            .navigation-badges { gap: 8px; margin-bottom: 20px; }
+            .badge-link { padding: 6px 12px; font-size: 0.68rem; }
+            .testo-illuminato { letter-spacing: -0.8px; }
+            .sottotitolo { letter-spacing: 1px; }
+            .contenuto { width: 95%; margin-top: 28px; }
+            .scheda { padding: 16px 14px; }
+            .sfida-card { padding: 16px 14px; }
+            .form-riga { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="barra-sinistra" aria-hidden="true"></div>
+    <div class="barra-destra" aria-hidden="true"></div>
+    <main>
+        <a href="index.html" class="badge-link torna-indietro">
+            <span>&lt; Back to the list</span>
+        </a>
+        <nav class="navigation-badges">
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="players.png" alt="Players">
+                    <span>Players</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
+                        <a href="leaderboard.html" class="dropdown-item">
+                            <img src="lb.png" alt="Leaderboard"><span>Leaderboard</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="games.png" alt="Games">
+                    <span>Games</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="horse.html" class="dropdown-item">
+                            <img src="horse.png" alt="H.O.R.S.E."><span>H.O.R.S.E.</span>
+                        </a>
+                        <a href="thedemonwheel.html" class="dropdown-item">
+                            <img src="tdw.png" alt="The Demon Wheel"><span>The Demon Wheel</span>
+                        </a>
+                        <a href="roulette.html" class="dropdown-item">
+                            <img src="roulette.png" alt="Roulette"><span>Roulette</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a href="announcements.html" class="badge-link">
+                <img src="announcements.png" alt="Announcements"><span>Announcements</span>
+            </a>
+        </nav>
+        <header>
+            <h1 class="testo-illuminato">H.O.R.S.E.</h1>
+            <p class="sottotitolo">Challenge mode between gooners</p>
+            <div class="linea-titolo"></div>
+        </header>
+        <section class="contenuto">
+            <article class="scheda">
+                <h2>How it works</h2>
+                <p>
+                    One player proposes a <strong>task</strong> on any level (even outside the list).
+                    The other player must match it exactly.
+                </p>
+                <ul>
+                    <li><strong>Proposer</strong> attempts the task first.</li>
+                    <li>If the proposer fails → <strong>Re-do</strong> (no letter given).</li>
+                    <li>If the proposer succeeds → the opponent must copy it.</li>
+                    <li>If the opponent fails → they get a letter (H → O → R → S → E).</li>
+                    <li>If the opponent succeeds → no letter, <strong>turn switches</strong>.</li>
+                    <li>Every time a letter is added, a <strong>new task</strong> must be set.</li>
+                    <li>First to get all 5 letters loses.</li>
+                </ul>
+            </article>
+
+            <article class="scheda">
+                <h2>New Challenge</h2>
+                <form class="form-sfida" id="formNuovaSfida">
+                    <div class="form-riga">
+                        <div class="form-gruppo">
+                            <label>PLAYER 1</label>
+                            <select id="player1" required>
+                                <option value="">Select player...</option>
+                                <option value="Pothersouls">Pothersouls</option>
+                                <option value="Dadefff">Dadefff</option>
+                                <option value="Leopelliz">Leopelliz</option>
+                            </select>
+                        </div>
+                        <div class="form-gruppo">
+                            <label>PLAYER 2</label>
+                            <select id="player2" required>
+                                <option value="">Select player...</option>
+                                <option value="Pothersouls">Pothersouls</option>
+                                <option value="Dadefff">Dadefff</option>
+                                <option value="Leopelliz">Leopelliz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-riga">
+                        <div class="form-gruppo">
+                            <label>LEVEL</label>
+                            <input type="text" id="livello" placeholder="e.g. Bloodbath" required>
+                        </div>
+                        <div class="form-gruppo">
+                            <label>PROPOSED BY</label>
+                            <select id="propostoDa" required>
+                                <option value="">Select proposer...</option>
+                                <option value="Pothersouls">Pothersouls</option>
+                                <option value="Dadefff">Dadefff</option>
+                                <option value="Leopelliz">Leopelliz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-gruppo">
+                        <label>TASK</label>
+                        <textarea id="task" placeholder="Describe the task..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Challenge</button>
+                </form>
+            </article>
+
+            <article class="scheda">
+                <h2>Active Challenges</h2>
+                <div class="sync-status" id="syncStatus">Connecting...</div>
+                <div id="listaSfide">
+                    <div class="vuoto">Loading challenges...</div>
+                </div>
+            </article>
+        </section>
+    </main>
+    <footer>G_S demon list</footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
+
+    <script>
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
+            authDomain: "gs-demonlist.firebaseapp.com",
+            databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "gs-demonlist",
+            storageBucket: "gs-demonlist.firebasestorage.app",
+            messagingSenderId: "789414584664",
+            appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d",
+            measurementId: "G-1V7VX6QRHZ"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const challengesRef = db.ref('challenges');
+
+        const LETTERS = ['H', 'O', 'R', 'S', 'E'];
+        const PLAYERS = ['Pothersouls', 'Dadefff', 'Leopelliz'];
+
+        let challenges = [];
+
+        // ===== REALTIME LISTENER =====
+        challengesRef.on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            challenges = Object.keys(data).map(id => ({ id, ...data[id] }));
+            challenges.sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+            renderChallenges();
+            document.getElementById('syncStatus').textContent = '● Live sync active';
+            document.getElementById('syncStatus').className = 'sync-status online';
+        }, (error) => {
+            document.getElementById('syncStatus').textContent = 'Connection error';
+            document.getElementById('syncStatus').className = 'sync-status';
+            console.error(error);
+        });
+
+        function renderLetters(count) {
+            return LETTERS.map((l, i) => {
+                let cls = 'lettera';
+                if (i < count) cls += ' attiva';
+                if (count >= 5) cls += ' completa';
+                return `<div class="${cls}">${l}</div>`;
+            }).join('');
+        }
+
+        function playerOptions(selected) {
+            return PLAYERS.map(p => 
+                `<option value="${p}" ${p === selected ? 'selected' : ''}>${p}</option>`
+            ).join('');
+        }
+
+        function renderChallenges() {
+            const container = document.getElementById('listaSfide');
+
+            if (challenges.length === 0) {
+                container.innerHTML = '<div class="vuoto">No active challenges. Create one above!</div>';
+                return;
+            }
+
+            container.innerHTML = challenges.map((c) => {
+                const isFinished = c.letters1 >= 5 || c.letters2 >= 5;
+                const statusClass = isFinished ? 'finita' : '';
+                const statusText = isFinished ? 'FINISHED' : 'IN PROGRESS';
+                const phase = c.phase || 'proposer';
+                const id = c.id;
+
+                let actionsHTML = '';
+
+                if (!isFinished) {
+                    if (phase === 'proposer') {
+                        actionsHTML = `
+                            <span class="phase-label active">PROPOSER TURN (${c.proposedBy})</span>
+                            <button class="btn btn-success btn-small" onclick="proposerSuccess('${id}')">Proposer made it</button>
+                            <button class="btn btn-warning btn-small" onclick="proposerFailed('${id}')">Proposer failed (Re-do)</button>
+                        `;
+                    } else if (phase === 'opponent') {
+                        const opponent = c.proposedBy === c.player1 ? c.player2 : c.player1;
+                        actionsHTML = `
+                            <span class="phase-label active">OPPONENT TURN (${opponent})</span>
+                            <button class="btn btn-success btn-small" onclick="opponentSuccess('${id}')">Opponent made it</button>
+                            <button class="btn btn-danger btn-small" onclick="opponentFailed('${id}')">Opponent failed (+ Letter)</button>
+                        `;
+                    } else if (phase === 'newtask') {
+                        actionsHTML = `
+                            <span class="phase-label active">NEW TASK REQUIRED</span>
+                            <div class="new-task-box show">
+                                <div class="form-gruppo" style="margin-bottom:8px;">
+                                    <label>NEW TASK</label>
+                                    <textarea id="newTask_${id}" placeholder="Write the new task..." style="min-height:60px;"></textarea>
+                                </div>
+                                <div class="form-riga">
+                                    <div class="form-gruppo">
+                                        <label>LEVEL</label>
+                                        <input type="text" id="newLevel_${id}" value="${c.level || ''}">
+                                    </div>
+                                    <div class="form-gruppo">
+                                        <label>PROPOSED BY</label>
+                                        <select id="newProposer_${id}">
+                                            ${playerOptions(c.proposedBy === c.player1 ? c.player2 : c.player1)}
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-small" style="margin-top:10px;" onclick="setNewTask('${id}')">Set New Task & Continue</button>
+                            </div>
+                        `;
+                    }
+                }
+
+                return `
+                <div class="sfida-card ${isFinished ? 'finita' : ''}">
+                    <div class="sfida-header">
+                        <div class="sfida-vs">${c.player1} <span>VS</span> ${c.player2}</div>
+                        <span class="sfida-stato ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="current-task">
+                        <p><strong>Current Task:</strong> ${c.task || '—'}</p>
+                        <p style="margin-top:4px;"><strong>Level:</strong> ${c.level || '—'} &nbsp;•&nbsp; <strong>Proposed by:</strong> ${c.proposedBy || '—'}</p>
+                    </div>
+                    <div class="sfida-giocatori">
+                        <div class="giocatore-sfida">
+                            <div class="nome">${c.player1}</div>
+                            <div class="sfida-lettere">${renderLetters(c.letters1 || 0)}</div>
+                        </div>
+                        <div class="giocatore-sfida">
+                            <div class="nome">${c.player2}</div>
+                            <div class="sfida-lettere">${renderLetters(c.letters2 || 0)}</div>
+                        </div>
+                    </div>
+                    <div class="azioni-sfida">
+                        ${actionsHTML}
+                        <button class="btn btn-danger btn-small" onclick="deleteChallenge('${id}')" style="margin-left:auto;">Delete</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function proposerSuccess(id) {
+            challengesRef.child(id).update({ phase: 'opponent' });
+        }
+
+        function proposerFailed(id) {
+            alert('Proposer failed. Re-do the same task!');
+        }
+
+        function opponentSuccess(id) {
+            const c = challenges.find(x => x.id === id);
+            if (!c) return;
+            const newProposer = (c.proposedBy === c.player1) ? c.player2 : c.player1;
+            challengesRef.child(id).update({
+                proposedBy: newProposer,
+                phase: 'proposer'
+            });
+        }
+
+        function opponentFailed(id) {
+            const c = challenges.find(x => x.id === id);
+            if (!c) return;
+
+            const updates = { phase: 'newtask' };
+            if (c.proposedBy === c.player1) {
+                updates.letters2 = (c.letters2 || 0) + 1;
+            } else {
+                updates.letters1 = (c.letters1 || 0) + 1;
+            }
+            challengesRef.child(id).update(updates);
+        }
+
+        function setNewTask(id) {
+            const newTask = document.getElementById(`newTask_${id}`).value.trim();
+            const newLevel = document.getElementById(`newLevel_${id}`).value.trim();
+            const newProposer = document.getElementById(`newProposer_${id}`).value;
+
+            if (!newTask) {
+                alert('Please write a new task!');
+                return;
+            }
+
+            challengesRef.child(id).update({
+                task: newTask,
+                level: newLevel || null,
+                proposedBy: newProposer,
+                phase: 'proposer'
+            });
+        }
+
+        function deleteChallenge(id) {
+            if (!confirm('Are you sure you want to delete this challenge?')) return;
+            challengesRef.child(id).remove();
+        }
+
+        document.getElementById('formNuovaSfida').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const p1 = document.getElementById('player1').value;
+            const p2 = document.getElementById('player2').value;
+            const proposedBy = document.getElementById('propostoDa').value;
+
+            if (p1 === p2) {
+                alert('Player 1 and Player 2 must be different!');
+                return;
+            }
+            if (proposedBy !== p1 && proposedBy !== p2) {
+                alert('Proposed by must be one of the two players!');
+                return;
+            }
+
+            const nuova = {
+                player1: p1,
+                player2: p2,
+                level: document.getElementById('livello').value.trim(),
+                proposedBy: proposedBy,
+                task: document.getElementById('task').value.trim(),
+                letters1: 0,
+                letters2: 0,
+                phase: 'proposer',
+                created: new Date().toISOString()
+            };
+
+            challengesRef.push(nuova);
+            this.reset();
+        });
+    </script>
+</body>
+</html>

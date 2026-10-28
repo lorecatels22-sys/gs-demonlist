@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Demon Wheel - G_S demon list</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { background: #1e1e1e; scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            background: #1e1e1e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .barra-sinistra, .barra-destra {
+            position: absolute; top: 0; bottom: 0; width: 30vw; min-height: 100%;
+            background-image: url("./miguel.png");
+            background-repeat: repeat-y; background-size: 100% auto; background-position: top center;
+            opacity: 0.75; pointer-events: none; z-index: 0;
+        }
+        .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
+        main { position: relative; z-index: 1; min-height: 100vh; padding: 35px 0 90px; }
+        .navigation-badges {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: min(900px, 88%); margin: 0 auto 25px; flex-wrap: wrap; position: relative; z-index: 10;
+        }
+        .dropdown-container { position: relative; display: inline-block; }
+        .badge-link {
+            display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b; border-left: 3px solid #e85a5a;
+            border-radius: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            text-decoration: none; color: #f5f5f5; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            cursor: pointer;
+        }
+        .badge-link:hover {
+            transform: translateY(-2px); background: rgba(42, 42, 42, 0.99); border-color: #555;
+            border-left-color: #ff5555; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+        .badge-link img {
+            width: 24px; height: 24px; object-fit: cover; border-radius: 5px; border: 1px solid #555;
+            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .badge-link:hover img { filter: brightness(1.2); transform: scale(1.05); }
+        .torna-indietro { position: absolute; top: 35px; left: 24px; z-index: 20; }
+        .arrow {
+            font-size: 0.75rem; font-weight: 800; color: #999;
+            transition: transform 0.25s ease, color 0.25s ease; display: inline-block;
+        }
+        .dropdown-container:hover .arrow { transform: rotate(90deg); color: #ff5555; }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; padding-top: 10px; min-width: 175px; z-index: 100;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(0.96); transform-origin: top center;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s;
+        }
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
+        }
+        .dropdown-content {
+            background: rgba(28, 28, 28, 0.98); border: 1px solid #3b3b3b; border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); padding: 8px 0; display: flex; flex-direction: column;
+        }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #f5f5f5;
+            text-decoration: none; font-size: 0.78rem; font-weight: 700;
+            opacity: 0; transform: translateX(-12px);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+        }
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1; transform: translateX(0);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+        .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
+        .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
+        .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
+        .dropdown-item:hover { background: rgba(229, 72, 72, 0.15); color: #ff5555; }
+        .dropdown-item img {
+            width: 22px; height: 22px; object-fit: cover; border-radius: 4px; border: 1px solid #555;
+            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .dropdown-item:hover img { filter: brightness(1.2); transform: scale(1.05); }
+        header { text-align: center; padding: 0 15px; }
+        .testo-illuminato {
+            color: #fff; font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800;
+            letter-spacing: -1.5px; text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 25px rgba(255, 255, 255, 0.13); }
+            to { text-shadow: 0 0 35px rgba(229, 72, 72, 0.35); }
+        }
+        .sottotitolo {
+            margin-top: 14px; color: #999; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
+        }
+        .linea-titolo {
+            width: 75px; height: 3px; margin: 22px auto 0; border-radius: 10px;
+            background: #e54848; box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+            animation: linePulse 2s ease-in-out infinite;
+        }
+        @keyframes linePulse {
+            0%, 100% { width: 75px; opacity: 1; }
+            50% { width: 95px; opacity: 0.8; }
+        }
+        .contenuto {
+            position: relative; z-index: 2; width: min(900px, 88%); margin: 40px auto 0;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .scheda {
+            padding: 24px 26px; background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343; border-radius: 10px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            animation: fadeUp 0.5s ease both;
+        }
+        .scheda:nth-child(1) { animation-delay: 0.05s; }
+        .scheda:nth-child(2) { animation-delay: 0.12s; }
+        .scheda:nth-child(3) { animation-delay: 0.19s; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scheda h2 { color: #f5f5f5; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+        .scheda p { color: #999; font-size: 0.85rem; line-height: 1.7; margin-bottom: 10px; }
+
+        .wheel-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 10px 0 20px;
+        }
+        .wheel-container {
+            position: relative;
+            width: min(340px, 85vw);
+            height: min(340px, 85vw);
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 28px solid #e54848;
+            z-index: 10;
+            filter: drop-shadow(0 2px 6px rgba(229,72,72,0.5));
+        }
+        canvas#wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(229, 72, 72, 0.25), 0 0 60px rgba(0,0,0,0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        canvas#wheelCanvas.spinning {
+            box-shadow: 0 0 40px rgba(229, 72, 72, 0.5), 0 0 80px rgba(229, 72, 72, 0.2);
+        }
+        .spin-btn {
+            padding: 14px 40px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        .spin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .result-box {
+            margin-top: 8px;
+            padding: 16px 24px;
+            background: rgba(0, 230, 118, 0.08);
+            border: 1px solid rgba(0, 230, 118, 0.25);
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            animation: resultPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .result-box.show { display: block; }
+        @keyframes resultPop {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .result-box .result-name {
+            color: #00e676;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-shadow: 0 0 16px rgba(0, 230, 118, 0.4);
+        }
+        .result-box .result-label {
+            color: #888;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+        }
+
+        .form-sfida { display: flex; flex-direction: column; gap: 12px; }
+        .form-riga { display: flex; gap: 12px; flex-wrap: wrap; }
+        .form-gruppo { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 5px; }
+        .form-gruppo label { color: #999; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
+        .form-gruppo input, .form-gruppo select {
+            background: rgba(20, 20, 20, 0.9); border: 1px solid #444; border-radius: 8px;
+            color: #f5f5f5; font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
+            padding: 10px 12px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            appearance: none; -webkit-appearance: none;
+        }
+        .form-gruppo select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+        .form-gruppo input:focus, .form-gruppo select:focus {
+            border-color: #e85a5a; box-shadow: 0 0 0 3px rgba(232, 90, 90, 0.15);
+        }
+        .form-gruppo select option { background: #222; color: #f5f5f5; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 18px; border: none; border-radius: 20px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem; font-weight: 700; cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary {
+            background: #e54848; color: #fff; box-shadow: 0 4px 12px rgba(229, 72, 72, 0.3);
+        }
+        .btn-primary:hover { background: #ff5555; box-shadow: 0 6px 16px rgba(229, 72, 72, 0.4); }
+        .btn-secondary {
+            background: rgba(60, 60, 60, 0.9); color: #ccc; border: 1px solid #555;
+        }
+        .btn-secondary:hover { background: rgba(80, 80, 80, 0.9); color: #fff; }
+        .btn-danger {
+            background: rgba(229, 72, 72, 0.15); color: #ff5555; border: 1px solid #e54848;
+            padding: 5px 10px; font-size: 0.7rem;
+        }
+        .btn-danger:hover { background: #e54848; color: #fff; }
+        .btn-small { padding: 6px 12px; font-size: 0.72rem; border-radius: 14px; }
+
+        .levels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .levels-list::-webkit-scrollbar { width: 6px; }
+        .levels-list::-webkit-scrollbar-track { background: #2a2a2a; border-radius: 3px; }
+        .levels-list::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+        .level-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(25, 25, 25, 0.9);
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .level-item:hover {
+            background: rgba(40, 40, 40, 0.95);
+            border-color: #555;
+        }
+        .level-color {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .level-img {
+            width: 40px;
+            height: 26px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #444;
+            flex-shrink: 0;
+        }
+        .level-name {
+            flex: 1;
+            color: #f0f0f0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .level-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: rgba(229, 72, 72, 0.15);
+            color: #ff6666;
+            border: 1px solid rgba(229, 72, 72, 0.3);
+        }
+        .level-badge.custom {
+            background: rgba(100, 100, 100, 0.2);
+            color: #aaa;
+            border-color: #555;
+        }
+        .vuoto { text-align: center; color: #666; font-size: 0.85rem; padding: 20px 10px; }
+
+        footer {
+            position: relative; z-index: 2; text-align: center; color: #666;
+            font-size: 0.75rem; letter-spacing: 1px; padding: 25px 10px 35px;
+        }
+        @media (max-width: 900px) {
+            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
+        }
+        @media (max-width: 700px) {
+            .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
+            main { padding-top: 30px; }
+            .torna-indietro { margin: 0 0 12px 10px; }
+            .navigation-badges { gap: 8px; margin-bottom: 20px; }
+            .badge-link { padding: 6px 12px; font-size: 0.68rem; }
+            .testo-illuminato { letter-spacing: -0.8px; }
+            .sottotitolo { letter-spacing: 1px; }
+            .contenuto { width: 95%; margin-top: 28px; }
+            .scheda { padding: 16px 14px; }
+            .form-riga { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="barra-sinistra" aria-hidden="true"></div>
+    <div class="barra-destra" aria-hidden="true"></div>
+    <main>
+        <a href="index.html" class="badge-link torna-indietro">
+            <span>&lt; Back to the list</span>
+        </a>
+        <nav class="navigation-badges">
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="players.png" alt="Players">
+                    <span>Players</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
+                        <a href="leaderboard.html" class="dropdown-item">
+                            <img src="lb.png" alt="Leaderboard"><span>Leaderboard</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="games.png" alt="Games">
+                    <span>Games</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="horse.html" class="dropdown-item">
+                            <img src="horse.png" alt="H.O.R.S.E."><span>H.O.R.S.E.</span>
+                        </a>
+                        <a href="thedemonwheel.html" class="dropdown-item">
+                            <img src="tdw.png" alt="The Demon Wheel"><span>The Demon Wheel</span>
+                        </a>
+                        <a href="roulette.html" class="dropdown-item">
+                            <img src="roulette.png" alt="Roulette"><span>Roulette</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a href="announcements.html" class="badge-link">
+                <img src="announcements.png" alt="Announcements"><span>Announcements</span>
+            </a>
+        </nav>
+        <header>
+            <h1 class="testo-illuminato">The Demon Wheel</h1>
+            <p class="sottotitolo">Spin the wheel of fate</p>
+            <div class="linea-titolo"></div>
+        </header>
+
+        <section class="contenuto">
+            <article class="scheda">
+                <h2>Spin the Wheel</h2>
+                <div class="wheel-wrapper">
+                    <div class="wheel-container">
+                        <div class="wheel-pointer"></div>
+                        <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                    </div>
+                    <button class="btn btn-primary spin-btn" id="spinBtn" onclick="spinWheel()">SPIN</button>
+                    <div class="result-box" id="resultBox">
+                        <div class="result-name" id="resultName">—</div>
+                        <div class="result-label">YOU GOT</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="scheda">
+                <h2>Add Level to Wheel</h2>
+                <form class="form-sfida" id="addForm">
+                    <div class="form-riga">
+                        <div class="form-gruppo">
+                            <label>TYPE</label>
+                            <select id="levelType">
+                                <option value="list">From the List</option>
+                                <option value="custom">Custom Level</option>
+                            </select>
+                        </div>
+                        <div class="form-gruppo" id="listSelectGroup">
+                            <label>LEVEL FROM LIST</label>
+                            <select id="listLevel"></select>
+                        </div>
+                        <div class="form-gruppo" id="customNameGroup" style="display:none;">
+                            <label>CUSTOM LEVEL NAME</label>
+                            <input type="text" id="customName" placeholder="e.g. Acheron">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Wheel</button>
+                </form>
+            </article>
+
+            <article class="scheda">
+                <h2>Levels on the Wheel <span id="levelCount" style="color:#888;font-size:0.8rem;font-weight:600;"></span></h2>
+                <div class="levels-list" id="levelsList">
+                    <div class="vuoto">No levels yet. Add some above!</div>
+                </div>
+            </article>
+        </section>
+    </main>
+    <footer>G_S demon list</footer>
+
+    <script>
+        const LIST_LEVELS = [
+            { name: "Bloodbath", img: "bloodbath.png" },
+            { name: "Future Funk II", img: "futurefunk2.png" },
+            { name: "Magma Bound", img: "magmabound.png" },
+            { name: "CraZy II", img: "crazyii.png" },
+            { name: "Sonic Wave Universe", img: "swu.png" },
+            { name: "Death Note", img: "deathnote.png" },
+            { name: "Stalemate", img: "stalemate.png" },
+            { name: "Jawbreaker", img: "jawbreaker.png" },
+            { name: "Future Funk", img: "futurefunk.png" },
+            { name: "CraZy", img: "crazy.png" },
+            { name: "Megalovania", img: "megalovania.png" },
+            { name: "Nine Circles", img: "ninecircles.png" },
+            { name: "Troll Madness", img: "trollmadness.png" },
+            { name: "HeLL", img: "hell.png" },
+            { name: "Phobros", img: "phobros.png" },
+            { name: "Cycles v2 s", img: "cyclesv2s.png" },
+            { name: "Sakupen Egg", img: "sakupenegg.png" },
+            { name: "Mechanical Showdown", img: "mechanicalshowdown.png" },
+            { name: "Skeletal Shenanigans", img: "ss.png" },
+            { name: "VeritY", img: "verity.png" }
+        ];
+
+        const COLORS = [
+            "#e54848", "#ff6b6b", "#ee5a24", "#f39c12", "#f1c40f",
+            "#2ecc71", "#1abc9c", "#3498db", "#9b59b6", "#e91e63",
+            "#00cec9", "#6c5ce7", "#fd79a8", "#e17055", "#00b894"
+        ];
+
+        const STORAGE_KEY = "gs_demon_wheel_v1";
+        let levels = [];
+        let isSpinning = false;
+        let currentRotation = 0;
+
+        function init() {
+            const sel = document.getElementById("listLevel");
+            LIST_LEVELS.forEach(l => {
+                const opt = document.createElement("option");
+                opt.value = l.name;
+                opt.textContent = l.name;
+                sel.appendChild(opt);
+            });
+
+            document.getElementById("levelType").addEventListener("change", function() {
+                const isCustom = this.value === "custom";
+                document.getElementById("listSelectGroup").style.display = isCustom ? "none" : "flex";
+                document.getElementById("customNameGroup").style.display = isCustom ? "flex" : "none";
+            });
+
+            const saved = localStorage.getItem(STORAGE_KEY);
+            levels = saved ? JSON.parse(saved) : [];
+            renderLevels();
+            drawWheel();
+        }
+
+        function save() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(levels));
+        }
+
+        function randomColor() {
+            return COLORS[Math.floor(Math.random() * COLORS.length)];
+        }
+
+        document.getElementById("addForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const type = document.getElementById("levelType").value;
+
+            if (type === "list") {
+                const name = document.getElementById("listLevel").value;
+                if (levels.some(l => l.name === name)) {
+                    alert("This level is already on the wheel!");
+                    return;
+                }
+                const found = LIST_LEVELS.find(l => l.name === name);
+                levels.push({
+                    name: found.name,
+                    img: found.img,
+                    color: null,
+                    isList: true
+                });
+            } else {
+                const name = document.getElementById("customName").value.trim();
+                if (!name) {
+                    alert("Please enter a level name!");
+                    return;
+                }
+                if (levels.some(l => l.name.toLowerCase() === name.toLowerCase())) {
+                    alert("This level is already on the wheel!");
+                    return;
+                }
+                levels.push({
+                    name: name,
+                    img: null,
+                    color: randomColor(),
+                    isList: false
+                });
+                document.getElementById("customName").value = "";
+            }
+
+            save();
+            renderLevels();
+            drawWheel();
+        });
+
+        function renderLevels() {
+            const container = document.getElementById("levelsList");
+            document.getElementById("levelCount").textContent = levels.length ? `(${levels.length})` : "";
+
+            if (levels.length === 0) {
+                container.innerHTML = '<div class="vuoto">No levels yet. Add some above!</div>';
+                return;
+            }
+
+            container.innerHTML = levels.map((l, i) => `
+                <div class="level-item">
+                    ${l.isList 
+                        ? `<img class="level-img" src="${l.img}" alt="${l.name}" onerror="this.style.display='none'">`
+                        : `<div class="level-color" style="background:${l.color}"></div>`
+                    }
+                    <span class="level-name">${l.name}</span>
+                    <span class="level-badge ${l.isList ? '' : 'custom'}">${l.isList ? 'LIST' : 'CUSTOM'}</span>
+                    <button class="btn btn-danger btn-small" onclick="removeLevel(${i})">Remove</button>
+                </div>
+            `).join("");
+        }
+
+        function removeLevel(index) {
+            levels.splice(index, 1);
+            save();
+            renderLevels();
+            drawWheel();
+            document.getElementById("resultBox").classList.remove("show");
+        }
+
+        function drawWheel() {
+            const canvas = document.getElementById("wheelCanvas");
+            const ctx = canvas.getContext("2d");
+            const size = canvas.width;
+            const center = size / 2;
+            const radius = center - 4;
+
+            ctx.clearRect(0, 0, size, size);
+
+            if (levels.length === 0) {
+                ctx.beginPath();
+                ctx.arc(center, center, radius, 0, Math.PI * 2);
+                ctx.fillStyle = "#2a2a2a";
+                ctx.fill();
+                ctx.strokeStyle = "#444";
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                ctx.fillStyle = "#666";
+                ctx.font = "600 16px Montserrat";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("Add levels!", center, center);
+                return;
+            }
+
+            const arc = (Math.PI * 2) / levels.length;
+
+            levels.forEach((level, i) => {
+                const start = i * arc;
+                const end = start + arc;
+
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, radius, start, end);
+                ctx.closePath();
+
+                if (level.isList && level.img) {
+                    const hue = (i * 47) % 360;
+                    ctx.fillStyle = `hsl(${hue}, 55%, 35%)`;
+                } else {
+                    ctx.fillStyle = level.color || "#555";
+                }
+                ctx.fill();
+
+                ctx.strokeStyle = "rgba(0,0,0,0.4)";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(center, center);
+                ctx.rotate(start + arc / 2);
+                ctx.textAlign = "right";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "#fff";
+                ctx.font = `700 ${Math.max(10, 14 - levels.length * 0.3)}px Montserrat`;
+                ctx.shadowColor = "rgba(0,0,0,0.7)";
+                ctx.shadowBlur = 3;
+                const text = level.name.length > 14 ? level.name.slice(0, 12) + "…" : level.name;
+                ctx.fillText(text, radius - 14, 0);
+                ctx.restore();
+            });
+
+            ctx.beginPath();
+            ctx.arc(center, center, 28, 0, Math.PI * 2);
+            ctx.fillStyle = "#1e1e1e";
+            ctx.fill();
+            ctx.strokeStyle = "#e54848";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(center, center, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = "#e54848";
+            ctx.lineWidth = 5;
+            ctx.stroke();
+        }
+
+        function spinWheel() {
+            if (isSpinning || levels.length === 0) return;
+
+            isSpinning = true;
+            const btn = document.getElementById("spinBtn");
+            const canvas = document.getElementById("wheelCanvas");
+            btn.disabled = true;
+            canvas.classList.add("spinning");
+            document.getElementById("resultBox").classList.remove("show");
+
+            const extraSpins = 5 + Math.floor(Math.random() * 4);
+            const randomAngle = Math.random() * 360;
+            const totalDeg = extraSpins * 360 + randomAngle;
+
+            const start = currentRotation;
+            const end = start + totalDeg;
+            const duration = 4500 + Math.random() * 1500;
+            const startTime = performance.now();
+
+            function easeOutCubic(t) {
+                return 1 - Math.pow(1 - t, 3);
+            }
+
+            function animate(now) {
+                const elapsed = now - startTime;
+                const t = Math.min(elapsed / duration, 1);
+                const eased = easeOutCubic(t);
+                currentRotation = start + (end - start) * eased;
+
+                canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+                if (t < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isSpinning = false;
+                    btn.disabled = false;
+                    canvas.classList.remove("spinning");
+
+                    const normalized = ((currentRotation % 360) + 360) % 360;
+                    const adjusted = (normalized + 90) % 360;
+                    const arcDeg = 360 / levels.length;
+                    const index = Math.floor(((360 - adjusted) % 360) / arcDeg) % levels.length;
+
+                    const winner = levels[index];
+                    document.getElementById("resultName").textContent = winner.name;
+                    document.getElementById("resultBox").classList.add("show");
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+    </script>
+</body>
+</html>
