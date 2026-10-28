@@ -4,46 +4,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Announcements - G_S Demon List</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
-.side-img{position:fixed;top:0;width:30vw;height:100vh;object-fit:cover;opacity:0.75;pointer-events:none;z-index:0}
-.side-left{left:0} .side-right{right:0}
-.content{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:40px 20px;min-height:100vh}
-h1{text-align:center;font-size:48px;margin:0 0 10px}
-.live{color:#0f0;text-align:center;margin-bottom:30px}
-.card{background:rgba(20,20,20,0.9);border:1px solid #333;border-radius:12px;padding:20px;margin-bottom:20px}
-.admin-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;border:1px solid #444;padding:10px 20px;border-radius:20px;cursor:pointer;z-index:10}
-#adminPanel{display:none;background:#0f2a0f;border:1px solid #0f0;padding:20px;border-radius:12px;margin-bottom:20px}
-input,textarea{width:100%;background:#111;color:#fff;border:1px solid #333;border-radius:8px;padding:10px;margin:5px 0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:'Inter',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+.side{position:fixed;top:0;width:33vw;height:100vh;object-fit:cover;z-index:0;opacity:.9;pointer-events:none}
+.side.left{left:0;object-position:right} .side.right{right:0;object-position:left}
+.main{position:relative;z-index:1;width:100%;max-width:760px;margin:0 auto;padding:50px 20px 100px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:.9;text-shadow:0 0 20px rgba(255,255,255,.2)}
+.live{margin-top:12px;color:#00ff88;font-weight:700;letter-spacing:3px;font-size:14px}
+.list{display:flex;flex-direction:column;gap:22px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.card .meta{font-size:11px;letter-spacing:2px;color:#00ff88;margin-bottom:10px;font-weight:700}
+.card h3{font-size:22px;font-weight:900;margin-bottom:10px}
+.card p{font-size:15px;line-height:1.6;color:#d0d0d0;white-space:pre-wrap}
+.admin-btn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;background:#111;border:1px solid #333;color:#fff;padding:10px 22px;border-radius:999px;cursor:pointer;font-weight:700;letter-spacing:1px}
+.admin-btn:hover{background:#fff;color:#000}
+#adminPanel{display:none;background:#0a1a0a;border:1px solid #00ff88;border-radius:20px;padding:22px;margin-bottom:30px}
+#adminPanel h3{color:#00ff88;margin-bottom:12px}
+#adminPanel input,#adminPanel textarea{width:100%;background:#000;color:#fff;border:1px solid #333;border-radius:10px;padding:12px;margin:6px 0;font-family:inherit}
+#adminPanel button{background:#00ff88;color:#000;border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;margin-top:6px}
+#adminPanel #loginStatus{font-size:13px;margin:8px 0;color:#aaa}
+.del{margin-top:12px;background:#220000 !important;color:#ff7777 !important;border:1px solid #ff0000 !important}
+@media(max-width:900px){.side{width:18vw;opacity:.4} .header h1{font-size:42px} .main{max-width:92vw}}
 </style>
 </head>
 <body>
-<img class="side-img side-left" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
-<img class="side-img side-right" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
-<div class="content">
+<img class="side left" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
+<img class="side right" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
+
+<div class="main">
+<div class="header">
 <h1>ANNOUNCEMENTS</h1>
 <div class="live">● LIVE</div>
+</div>
+
 <div id="adminPanel">
 <h3>CONTROL PANEL</h3>
-<input id="email" placeholder="Email" value="lorecatels22@gmail.com">
+<input id="email" value="lorecatels22@gmail.com">
 <input id="password" type="password" placeholder="Password">
 <button id="loginBtn">Login</button>
-<button id="logoutBtn" style="display:none">Logout</button>
-<div id="loginStatus"></div>
+<button id="logoutBtn" style="display:none;background:#222;color:#fff;border:1px solid #444">Logout</button>
+<div id="loginStatus">Not logged</div>
 <div id="postForm" style="display:none">
-<input id="tag" placeholder="Tag (NEWS, UPDATE...)">
+<input id="tag" placeholder="Tag - NEWS / UPDATE / EVENT">
 <input id="title" placeholder="Title">
-<textarea id="text" placeholder="Text"></textarea>
-<button id="publishBtn">Publish</button>
+<textarea id="text" rows="4" placeholder="Text"></textarea>
+<button id="publishBtn">Publish Announcement</button>
 </div>
 </div>
-<div id="list">Loading...</div>
+
+<div id="list" class="list">Loading...</div>
 </div>
+
 <button class="admin-btn" id="adminToggle">ADMIN</button>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBYK10E0A2-SeJObCjMeKCasSLfWmrU",
   authDomain: "gs-demonlist.firebaseapp.com",
@@ -55,41 +76,47 @@ const firebaseConfig = {
   measurementId: "G-1V7VX6QRHZ"
 };
 const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 const listEl = document.getElementById('list');
 const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
+
 onSnapshot(q, (snap)=>{
-  if(snap.empty){ listEl.innerHTML = "No announcements yet."; return; }
+  if(snap.empty){ listEl.innerHTML = "<div class='card'>No announcements yet.</div>"; return; }
   listEl.innerHTML = "";
   snap.forEach(d=>{
     const data = d.data();
-    const date = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : "";
-    listEl.innerHTML += `<div class="card"><div style="color:#0f0;font-size:12px">${data.tag||''} • ${date}</div><h3>${data.title||''}</h3><p>${data.text||''}</p>${auth.currentUser?.uid===ADMIN_UID?`<button onclick="window.delAnn('${d.id}')" style="background:#300;color:#f88;border:1px solid #f00;border-radius:6px;padding:4px 8px;cursor:pointer">Delete</button>`:''}</div>`;
+    const date = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'}) : "";
+    listEl.innerHTML += `<div class="card"><div class="meta">${(data.tag||'NEWS')} • ${date}</div><h3>${data.title||''}</h3><p>${data.text||''}</p>${auth.currentUser?.uid===ADMIN_UID?`<button class="del" onclick="window.delAnn('${d.id}')">Delete</button>`:''}</div>`;
   });
 }, (err)=>{
   console.error(err);
-  listEl.innerHTML = "Firestore error: "+err.message+"<br>Check Rules!";
+  listEl.innerHTML = "<div class='card'>Firestore error: "+err.message+"</div>";
 });
-window.delAnn = async (id)=>{ if(confirm("Delete?")) await deleteDoc(doc(db,"announcements",id)); }
+
+window.delAnn = async (id)=>{ if(confirm("Eliminare?")) await deleteDoc(doc(db,"announcements",id)); }
+
 document.getElementById('adminToggle').onclick = ()=>{ const p=document.getElementById('adminPanel'); p.style.display = p.style.display==='none'?'block':'none'; }
 document.getElementById('loginBtn').onclick = async ()=>{
-  const e=document.getElementById('email').value, pw=document.getElementById('password').value;
-  try{ await signInWithEmailAndPassword(auth,e,pw); }catch(err){ document.getElementById('loginStatus').innerText = err.message; }
+  try{ await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value); }
+  catch(e){ document.getElementById('loginStatus').innerText = e.message; }
 };
 document.getElementById('logoutBtn').onclick = ()=>signOut(auth);
 document.getElementById('publishBtn').onclick = async ()=>{
   const tag=document.getElementById('tag').value||"NEWS", title=document.getElementById('title').value, text=document.getElementById('text').value;
-  if(!title||!text) return alert("Title and text required");
+  if(!title||!text) return alert("Titolo e testo obbligatori");
   await addDoc(collection(db,"announcements"),{tag,title,text,createdAt:serverTimestamp()});
   document.getElementById('title').value=""; document.getElementById('text').value="";
 };
+
 onAuthStateChanged(auth,(user)=>{
-  const status=document.getElementById('loginStatus'), form=document.getElementById('postForm'), loginBtn=document.getElementById('loginBtn'), logoutBtn=document.getElementById('logoutBtn');
-  if(user && user.uid===ADMIN_UID){ status.innerText="Admin: "+user.email; form.style.display="block"; loginBtn.style.display="none"; logoutBtn.style.display="block"; }
+  const status=document.getElementById('loginStatus'), form=document.getElementById('postForm'), lb=document.getElementById('loginBtn'), lob=document.getElementById('logoutBtn');
+  if(user && user.uid===ADMIN_UID){ status.innerText="Admin: "+user.email; form.style.display="block"; lb.style.display="none"; lob.style.display="block"; }
   else if(user){ status.innerText="Non sei admin: "+user.email; form.style.display="none"; }
-  else{ status.innerText="Not logged"; form.style.display="none"; loginBtn.style.display="block"; logoutBtn.style.display="none"; }
+  else{ status.innerText="Not logged"; form.style.display="none"; lb.style.display="block"; lob.style.display="none"; }
 });
 </script>
 </body>
