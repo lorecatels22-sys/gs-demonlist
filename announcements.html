@@ -1,70 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Announcements - G_S Demon List</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Announcements - G_S demon list</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:'Inter',Arial,sans-serif;min-height:100vh;overflow-x:hidden}
-.side{position:fixed;top:0;width:33vw;height:100vh;object-fit:cover;z-index:0;opacity:.9;pointer-events:none}
-.side.left{left:0;object-position:right} .side.right{right:0;object-position:left}
-.main{position:relative;z-index:1;width:100%;max-width:760px;margin:0 auto;padding:50px 20px 100px}
-.header{text-align:center;margin-bottom:40px}
-.header h1{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:.9;text-shadow:0 0 20px rgba(255,255,255,.2)}
-.live{margin-top:12px;color:#00ff88;font-weight:700;letter-spacing:3px;font-size:14px}
-.list{display:flex;flex-direction:column;gap:22px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:24px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
-.card .meta{font-size:11px;letter-spacing:2px;color:#00ff88;margin-bottom:10px;font-weight:700}
-.card h3{font-size:22px;font-weight:900;margin-bottom:10px}
-.card p{font-size:15px;line-height:1.6;color:#d0d0d0;white-space:pre-wrap}
-.admin-btn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;background:#111;border:1px solid #333;color:#fff;padding:10px 22px;border-radius:999px;cursor:pointer;font-weight:700;letter-spacing:1px}
-.admin-btn:hover{background:#fff;color:#000}
-#adminPanel{display:none;background:#0a1a0a;border:1px solid #00ff88;border-radius:20px;padding:22px;margin-bottom:30px}
-#adminPanel h3{color:#00ff88;margin-bottom:12px}
-#adminPanel input,#adminPanel textarea{width:100%;background:#000;color:#fff;border:1px solid #333;border-radius:10px;padding:12px;margin:6px 0;font-family:inherit}
-#adminPanel button{background:#00ff88;color:#000;border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;margin-top:6px}
-#adminPanel #loginStatus{font-size:13px;margin:8px 0;color:#aaa}
-.del{margin-top:12px;background:#220000 !important;color:#ff7777 !important;border:1px solid #ff0000 !important}
-@media(max-width:900px){.side{width:18vw;opacity:.4} .header h1{font-size:42px} .main{max-width:92vw}}
+html{background:#1e1e1e;scroll-behavior:smooth}
+body{min-height:100vh;background:#1e1e1e;color:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden;position:relative}
+
+/* SFONDO LATERALE - UGUALE AL TUO INDEX */
+.barra-sinistra,.barra-destra{position:absolute;top:0;bottom:0;width:30vw;min-height:100%;background-image:url("./miguel.png");background-repeat:repeat-y;background-size:100% auto;background-position:top center;opacity:.75;pointer-events:none;z-index:0}
+.barra-sinistra{left:0} .barra-destra{right:0;transform:scaleX(-1)}
+
+/* CONTENUTO */
+main{position:relative;z-index:1;min-height:100vh;padding:35px 0 90px}
+
+/* 3 RETTANGOLI IN ALTO - UGUALI */
+.navigation-badges{display:flex;align-items:center;justify-content:center;gap:12px;width:min(900px,88%);margin:0 auto 25px;flex-wrap:wrap;position:relative;z-index:10}
+.dropdown-container{position:relative;display:inline-block}
+.badge-link{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:3px solid #e85a5a;border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,.18);text-decoration:none;color:#f5f5f5;font-size:.8rem;font-weight:700;letter-spacing:.5px;transition:.22s;cursor:pointer}
+.badge-link:hover{transform:translateY(-2px);background:rgba(42,42,42,.99);border-color:#555;border-left-color:#ff5555}
+.badge-link img{width:24px;height:24px;object-fit:cover;border-radius:5px;border:1px solid #555;background:#252525}
+.arrow{font-size:.75rem;font-weight:800;color:#999;transition:.25s;display:inline-block}
+.dropdown-container:hover .arrow{transform:rotate(90deg);color:#ff5555}
+.dropdown-menu{position:absolute;top:100%;left:50%;padding-top:10px;min-width:175px;z-index:100;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-12px) scale(.96);transition:opacity .25s,transform .3s,visibility 0s linear .3s}
+.dropdown-container:hover .dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0) scale(1);transition:opacity .25s,transform .3s,visibility 0s}
+.dropdown-content{background:rgba(28,28,28,.98);border:1px solid #3b3b3b;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.4);padding:8px 0;display:flex;flex-direction:column}
+.dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#f5f5f5;text-decoration:none;font-size:.78rem;font-weight:700;opacity:0;transform:translateX(-12px);transition:.2s}
+.dropdown-container:hover .dropdown-item{opacity:1;transform:translateX(0)}
+.dropdown-item:hover{background:rgba(229,72,72,.15);color:#ff5555}
+.dropdown-item img{width:22px;height:22px;object-fit:cover;border-radius:4px;border:1px solid #555;background:#252525}
+
+/* TESTATA */
+header{text-align:center;padding:0 15px}
+.testo-illuminato{color:#fff;font-size:clamp(2.1rem,5vw,3.4rem);font-weight:800;letter-spacing:-1.5px;text-shadow:0 0 25px rgba(255,255,255,.13)}
+.sottotitolo{margin-top:14px;color:#999;font-size:clamp(.75rem,1.5vw,.95rem);font-weight:500;letter-spacing:2.5px;line-height:1.8}
+.linea-titolo{width:75px;height:3px;margin:22px auto 0;border-radius:10px;background:#e54848;box-shadow:0 0 14px rgba(229,72,72,.45)}
+
+/* LISTA ANNUNCI - STESSO STILE DEI LIVELLI */
+.classifica{position:relative;z-index:2;width:min(900px,88%);margin:40px auto 0;display:flex;flex-direction:column;gap:14px}
+.livello{position:relative;display:flex;flex-direction:column;gap:10px;min-height:90px;padding:18px 22px;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:10px;box-shadow:0 5px 18px rgba(0,0,0,.18);transition:.22s}
+.livello:hover{transform:translateY(-3px);background:rgba(42,42,42,.99);border-color:#555;border-left-color:#00ff88}
+.livello .meta{color:#00e676;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-shadow:0 0 8px rgba(0,230,118,.35)}
+.livello h2{color:#f5f5f5;font-size:1.15rem;font-weight:800}
+.livello p{color:#bbb;font-size:.85rem;line-height:1.6;white-space:pre-wrap}
+.admin-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:20;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:3px solid #e85a5a;border-radius:20px;padding:9px 18px;color:#f5f5f5;font-weight:700;cursor:pointer}
+#adminPanel{display:none;width:min(900px,88%);margin:0 auto 20px;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:10px;padding:18px}
+#adminPanel input,#adminPanel textarea{width:100%;background:#1e1e1e;color:#fff;border:1px solid #3b3b3b;border-radius:8px;padding:10px;margin:5px 0;font-family:'Montserrat'}
+#adminPanel button{background:#00e676;color:#000;border:0;border-radius:8px;padding:9px 14px;font-weight:800;cursor:pointer;margin-top:6px}
+footer{position:relative;z-index:2;text-align:center;color:#666;font-size:.75rem;letter-spacing:1px;padding:25px 10px 35px}
+@media(max-width:700px){.barra-sinistra,.barra-destra{width:22vw;opacity:.45} .classifica{width:95%}}
 </style>
 </head>
 <body>
-<img class="side left" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
-<img class="side right" src="https://cdn.discordapp.com/attachments/1316142784937943060/1405407827075887174/2d7c9e0f6be8d45c7d7f38bece6c67d9.png">
+<div class="barra-sinistra"></div>
+<div class="barra-destra"></div>
+<main>
+<nav class="navigation-badges">
+<div class="dropdown-container">
+<a class="badge-link"><img src="players.png" alt=""><span>Players</span><span class="arrow">></span></a>
+<div class="dropdown-menu"><div class="dropdown-content">
+<a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
+<a href="leaderboard.html" class="dropdown-item"><img src="lb.png" alt=""><span>Leaderboard</span></a>
+</div></div></div>
+<div class="dropdown-container">
+<a class="badge-link"><img src="games.png" alt=""><span>Games</span><span class="arrow">></span></a>
+<div class="dropdown-menu"><div class="dropdown-content">
+<a href="horse.html" class="dropdown-item"><img src="horse.png" alt=""><span>H.O.R.S.E.</span></a>
+<a href="thedemonwheel.html" class="dropdown-item"><img src="tdw.png" alt=""><span>The Demon Wheel</span></a>
+<a href="roulette.html" class="dropdown-item"><img src="roulette.png" alt=""><span>Roulette</span></a>
+</div></div></div>
+<a href="announcements.html" class="badge-link"><img src="announcements.png" alt=""><span>Announcements</span></a>
+</nav>
 
-<div class="main">
-<div class="header">
-<h1>ANNOUNCEMENTS</h1>
-<div class="live">● LIVE</div>
-</div>
+<header>
+<h1 class="testo-illuminato">ANNOUNCEMENTS</h1>
+<p class="sottotitolo">LIVE • Home of the gooners' demonlist</p>
+<div class="linea-titolo"></div>
+</header>
 
 <div id="adminPanel">
-<h3>CONTROL PANEL</h3>
-<input id="email" value="lorecatels22@gmail.com">
-<input id="password" type="password" placeholder="Password">
-<button id="loginBtn">Login</button>
-<button id="logoutBtn" style="display:none;background:#222;color:#fff;border:1px solid #444">Logout</button>
-<div id="loginStatus">Not logged</div>
+<h3 style="color:#00e676;margin-bottom:8px">CONTROL PANEL</h3>
+<input id="email" value="lorecatels22@gmail.com"><input id="password" type="password" placeholder="Password">
+<button id="loginBtn">Login</button><button id="logoutBtn" style="display:none;background:#222;color:#fff;border:1px solid #444">Logout</button>
+<div id="loginStatus" style="color:#888;font-size:12px;margin:8px 0">Not logged</div>
 <div id="postForm" style="display:none">
-<input id="tag" placeholder="Tag - NEWS / UPDATE / EVENT">
-<input id="title" placeholder="Title">
-<textarea id="text" rows="4" placeholder="Text"></textarea>
-<button id="publishBtn">Publish Announcement</button>
+<input id="tag" placeholder="Tag - NEWS"><input id="title" placeholder="Titolo"><textarea id="text" rows="4" placeholder="Testo"></textarea>
+<button id="publishBtn">Publish</button>
 </div>
 </div>
 
-<div id="list" class="list">Loading...</div>
-</div>
-
+<section class="classifica" id="list">Loading...</section>
+</main>
+<footer>G_S demon list</footer>
 <button class="admin-btn" id="adminToggle">ADMIN</button>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyBYK10E0A2-SeJObCjMeKCasSLfWmrU",
   authDomain: "gs-demonlist.firebaseapp.com",
@@ -76,48 +112,26 @@ const firebaseConfig = {
   measurementId: "G-1V7VX6QRHZ"
 };
 const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const listEl = document.getElementById('list');
 const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
-
 onSnapshot(q, (snap)=>{
-  if(snap.empty){ listEl.innerHTML = "<div class='card'>No announcements yet.</div>"; return; }
-  listEl.innerHTML = "";
+  if(snap.empty){ listEl.innerHTML="<article class='livello'><h2>No announcements yet.</h2></article>"; return; }
+  listEl.innerHTML="";
   snap.forEach(d=>{
-    const data = d.data();
-    const date = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'}) : "";
-    listEl.innerHTML += `<div class="card"><div class="meta">${(data.tag||'NEWS')} • ${date}</div><h3>${data.title||''}</h3><p>${data.text||''}</p>${auth.currentUser?.uid===ADMIN_UID?`<button class="del" onclick="window.delAnn('${d.id}')">Delete</button>`:''}</div>`;
+    const data=d.data();
+    const date=data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'}) : "";
+    listEl.innerHTML+=`<article class="livello"><div class="meta">${(data.tag||'NEWS')} • ${date}</div><h2>${data.title||''}</h2><p>${data.text||''}</p>${auth.currentUser?.uid===ADMIN_UID?`<button style="margin-top:8px;background:#220000;color:#ff7777;border:1px solid #f00;border-radius:6px;padding:5px 10px;cursor:pointer" onclick="window.delAnn('${d.id}')">Delete</button>`:''}</article>`;
   });
-}, (err)=>{
-  console.error(err);
-  listEl.innerHTML = "<div class='card'>Firestore error: "+err.message+"</div>";
 });
-
-window.delAnn = async (id)=>{ if(confirm("Eliminare?")) await deleteDoc(doc(db,"announcements",id)); }
-
-document.getElementById('adminToggle').onclick = ()=>{ const p=document.getElementById('adminPanel'); p.style.display = p.style.display==='none'?'block':'none'; }
-document.getElementById('loginBtn').onclick = async ()=>{
-  try{ await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value); }
-  catch(e){ document.getElementById('loginStatus').innerText = e.message; }
-};
-document.getElementById('logoutBtn').onclick = ()=>signOut(auth);
-document.getElementById('publishBtn').onclick = async ()=>{
-  const tag=document.getElementById('tag').value||"NEWS", title=document.getElementById('title').value, text=document.getElementById('text').value;
-  if(!title||!text) return alert("Titolo e testo obbligatori");
-  await addDoc(collection(db,"announcements"),{tag,title,text,createdAt:serverTimestamp()});
-  document.getElementById('title').value=""; document.getElementById('text').value="";
-};
-
-onAuthStateChanged(auth,(user)=>{
-  const status=document.getElementById('loginStatus'), form=document.getElementById('postForm'), lb=document.getElementById('loginBtn'), lob=document.getElementById('logoutBtn');
-  if(user && user.uid===ADMIN_UID){ status.innerText="Admin: "+user.email; form.style.display="block"; lb.style.display="none"; lob.style.display="block"; }
-  else if(user){ status.innerText="Non sei admin: "+user.email; form.style.display="none"; }
-  else{ status.innerText="Not logged"; form.style.display="none"; lb.style.display="block"; lob.style.display="none"; }
-});
+window.delAnn=async(id)=>{ if(confirm("Eliminare?")) await deleteDoc(doc(db,"announcements",id)); }
+document.getElementById('adminToggle').onclick=()=>{ const p=document.getElementById('adminPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
+document.getElementById('loginBtn').onclick=async()=>{ try{ await signInWithEmailAndPassword(auth,document.getElementById('email').value,document.getElementById('password').value);}catch(e){document.getElementById('loginStatus').innerText=e.message;}};
+document.getElementById('logoutBtn').onclick=()=>signOut(auth);
+document.getElementById('publishBtn').onclick=async()=>{ const tag=document.getElementById('tag').value||"NEWS", title=document.getElementById('title').value, text=document.getElementById('text').value; if(!title||!text) return alert("Titolo e testo obbligatori"); await addDoc(collection(db,"announcements"),{tag,title,text,createdAt:serverTimestamp()}); document.getElementById('title').value=""; document.getElementById('text').value=""; };
+onAuthStateChanged(auth,(user)=>{ const s=document.getElementById('loginStatus'), f=document.getElementById('postForm'), lb=document.getElementById('loginBtn'), lob=document.getElementById('logoutBtn'); if(user&&user.uid===ADMIN_UID){ s.innerText="Admin: "+user.email; f.style.display="block"; lb.style.display="none"; lob.style.display="block"; } else if(user){ s.innerText="Non sei admin"; f.style.display="none"; } else{ s.innerText="Not logged"; f.style.display="none"; lb.style.display="block"; lob.style.display="none"; } });
 </script>
 </body>
 </html>
