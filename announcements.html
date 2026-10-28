@@ -15,206 +15,253 @@ body{min-height:100vh;background:#1e1e1e;color:#fff;font-family:'Montserrat',san
 @keyframes pulseLive{0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.7;transform:scale(1.05)}}
 @keyframes floatBtn{0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)}}
 @keyframes popIn{from{opacity:0;transform:translate(-50%,-50%) scale(.9)} to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-
 .barra-sinistra,.barra-destra{
-position:fixed;top:0;bottom:0;width:30vw;min-height:100vh;
-background-image:url("./miguel.png");background-repeat:repeat-y;background-size:100% auto;background-position:top center;
+position:absolute;top:0;bottom:0;width:30vw;height:100%;
+background-image:url("./miguel.png");background-repeat:repeat-y;background-size:100% auto;background-position:top left;
 opacity:.75;pointer-events:none;z-index:0;
 }
 .barra-sinistra{left:0}
 .barra-destra{right:0;transform:scaleX(-1)}
-
-/* MAIN */
+body{position:relative}.barra-sinistra{left:0} .barra-destra{right:0;transform:scaleX(-1)}
 main{position:relative;z-index:1;width:100%;min-height:100vh;padding:35px 0 90px;display:flex;flex-direction:column;align-items:center}
-
-/* ===== TENDINE FIXATE - UGUALI A ROULETTE.HTML ===== */
-.navigation-badges{
-display:flex;align-items:center;justify-content:center;gap:12px;
-width:min(900px,88%);margin:0 auto 25px;flex-wrap:wrap;position:relative;z-index:10
-}
+.navigation-badges{display:flex;align-items:center;justify-content:center;gap:12px;width:min(900px,88%);margin:0 auto 25px;flex-wrap:wrap;position:relative;z-index:10}
 .dropdown-container{position:relative;display:inline-block}
-.badge-link{
-display:inline-flex;align-items:center;gap:10px;padding:9px 18px;
-background:rgba(32,32,32,0.97);border:1px solid #3b3b3b;border-left:3px solid #e85a5a;
-border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,0.18);
-text-decoration:none;color:#f5f5f5;font-size:0.8rem;font-weight:700;letter-spacing:0.5px;
-transition:transform 0.22s ease,border-color 0.22s ease,background 0.22s ease,box-shadow 0.22s ease;
-cursor:pointer
-}
-.badge-link:hover{
-transform:translateY(-2px);background:rgba(42,42,42,0.99);border-color:#555;
-border-left-color:#ff5555;box-shadow:0 6px 16px rgba(0,0,0,0.3)
-}
-.badge-link img{width:24px;height:24px;object-fit:cover;border-radius:5px;border:1px solid #555;background:#252525;transition:filter 0.2s ease,transform 0.2s ease}
-.badge-link:hover img{filter:brightness(1.2);transform:scale(1.05)}
-.arrow{font-size:0.75rem;font-weight:800;color:#999;transition:transform 0.25s ease,color 0.25s ease;display:inline-block}
+.badge-link{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;background:rgba(32,32,32,0.97);border:1px solid #3b3b3b;border-left:3px solid #e85a5a;border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,0.18);text-decoration:none;color:#f5f5f5;font-size:0.8rem;font-weight:700;transition:all 0.22s ease;cursor:pointer}
+.badge-link:hover{transform:translateY(-2px);background:rgba(42,42,42,0.99);border-color:#555;border-left-color:#ff5555}
+.badge-link img{width:24px;height:24px;object-fit:cover;border-radius:5px;border:1px solid #555;background:#252525}
+.arrow{font-size:0.75rem;font-weight:800;color:#999;transition:0.25s}
 .dropdown-container:hover .arrow{transform:rotate(90deg);color:#ff5555}
-.dropdown-menu{
-position:absolute;top:100%;left:50%;padding-top:10px;min-width:175px;z-index:100;
-opacity:0;visibility:hidden;pointer-events:none;
-transform:translateX(-50%) translateY(-12px) scale(0.96);transform-origin:top center;
-transition:opacity 0.25s ease,transform 0.3s cubic-bezier(0.2,0.8,0.2,1),visibility 0s linear 0.3s
-}
-.dropdown-container:hover .dropdown-menu{
-opacity:1;visibility:visible;pointer-events:auto;
-transform:translateX(-50%) translateY(0) scale(1);
-transition:opacity 0.25s ease,transform 0.3s cubic-bezier(0.2,0.8,0.2,1),visibility 0s linear 0s
-}
-.dropdown-content{
-background:rgba(28,28,28,0.98);border:1px solid #3b3b3b;border-radius:10px;
-box-shadow:0 8px 24px rgba(0,0,0,0.4);padding:8px 0;display:flex;flex-direction:column
-}
-.dropdown-item{
-display:flex;align-items:center;gap:10px;padding:10px 14px;color:#f5f5f5;
-text-decoration:none;font-size:0.78rem;font-weight:700;
-opacity:0;transform:translateX(-12px);
-transition:background 0.2s ease,color 0.2s ease,opacity 0.2s ease,transform 0.2s ease
-}
-.dropdown-container:hover .dropdown-item{
-opacity:1;transform:translateX(0);
-transition:background 0.2s ease,color 0.2s ease,opacity 0.3s ease,transform 0.3s ease
-}
-.dropdown-container:hover .dropdown-item:nth-child(1){transition-delay:0s,0s,0.06s,0.06s}
-.dropdown-container:hover .dropdown-item:nth-child(2){transition-delay:0s,0s,0.12s,0.12s}
-.dropdown-container:hover .dropdown-item:nth-child(3){transition-delay:0s,0s,0.18s,0.18s}
+.dropdown-menu{position:absolute;top:100%;left:50%;padding-top:10px;min-width:175px;z-index:100;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-12px) scale(0.96);transition:all 0.3s cubic-bezier(0.2,0.8,0.2,1)}
+.dropdown-container:hover .dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0) scale(1)}
+.dropdown-content{background:rgba(28,28,28,0.98);border:1px solid #3b3b3b;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.4);padding:8px 0;display:flex;flex-direction:column}
+.dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 14px;color:#f5f5f5;text-decoration:none;font-size:0.78rem;font-weight:700;opacity:0;transform:translateX(-12px);transition:all 0.2s ease}
+.dropdown-container:hover .dropdown-item{opacity:1;transform:translateX(0)}
 .dropdown-item:hover{background:rgba(229,72,72,0.15);color:#ff5555}
-.dropdown-item img{width:22px;height:22px;object-fit:cover;border-radius:4px;border:1px solid #555;background:#252525;transition:filter 0.2s ease,transform 0.2s ease}
-.dropdown-item:hover img{filter:brightness(1.2);transform:scale(1.05)}
-/* ===== FINE FIX TENDINE ===== */
-
+.dropdown-item img{width:22px;height:22px;object-fit:cover;border-radius:4px;border:1px solid #555;background:#252525}
 header{text-align:center;width:min(900px,88%);margin:0 auto;animation:fadeUp .7s ease .2s both}
-.testo-illuminato{color:#fff;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;letter-spacing:-1.5px;text-shadow:0 0 30px rgba(255,255,255,.15)}
+.testo-illuminato{color:#fff;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;letter-spacing:-1.5px}
 .sottotitolo{margin-top:14px;color:#999;font-size:.95rem;font-weight:500;letter-spacing:2.5px;animation:fadeIn 1s ease .6s both}
-.linea-titolo{width:75px;height:3px;margin:22px auto 0;border-radius:10px;background:#e54848;box-shadow:0 0 14px rgba(229,72,72,.45);animation:lineGrow .7s ease 1s both}
+.linea-titolo{width:75px;height:3px;margin:22px auto 0;border-radius:10px;background:#e54848;animation:lineGrow .7s ease 1s both}
 .live{margin-top:16px;color:#00e676;font-weight:800;letter-spacing:4px;font-size:.9rem;animation:pulseLive 2s ease-in-out infinite}
 .classifica{width:min(900px,88%);margin:40px auto 0;display:flex;flex-direction:column;gap:18px}
-.livello{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px 26px;background:linear-gradient(135deg,rgba(32,32,32,.97),rgba(30,30,30,.97));border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.18);opacity:0;animation:fadeUp .6s ease forwards;transition:all .35s cubic-bezier(.2,.8,.2,1)}
-.livello:hover{transform:translateY(-5px) scale(1.01);background:rgba(42,42,42,.99);border-color:#555;border-left-color:#00ff88;box-shadow:0 15px 40px rgba(0,0,0,.4),0 0 25px rgba(0,230,118,.12)}
+.livello{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px 26px;background:linear-gradient(135deg,rgba(32,32,32,.97),rgba(30,30,30,.97));border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.18);opacity:0;animation:fadeUp .6s ease forwards;transition:all .35s ease}
+.livello:hover{transform:translateY(-5px) scale(1.01);border-left-color:#00ff88;box-shadow:0 15px 40px rgba(0,0,0,.4)}
 .livello .meta{color:#00e676;font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase}
 .livello h2{color:#f5f5f5;font-size:1.25rem;font-weight:800}
 .livello p{color:#bbb;font-size:.9rem;line-height:1.7;white-space:pre-wrap}
-#adminPanel{width:min(900px,88%);margin:0 auto 25px;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:12px;padding:18px;display:none;animation:fadeUp .4s ease}
-#adminPanel input,#adminPanel textarea{width:100%;background:#1e1e1e;color:#fff;border:1px solid #3b3b3b;border-radius:8px;padding:11px;margin:6px 0;font-family:'Montserrat'}
-#adminPanel input:focus,#adminPanel textarea:focus{border-color:#00e676;outline:none}
-#adminPanel button{background:#00e676;color:#000;border:0;border-radius:8px;padding:10px 16px;font-weight:800;cursor:pointer}
+.livello .author{color:#666;font-size:.65rem;margin-top:6px;font-style:italic}
+
+/* PANNELLO ADMIN MIGLIORATO */
+#adminPanel{width:min(900px,88%);margin:0 auto 25px;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:12px;padding:20px;display:none}
+#adminPanel input,#adminPanel textarea,#adminPanel select{width:100%;background:#1e1e1e;color:#fff;border:1px solid #3b3b3b;border-radius:8px;padding:11px;margin:6px 0;font-family:'Montserrat';transition:.2s}
+#adminPanel input:focus,#adminPanel textarea:focus{border-color:#00e676;outline:none;box-shadow:0 0 0 3px rgba(0,230,118,.15)}
+#adminPanel button{background:#00e676;color:#000;border:0;border-radius:8px;padding:10px 16px;font-weight:800;cursor:pointer;transition:.2s;margin:4px 2px}
+#adminPanel button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,230,118,.3)}
+.admin-info{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:12px;margin:10px 0;font-size:.8rem;color:#aaa}
+.admin-info b{color:#00e676}
+.log-list{max-height:150px;overflow-y:auto;background:#111;border-radius:8px;padding:8px;margin-top:10px;font-size:.7rem;color:#888}
+.log-item{padding:4px 0;border-bottom:1px solid #222}
+
 .admin-btn{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:20;background:rgba(32,32,32,.97);border:1px solid #3b3b3b;border-left:3px solid #e85a5a;border-radius:20px;padding:11px 22px;color:#f5f5f5;font-weight:800;letter-spacing:1px;cursor:pointer;animation:floatBtn 3s ease-in-out infinite;transition:.25s}
 .admin-btn:hover{background:#fff;color:#000;transform:translateX(-50%) translateY(-4px) scale(1.05)}
 #notifOverlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:100;display:none}
-#notifOverlay.show{display:block;animation:fadeIn .3s ease}
-#notifPopup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:101;width:min(420px,90%);background:linear-gradient(135deg,#2a2a2a,#222);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:16px;padding:26px 22px;box-shadow:0 20px 60px rgba(0,0,0,.6);display:none;animation:popIn .4s cubic-bezier(.2,.8,.2,1)}
+#notifOverlay.show{display:block}
+#notifPopup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:101;width:min(420px,90%);background:linear-gradient(135deg,#2a2a2a,#222);border:1px solid #3b3b3b;border-left:4px solid #00e676;border-radius:16px;padding:26px 22px;display:none;animation:popIn .4s ease}
 #notifPopup.show{display:block}
 #notifPopup h3{color:#fff;font-size:1.15rem;font-weight:800;margin-bottom:8px}
 #notifPopup p{color:#999;font-size:.85rem;line-height:1.6;margin-bottom:18px}
 .notif-actions{display:flex;gap:10px}
-.notif-actions button{flex:1;padding:11px;border-radius:10px;font-family:'Montserrat';font-weight:800;font-size:.82rem;cursor:pointer;transition:.2s}
-.btn-yes{background:#00e676;color:#000;border:0}
-.btn-yes:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,230,118,.35)}
-.btn-no{background:transparent;color:#888;border:1px solid #3a3a3a}
-.btn-no:hover{background:#2a2a2a;color:#fff}
+.notif-actions button{flex:1;padding:11px;border-radius:10px;font-weight:800;font-size:.82rem;cursor:pointer}
+.btn-yes{background:#00e676;color:#000;border:0} .btn-no{background:transparent;color:#888;border:1px solid #3a3a3a}
 footer{width:min(900px,88%);margin:40px auto 0;text-align:center;color:#666;font-size:.75rem;letter-spacing:1px;padding:25px 10px}
 @media(max-width:700px){.barra-sinistra,.barra-destra{width:22vw;opacity:.45} .classifica,#adminPanel,header,.navigation-badges,footer{width:95%}}
 </style>
 </head>
 <body>
-<div class="barra-sinistra"></div>
-<div class="barra-destra"></div>
+<div class="barra-sinistra"></div><div class="barra-destra"></div>
 <div id="notifOverlay"></div>
-<div id="notifPopup">
-<h3>🔔 Attivare le notifiche?</h3>
-<p>Vuoi ricevere una notifica di Windows ogni volta che arriva un nuovo announcement?</p>
-<div class="notif-actions">
-<button class="btn-no" id="notifNo">Non ora</button>
-<button class="btn-yes" id="notifYes">Sì, attiva</button>
-</div>
-</div>
+<div id="notifPopup"><h3>🔔 Attivare le notifiche?</h3><p>Vuoi ricevere una notifica di Windows per ogni nuovo announcement?</p><div class="notif-actions"><button class="btn-no" id="notifNo">Non ora</button><button class="btn-yes" id="notifYes">Sì, attiva</button></div></div>
+
 <main>
 <nav class="navigation-badges">
 <div class="dropdown-container"><a class="badge-link"><img src="players.png"><span>Players</span><span class="arrow">></span></a><div class="dropdown-menu"><div class="dropdown-content"><a href="who.html" class="dropdown-item">❓ Who?</a><a href="leaderboard.html" class="dropdown-item"><img src="lb.png"><span>Leaderboard</span></a></div></div></div>
 <div class="dropdown-container"><a class="badge-link"><img src="games.png"><span>Games</span><span class="arrow">></span></a><div class="dropdown-menu"><div class="dropdown-content"><a href="horse.html" class="dropdown-item"><img src="horse.png"><span>H.O.R.S.E.</span></a><a href="thedemonwheel.html" class="dropdown-item"><img src="tdw.png"><span>The Demon Wheel</span></a><a href="roulette.html" class="dropdown-item"><img src="roulette.png"><span>Roulette</span></a></div></div></div>
 <a href="announcements.html" class="badge-link"><img src="announcements.png"><span>Announcements</span></a>
 </nav>
-<header>
-<h1 class="testo-illuminato">ANNOUNCEMENTS</h1>
-<p class="sottotitolo">Home of the gooners' demonlist</p>
-<div class="linea-titolo"></div>
-<div class="live">● LIVE</div>
-</header>
+
+<header><h1 class="testo-illuminato">ANNOUNCEMENTS</h1><p class="sottotitolo">Home of the gooners' demonlist</p><div class="linea-titolo"></div><div class="live">● LIVE</div></header>
+
 <div id="adminPanel">
-<h3 style="color:#00e676;margin-bottom:10px">CONTROL PANEL</h3>
-<input id="email" value="lorecatels22@gmail.com"><input id="password" type="password" placeholder="Password">
-<button id="loginBtn">Login</button><button id="logoutBtn" style="display:none;background:#222;color:#fff;border:1px solid #444">Logout</button>
-<div id="loginStatus" style="color:#888;font-size:12px;margin:10px 0">Not logged</div>
-<div id="postForm" style="display:none"><input id="tag" placeholder="NEWS"><input id="title" placeholder="Titolo"><textarea id="text" rows="4" placeholder="Testo"></textarea><br><button id="publishBtn">Publish</button></div>
+<h3 style="color:#00e676;margin-bottom:10px">👑 ADMIN CONTROL PANEL</h3>
+
+<div id="loginSection">
+<input id="email" value="lorecatels22@gmail.com"><input id="password" type="password" placeholder="Password admin">
+<button id="loginBtn">Login come Admin</button>
+<div id="loginStatus" style="color:#888;font-size:12px;margin:10px 0">Non loggato</div>
 </div>
+
+<div id="loggedSection" style="display:none">
+<div class="admin-info">
+<div>Loggato come: <b id="adminEmailDisplay"></b></div>
+<div>UID: <b id="adminUidDisplay"></b></div>
+<div>Ultimo accesso: <b id="lastAccess"></b></div>
+<button id="logoutBtn" style="background:#222;color:#fff;border:1px solid #444;margin-top:8px">Logout</button>
+</div>
+
+<h4 style="color:#fff;margin:15px 0 8px">📢 Pubblica nuovo announcement</h4>
+<select id="tag">
+<option value="NEWS">NEWS</option>
+<option value="UPDATE">UPDATE</option>
+<option value="EVENT">EVENT</option>
+<option value="MAINTENANCE">MAINTENANCE</option>
+<option value="IMPORTANT">IMPORTANT</option>
+</select>
+<input id="title" placeholder="Titolo (es: Nuovo livello aggiunto!)">
+<textarea id="text" rows="5" placeholder="Testo dettagliato dell'annuncio..."></textarea>
+<div style="display:flex;gap:8px;margin-top:8px">
+<button id="publishBtn" style="flex:1">🚀 Pubblica</button>
+<button id="previewBtn" style="background:#333;color:#fff;flex:0.5">👁️ Anteprima</button>
+</div>
+<div id="publishStatus" style="font-size:12px;margin-top:8px;color:#888"></div>
+
+<h4 style="color:#fff;margin:20px 0 8px">📜 Storico accessi admin (ultimi 10)</h4>
+<div id="adminLogs" class="log-list">Caricamento...</div>
+</div>
+</div>
+
 <section class="classifica" id="list">Loading...</section>
 <footer>G_S demon list</footer>
 </main>
 <button class="admin-btn" id="adminToggle">ADMIN</button>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = { apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU", authDomain: "gs-demonlist.firebaseapp.com", databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app", projectId: "gs-demonlist", storageBucket: "gs-demonlist.firebasestorage.app", messagingSenderId: "789414584664", appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d" };
 const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// NOTIFICHE
 const overlay = document.getElementById('notifOverlay');
 const popup = document.getElementById('notifPopup');
-const btnYes = document.getElementById('notifYes');
-const btnNo = document.getElementById('notifNo');
 let notificationsEnabled = localStorage.getItem('gs_notif') === 'true';
 let notifAsked = localStorage.getItem('gs_notif_asked') === 'true';
-let knownIds = new Set();
-let firstLoad = true;
+let knownIds = new Set(); let firstLoad = true;
 function showPopup(){ overlay.classList.add('show'); popup.classList.add('show'); }
 function hidePopup(){ overlay.classList.remove('show'); popup.classList.remove('show'); }
-function updateNotifState(enabled){ notificationsEnabled = enabled; localStorage.setItem('gs_notif', enabled ? 'true' : 'false'); localStorage.setItem('gs_notif_asked','true'); }
-async function enableNotifications(){
-  if(!('Notification' in window)){ alert('Browser non supporta notifiche'); hidePopup(); return; }
-  const perm = await Notification.requestPermission();
-  if(perm === 'granted'){ updateNotifState(true); hidePopup(); new Notification('G_S demon list',{body:'Notifiche attivate!',icon:'./announcements.png'}); }
-  else { updateNotifState(false); hidePopup(); }
-}
-btnYes.onclick = enableNotifications;
-btnNo.onclick = () => { localStorage.setItem('gs_notif_asked','true'); localStorage.setItem('gs_notif','false'); hidePopup(); };
-overlay.onclick = () => hidePopup();
-window.addEventListener('load', ()=>{ setTimeout(()=>{ if(!notifAsked && 'Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied'){ showPopup(); } }, 1200); });
-function sendWindowsNotification(title, text, tag){
-  if(!notificationsEnabled) return;
-  if(Notification.permission !== 'granted') return;
-  const n = new Notification(title,{ body: text.substring(0,120), icon: './announcements.png', badge: './announcements.png', tag: tag });
-  n.onclick = () => { window.focus(); n.close(); };
-}
+async function enableNotifications(){ if(!('Notification' in window)) return hidePopup(); const perm = await Notification.requestPermission(); if(perm==='granted'){ localStorage.setItem('gs_notif','true'); localStorage.setItem('gs_notif_asked','true'); hidePopup(); new Notification('G_S demon list',{body:'Notifiche attivate!',icon:'./announcements.png'}); notificationsEnabled=true; } else { localStorage.setItem('gs_notif','false'); localStorage.setItem('gs_notif_asked','true'); hidePopup(); } }
+document.getElementById('notifYes').onclick=enableNotifications;
+document.getElementById('notifNo').onclick=()=>{ localStorage.setItem('gs_notif_asked','true'); localStorage.setItem('gs_notif','false'); hidePopup(); };
+overlay.onclick=()=>hidePopup();
+window.addEventListener('load',()=>{ setTimeout(()=>{ if(!notifAsked && 'Notification' in window && Notification.permission!=='granted' && Notification.permission!=='denied'){ showPopup(); } },1200); });
+function sendWindowsNotification(title,text,tag){ if(!notificationsEnabled || Notification.permission!=='granted') return; const n=new Notification(title,{body:text.substring(0,120),icon:'./announcements.png',tag}); n.onclick=()=>{window.focus();n.close();}; }
+
+// LISTA ANNUNCI + LOG
 const listEl = document.getElementById('list');
 const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
 onSnapshot(q, (snap)=>{
   if(snap.empty){ listEl.innerHTML="<article class='livello' style='opacity:1'><h2>No announcements yet.</h2></article>"; return; }
-  const currentIds = []; snap.forEach(d=> currentIds.push(d.id));
-  if(!firstLoad){
-    const newOnes = currentIds.filter(id => !knownIds.has(id));
-    if(newOnes.length > 0){
-      const newDoc = snap.docs.find(d => d.id === newOnes[0]);
-      if(newDoc){ const data = newDoc.data(); sendWindowsNotification(`${data.tag || 'NEWS'}: ${data.title || 'Nuovo annuncio'}`, data.text || 'Apri il sito', newDoc.id); }
-    }
-  }
+  const currentIds=[]; snap.forEach(d=>currentIds.push(d.id));
+  if(!firstLoad){ const newOnes=currentIds.filter(id=>!knownIds.has(id)); if(newOnes.length>0){ const newDoc=snap.docs.find(d=>d.id===newOnes[0]); if(newDoc){ const data=newDoc.data(); sendWindowsNotification(`${data.tag||'NEWS'}: ${data.title}`, data.text||'Nuovo annuncio', newDoc.id); } } }
   listEl.innerHTML=""; let i=0;
   snap.forEach(d=>{
     const data=d.data();
-    const date=data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'}) : "";
-    const div=document.createElement('article');
-    div.className='livello'; div.style.animationDelay=(i*0.12)+'s';
-    div.innerHTML=`<div class="meta">${(data.tag||'NEWS')} • ${date}</div><h2>${data.title||''}</h2><p>${data.text||''}</p>${auth.currentUser?.uid===ADMIN_UID?`<button style="margin-top:10px;background:#220000;color:#ff7777;border:1px solid #f00;border-radius:8px;padding:6px 12px;cursor:pointer" onclick="window.delAnn('${d.id}')">Delete</button>`:''}`;
+    const date=data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString('it-IT',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : "";
+    const author = data.authorEmail ? `Pubblicato da ${data.authorEmail}` : "";
+    const div=document.createElement('article'); div.className='livello'; div.style.animationDelay=(i*0.12)+'s';
+    div.innerHTML=`<div class="meta">${(data.tag||'NEWS')} • ${date}</div><h2>${data.title||''}</h2><p>${data.text||''}</p><div class="author">${author}</div>${auth.currentUser?.uid===ADMIN_UID?`<button style="margin-top:10px;background:#220000;color:#ff7777;border:1px solid #f00;border-radius:8px;padding:6px 12px;cursor:pointer" onclick="window.delAnn('${d.id}')">Delete</button>`:''}`;
     listEl.appendChild(div); i++;
   });
-  knownIds = new Set(currentIds); firstLoad = false;
+  knownIds=new Set(currentIds); firstLoad=false;
 });
-window.delAnn=async(id)=>{ if(confirm("Eliminare?")) await deleteDoc(doc(db,"announcements",id)); }
+
+window.delAnn=async(id)=>{ if(confirm("Eliminare questo annuncio?")) await deleteDoc(doc(db,"announcements",id)); }
+
+// ADMIN LOGIN CON SALVATAGGIO
 document.getElementById('adminToggle').onclick=()=>{ const p=document.getElementById('adminPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
-document.getElementById('loginBtn').onclick=async()=>{ try{ await signInWithEmailAndPassword(auth,document.getElementById('email').value,document.getElementById('password').value);}catch(e){document.getElementById('loginStatus').innerText=e.message;}};
+document.getElementById('loginBtn').onclick=async()=>{
+  try{
+    const email=document.getElementById('email').value;
+    const pass=document.getElementById('password').value;
+    const cred=await signInWithEmailAndPassword(auth,email,pass);
+    if(cred.user.uid===ADMIN_UID){
+      await addDoc(collection(db,"admin_logs"),{
+        uid:cred.user.uid,
+        email:cred.user.email,
+        loginAt:serverTimestamp(),
+        userAgent:navigator.userAgent,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }catch(e){ document.getElementById('loginStatus').innerText=e.message; }
+};
 document.getElementById('logoutBtn').onclick=()=>signOut(auth);
-document.getElementById('publishBtn').onclick=async()=>{ const t=document.getElementById('tag').value||"NEWS", ti=document.getElementById('title').value, te=document.getElementById('text').value; if(!ti||!te) return alert("Titolo e testo"); await addDoc(collection(db,"announcements"),{tag:t,title:ti,text:te,createdAt:serverTimestamp()}); document.getElementById('title').value=""; document.getElementById('text').value=""; };
-onAuthStateChanged(auth,(u)=>{ const s=document.getElementById('loginStatus'), f=document.getElementById('postForm'), lb=document.getElementById('loginBtn'), lob=document.getElementById('logoutBtn'); if(u&&u.uid===ADMIN_UID){ s.innerText="Admin: "+u.email; f.style.display="block"; lb.style.display="none"; lob.style.display="block"; } else if(u){ s.innerText="Non admin"; f.style.display="none"; } else{ s.innerText="Not logged"; f.style.display="none"; lb.style.display="block"; lob.style.display="none"; } });
+document.getElementById('publishBtn').onclick=async()=>{
+  const tag=document.getElementById('tag').value;
+  const title=document.getElementById('title').value.trim();
+  const text=document.getElementById('text').value.trim();
+  const statusEl=document.getElementById('publishStatus');
+  if(!title||!text){ statusEl.innerText="❌ Inserisci titolo e testo"; statusEl.style.color="#ff5555"; return; }
+  statusEl.innerText="⏳ Pubblicazione...";
+  try{
+    await addDoc(collection(db,"announcements"),{
+      tag, title, text,
+      authorEmail: auth.currentUser?.email || "unknown",
+      authorUid: auth.currentUser?.uid || "",
+      createdAt: serverTimestamp()
+    });
+    statusEl.innerText="✅ Pubblicato con successo!";
+    statusEl.style.color="#00e676";
+    document.getElementById('title').value=""; document.getElementById('text').value="";
+    setTimeout(()=>statusEl.innerText="",3000);
+  }catch(err){ statusEl.innerText="❌ Errore: "+err.message; statusEl.style.color="#ff5555"; }
+};
+document.getElementById('previewBtn').onclick=()=>{
+  const t=document.getElementById('title').value||"Titolo di esempio";
+  const txt=document.getElementById('text').value||"Testo di esempio...";
+  const tag=document.getElementById('tag').value;
+  listEl.innerHTML=`<article class='livello' style='opacity:1;border-left-color:#ffaa00'><div class="meta" style="color:#ffaa00">ANTEPRIMA • ${tag}</div><h2>${t}</h2><p>${txt}</p></article>`+listEl.innerHTML;
+}
+
+onAuthStateChanged(auth,(u)=>{
+  const loginSection=document.getElementById('loginSection');
+  const loggedSection=document.getElementById('loggedSection');
+  const s=document.getElementById('loginStatus');
+  if(u && u.uid===ADMIN_UID){
+    s.innerText="Admin: "+u.email;
+    loginSection.style.display="none";
+    loggedSection.style.display="block";
+    document.getElementById('adminEmailDisplay').innerText=u.email;
+    document.getElementById('adminUidDisplay').innerText=u.uid;
+    document.getElementById('lastAccess').innerText=new Date().toLocaleString('it-IT');
+    // carica logs
+    const logsQuery=query(collection(db,"admin_logs"), orderBy("loginAt","desc"), limit(10));
+    onSnapshot(logsQuery,(snap)=>{
+      const logsEl=document.getElementById('adminLogs');
+      if(snap.empty){ logsEl.innerHTML="Nessun log"; return; }
+      logsEl.innerHTML="";
+      snap.forEach(d=>{
+        const data=d.data();
+        const date=data.loginAt?.toDate ? data.loginAt.toDate().toLocaleString('it-IT') : data.timestamp || "";
+        const div=document.createElement('div'); div.className='log-item';
+        div.innerText=`${date} - ${data.email} - ${data.userAgent?.substring(0,40)}...`;
+        logsEl.appendChild(div);
+      });
+    });
+  } else if(u){
+    s.innerText="Utente non admin: "+u.email;
+    loginSection.style.display="block";
+    loggedSection.style.display="none";
+  } else {
+    s.innerText="Non loggato - accedi come admin";
+    loginSection.style.display="block";
+    loggedSection.style.display="none";
+  }
+});
 </script>
 </body>
 </html>
