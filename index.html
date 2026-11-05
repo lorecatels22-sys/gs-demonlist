@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e1e1e">
+
     <title>G_S demon list</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,510 +13,1275 @@
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #1e1e1e;
+            scroll-behavior: smooth;
         }
 
         body {
-            background: #1e1e1e;
-            color: white;
-            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
+            background: #1e1e1e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
+            position: relative;
         }
 
-        button, input, select {
-            font-family: inherit;
+        /* SFONDO LATERALE */
+
+        .barra-sinistra,
+        .barra-destra {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30vw;
+            min-height: 100%;
+            background-image: url("./miguel.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+            background-position: top center;
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .container {
-            width: min(1050px, 92%);
-            margin: auto;
+        .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
+
+        /* CONTENUTO */
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 0 90px;
         }
+
+        /* NAVIGAZIONE */
+
+        .navigation-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: min(900px, 88%);
+            margin: 0 auto 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.18);
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            transition: .22s ease;
+            cursor: pointer;
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 6px 16px rgba(0,0,0,.3);
+        }
+
+        .badge-link img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: .2s ease;
+        }
+
+        .badge-link:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .arrow {
+            font-size: .75rem;
+            font-weight: 800;
+            color: #999;
+            transition: .25s ease;
+            display: inline-block;
+        }
+
+        .dropdown-container:hover .arrow {
+            transform: rotate(90deg);
+            color: #ff5555;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            padding-top: 10px;
+            min-width: 175px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(.96);
+            transform-origin: top center;
+            transition: opacity .25s ease, transform .3s ease, visibility 0s linear .3s;
+        }
+
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+            transition: opacity .25s ease, transform .3s ease, visibility 0s;
+        }
+
+        .dropdown-content {
+            background: rgba(28,28,28,.98);
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.4);
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: background .2s ease, color .2s ease, opacity .2s ease, transform .2s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1;
+            transform: translateX(0);
+            transition: background .2s ease, color .2s ease, opacity .3s ease, transform .3s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(1) {
+            transition-delay: 0s,0s,.06s,.06s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(2) {
+            transition-delay: 0s,0s,.12s,.12s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(3) {
+            transition-delay: 0s,0s,.18s,.18s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(229,72,72,.15);
+            color: #ff5555;
+        }
+
+        .dropdown-item img {
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: .2s ease;
+        }
+
+        .dropdown-item:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: .85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+        }
+
+        /* TESTATA */
 
         header {
             text-align: center;
-            padding: 55px 15px 35px;
+            padding: 0 15px;
         }
 
-        header h1 {
-            font-size: clamp(35px, 6vw, 58px);
+        .testo-illuminato {
+            color: #fff;
+            font-size: clamp(2.1rem,5vw,3.4rem);
             font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 0 0 25px #e84b4b55;
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 25px rgba(255,255,255,.13);
         }
 
-        header p {
-            color: #aaa;
-            margin-top: 10px;
-            font-size: 14px;
+        .sottotitolo {
+            margin-top: 14px;
+            color: #999;
+            font-size: clamp(.75rem,1.5vw,.95rem);
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            line-height: 1.8;
         }
 
-        .sezione-titolo {
-            font-size: 21px;
-            font-weight: 800;
-            margin: 35px 0 17px;
-            border-left: 4px solid #e85a5a;
-            padding-left: 12px;
+        .linea-titolo {
+            width: 75px;
+            height: 3px;
+            margin: 22px auto 0;
+            border-radius: 10px;
+            background: #e54848;
+            box-shadow: 0 0 14px rgba(229,72,72,.45);
         }
 
-        .players {
+        /* GIOCATORI */
+
+        .giocatori {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 40px auto 0;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(3,1fr);
+            gap: 14px;
         }
 
-        .player-card {
-            background: #262626;
-            border: 1px solid #393939;
-            border-radius: 13px;
-            padding: 20px;
-            text-align: center;
-            transition: .2s;
-        }
-
-        .player-card:hover {
-            transform: translateY(-3px);
-            border-color: #e85a5a;
-        }
-
-        .player-card h3 {
-            font-size: 16px;
-            margin-bottom: 9px;
-        }
-
-        .player-card .totale {
-            color: #e85a5a;
-            font-size: 25px;
-            font-weight: 800;
-        }
-
-        .player-card small {
-            color: #888;
-            font-size: 10px;
-            letter-spacing: 1px;
-        }
-
-        .level-list {
+        .giocatore-card {
             display: flex;
             flex-direction: column;
-            gap: 13px;
-            padding-bottom: 45px;
-        }
-
-        .level-card {
-            background: #262626;
-            border: 1px solid #393939;
-            border-radius: 13px;
-            padding: 17px;
-            display: grid;
-            grid-template-columns: 65px 1fr auto;
             align-items: center;
-            gap: 17px;
-            transition: .2s;
+            gap: 6px;
+            padding: 20px 14px 18px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-top: 3px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            text-decoration: none;
+            transition: .22s ease;
         }
 
-        .level-card:hover {
-            border-color: #e85a5a;
-            transform: translateY(-2px);
+        .giocatore-card:hover {
+            transform: translateY(-3px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-top-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
         }
 
-        .level-number {
-            color: #777;
-            font-size: 19px;
+        .giocatore-nome {
+            color: #f5f5f5;
+            font-size: .95rem;
             font-weight: 800;
+            overflow-wrap: anywhere;
             text-align: center;
         }
 
-        .level-info h3 {
-            font-size: 17px;
+        .giocatore-punti {
+            color: #00e676;
+            font-size: 2rem;
             font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            text-shadow: 0 0 14px rgba(0,230,118,.4);
         }
 
-        .creator {
+        .giocatore-label {
             color: #999;
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
         }
 
-        .progress-list {
+        .giocatore-card:hover .giocatore-punti {
+            text-shadow: 0 0 20px rgba(0,230,118,.6);
+        }
+
+        /* CLASSIFICA */
+
+        .classifica {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 30px auto 0;
             display: flex;
-            flex-wrap: wrap;
-            gap: 7px 15px;
-            margin-top: 12px;
+            flex-direction: column;
+            gap: 14px;
         }
 
-        .progress-item {
-            font-size: 11px;
-            color: #aaa;
+        .livello {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-height: 112px;
+            padding: 16px 22px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            transition: .22s ease;
         }
 
-        .progress-item strong {
-            color: #00d985;
-            margin-left: 3px;
+        .livello:hover {
+            transform: translateY(-3px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
         }
 
-        .level-right {
+        .posizione {
+            color: #e85a5a;
+            font-size: 1rem;
+            font-weight: 800;
+            min-width: 48px;
+            letter-spacing: -.5px;
+        }
+
+        .livello img {
+            display: block;
+            flex-shrink: 0;
+            width: 120px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 7px;
+            background: #1e1e1e;
+            border: 1px solid #454545;
+            transition: filter .22s ease;
+        }
+
+        .livello:hover img {
+            filter: brightness(1.12);
+        }
+
+        .info-livello {
+            flex: 0 1 190px;
+            min-width: 0;
+        }
+
+        .info-livello h2 {
+            color: #f5f5f5;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .info-livello p {
+            color: #999;
+            font-size: .8rem;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .progressi {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            margin-left: 12px;
+            margin-right: auto;
+            flex-shrink: 0;
+            padding: 10px 14px;
+            background: rgba(0,230,118,.045);
+            border: 1px solid rgba(0,230,118,.13);
+            border-radius: 9px;
+            box-shadow: 0 0 12px rgba(0,230,118,.10), 0 0 25px rgba(0,230,118,.05);
+            transition: .25s ease;
+        }
+
+        .progressi:hover {
+            background: rgba(0,230,118,.08);
+            border-color: rgba(0,230,118,.3);
+            box-shadow: 0 0 15px rgba(0,230,118,.18), 0 0 30px rgba(0,230,118,.08);
+        }
+
+        .progressi p {
+            color: #00e676;
+            font-size: .8rem;
+            font-weight: 700;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(0,230,118,.35);
+        }
+
+        .progressi a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: .2s ease;
+        }
+
+        .progressi a:hover {
+            color: #7dffb8;
+            border-bottom-color: rgba(125,255,184,.7);
+        }
+
+        .dati-destra {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .punti {
+            color: #ff5252;
+            font-size: .85rem;
+            font-weight: 800;
+            white-space: nowrap;
             text-align: right;
-            min-width: 125px;
         }
 
-        .level-points {
-            color: #e85a5a;
-            font-size: 16px;
+        .difficolta {
+            color: #ff6666;
+            font-size: .7rem;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.6;
+            letter-spacing: .7px;
+            white-space: nowrap;
+        }
+
+        /* SEZIONI FIREBASE */
+
+        .sezione-extra {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 45px auto 0;
+            padding: 25px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-top: 3px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.2);
+        }
+
+        .sezione-extra h2 {
+            font-size: 1.15rem;
             font-weight: 800;
-        }
-
-        .level-difficulty {
-            color: #e85a5a;
-            font-size: 10px;
-            font-weight: 800;
-            margin-top: 6px;
-            letter-spacing: 1px;
-        }
-
-        .form-box, .admin-box {
-            background: #262626;
-            border: 1px solid #393939;
-            border-radius: 14px;
-            padding: 23px;
-            margin: 20px 0;
-        }
-
-        .form-box h2, .admin-box h2 {
-            font-size: 19px;
             margin-bottom: 8px;
         }
 
-        .descrizione {
+        .descrizione-extra {
             color: #999;
-            font-size: 12px;
-            line-height: 1.6;
-            margin-bottom: 18px;
+            font-size: .8rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
 
-        input, select {
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .campo label {
+            color: #bbb;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .campo input,
+        .campo select {
             width: 100%;
-            background: #1c1c1c;
+            padding: 12px 13px;
+            color: #fff;
+            background: #171717;
             border: 1px solid #444;
-            border-radius: 8px;
-            color: white;
-            padding: 12px;
+            border-radius: 7px;
             outline: none;
-            font-size: 13px;
+            font-family: inherit;
+            font-size: .82rem;
+            transition: border-color .2s ease;
         }
 
-        input:focus, select:focus {
+        .campo input:focus,
+        .campo select:focus {
             border-color: #e85a5a;
         }
 
-        .btn {
-            background: #e85a5a;
-            border: none;
-            color: white;
+        .campo select option {
+            background: #202020;
+        }
+
+        .campo-full {
+            grid-column: 1 / -1;
+        }
+
+        .pulsante {
             padding: 12px 18px;
-            border-radius: 8px;
+            border: 1px solid #b93636;
+            border-radius: 7px;
+            background: #d94343;
+            color: #fff;
+            font-family: inherit;
+            font-size: .78rem;
             font-weight: 800;
-            font-size: 12px;
             cursor: pointer;
-            transition: .2s;
+            transition: .2s ease;
         }
 
-        .btn:hover {
-            background: #ff7070;
-            transform: translateY(-1px);
+        .pulsante:hover {
+            background: #f05252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229,72,72,.2);
         }
 
-        .btn:disabled {
+        .pulsante:disabled {
             opacity: .5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .btn-secondary {
-            background: #444;
+        .pulsante-verde {
+            background: #087d49;
+            border-color: #00a85e;
         }
 
-        .btn-green {
-            background: #087e50;
+        .pulsante-verde:hover {
+            background: #09985a;
         }
 
-        .btn-green:hover {
-            background: #099b62;
-        }
-
-        .form-box .btn {
-            margin-top: 13px;
-        }
-
-        .status-message {
-            font-size: 12px;
-            margin-top: 12px;
-            color: #00d985;
-            min-height: 16px;
-        }
-
-        .admin-box {
-            border-color: #397e5a;
-            margin-bottom: 60px;
-        }
-
-        .admin-box h2 {
-            color: #00d985;
-        }
-
-        .admin-hidden {
-            display: none;
-        }
-
-        .admin-login {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 10px;
-        }
-
-        .admin-section-title {
-            color: #00d985;
-            font-size: 14px;
-            margin: 25px 0 12px;
-        }
-
-        .submission, .record-row {
-            background: #1e1e1e;
-            border: 1px solid #3c3c3c;
-            padding: 14px;
-            border-radius: 9px;
-            margin-bottom: 9px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .submission-info, .record-info {
-            font-size: 12px;
-            line-height: 1.8;
-        }
-
-        .submission-info strong, .record-info strong {
-            color: white;
-        }
-
-        .submission-info span, .record-info span {
+        .messaggio {
+            margin-top: 14px;
+            font-size: .78rem;
+            line-height: 1.6;
             color: #aaa;
         }
 
-        .admin-actions {
+        .messaggio.successo { color: #00e676; }
+        .messaggio.errore { color: #ff6666; }
+
+        /* ADMIN */
+
+        .admin-login,
+        .admin-contenuto {
+            margin-top: 18px;
+        }
+
+        .admin-separatore {
+            height: 1px;
+            background: #3b3b3b;
+            margin: 22px 0;
+        }
+
+        .admin-toolbar {
             display: flex;
-            gap: 7px;
             flex-wrap: wrap;
-        }
-
-        .admin-actions .btn {
-            padding: 9px 12px;
-            font-size: 10px;
-        }
-
-        .empty-message {
-            color: #888;
-            font-size: 12px;
-            padding: 12px 0;
-        }
-
-        .admin-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
+            margin: 15px 0;
         }
+
+        .richiesta {
+            padding: 15px;
+            margin-top: 12px;
+            background: #191919;
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 8px;
+        }
+
+        .richiesta-info {
+            color: #ddd;
+            font-size: .8rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .richiesta-info strong {
+            color: #fff;
+        }
+
+        .richiesta-azioni {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pulsante-rifiuta {
+            background: #333;
+            border-color: #555;
+        }
+
+        .pulsante-rifiuta:hover {
+            background: #484848;
+        }
+
+        .vuoto {
+            color: #888;
+            font-size: .8rem;
+            padding: 15px 0;
+        }
+
+        .admin-stato {
+            color: #00e676;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        /* FOOTER */
 
         footer {
+            position: relative;
+            z-index: 2;
             text-align: center;
             color: #666;
-            font-size: 11px;
-            padding: 25px;
-            border-top: 1px solid #333;
+            font-size: .75rem;
+            letter-spacing: 1px;
+            padding: 25px 10px 35px;
         }
 
-        @media(max-width: 650px) {
-            .players {
-                grid-template-columns: 1fr;
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+            .barra-sinistra,
+            .barra-destra {
+                width: 22vw;
+                opacity: .45;
             }
 
-            .level-card {
-                grid-template-columns: 35px 1fr;
-                gap: 10px;
+            main { padding-top: 30px; }
+
+            .navigation-badges {
+                gap: 8px;
+                margin-bottom: 20px;
             }
 
-            .level-right {
-                grid-column: 2;
-                text-align: left;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                min-width: 0;
+            .badge-link {
+                padding: 6px 12px;
+                font-size: .68rem;
             }
 
-            .level-difficulty {
-                margin-top: 0;
+            .testo-illuminato { letter-spacing: -.8px; }
+            .sottotitolo { letter-spacing: 1px; }
+
+            .giocatori {
+                width: 95%;
+                margin-top: 28px;
+                gap: 8px;
             }
 
-            .form-grid, .admin-login {
-                grid-template-columns: 1fr;
+            .giocatore-card {
+                padding: 14px 6px 12px;
+                gap: 4px;
             }
 
-            .progress-list {
-                gap: 7px 12px;
+            .giocatore-nome { font-size: .7rem; }
+            .giocatore-punti { font-size: 1.3rem; }
+            .giocatore-label { font-size: .48rem; letter-spacing: 1px; }
+
+            .classifica {
+                width: 95%;
+                margin-top: 22px;
+                gap: 11px;
             }
+
+            .livello {
+                gap: 9px;
+                min-height: 90px;
+                padding: 11px 9px;
+            }
+
+            .posizione {
+                min-width: 34px;
+                font-size: .76rem;
+            }
+
+            .livello img {
+                width: 66px;
+                height: 53px;
+            }
+
+            .info-livello { flex: 1 1 auto; }
+            .info-livello h2 { font-size: .78rem; }
+            .info-livello p { font-size: .67rem; }
+
+            .progressi {
+                margin-left: 0;
+                padding: 7px 8px;
+                gap: 5px;
+            }
+
+            .progressi p { font-size: .59rem; }
+            .dati-destra { gap: 5px; }
+
+            .punti {
+                font-size: .59rem;
+                white-space: normal;
+                max-width: 85px;
+            }
+
+            .difficolta {
+                font-size: .5rem;
+                letter-spacing: 0;
+                white-space: normal;
+                max-width: 85px;
+            }
+
+            .sezione-extra {
+                width: 95%;
+                padding: 18px;
+                margin-top: 30px;
+            }
+
+            .form-grid { grid-template-columns: 1fr; }
+            .campo-full { grid-column: auto; }
+        }
+
+        @media (max-width: 420px) {
+            .giocatore-nome { font-size: .6rem; }
+            .giocatore-punti { font-size: 1.05rem; }
+
+            .livello {
+                gap: 7px;
+                padding: 10px 6px;
+            }
+
+            .posizione {
+                min-width: 29px;
+                font-size: .68rem;
+            }
+
+            .livello img {
+                width: 55px;
+                height: 47px;
+            }
+
+            .info-livello h2 { font-size: .7rem; }
+            .progressi { padding: 6px; }
+            .progressi p { font-size: .52rem; }
+            .punti { font-size: .52rem; max-width: 75px; }
+            .difficolta { font-size: .46rem; }
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <h1>G_S demon list</h1>
-    <p>Home of the gooners' demonlist</p>
-</header>
+<div class="barra-sinistra" aria-hidden="true"></div>
+<div class="barra-destra" aria-hidden="true"></div>
 
-<main class="container">
+<main>
 
-    <h2 class="sezione-titolo">Leaderboard</h2>
+    <!-- NAVIGAZIONE ORIGINALE -->
+    <nav class="navigation-badges">
 
-    <section class="players" id="playersContainer">
-        <div class="player-card">
-            <h3>Pothersouls</h3>
-            <div class="totale" id="total-Pothersouls">0 pts</div>
-            <small>TOTAL POINTS</small>
+        <div class="dropdown-container">
+            <a class="badge-link">
+                <img src="players.png" alt="Players">
+                <span>Players</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="dropdown-content">
+                    <a href="who.html" class="dropdown-item">
+                        <span>❓ Who?</span>
+                    </a>
+                    <a href="leaderboard.html" class="dropdown-item">
+                        <img src="lb.png" alt="Leaderboard">
+                        <span>Leaderboard</span>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="player-card">
-            <h3>Dadefff</h3>
-            <div class="totale" id="total-Dadefff">0 pts</div>
-            <small>TOTAL POINTS</small>
+        <div class="dropdown-container">
+            <a class="badge-link">
+                <img src="games.png" alt="Games">
+                <span>Games</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="dropdown-content">
+                    <a href="horse.html" class="dropdown-item">
+                        <img src="horse.png" alt="H.O.R.S.E.">
+                        <span>H.O.R.S.E.</span>
+                    </a>
+                    <a href="thedemonwheel.html" class="dropdown-item">
+                        <img src="tdw.png" alt="The Demon Wheel">
+                        <span>The Demon Wheel</span>
+                    </a>
+                    <a href="roulette.html" class="dropdown-item">
+                        <img src="roulette.png" alt="Roulette">
+                        <span>Roulette</span>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="player-card">
-            <h3>Leopelliz</h3>
-            <div class="totale" id="total-Leopelliz">0 pts</div>
-            <small>TOTAL POINTS</small>
-        </div>
+        <a href="announcements.html" class="badge-link">
+            <img src="announcements.png" alt="Announcements">
+            <span>Announcements</span>
+        </a>
+
+        <a href="community.html" class="badge-link">
+            <span class="badge-emoji">💬</span>
+            <span>Community</span>
+        </a>
+
+    </nav>
+
+    <header>
+        <h1 class="testo-illuminato">G_S demon list</h1>
+        <p class="sottotitolo">Home of the gooners' demonlist</p>
+        <div class="linea-titolo"></div>
+    </header>
+
+    <!-- PUNTI GIOCATORI -->
+    <section class="giocatori">
+
+        <a href="pothersouls.html" class="giocatore-card">
+            <span class="giocatore-nome">Pothersouls</span>
+            <span class="giocatore-punti" id="total-Pothersouls">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
+
+        <a href="dadefff.html" class="giocatore-card">
+            <span class="giocatore-nome">Dadefff</span>
+            <span class="giocatore-punti" id="total-Dadefff">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
+
+        <a href="leopelliz.html" class="giocatore-card">
+            <span class="giocatore-nome">Leopelliz</span>
+            <span class="giocatore-punti" id="total-Leopelliz">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
+
     </section>
 
-    <h2 class="sezione-titolo">Demon List</h2>
+    <!-- CLASSIFICA: TUTTI I 20 LIVELLI -->
+    <section class="classifica" id="classifica">
 
-    <section class="level-list" id="levelsContainer"></section>
+        <article class="livello">
+            <span class="posizione">#001</span>
+            <img src="bloodbath.png" alt="Bloodbath">
+            <div class="info-livello"><h2>Bloodbath</h2><p>By Riot</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 14%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+250 pts (100%)</span><span class="difficolta">EXTREME DEMON</span></div>
+        </article>
 
-    <h2 class="sezione-titolo">Submit a Progress</h2>
+        <article class="livello">
+            <span class="posizione">#002</span>
+            <img src="futurefunk2.png" alt="Future Funk II">
+            <div class="info-livello"><h2>Future Funk II</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 55%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+235 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
 
-    <section class="form-box">
-        <h2>Invia un progresso</h2>
-        <p class="descrizione">
-            Inserisci il giocatore, il livello e la percentuale raggiunta.
+        <article class="livello">
+            <span class="posizione">#003</span>
+            <img src="magmabound.png" alt="Magma Bound">
+            <div class="info-livello"><h2>Magma Bound</h2><p>By ScorchVx</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+220 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#004</span>
+            <img src="crazyii.png" alt="CraZy II">
+            <div class="info-livello"><h2>CraZy II</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+205 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#005</span>
+            <img src="swu.png" alt="Sonic Wave Universe">
+            <div class="info-livello"><h2>Sonic Wave Universe</h2><p>By LazerBlitz</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 98%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+190 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#006</span>
+            <img src="deathnote.png" alt="Death Note">
+            <div class="info-livello"><h2>Death Note</h2><p>By Ruf</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+175 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#007</span>
+            <img src="stalemate.png" alt="Stalemate">
+            <div class="info-livello"><h2>Stalemate</h2><p>By Nox</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+160 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#008</span>
+            <img src="jawbreaker.png" alt="Jawbreaker">
+            <div class="info-livello"><h2>Jawbreaker</h2><p>By ZenthicAlpha</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+145 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#009</span>
+            <img src="futurefunk.png" alt="Future Funk">
+            <div class="info-livello"><h2>Future Funk</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+130 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#010</span>
+            <img src="crazy.png" alt="CraZy">
+            <div class="info-livello"><h2>CraZy</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+115 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#011</span>
+            <img src="megalovania.png" alt="Megalovania">
+            <div class="info-livello"><h2>Megalovania</h2><p>By AirSwipe</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+100 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#012</span>
+            <img src="ninecircles.png" alt="Nine Circles">
+            <div class="info-livello"><h2>Nine Circles</h2><p>By Zobros</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+90 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#013</span>
+            <img src="trollmadness.png" alt="Troll Madness">
+            <div class="info-livello"><h2>Troll Madness</h2><p>By FunnyGame</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+80 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#014</span>
+            <img src="hell.png" alt="HeLL">
+            <div class="info-livello"><h2>HeLL</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+70 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#015</span>
+            <img src="phobros.png" alt="Phobros">
+            <div class="info-livello"><h2>Phobros</h2><p>By FunnyGame &amp; More</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+60 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#016</span>
+            <img src="cyclesv2s.png" alt="Cycles v2 s">
+            <div class="info-livello"><h2>Cycles v2 s</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+50 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#017</span>
+            <img src="sakupenegg.png" alt="Sakupen Egg">
+            <div class="info-livello"><h2>Sakupen Egg</h2><p>By EugenBro &amp; Endevour</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+40 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#018</span>
+            <img src="mechanicalshowdown.png" alt="Mechanical Showdown">
+            <div class="info-livello"><h2>Mechanical Showdown</h2><p>By TNTScrew</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+30 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#019</span>
+            <img src="ss.png" alt="Skeletal Shenanigans">
+            <div class="info-livello"><h2>Skeletal Shenanigans</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+20 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#020</span>
+            <img src="verity.png" alt="VeritY">
+            <div class="info-livello"><h2>VeritY</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+15 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+    </section>
+
+    <!-- INVIO PROGRESSI -->
+    <section class="sezione-extra" id="invia-progressi">
+
+        <h2>Submit a progress</h2>
+        <p class="descrizione-extra">
+            Hai migliorato il tuo completamento di un livello? Invia qui il tuo nuovo record.
             La richiesta verrà controllata da un amministratore prima di essere pubblicata.
         </p>
 
-        <form id="submissionForm">
+        <form id="submission-form">
             <div class="form-grid">
-                <select id="playerSelect" required>
-                    <option value="">Seleziona giocatore</option>
-                    <option value="Pothersouls">Pothersouls</option>
-                    <option value="Dadefff">Dadefff</option>
-                    <option value="Leopelliz">Leopelliz</option>
-                </select>
 
-                <select id="levelSelect" required>
-                    <option value="">Seleziona livello</option>
-                </select>
+                <div class="campo">
+                    <label for="playerName">Player</label>
+                    <select id="playerName" required>
+                        <option value="">Select player</option>
+                        <option value="Pothersouls">Pothersouls</option>
+                        <option value="Dadefff">Dadefff</option>
+                        <option value="Leopelliz">Leopelliz</option>
+                    </select>
+                </div>
 
-                <input
-                    type="number"
-                    id="progressInput"
-                    min="0"
-                    max="100"
-                    step="0.01"
-                    placeholder="Percentuale (es. 56)"
-                    required
-                >
+                <div class="campo">
+                    <label for="levelId">Level</label>
+                    <select id="levelId" required>
+                        <option value="">Select level</option>
+                        <option value="001">#001 - Bloodbath</option>
+                        <option value="002">#002 - Future Funk II</option>
+                        <option value="003">#003 - Magma Bound</option>
+                        <option value="004">#004 - CraZy II</option>
+                        <option value="005">#005 - Sonic Wave Universe</option>
+                        <option value="006">#006 - Death Note</option>
+                        <option value="007">#007 - Stalemate</option>
+                        <option value="008">#008 - Jawbreaker</option>
+                        <option value="009">#009 - Future Funk</option>
+                        <option value="010">#010 - CraZy</option>
+                        <option value="011">#011 - Megalovania</option>
+                        <option value="012">#012 - Nine Circles</option>
+                        <option value="013">#013 - Troll Madness</option>
+                        <option value="014">#014 - HeLL</option>
+                        <option value="015">#015 - Phobros</option>
+                        <option value="016">#016 - Cycles v2 s</option>
+                        <option value="017">#017 - Sakupen Egg</option>
+                        <option value="018">#018 - Mechanical Showdown</option>
+                        <option value="019">#019 - Skeletal Shenanigans</option>
+                        <option value="020">#020 - VeritY</option>
+                    </select>
+                </div>
+
+                <div class="campo campo-full">
+                    <label for="progress">Progress (%)</label>
+                    <input id="progress" type="number" min="0" max="100" step="1" placeholder="Example: 85" required>
+                </div>
+
+                <div class="campo campo-full">
+                    <button class="pulsante" id="submit-button" type="submit">
+                        SEND SUBMISSION
+                    </button>
+                </div>
+
             </div>
-
-            <button class="btn" id="submitButton" type="submit">
-                INVIA PROGRESSO
-            </button>
-
-            <div class="status-message" id="submissionMessage"></div>
         </form>
+
+        <p class="messaggio" id="submission-message" aria-live="polite"></p>
+
     </section>
 
-    <h2 class="sezione-titolo">Administration</h2>
+    <!-- PANNELLO AMMINISTRATORE -->
+    <section class="sezione-extra" id="admin-panel">
 
-    <section class="admin-box">
-        <div id="adminLogin">
-            <h2>Admin Login</h2>
-            <p class="descrizione">
-                Accedi con l'account amministratore Firebase.
-            </p>
+        <h2>Admin panel</h2>
+        <p class="descrizione-extra">
+            Area riservata agli amministratori della G_S demon list.
+        </p>
 
-            <form id="loginForm" class="admin-login">
-                <input type="email" id="adminEmail" placeholder="Email admin" required>
-                <input type="password" id="adminPassword" placeholder="Password" required>
-                <button class="btn" type="submit">LOGIN</button>
+        <div id="admin-login" class="admin-login">
+
+            <form id="admin-login-form">
+                <div class="form-grid">
+
+                    <div class="campo">
+                        <label for="admin-email">Email</label>
+                        <input id="admin-email" type="email" placeholder="Admin email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="admin-password">Password</label>
+                        <input id="admin-password" type="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <button class="pulsante" id="login-button" type="submit">
+                            ADMIN LOGIN
+                        </button>
+                    </div>
+
+                </div>
             </form>
 
-            <div class="status-message" id="loginMessage"></div>
+            <p class="messaggio" id="login-message" aria-live="polite"></p>
         </div>
 
-        <div id="adminPanel" class="admin-hidden">
-            <div class="admin-top">
-                <h2>Admin Panel</h2>
-                <button class="btn btn-secondary" id="logoutButton">LOGOUT</button>
+        <div id="admin-content" class="admin-contenuto" hidden>
+
+            <p class="admin-stato">● Admin authenticated</p>
+
+            <div class="admin-toolbar">
+                <button class="pulsante pulsante-verde" id="import-button" type="button">
+                    IMPORT INITIAL PROGRESS
+                </button>
+
+                <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
+                    LOGOUT
+                </button>
             </div>
 
-            <p class="descrizione">
-                Gestisci le richieste e i progressi approvati.
-            </p>
+            <p class="messaggio" id="import-message"></p>
 
-            <h3 class="admin-section-title">Richieste in attesa</h3>
-            <div id="pendingContainer">
-                <p class="empty-message">Caricamento richieste...</p>
+            <div class="admin-separatore"></div>
+
+            <h2>Pending submissions</h2>
+            <div id="pending-list">
+                <p class="vuoto">Loading submissions...</p>
             </div>
 
-            <h3 class="admin-section-title">Progressi approvati</h3>
-            <div id="recordsContainer">
-                <p class="empty-message">Caricamento progressi...</p>
+            <div class="admin-separatore"></div>
+
+            <h2>Approved records</h2>
+            <div id="approved-list">
+                <p class="vuoto">Loading records...</p>
             </div>
 
-            <h3 class="admin-section-title">Importazione iniziale</h3>
-            <p class="descrizione">
-                Importa una sola volta i progressi che erano già presenti
-                nella vecchia homepage. L'importazione è disponibile solo
-                quando non esistono ancora record nel database.
-            </p>
-            <button class="btn btn-green" id="importButton">
-                IMPORTA PROGRESSI INIZIALI
-            </button>
-            <div class="status-message" id="importMessage"></div>
         </div>
+
     </section>
 
 </main>
 
-<footer>
-    G_S demon list · All rights reserved
-</footer>
+<footer>G_S demon list</footer>
 
 <script type="module">
-    import { initializeApp } from
-        "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
     import {
         getAuth,
@@ -528,17 +1294,18 @@
         getFirestore,
         collection,
         addDoc,
-        onSnapshot,
         doc,
-        setDoc,
-        deleteDoc,
+        getDocs,
+        onSnapshot,
+        writeBatch,
         serverTimestamp,
-        writeBatch
+        query,
+        orderBy
     } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
 
     // --------------------------------------------------
-    // FIREBASE CONFIG
+    // FIREBASE CONFIGURATION
     // --------------------------------------------------
 
     const firebaseConfig = {
@@ -552,198 +1319,253 @@
         measurementId: "G-1V7VX6QRHZ"
     };
 
+    const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
-
 
     // --------------------------------------------------
-    // LIVELLI
+    // LIVELLI E PUNTEGGI
     // --------------------------------------------------
 
     const levels = [
-        { id: "001", name: "Bloodbath", creator: "Riot", points: 250, difficulty: "EXTREME DEMON" },
-        { id: "002", name: "Future Funk II", creator: "JonathanGD", points: 235, difficulty: "INSANE DEMON" },
-        { id: "003", name: "Magma Bound", creator: "ScorchVx", points: 220, difficulty: "INSANE DEMON" },
-        { id: "004", name: "CraZy II", creator: "DavJT", points: 205, difficulty: "INSANE DEMON" },
-        { id: "005", name: "Sonic Wave Universe", creator: "LazerBlitz", points: 190, difficulty: "INSANE DEMON" },
-        { id: "006", name: "Death Note", creator: "Ruf", points: 175, difficulty: "INSANE DEMON" },
-        { id: "007", name: "Stalemate", creator: "Nox", points: 160, difficulty: "INSANE DEMON" },
-        { id: "008", name: "Jawbreaker", creator: "ZenthicAlpha", points: 145, difficulty: "HARD DEMON" },
-        { id: "009", name: "Future Funk", creator: "JonathanGD", points: 130, difficulty: "HARD DEMON" },
-        { id: "010", name: "CraZy", creator: "DavJT", points: 115, difficulty: "HARD DEMON" },
-        { id: "011", name: "Megalovania", creator: "AirSwipe", points: 100, difficulty: "HARD DEMON" },
-        { id: "012", name: "Nine Circles", creator: "Zobros", points: 90, difficulty: "HARD DEMON" },
-        { id: "013", name: "Troll Madness", creator: "FunnyGame", points: 80, difficulty: "HARD DEMON" },
-        { id: "014", name: "HeLL", creator: "Serponge", points: 70, difficulty: "MEDIUM DEMON" },
-        { id: "015", name: "Phobros", creator: "FunnyGame & More", points: 60, difficulty: "MEDIUM DEMON" },
-        { id: "016", name: "Cycles v2 s", creator: "TheRealMiLk", points: 50, difficulty: "MEDIUM DEMON" },
-        { id: "017", name: "Sakupen Egg", creator: "EugenBro & Endevour", points: 40, difficulty: "MEDIUM DEMON" },
-        { id: "018", name: "Mechanical Showdown", creator: "TNTScrew", points: 30, difficulty: "MEDIUM DEMON" },
-        { id: "019", name: "Skeletal Shenanigans", creator: "TheRealMiLk", points: 20, difficulty: "MEDIUM DEMON" },
-        { id: "020", name: "VeritY", creator: "Serponge", points: 15, difficulty: "MEDIUM DEMON" }
+        { id: "001", name: "Bloodbath", points: 250 },
+        { id: "002", name: "Future Funk II", points: 235 },
+        { id: "003", name: "Magma Bound", points: 220 },
+        { id: "004", name: "CraZy II", points: 205 },
+        { id: "005", name: "Sonic Wave Universe", points: 190 },
+        { id: "006", name: "Death Note", points: 175 },
+        { id: "007", name: "Stalemate", points: 160 },
+        { id: "008", name: "Jawbreaker", points: 145 },
+        { id: "009", name: "Future Funk", points: 130 },
+        { id: "010", name: "CraZy", points: 115 },
+        { id: "011", name: "Megalovania", points: 100 },
+        { id: "012", name: "Nine Circles", points: 90 },
+        { id: "013", name: "Troll Madness", points: 80 },
+        { id: "014", name: "HeLL", points: 70 },
+        { id: "015", name: "Phobros", points: 60 },
+        { id: "016", name: "Cycles v2 s", points: 50 },
+        { id: "017", name: "Sakupen Egg", points: 40 },
+        { id: "018", name: "Mechanical Showdown", points: 30 },
+        { id: "019", name: "Skeletal Shenanigans", points: 20 },
+        { id: "020", name: "VeritY", points: 15 }
     ];
 
     const players = ["Pothersouls", "Dadefff", "Leopelliz"];
 
-    // Progressi già presenti nella vecchia homepage.
-    // Verranno visualizzati finché non importi i dati su Firestore.
-    const initialProgress = {
-        "Pothersouls_001": 100,
-        "Dadefff_001": 14,
-        "Pothersouls_002": 100,
-        "Dadefff_002": 55,
-        "Pothersouls_003": 100,
-        "Pothersouls_004": 100,
-        "Pothersouls_005": 100,
-        "Dadefff_005": 98
-    };
+    const initialProgress = [
+        { playerName: "Pothersouls", levelId: "001", progress: 100 },
+        { playerName: "Pothersouls", levelId: "002", progress: 100 },
+        { playerName: "Pothersouls", levelId: "003", progress: 100 },
+        { playerName: "Pothersouls", levelId: "004", progress: 100 },
+        { playerName: "Pothersouls", levelId: "005", progress: 100 },
+        { playerName: "Dadefff", levelId: "001", progress: 14 },
+        { playerName: "Dadefff", levelId: "002", progress: 55 },
+        { playerName: "Dadefff", levelId: "005", progress: 98 }
+    ];
 
-
-    // --------------------------------------------------
-    // STATO
-    // --------------------------------------------------
-
-    let records = [];
+    let records = {};
     let recordsLoaded = false;
-    let pendingLoaded = false;
     let isAdmin = false;
-    let adminUnsubscribe = null;
+    let pendingUnsubscribe = null;
+    let recordsUnsubscribe = null;
 
 
     // --------------------------------------------------
-    // RENDER HOMEPAGE
+    // ELEMENTI HTML
     // --------------------------------------------------
+
+    const submissionForm = document.getElementById("submission-form");
+    const submissionMessage = document.getElementById("submission-message");
+    const submitButton = document.getElementById("submit-button");
+
+    const adminLogin = document.getElementById("admin-login");
+    const adminContent = document.getElementById("admin-content");
+
+    const loginForm = document.getElementById("admin-login-form");
+    const loginMessage = document.getElementById("login-message");
+    const loginButton = document.getElementById("login-button");
+
+    const pendingList = document.getElementById("pending-list");
+    const approvedList = document.getElementById("approved-list");
+
+    const importButton = document.getElementById("import-button");
+    const importMessage = document.getElementById("import-message");
+
+
+    // --------------------------------------------------
+    // FUNZIONI UTILI
+    // --------------------------------------------------
+
+    function showMessage(element, message, type = "") {
+        element.textContent = message;
+        element.className = "messaggio " + type;
+    }
+
+    function getRecordKey(playerName, levelId) {
+        return `${playerName}_${levelId}`;
+    }
+
+    function formatPoints(value) {
+        return Number(value).toFixed(2).replace(/\.00$/, "");
+    }
 
     function getProgress(playerName, levelId) {
-        const record = records.find(
-            r => r.playerName === playerName && r.levelId === levelId
-        );
+        const key = getRecordKey(playerName, levelId);
 
-        if (record) return Number(record.progress);
+        if (records[key] !== undefined) {
+            return records[key].progress;
+        }
 
-        // Usa i valori precedenti solo se Firestore è ancora vuoto.
-        if (recordsLoaded && records.length === 0) {
-            const key = `${playerName}_${levelId}`;
-            return initialProgress[key] ?? null;
+        // I dati originali rimangono visibili finché il database è vuoto.
+        if (Object.keys(records).length === 0) {
+            const original = initialProgress.find(item =>
+                item.playerName === playerName && item.levelId === levelId
+            );
+
+            return original ? original.progress : null;
         }
 
         return null;
     }
 
 
-    function renderLevels() {
-        const container = document.getElementById("levelsContainer");
-        container.innerHTML = "";
+    // --------------------------------------------------
+    // AGGIORNAMENTO DELLA CLASSIFICA
+    // --------------------------------------------------
 
-        levels.forEach(level => {
-            const progressHTML = players.map(player => {
-                const progress = getProgress(player, level.id);
+    function updateLeaderboard() {
 
-                return `
-                    <div class="progress-item">
-                        ${player}:
-                        <strong>${progress === null ? "--" : progress + "%"}</strong>
-                    </div>
-                `;
-            }).join("");
+        const levelCards = document.querySelectorAll(".livello");
 
-            const card = document.createElement("article");
-            card.className = "level-card";
+        levelCards.forEach((card, index) => {
 
-            card.innerHTML = `
-                <div class="level-number">${level.id}</div>
+            const level = levels[index];
+            if (!level) return;
 
-                <div class="level-info">
-                    <h3>${level.name}</h3>
-                    <div class="creator">by ${level.creator}</div>
-                    <div class="progress-list">${progressHTML}</div>
-                </div>
+            const progressRows = card.querySelectorAll(".progressi p");
 
-                <div class="level-right">
-                    <div class="level-points">+${level.points} pts</div>
-                    <div class="level-difficulty">${level.difficulty}</div>
-                </div>
-            `;
+            progressRows.forEach(row => {
 
-            container.appendChild(card);
+                const playerLink = row.querySelector("a");
+                if (!playerLink) return;
+
+                const playerName = playerLink.textContent.trim();
+                const progress = getProgress(playerName, level.id);
+
+                // Aggiorna solo il testo dopo il link.
+                const value = progress === null ? "--" : `${progress}%`;
+
+                row.lastChild.textContent = `: ${value}`;
+            });
         });
 
-        renderTotals();
-    }
+        // Calcolo punti totali proporzionali.
+        players.forEach(playerName => {
 
-
-    function renderTotals() {
-        players.forEach(player => {
             let total = 0;
 
             levels.forEach(level => {
-                const progress = getProgress(player, level.id);
+
+                const progress = getProgress(playerName, level.id);
 
                 if (progress !== null) {
-                    total += level.points * progress / 100;
+                    total += level.points * (progress / 100);
                 }
+
             });
 
-            const element = document.getElementById(`total-${player}`);
+            const totalElement = document.getElementById(`total-${playerName}`);
 
-            if (element) {
-                element.textContent = `${total.toFixed(2).replace(/\.?0+$/, "")} pts`;
+            if (totalElement) {
+                totalElement.textContent = formatPoints(total);
             }
+
         });
     }
 
 
     // --------------------------------------------------
-    // MENU SELEZIONE LIVELLI
+    // ASCOLTO RECORD FIRESTORE
     // --------------------------------------------------
 
-    const levelSelect = document.getElementById("levelSelect");
+    function listenToRecords() {
 
-    levels.forEach(level => {
-        const option = document.createElement("option");
-        option.value = level.id;
-        option.textContent = `${level.id} - ${level.name}`;
-        levelSelect.appendChild(option);
-    });
+        if (recordsUnsubscribe) {
+            recordsUnsubscribe();
+        }
+
+        recordsUnsubscribe = onSnapshot(
+            collection(db, "records"),
+
+            snapshot => {
+
+                records = {};
+
+                snapshot.forEach(documentSnapshot => {
+
+                    const data = documentSnapshot.data();
+
+                    if (
+                        data.playerName &&
+                        data.levelId &&
+                        typeof data.progress === "number"
+                    ) {
+                        records[getRecordKey(data.playerName, data.levelId)] = data;
+                    }
+
+                });
+
+                recordsLoaded = true;
+                updateLeaderboard();
+
+                if (isAdmin) {
+                    renderApprovedRecords();
+                }
+
+            },
+
+            error => {
+                console.error("Errore caricamento records:", error);
+            }
+        );
+    }
 
 
     // --------------------------------------------------
     // INVIO PROGRESSI
     // --------------------------------------------------
 
-    document.getElementById("submissionForm").addEventListener("submit", async event => {
+    submissionForm.addEventListener("submit", async event => {
+
         event.preventDefault();
 
-        const playerName = document.getElementById("playerSelect").value;
-        const levelId = document.getElementById("levelSelect").value;
-        const progress = Number(document.getElementById("progressInput").value);
-
-        const message = document.getElementById("submissionMessage");
-        const button = document.getElementById("submitButton");
+        const playerName = document.getElementById("playerName").value;
+        const levelId = document.getElementById("levelId").value;
+        const progress = Number(document.getElementById("progress").value);
 
         if (!players.includes(playerName)) {
-            message.textContent = "Seleziona un giocatore valido.";
+            showMessage(submissionMessage, "Seleziona un giocatore valido.", "errore");
             return;
         }
 
         if (!levels.some(level => level.id === levelId)) {
-            message.textContent = "Seleziona un livello valido.";
+            showMessage(submissionMessage, "Seleziona un livello valido.", "errore");
             return;
         }
 
-        if (!Number.isFinite(progress) || progress < 0 || progress > 100) {
-            message.textContent = "Inserisci una percentuale tra 0 e 100.";
+        if (!Number.isInteger(progress) || progress < 0 || progress > 100) {
+            showMessage(submissionMessage, "Inserisci una percentuale da 0 a 100.", "errore");
             return;
         }
 
-        button.disabled = true;
-        message.style.color = "#aaa";
-        message.textContent = "Invio in corso...";
+        submitButton.disabled = true;
+        submitButton.textContent = "SENDING...";
 
         try {
+
             await addDoc(collection(db, "submissions"), {
                 playerName,
                 levelId,
@@ -752,37 +1574,31 @@
                 createdAt: serverTimestamp()
             });
 
-            message.style.color = "#00d985";
-            message.textContent = "Richiesta inviata! In attesa di approvazione.";
-            event.target.reset();
+            submissionForm.reset();
+
+            showMessage(
+                submissionMessage,
+                "Richiesta inviata! Verrà controllata da un amministratore.",
+                "successo"
+            );
 
         } catch (error) {
+
             console.error(error);
-            message.style.color = "#ff7070";
-            message.textContent = "Errore durante l'invio. Riprova.";
+
+            showMessage(
+                submissionMessage,
+                "Errore durante l'invio. Riprova più tardi.",
+                "errore"
+            );
+
+        } finally {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "SEND SUBMISSION";
+
         }
 
-        button.disabled = false;
-    });
-
-
-    // --------------------------------------------------
-    // PROGRESSI PUBBLICI IN TEMPO REALE
-    // --------------------------------------------------
-
-    onSnapshot(collection(db, "records"), snapshot => {
-        records = snapshot.docs.map(document => ({
-            id: document.id,
-            ...document.data()
-        }));
-
-        recordsLoaded = true;
-        renderLevels();
-
-        if (isAdmin) renderAdminRecords();
-
-    }, error => {
-        console.error("Errore caricamento records:", error);
     });
 
 
@@ -790,53 +1606,454 @@
     // LOGIN ADMIN
     // --------------------------------------------------
 
-    document.getElementById("loginForm").addEventListener("submit", async event => {
+    loginForm.addEventListener("submit", async event => {
+
         event.preventDefault();
 
-        const email = document.getElementById("adminEmail").value;
-        const password = document.getElementById("adminPassword").value;
-        const message = document.getElementById("loginMessage");
+        const email = document.getElementById("admin-email").value.trim();
+        const password = document.getElementById("admin-password").value;
 
-        message.style.color = "#aaa";
-        message.textContent = "Accesso in corso...";
+        loginButton.disabled = true;
+        loginButton.textContent = "LOGGING IN...";
 
         try {
+
             await signInWithEmailAndPassword(auth, email, password);
+
         } catch (error) {
+
             console.error(error);
-            message.style.color = "#ff7070";
-            message.textContent = "Email o password non corretti.";
+
+            showMessage(
+                loginMessage,
+                "Login non riuscito. Controlla email e password.",
+                "errore"
+            );
+
+        } finally {
+
+            loginButton.disabled = false;
+            loginButton.textContent = "ADMIN LOGIN";
+
         }
+
     });
 
 
-    onAuthStateChanged(auth, user => {
-        const login = document.getElementById("adminLogin");
-        const panel = document.getElementById("adminPanel");
+    // --------------------------------------------------
+    // CONTROLLO AUTENTICAZIONE
+    // --------------------------------------------------
+
+    onAuthStateChanged(auth, async user => {
 
         if (user && user.uid === ADMIN_UID) {
+
             isAdmin = true;
-            login.classList.add("admin-hidden");
-            panel.classList.remove("admin-hidden");
+
+            adminLogin.hidden = true;
+            adminContent.hidden = false;
 
             startAdminListeners();
 
         } else {
+
             isAdmin = false;
-            login.classList.remove("admin-hidden");
-            panel.classList.add("admin-hidden");
+
+            adminLogin.hidden = false;
+            adminContent.hidden = true;
+
+            if (pendingUnsubscribe) {
+                pendingUnsubscribe();
+                pendingUnsubscribe = null;
+            }
 
             if (user) {
-                signOut(auth);
-                document.getElementById("loginMessage").textContent =
-                    "Questo account non ha i permessi di amministratore.";
+                await signOut(auth);
+                showMessage(loginMessage, "Questo account non è autorizzato come admin.", "errore");
             }
 
-            if (adminUnsubscribe) {
-                adminUnsubscribe();
-                adminUnsubscribe = null;
-            }
         }
+
+    });
+
+
+    // --------------------------------------------------
+    // LISTENER RICHIESTE IN ATTESA
+    // --------------------------------------------------
+
+    function startAdminListeners() {
+
+        if (pendingUnsubscribe) {
+            pendingUnsubscribe();
+        }
+
+        const pendingQuery = query(
+            collection(db, "submissions"),
+            orderBy("createdAt", "desc")
+        );
+
+        pendingUnsubscribe = onSnapshot(
+            pendingQuery,
+
+            snapshot => {
+
+                pendingList.innerHTML = "";
+
+                if (snapshot.empty) {
+                    pendingList.innerHTML = '<p class="vuoto">Nessuna richiesta in attesa.</p>';
+                    return;
+                }
+
+                snapshot.forEach(documentSnapshot => {
+
+                    const data = documentSnapshot.data();
+                    const requestId = documentSnapshot.id;
+
+                    const level = levels.find(item => item.id === data.levelId);
+
+                    const card = document.createElement("div");
+                    card.className = "richiesta";
+
+                    const info = document.createElement("div");
+                    info.className = "richiesta-info";
+
+                    const playerLine = document.createElement("div");
+                    playerLine.innerHTML = "<strong>Player:</strong> ";
+
+                    const playerText = document.createTextNode(data.playerName || "Unknown");
+                    playerLine.appendChild(playerText);
+
+                    const levelLine = document.createElement("div");
+                    levelLine.innerHTML = "<strong>Level:</strong> ";
+
+                    const levelText = document.createTextNode(
+                        level ? `${level.id} - ${level.name}` : (data.levelId || "Unknown")
+                    );
+                    levelLine.appendChild(levelText);
+
+                    const progressLine = document.createElement("div");
+                    progressLine.innerHTML = "<strong>Progress:</strong> ";
+
+                    const progressText = document.createTextNode(`${data.progress}%`);
+                    progressLine.appendChild(progressText);
+
+                    info.append(playerLine, levelLine, progressLine);
+
+                    const actions = document.createElement("div");
+                    actions.className = "richiesta-azioni";
+
+                    const approveButton = document.createElement("button");
+                    approveButton.className = "pulsante pulsante-verde";
+                    approveButton.textContent = "APPROVE";
+                    approveButton.addEventListener("click", () => approveSubmission(requestId, data));
+
+                    const rejectButton = document.createElement("button");
+                    rejectButton.className = "pulsante pulsante-rifiuta";
+                    rejectButton.textContent = "REJECT";
+                    rejectButton.addEventListener("click", () => rejectSubmission(requestId));
+
+                    actions.append(approveButton, rejectButton);
+                    card.append(info, actions);
+                    pendingList.appendChild(card);
+
+                });
+
+            },
+
+            error => {
+                console.error(error);
+                pendingList.innerHTML = '<p class="messaggio errore">Errore nel caricamento delle richieste.</p>';
+            }
+        );
+
+    }
+
+
+    // --------------------------------------------------
+    // APPROVAZIONE RICHIESTA
+    // --------------------------------------------------
+
+    async function approveSubmission(requestId, data) {
+
+        if (!isAdmin) return;
+
+        if (
+            !players.includes(data.playerName) ||
+            !levels.some(level => level.id === data.levelId) ||
+            typeof data.progress !== "number" ||
+            data.progress < 0 ||
+            data.progress > 100
+        ) {
+            alert("Questa richiesta contiene dati non validi.");
+            return;
+        }
+
+        const confirmApproval = confirm(
+            `Confermi il record di ${data.playerName} al ${data.progress}%?`
+        );
+
+        if (!confirmApproval) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            const recordId = getRecordKey(data.playerName, data.levelId);
+
+            const recordRef = doc(db, "records", recordId);
+            const submissionRef = doc(db, "submissions", requestId);
+
+            batch.set(recordRef, {
+                playerName: data.playerName,
+                levelId: data.levelId,
+                progress: data.progress,
+                updatedAt: serverTimestamp()
+            });
+
+            batch.delete(submissionRef);
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante l'approvazione del record.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // RIFIUTO RICHIESTA
+    // --------------------------------------------------
+
+    async function rejectSubmission(requestId) {
+
+        if (!isAdmin) return;
+
+        if (!confirm("Vuoi rifiutare questa richiesta?")) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            batch.delete(doc(db, "submissions", requestId));
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante il rifiuto della richiesta.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // VISUALIZZAZIONE RECORD APPROVATI
+    // --------------------------------------------------
+
+    function renderApprovedRecords() {
+
+        if (!isAdmin) return;
+
+        approvedList.innerHTML = "";
+
+        const entries = Object.entries(records);
+
+        if (entries.length === 0) {
+            approvedList.innerHTML = '<p class="vuoto">Nessun record approvato nel database.</p>';
+            return;
+        }
+
+        entries.sort((a, b) => {
+            return a[1].levelId.localeCompare(b[1].levelId);
+        });
+
+        entries.forEach(([key, data]) => {
+
+            const level = levels.find(item => item.id === data.levelId);
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const playerLine = document.createElement("div");
+            playerLine.innerHTML = "<strong>Player:</strong> ";
+            playerLine.appendChild(document.createTextNode(data.playerName));
+
+            const levelLine = document.createElement("div");
+            levelLine.innerHTML = "<strong>Level:</strong> ";
+            levelLine.appendChild(document.createTextNode(
+                level ? `${level.id} - ${level.name}` : data.levelId
+            ));
+
+            const progressLine = document.createElement("div");
+            progressLine.innerHTML = "<strong>Progress:</strong> ";
+            progressLine.appendChild(document.createTextNode(`${data.progress}%`));
+
+            info.append(playerLine, levelLine, progressLine);
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const editButton = document.createElement("button");
+            editButton.className = "pulsante";
+            editButton.textContent = "EDIT PROGRESS";
+
+            editButton.addEventListener("click", async () => {
+
+                const newValue = prompt(
+                    `Nuova percentuale per ${data.playerName} - ${level?.name || data.levelId}:`,
+                    data.progress
+                );
+
+                if (newValue === null) return;
+
+                const newProgress = Number(newValue);
+
+                if (!Number.isInteger(newProgress) || newProgress < 0 || newProgress > 100) {
+                    alert("Inserisci un numero intero tra 0 e 100.");
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+
+                    batch.set(doc(db, "records", key), {
+                        playerName: data.playerName,
+                        levelId: data.levelId,
+                        progress: newProgress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante la modifica.");
+
+                }
+
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "pulsante pulsante-rifiuta";
+            deleteButton.textContent = "DELETE RECORD";
+
+            deleteButton.addEventListener("click", async () => {
+
+                if (!confirm(`Eliminare il record di ${data.playerName} su ${level?.name || data.levelId}?`)) {
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+                    batch.delete(doc(db, "records", key));
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante l'eliminazione.");
+
+                }
+
+            });
+
+            actions.append(editButton, deleteButton);
+            card.append(info, actions);
+            approvedList.appendChild(card);
+
+        });
+
+    }
+
+
+    // --------------------------------------------------
+    // IMPORTAZIONE PROGRESSI INIZIALI
+    // --------------------------------------------------
+
+    importButton.addEventListener("click", async () => {
+
+        if (!isAdmin) return;
+
+        if (!confirm(
+            "Vuoi importare i progressi iniziali? I record già presenti non verranno sovrascritti."
+        )) {
+            return;
+        }
+
+        importButton.disabled = true;
+        importButton.textContent = "IMPORTING...";
+
+        try {
+
+            const snapshot = await getDocs(collection(db, "records"));
+
+            const existingIds = new Set(
+                snapshot.docs.map(documentSnapshot => documentSnapshot.id)
+            );
+
+            const batch = writeBatch(db);
+            let imported = 0;
+
+            initialProgress.forEach(item => {
+
+                const recordId = getRecordKey(item.playerName, item.levelId);
+
+                if (!existingIds.has(recordId)) {
+
+                    batch.set(doc(db, "records", recordId), {
+                        playerName: item.playerName,
+                        levelId: item.levelId,
+                        progress: item.progress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    imported++;
+
+                }
+
+            });
+
+            if (imported > 0) {
+                await batch.commit();
+            }
+
+            showMessage(
+                importMessage,
+                imported === 0
+                    ? "I progressi iniziali risultano già importati."
+                    : `Importazione completata: ${imported} record aggiunti.`,
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                importMessage,
+                "Errore durante l'importazione. Controlla le regole Firestore.",
+                "errore"
+            );
+
+        } finally {
+
+            importButton.disabled = false;
+            importButton.textContent = "IMPORT INITIAL PROGRESS";
+
+        }
+
     });
 
 
@@ -844,313 +2061,14 @@
     // LOGOUT
     // --------------------------------------------------
 
-    document.getElementById("logoutButton").addEventListener("click", async () => {
-        await signOut(auth);
-    });
-
-
-    // --------------------------------------------------
-    // LISTENER ADMIN
-    // --------------------------------------------------
-
-    function startAdminListeners() {
-        if (adminUnsubscribe) adminUnsubscribe();
-
-        adminUnsubscribe = onSnapshot(collection(db, "submissions"), snapshot => {
-            const submissions = snapshot.docs.map(document => ({
-                id: document.id,
-                ...document.data()
-            }));
-
-            renderPending(submissions);
-            pendingLoaded = true;
-
-        }, error => {
-            console.error("Errore richieste admin:", error);
-            document.getElementById("pendingContainer").textContent =
-                "Non è stato possibile caricare le richieste.";
-        });
-
-        renderAdminRecords();
-    }
-
-
-    // --------------------------------------------------
-    // RICHIESTE IN ATTESA
-    // --------------------------------------------------
-
-    function renderPending(submissions) {
-        const container = document.getElementById("pendingContainer");
-
-        const pending = submissions.filter(
-            submission => submission.status === "pending"
-        );
-
-        if (pending.length === 0) {
-            container.innerHTML = '<p class="empty-message">Nessuna richiesta in attesa.</p>';
-            return;
-        }
-
-        container.innerHTML = "";
-
-        pending.forEach(submission => {
-            const level = levels.find(l => l.id === submission.levelId);
-            const levelName = level ? level.name : submission.levelId;
-
-            const row = document.createElement("div");
-            row.className = "submission";
-
-            const info = document.createElement("div");
-            info.className = "submission-info";
-
-            const title = document.createElement("strong");
-            title.textContent = `${submission.playerName} - ${levelName}`;
-
-            const detail = document.createElement("div");
-            detail.innerHTML = `<span>Progresso:</span> ${Number(submission.progress)}%`;
-
-            info.append(title, detail);
-
-            const actions = document.createElement("div");
-            actions.className = "admin-actions";
-
-            const approveButton = document.createElement("button");
-            approveButton.className = "btn btn-green";
-            approveButton.textContent = "APPROVA";
-            approveButton.addEventListener("click", () => approveSubmission(submission));
-
-            const rejectButton = document.createElement("button");
-            rejectButton.className = "btn btn-secondary";
-            rejectButton.textContent = "RIFIUTA";
-            rejectButton.addEventListener("click", () => rejectSubmission(submission));
-
-            actions.append(approveButton, rejectButton);
-            row.append(info, actions);
-            container.appendChild(row);
-        });
-    }
-
-
-    // --------------------------------------------------
-    // APPROVAZIONE
-    // --------------------------------------------------
-
-    async function approveSubmission(submission) {
-        if (!isAdmin) return;
-
-        const corrected = prompt(
-            `Percentuale da approvare per ${submission.playerName} - livello ${submission.levelId}:`,
-            submission.progress
-        );
-
-        if (corrected === null) return;
-
-        const progress = Number(corrected);
-
-        if (!Number.isFinite(progress) || progress < 0 || progress > 100) {
-            alert("Inserisci una percentuale valida tra 0 e 100.");
-            return;
-        }
+    document.getElementById("logout-button").addEventListener("click", async () => {
 
         try {
-            const recordId = `${submission.playerName}_${submission.levelId}`;
-
-            const batch = writeBatch(db);
-
-            batch.set(doc(db, "records", recordId), {
-                playerName: submission.playerName,
-                levelId: submission.levelId,
-                progress,
-                updatedAt: serverTimestamp()
-            });
-
-            batch.delete(doc(db, "submissions", submission.id));
-
-            await batch.commit();
-
+            await signOut(auth);
         } catch (error) {
             console.error(error);
-            alert("Errore durante l'approvazione. Controlla le regole Firestore.");
-        }
-    }
-
-
-    // --------------------------------------------------
-    // RIFIUTO
-    // --------------------------------------------------
-
-    async function rejectSubmission(submission) {
-        if (!isAdmin) return;
-
-        if (!confirm("Vuoi davvero rifiutare questa richiesta?")) return;
-
-        try {
-            await deleteDoc(doc(db, "submissions", submission.id));
-        } catch (error) {
-            console.error(error);
-            alert("Errore durante il rifiuto.");
-        }
-    }
-
-
-    // --------------------------------------------------
-    // RECORD APPROVATI: MODIFICA / ELIMINA
-    // --------------------------------------------------
-
-    function renderAdminRecords() {
-        const container = document.getElementById("recordsContainer");
-
-        if (!isAdmin) return;
-
-        if (!recordsLoaded) {
-            container.innerHTML = '<p class="empty-message">Caricamento...</p>';
-            return;
         }
 
-        if (records.length === 0) {
-            container.innerHTML = '<p class="empty-message">Nessun progresso approvato su Firestore.</p>';
-            return;
-        }
-
-        container.innerHTML = "";
-
-        records.forEach(record => {
-            const level = levels.find(l => l.id === record.levelId);
-            const levelName = level ? level.name : record.levelId;
-
-            const row = document.createElement("div");
-            row.className = "record-row";
-
-            const info = document.createElement("div");
-            info.className = "record-info";
-
-            const title = document.createElement("strong");
-            title.textContent = `${record.playerName} - ${levelName}`;
-
-            const detail = document.createElement("div");
-            detail.innerHTML = `<span>Progresso approvato:</span> ${Number(record.progress)}%`;
-
-            info.append(title, detail);
-
-            const actions = document.createElement("div");
-            actions.className = "admin-actions";
-
-            const editButton = document.createElement("button");
-            editButton.className = "btn";
-            editButton.textContent = "MODIFICA";
-            editButton.addEventListener("click", () => editRecord(record));
-
-            const deleteButton = document.createElement("button");
-            deleteButton.className = "btn btn-secondary";
-            deleteButton.textContent = "ELIMINA";
-            deleteButton.addEventListener("click", () => deleteRecord(record));
-
-            actions.append(editButton, deleteButton);
-            row.append(info, actions);
-            container.appendChild(row);
-        });
-    }
-
-
-    async function editRecord(record) {
-        if (!isAdmin) return;
-
-        const corrected = prompt(
-            `Nuova percentuale per ${record.playerName}:`,
-            record.progress
-        );
-
-        if (corrected === null) return;
-
-        const progress = Number(corrected);
-
-        if (!Number.isFinite(progress) || progress < 0 || progress > 100) {
-            alert("Inserisci una percentuale valida tra 0 e 100.");
-            return;
-        }
-
-        try {
-            await setDoc(doc(db, "records", record.id), {
-                playerName: record.playerName,
-                levelId: record.levelId,
-                progress,
-                updatedAt: serverTimestamp()
-            });
-        } catch (error) {
-            console.error(error);
-            alert("Errore durante la modifica.");
-        }
-    }
-
-
-    async function deleteRecord(record) {
-        if (!isAdmin) return;
-
-        if (!confirm(
-            `Vuoi eliminare il progresso di ${record.playerName} su questo livello?`
-        )) return;
-
-        try {
-            await deleteDoc(doc(db, "records", record.id));
-        } catch (error) {
-            console.error(error);
-            alert("Errore durante l'eliminazione.");
-        }
-    }
-
-
-    // --------------------------------------------------
-    // IMPORTAZIONE PROGRESSI PRECEDENTI
-    // --------------------------------------------------
-
-    document.getElementById("importButton").addEventListener("click", async () => {
-        if (!isAdmin) return;
-
-        const message = document.getElementById("importMessage");
-
-        if (!recordsLoaded) {
-            message.textContent = "Attendi il caricamento dei dati.";
-            return;
-        }
-
-        if (records.length > 0) {
-            message.style.color = "#ff7070";
-            message.textContent =
-                "Importazione bloccata: esistono già dei record su Firestore.";
-            return;
-        }
-
-        if (!confirm("Importare i progressi iniziali della vecchia homepage?")) {
-            return;
-        }
-
-        const entries = Object.entries(initialProgress);
-        const batch = writeBatch(db);
-
-        entries.forEach(([key, progress]) => {
-            const separator = key.lastIndexOf("_");
-            const playerName = key.substring(0, separator);
-            const levelId = key.substring(separator + 1);
-
-            batch.set(doc(db, "records", key), {
-                playerName,
-                levelId,
-                progress,
-                updatedAt: serverTimestamp()
-            });
-        });
-
-        try {
-            await batch.commit();
-
-            message.style.color = "#00d985";
-            message.textContent = "Progressi iniziali importati correttamente!";
-
-        } catch (error) {
-            console.error(error);
-            message.style.color = "#ff7070";
-            message.textContent = "Errore durante l'importazione.";
-        }
     });
 
 
@@ -1158,7 +2076,8 @@
     // AVVIO
     // --------------------------------------------------
 
-    renderLevels();
+    listenToRecords();
+    updateLeaderboard();
 
 </script>
 
