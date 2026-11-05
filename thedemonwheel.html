@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -56,6 +55,7 @@
         }
 
         .barra-sinistra { left: 0; }
+
         .barra-destra {
             right: 0;
             transform: scaleX(-1);
@@ -134,7 +134,9 @@
             transition: transform .2s ease;
         }
 
-        .dropdown-container { position: relative; }
+        .dropdown-container {
+            position: relative;
+        }
 
         .dropdown-menu {
             position: absolute;
@@ -436,12 +438,6 @@
         .form-gruppo select option {
             background: #222;
             color: #fff;
-        }
-
-        .form-note {
-            color: #777;
-            font-size: .68rem;
-            line-height: 1.5;
         }
 
         .btn {
@@ -910,7 +906,6 @@
         let isSpinning = false;
         let currentRotation = 0;
 
-        // Cache delle immagini: evita di ricaricarle ad ogni aggiornamento.
         const imageCache = {};
 
         function getLevelImage(src) {
@@ -920,9 +915,7 @@
                 const img = new Image();
                 imageCache[src] = img;
 
-                img.onload = () => {
-                    drawWheel();
-                };
+                img.onload = () => drawWheel();
 
                 img.onerror = () => {
                     imageCache[src] = null;
@@ -968,7 +961,6 @@
                             isList
                         };
                     });
-
             } catch (error) {
                 return [];
             }
@@ -993,6 +985,8 @@
 
         function addLevel(level) {
             levels.push(level);
+
+            if (level.img) getLevelImage(level.img);
 
             saveLevels();
             renderLevels();
@@ -1156,10 +1150,11 @@
         });
 
         /* ========================================
-           IMAGE DRAWING HELPERS
+           IMAGE HELPERS
         ======================================== */
 
-        // Disegna un'immagine riempiendo un rettangolo senza deformarla.
+        // Ritaglia l'immagine per riempire tutto il canvas
+        // senza deformarla e mantenendo il suo orientamento originale.
         function drawImageCover(img, x, y, width, height) {
             if (!img || !img.complete || !img.naturalWidth) return;
 
@@ -1179,11 +1174,15 @@
                 sy = (img.naturalHeight - sh) / 2;
             }
 
-            ctx.drawImage(img, sx, sy, sw, sh, x, y, width, height);
+            ctx.drawImage(
+                img,
+                sx, sy, sw, sh,
+                x, y, width, height
+            );
         }
 
         /* ========================================
-           IMPROVED WHEEL DRAWING
+           WHEEL DRAWING
         ======================================== */
 
         function drawWheel() {
@@ -1240,7 +1239,14 @@
                     ? COLORS[index % COLORS.length]
                     : (COLORS.includes(level.color) ? level.color : "#777777");
 
-                // 1. Crea il settore e lo usa come maschera per l'immagine.
+                /*
+                   CREAZIONE DELLA FETTA
+
+                   L'immagine viene disegnata su tutta la superficie
+                   del cerchio e poi ritagliata usando la forma
+                   della singola fetta.
+                */
+
                 ctx.save();
 
                 ctx.beginPath();
@@ -1249,55 +1255,51 @@
                 ctx.closePath();
                 ctx.clip();
 
-                // 2. Colore di base del settore.
+                // Colore di sfondo della fetta
                 ctx.fillStyle = baseColor;
                 ctx.fillRect(0, 0, size, size);
 
-                // 3. Immagine specifica del livello.
-                const img = level.isList ? getLevelImage(level.img) : null;
+                // Immagine specifica del livello
+                const img = level.isList
+                    ? getLevelImage(level.img)
+                    : null;
 
                 if (img && img.complete && img.naturalWidth > 0) {
-                    // Posiziona l'immagine verso l'esterno dello spicchio.
-                    // Ogni settore ha quindi la propria immagine indipendente.
-                    const imageCenterRadius = radius * 0.57;
-                    const imageCenterX = center + Math.cos(middle) * imageCenterRadius;
-                    const imageCenterY = center + Math.sin(middle) * imageCenterRadius;
 
-                    ctx.save();
-                    ctx.translate(imageCenterX, imageCenterY);
-                    ctx.rotate(middle);
+                    /*
+                       MODIFICA PRINCIPALE:
 
-                    const imageWidth = radius * 1.05;
-                    const imageHeight = radius * 0.85;
+                       L'immagine copre tutto il cerchio.
+                       Non viene ruotata singolarmente.
+                       Il clipping mostra solamente la fetta
+                       corrispondente al livello.
+                    */
 
                     drawImageCover(
                         img,
-                        -imageWidth / 2,
-                        -imageHeight / 2,
-                        imageWidth,
-                        imageHeight
+                        0,
+                        0,
+                        size,
+                        size
                     );
 
-                    ctx.restore();
-
-                    // Overlay scuro per rendere il testo leggibile.
-                    ctx.fillStyle = "rgba(0,0,0,0.43)";
+                    // Oscuramento leggero per il contrasto
+                    ctx.fillStyle = "rgba(0,0,0,0.42)";
                     ctx.fillRect(0, 0, size, size);
 
-                    // Leggera sfumatura scura verso il centro.
+                    // Sfumatura per dare profondità
                     const shade = ctx.createRadialGradient(
                         center, center, radius * 0.12,
                         center, center, radius
                     );
 
-                    shade.addColorStop(0, "rgba(0,0,0,0.10)");
-                    shade.addColorStop(1, "rgba(0,0,0,0.30)");
+                    shade.addColorStop(0, "rgba(0,0,0,0.08)");
+                    shade.addColorStop(1, "rgba(0,0,0,0.28)");
 
                     ctx.fillStyle = shade;
                     ctx.fillRect(0, 0, size, size);
 
                 } else {
-                    // Per livelli personalizzati o immagini non disponibili.
                     const gradient = ctx.createRadialGradient(
                         center, center, 35,
                         center, center, radius
@@ -1313,7 +1315,7 @@
 
                 ctx.restore();
 
-                // 4. Bordo del settore.
+                // Bordo del settore
                 ctx.beginPath();
                 ctx.moveTo(center, center);
                 ctx.arc(center, center, radius - 7, start, end);
@@ -1323,7 +1325,7 @@
                 ctx.strokeStyle = "rgba(15,15,15,.9)";
                 ctx.stroke();
 
-                // Separatore luminoso.
+                // Separatore luminoso
                 ctx.beginPath();
                 ctx.moveTo(center, center);
                 ctx.lineTo(
@@ -1335,8 +1337,9 @@
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // 5. Etichetta del livello.
+                // Etichetta del livello
                 ctx.save();
+
                 ctx.translate(center, center);
                 ctx.rotate(middle);
 
@@ -1381,7 +1384,7 @@
                 const boxW = textWidth + 14;
                 const boxH = fontSize * 1.72;
 
-                // Pannello scuro dietro il nome.
+                // Pannello scuro dietro il nome
                 ctx.beginPath();
                 ctx.roundRect(
                     boxX,
@@ -1398,7 +1401,7 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Testo con contorno.
+                // Testo con contorno
                 ctx.textAlign = textAlign;
                 ctx.lineJoin = "round";
                 ctx.lineWidth = 4;
@@ -1415,7 +1418,7 @@
                 ctx.restore();
             });
 
-            // Anello interno.
+            // Anello interno
             ctx.beginPath();
             ctx.arc(center, center, 66, 0, Math.PI * 2);
             ctx.fillStyle = "rgba(15,15,15,.45)";
@@ -1611,7 +1614,7 @@
 
             levels = loadLevels();
 
-            // Precarica tutte le immagini dei livelli presenti.
+            // Precarica le immagini dei livelli già presenti
             levels.forEach(level => {
                 if (level.isList && level.img) {
                     getLevelImage(level.img);
