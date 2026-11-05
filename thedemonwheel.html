@@ -42,8 +42,7 @@ body {
     font-family:"Montserrat",sans-serif;
 }
 
-.barra-sinistra,
-.barra-destra {
+.barra-sinistra,.barra-destra {
     position:absolute;
     top:0;
     bottom:0;
@@ -113,8 +112,7 @@ main {
     box-shadow:0 7px 18px rgba(0,0,0,.3);
 }
 
-.badge-link img,
-.badge-emoji {
+.badge-link img,.badge-emoji {
     width:24px;
     height:24px;
     flex:0 0 24px;
@@ -128,11 +126,7 @@ main {
     font-size:.85rem;
 }
 
-.arrow {
-    color:#999;
-    transition:.2s;
-}
-
+.arrow {color:#999;transition:.2s}
 .dropdown-container {position:relative}
 
 .dropdown-menu {
@@ -260,14 +254,6 @@ header {
     animation:fadeUp .5s ease both;
 }
 
-.scheda:nth-child(2) {animation-delay:.08s}
-.scheda:nth-child(3) {animation-delay:.16s}
-
-@keyframes fadeUp {
-    from {opacity:0;transform:translateY(16px)}
-    to {opacity:1;transform:translateY(0)}
-}
-
 .scheda h2 {
     margin-bottom:8px;
     color:#f5f5f5;
@@ -280,6 +266,11 @@ header {
     color:#888;
     font-size:.78rem;
     line-height:1.7;
+}
+
+@keyframes fadeUp {
+    from {opacity:0;transform:translateY(16px)}
+    to {opacity:1;transform:translateY(0)}
 }
 
 /* WHEEL */
@@ -334,7 +325,6 @@ canvas#wheelCanvas {
         0 0 0 9px #777,
         0 0 0 12px #292929,
         0 0 35px rgba(229,72,72,.28);
-    transition:box-shadow .3s ease;
 }
 
 canvas#wheelCanvas.spinning {
@@ -374,7 +364,7 @@ canvas#wheelCanvas.spinning {
 
 .result-box {
     display:none;
-    width:min(420px,100%);
+    width:min(450px,100%);
     margin-top:2px;
     padding:17px 22px;
     text-align:center;
@@ -405,8 +395,15 @@ canvas#wheelCanvas.spinning {
     color:var(--green);
     font-size:clamp(1.15rem,4vw,1.5rem);
     font-weight:900;
-    text-shadow:0 0 16px rgba(0,230,118,.3);
     overflow-wrap:anywhere;
+    text-shadow:0 0 16px rgba(0,230,118,.3);
+}
+
+.result-rank {
+    margin-top:7px;
+    color:#ffbd65;
+    font-size:.85rem;
+    font-weight:800;
 }
 
 /* FORM */
@@ -465,7 +462,74 @@ canvas#wheelCanvas.spinning {
 .form-note {
     color:#777;
     font-size:.68rem;
-    line-height:1.5;
+    line-height:1.6;
+}
+
+#aredlSearchGroup[hidden],
+#listSelectGroup[hidden],
+#customNameGroup[hidden] {
+    display:none;
+}
+
+#aredlResults {
+    height:190px;
+    padding:6px;
+    background:#171717;
+    border:1px solid #444;
+    border-radius:9px;
+    overflow-y:auto;
+}
+
+#aredlResults option {
+    padding:9px;
+    margin:2px;
+    border-radius:5px;
+    background:#222;
+    color:#eee;
+}
+
+#aredlResults option:checked {
+    background:#873535;
+    color:white;
+}
+
+#aredlSearchGroup {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.aredl-status {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#888;
+    font-size:.7rem;
+    line-height:1.6;
+}
+
+.aredl-status::before {
+    content:"";
+    width:7px;
+    height:7px;
+    flex:0 0 7px;
+    border-radius:50%;
+    background:#888;
+}
+
+.aredl-status.online::before {
+    background:#00e676;
+    box-shadow:0 0 8px #00e676;
+}
+
+.aredl-status.error::before {
+    background:#ff5555;
+}
+
+.search-count {
+    color:#ffbd65;
+    font-size:.68rem;
+    font-weight:700;
 }
 
 /* BUTTONS */
@@ -620,6 +684,12 @@ canvas#wheelCanvas.spinning {
     color:#aaa;
     background:rgba(120,120,120,.12);
     border-color:#555;
+}
+
+.level-badge.aredl {
+    color:#ffbd65;
+    background:rgba(255,170,60,.12);
+    border-color:rgba(255,170,60,.35);
 }
 
 .vuoto {
@@ -798,6 +868,8 @@ footer {
 
 <section class="contenuto">
 
+    <!-- WHEEL -->
+
     <article class="scheda">
         <h2>Spin the Wheel</h2>
         <p class="scheda-intro">
@@ -808,7 +880,8 @@ footer {
 
             <div class="wheel-container">
                 <div class="wheel-pointer" aria-hidden="true"></div>
-                <canvas id="wheelCanvas" width="1000" height="1000" aria-label="Random level wheel"></canvas>
+                <canvas id="wheelCanvas" width="1000" height="1000"
+                    aria-label="Random level wheel"></canvas>
             </div>
 
             <button class="btn btn-primary spin-btn" id="spinBtn" type="button">
@@ -822,52 +895,101 @@ footer {
             <div class="result-box" id="resultBox" aria-live="polite">
                 <div class="result-label">THE WHEEL HAS CHOSEN</div>
                 <div class="result-name" id="resultName">—</div>
+                <div class="result-rank" id="resultRank"></div>
             </div>
 
         </div>
     </article>
 
+    <!-- ADD LEVEL -->
+
     <article class="scheda">
         <h2>Add Level to Wheel</h2>
         <p class="scheda-intro">
-            Choose a level from the G_S list or add your own custom level.
+            Choose a level from the G_S list, search the AREDL database or add your own custom level.
         </p>
 
         <form class="form-sfida" id="addForm">
+
             <div class="form-riga">
 
                 <div class="form-gruppo">
-                    <label for="levelType">TYPE</label>
+                    <label for="levelType">LEVEL SOURCE</label>
                     <select id="levelType">
-                        <option value="list">From the List</option>
+                        <option value="list">G_S Demon List</option>
+                        <option value="aredl">AREDL</option>
                         <option value="custom">Custom Level</option>
                     </select>
                 </div>
 
                 <div class="form-gruppo" id="listSelectGroup">
-                    <label for="listLevel">LEVEL FROM LIST</label>
+                    <label for="listLevel">G_S LEVEL</label>
                     <select id="listLevel"></select>
                 </div>
 
                 <div class="form-gruppo" id="customNameGroup" hidden>
                     <label for="customName">CUSTOM LEVEL NAME</label>
-                    <input type="text" id="customName" maxlength="40" placeholder="e.g. Acheron" autocomplete="off">
+                    <input type="text" id="customName"
+                        maxlength="40"
+                        placeholder="e.g. Acheron"
+                        autocomplete="off">
                 </div>
+
+            </div>
+
+            <!-- AREDL SEARCH -->
+
+            <div id="aredlSearchGroup" hidden>
+
+                <div class="form-gruppo">
+                    <label for="aredlSearch">SEARCH AREDL LEVEL</label>
+                    <input
+                        type="search"
+                        id="aredlSearch"
+                        placeholder="Type a level name..."
+                        autocomplete="off">
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
+                    <label style="color:#999;font-size:.67rem;font-weight:800;letter-spacing:1px">
+                        SEARCH RESULTS
+                    </label>
+                    <span class="search-count" id="searchCount"></span>
+                </div>
+
+                <select id="aredlResults" size="7" aria-label="AREDL search results">
+                    <option value="">Loading AREDL...</option>
+                </select>
+
+                <p class="aredl-status" id="aredlStatus">
+                    AREDL database has not been loaded yet.
+                </p>
+
+                <p class="form-note">
+                    Select a level to see its position in the AREDL ranking.
+                </p>
 
             </div>
 
             <div class="status-message" id="formMessage" role="status"></div>
 
             <div>
-                <button type="submit" class="btn btn-primary">＋ Add to Wheel</button>
+                <button type="submit" class="btn btn-primary">
+                    ＋ Add to Wheel
+                </button>
             </div>
+
         </form>
     </article>
+
+    <!-- LEVEL LIST -->
 
     <article class="scheda">
         <div class="levels-heading">
             <h2>Levels on the Wheel <span id="levelCount">0</span></h2>
-            <button class="btn btn-secondary" id="clearBtn" type="button">Clear all</button>
+            <button class="btn btn-secondary" id="clearBtn" type="button">
+                Clear all
+            </button>
         </div>
 
         <div class="levels-list" id="levelsList">
@@ -883,7 +1005,13 @@ footer {
 <script>
 "use strict";
 
-/* LEVELS */
+/* =========================================
+   CONFIGURATION
+========================================= */
+
+const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
+
+const STORAGE_KEY = "gs_demon_wheel_v1";
 
 const LIST_LEVELS = [
     {name:"Bloodbath",img:"bloodbath.png"},
@@ -915,7 +1043,9 @@ const COLORS = [
     "#bd739c","#c87559","#269b75"
 ];
 
-const STORAGE_KEY = "gs_demon_wheel_v1";
+/* =========================================
+   ELEMENTS
+========================================= */
 
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
@@ -923,15 +1053,24 @@ const ctx = canvas.getContext("2d");
 const spinBtn = document.getElementById("spinBtn");
 const resultBox = document.getElementById("resultBox");
 const resultName = document.getElementById("resultName");
+const resultRank = document.getElementById("resultRank");
 const levelsList = document.getElementById("levelsList");
 
 const wheelImageCache = new Map();
 
 let levels = [];
+
+let aredlLevels = [];
+let aredlLoaded = false;
+let aredlLoading = false;
+
 let isSpinning = false;
 let currentRotation = 0;
+let searchTimer = null;
 
-/* HELPERS */
+/* =========================================
+   HELPERS
+========================================= */
 
 function randomColor() {
     return COLORS[Math.floor(Math.random()*COLORS.length)];
@@ -951,6 +1090,7 @@ function shadeColor(hex,amount) {
     const r = Math.max(0,Math.min(255,c.r+amount));
     const g = Math.max(0,Math.min(255,c.g+amount));
     const b = Math.max(0,Math.min(255,c.b+amount));
+
     return `rgb(${r},${g},${b})`;
 }
 
@@ -961,11 +1101,18 @@ function roundedRect(context,x,y,w,h,r) {
 
 function showFormMessage(message,success=false) {
     const element = document.getElementById("formMessage");
+
     element.textContent = message;
     element.style.color = success ? "#00d982" : "#ff8585";
 }
 
-/* STORAGE */
+function normalizeText(value) {
+    return String(value || "").trim().toLowerCase();
+}
+
+/* =========================================
+   STORAGE
+========================================= */
 
 function saveLevels() {
     try {
@@ -977,86 +1124,414 @@ function saveLevels() {
 
 function loadLevels() {
     try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+        const saved = JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
 
-        if(!Array.isArray(saved)) return [];
+        if (!Array.isArray(saved)) return [];
 
         return saved
-            .filter(item=>item && typeof item.name==="string" && item.name.trim())
-            .map(item=>{
-                const known = LIST_LEVELS.find(level=>level.name===item.name);
+            .filter(item =>
+                item &&
+                typeof item.name === "string" &&
+                item.name.trim()
+            )
+            .map(item => {
+
+                const source = item.source ||
+                    (item.isList ? "list" : "custom");
+
+                if (source === "aredl") {
+                    return {
+                        name:item.name.trim().slice(0,40),
+                        img:null,
+                        color:COLORS.includes(item.color)
+                            ? item.color : randomColor(),
+                        isList:false,
+                        source:"aredl",
+                        rank:Number.isInteger(item.rank)
+                            ? item.rank : null,
+                        id:item.id || null
+                    };
+                }
+
+                const known = LIST_LEVELS.find(
+                    level => level.name === item.name
+                );
+
                 const isList = Boolean(known && item.isList);
 
                 return {
                     name:item.name.trim().slice(0,40),
                     img:isList ? known.img : null,
-                    color:isList ? null : (COLORS.includes(item.color) ? item.color : randomColor()),
-                    isList
+                    color:isList ? null :
+                        (COLORS.includes(item.color)
+                            ? item.color : randomColor()),
+                    isList,
+                    source:isList ? "list" : "custom",
+                    rank:null,
+                    id:null
                 };
             });
+
     } catch(error) {
         return [];
     }
 }
 
-/* FORM */
+/* =========================================
+   AREDL DATABASE
+========================================= */
 
-function initListSelect() {
-    const select = document.getElementById("listLevel");
+async function loadAredl() {
 
-    LIST_LEVELS.forEach(level=>{
+    if (aredlLoaded) return true;
+
+    if (aredlLoading) return false;
+
+    aredlLoading = true;
+
+    const status = document.getElementById("aredlStatus");
+    const results = document.getElementById("aredlResults");
+
+    status.textContent = "Connecting to AREDL...";
+    status.className = "aredl-status";
+
+    results.replaceChildren();
+
+    const loadingOption = document.createElement("option");
+    loadingOption.textContent = "Loading levels...";
+    loadingOption.value = "";
+    results.appendChild(loadingOption);
+
+    try {
+
+        const response = await fetch(AREDL_API, {
+            method:"GET",
+            headers:{
+                "Accept":"application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        // Support both a direct array and an object containing levels.
+        const rawLevels = Array.isArray(data)
+            ? data
+            : Array.isArray(data.levels)
+                ? data.levels
+                : Array.isArray(data.data)
+                    ? data.data
+                    : null;
+
+        if (!rawLevels) {
+            throw new Error("Unexpected API response");
+        }
+
+        aredlLevels = rawLevels
+            .filter(level =>
+                level &&
+                typeof level.name === "string" &&
+                Number.isInteger(Number(level.position)) &&
+                Number(level.position) > 0
+            )
+            .map(level => ({
+                id:level.id,
+                name:level.name.trim(),
+                rank:Number(level.position)
+            }))
+            .sort((a,b) => a.rank-b.rank);
+
+        if (aredlLevels.length === 0) {
+            throw new Error("No ranked levels received");
+        }
+
+        aredlLoaded = true;
+
+        status.textContent =
+            `${aredlLevels.length} AREDL levels loaded successfully.`;
+
+        status.className = "aredl-status online";
+
+        results.replaceChildren();
+
         const option = document.createElement("option");
-        option.value = level.name;
-        option.textContent = level.name;
-        select.appendChild(option);
+        option.value = "";
+        option.textContent = "Search for a level above...";
+        results.appendChild(option);
+
+        return true;
+
+    } catch(error) {
+
+        console.error("AREDL loading error:",error);
+
+        status.textContent =
+            "Could not connect to AREDL. Check your connection and try again.";
+
+        status.className = "aredl-status error";
+
+        results.replaceChildren();
+
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "AREDL unavailable";
+        results.appendChild(option);
+
+        return false;
+
+    } finally {
+        aredlLoading = false;
+    }
+}
+
+/* =========================================
+   AREDL SEARCH
+========================================= */
+
+function searchAredl(query) {
+
+    const results = document.getElementById("aredlResults");
+    const count = document.getElementById("searchCount");
+
+    results.replaceChildren();
+
+    if (!query.trim()) {
+
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "Search for a level above...";
+
+        results.appendChild(option);
+        count.textContent = "";
+
+        return;
+    }
+
+    const normalized = normalizeText(query);
+
+    const matches = aredlLevels
+        .filter(level =>
+            normalizeText(level.name).includes(normalized)
+        )
+        .slice(0,100);
+
+    count.textContent = `${matches.length} results`;
+
+    if (matches.length === 0) {
+
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No levels found.";
+
+        results.appendChild(option);
+
+        return;
+    }
+
+    matches.forEach(level => {
+
+        const option = document.createElement("option");
+
+        option.value = String(level.id);
+
+        option.textContent =
+            `#${level.rank} — ${level.name}`;
+
+        results.appendChild(option);
+
     });
 }
 
-document.getElementById("levelType").addEventListener("change",event=>{
-    const custom = event.target.value==="custom";
+/* =========================================
+   FORM INITIALIZATION
+========================================= */
 
-    document.getElementById("listSelectGroup").hidden = custom;
-    document.getElementById("customNameGroup").hidden = !custom;
+function initListSelect() {
+
+    const select = document.getElementById("listLevel");
+
+    LIST_LEVELS.forEach(level => {
+
+        const option = document.createElement("option");
+
+        option.value = level.name;
+        option.textContent = level.name;
+
+        select.appendChild(option);
+
+    });
+}
+
+/* =========================================
+   FORM EVENTS
+========================================= */
+
+document.getElementById("levelType").addEventListener("change", async event => {
+
+    const type = event.target.value;
+
+    const isCustom = type === "custom";
+    const isAredl = type === "aredl";
+
+    document.getElementById("listSelectGroup").hidden =
+        isCustom || isAredl;
+
+    document.getElementById("customNameGroup").hidden =
+        !isCustom;
+
+    document.getElementById("aredlSearchGroup").hidden =
+        !isAredl;
 
     showFormMessage("");
+
+    if (isAredl) {
+        await loadAredl();
+
+        if (aredlLoaded) {
+            document.getElementById("aredlSearch").focus();
+        }
+    }
+
 });
 
-document.getElementById("addForm").addEventListener("submit",event=>{
+document.getElementById("aredlSearch").addEventListener("input",event => {
+
+    clearTimeout(searchTimer);
+
+    const query = event.target.value;
+
+    searchTimer = setTimeout(() => {
+
+        if (!aredlLoaded) return;
+
+        searchAredl(query);
+
+    },150);
+
+});
+
+/* =========================================
+   ADD LEVEL
+========================================= */
+
+function addLevel(level) {
+
+    levels.push(level);
+
+    saveLevels();
+    renderLevels();
+    drawWheel();
+
+    resultBox.classList.remove("show");
+
+    updateSpinState();
+}
+
+document.getElementById("addForm").addEventListener("submit",event => {
+
     event.preventDefault();
 
-    if(isSpinning) return;
+    if (isSpinning) return;
 
     const type = document.getElementById("levelType").value;
 
-    if(type==="list") {
+    /* G_S LIST */
+
+    if (type === "list") {
+
         const name = document.getElementById("listLevel").value;
 
-        if(levels.some(level=>level.name===name)) {
+        if (levels.some(level =>
+            normalizeText(level.name) === normalizeText(name)
+        )) {
             showFormMessage("This level is already on the wheel.");
             return;
         }
 
-        const found = LIST_LEVELS.find(level=>level.name===name);
-        if(!found) return;
+        const found = LIST_LEVELS.find(level => level.name === name);
+
+        if (!found) return;
 
         addLevel({
             name:found.name,
             img:found.img,
             color:null,
-            isList:true
+            isList:true,
+            source:"list",
+            rank:null,
+            id:null
         });
 
-    } else {
+    }
+
+    /* AREDL */
+
+    else if (type === "aredl") {
+
+        if (!aredlLoaded) {
+            showFormMessage("AREDL database is not loaded.");
+            return;
+        }
+
+        const selectedId =
+            document.getElementById("aredlResults").value;
+
+        const found = aredlLevels.find(
+            level => String(level.id) === selectedId
+        );
+
+        if (!found) {
+            showFormMessage("Select a valid AREDL level from the results.");
+            return;
+        }
+
+        if (levels.some(level =>
+            level.source === "aredl" &&
+            (
+                (found.id && String(level.id) === String(found.id)) ||
+                level.rank === found.rank
+            )
+        )) {
+            showFormMessage("This AREDL level is already on the wheel.");
+            return;
+        }
+
+        addLevel({
+            name:found.name,
+            img:null,
+            color:randomColor(),
+            isList:false,
+            source:"aredl",
+            rank:found.rank,
+            id:found.id
+        });
+
+        document.getElementById("aredlSearch").value = "";
+        searchAredl("");
+
+    }
+
+    /* CUSTOM LEVEL */
+
+    else {
+
         const input = document.getElementById("customName");
         const name = input.value.trim();
 
-        if(!name) {
+        if (!name) {
             showFormMessage("Please enter a level name.");
             input.focus();
             return;
         }
 
-        if(levels.some(level=>level.name.toLowerCase()===name.toLowerCase())) {
+        if (levels.some(level =>
+            normalizeText(level.name) === normalizeText(name)
+        )) {
             showFormMessage("This level is already on the wheel.");
             return;
         }
@@ -1065,156 +1540,240 @@ document.getElementById("addForm").addEventListener("submit",event=>{
             name:name.slice(0,40),
             img:null,
             color:randomColor(),
-            isList:false
+            isList:false,
+            source:"custom",
+            rank:null,
+            id:null
         });
 
         input.value = "";
+
     }
 
     showFormMessage("Level added to the wheel!",true);
+
 });
 
-/* ADD AND REMOVE */
-
-function addLevel(level) {
-    levels.push(level);
-    saveLevels();
-    renderLevels();
-    drawWheel();
-    resultBox.classList.remove("show");
-    updateSpinState();
-}
+/* =========================================
+   REMOVE LEVEL
+========================================= */
 
 function removeLevel(index) {
-    if(isSpinning || index<0 || index>=levels.length) return;
+
+    if (isSpinning || index<0 || index>=levels.length) return;
 
     levels.splice(index,1);
+
     saveLevels();
     renderLevels();
     drawWheel();
+
     resultBox.classList.remove("show");
+
     updateSpinState();
 }
 
-function renderLevels() {
-    levelsList.replaceChildren();
-    document.getElementById("levelCount").textContent = levels.length;
+document.getElementById("clearBtn").addEventListener("click",() => {
 
-    if(levels.length===0) {
+    if (isSpinning || levels.length===0) return;
+
+    if (!confirm("Remove every level from the wheel?")) return;
+
+    levels = [];
+
+    saveLevels();
+    renderLevels();
+    drawWheel();
+
+    resultBox.classList.remove("show");
+
+    updateSpinState();
+
+});
+
+/* =========================================
+   RENDER LEVEL LIST
+========================================= */
+
+function renderLevels() {
+
+    levelsList.replaceChildren();
+
+    document.getElementById("levelCount").textContent =
+        levels.length;
+
+    if (levels.length===0) {
+
         const empty = document.createElement("div");
+
         empty.className = "vuoto";
         empty.textContent = "No levels yet. Add some above!";
+
         levelsList.appendChild(empty);
+
         return;
     }
 
-    levels.forEach((level,index)=>{
+    levels.forEach((level,index) => {
+
         const row = document.createElement("div");
         row.className = "level-item";
 
-        if(level.isList && level.img) {
+        if (level.source === "list" && level.img) {
+
             const img = document.createElement("img");
+
             img.className = "level-img";
             img.src = level.img;
             img.alt = "";
-            img.addEventListener("error",()=>img.hidden=true,{once:true});
+
+            img.addEventListener("error",() => {
+                img.hidden = true;
+            },{once:true});
+
             row.appendChild(img);
+
         } else {
+
             const color = document.createElement("div");
+
             color.className = "level-color";
-            color.style.backgroundColor = COLORS.includes(level.color) ? level.color : "#666";
+
+            color.style.backgroundColor =
+                COLORS.includes(level.color)
+                    ? level.color
+                    : "#666";
+
             row.appendChild(color);
+
         }
 
         const name = document.createElement("span");
+
         name.className = "level-name";
         name.textContent = level.name;
+
         row.appendChild(name);
 
         const badge = document.createElement("span");
-        badge.className = `level-badge${level.isList ? "" : " custom"}`;
-        badge.textContent = level.isList ? "LIST" : "CUSTOM";
+
+        if (level.source === "aredl") {
+
+            badge.className = "level-badge aredl";
+            badge.textContent = `AREDL #${level.rank}`;
+
+        } else if (level.source === "list") {
+
+            badge.className = "level-badge";
+            badge.textContent = "G_S LIST";
+
+        } else {
+
+            badge.className = "level-badge custom";
+            badge.textContent = "CUSTOM";
+
+        }
+
         row.appendChild(badge);
 
         const remove = document.createElement("button");
+
         remove.className = "btn btn-danger";
         remove.type = "button";
         remove.textContent = "Remove";
         remove.setAttribute("aria-label",`Remove ${level.name}`);
-        remove.addEventListener("click",()=>removeLevel(index));
+
+        remove.addEventListener("click",() => removeLevel(index));
+
         row.appendChild(remove);
 
         levelsList.appendChild(row);
+
     });
 }
 
-document.getElementById("clearBtn").addEventListener("click",()=>{
-    if(isSpinning || levels.length===0) return;
-    if(!confirm("Remove every level from the wheel?")) return;
-
-    levels = [];
-    saveLevels();
-    renderLevels();
-    drawWheel();
-    resultBox.classList.remove("show");
-    updateSpinState();
-});
-
-/* IMAGE CACHE */
+/* =========================================
+   IMAGE CACHE
+========================================= */
 
 function getWheelImage(src) {
-    if(!src) return null;
 
-    if(!wheelImageCache.has(src)) {
+    if (!src) return null;
+
+    if (!wheelImageCache.has(src)) {
+
         const img = new Image();
 
-        img.onload = ()=>drawWheel();
-        img.onerror = ()=>{
+        img.onload = () => drawWheel();
+
+        img.onerror = () => {
             wheelImageCache.set(src,null);
             drawWheel();
         };
 
         wheelImageCache.set(src,img);
         img.src = src;
+
     }
 
     const image = wheelImageCache.get(src);
 
-    return image && image.complete && image.naturalWidth>0 ? image : null;
+    return image && image.complete && image.naturalWidth>0
+        ? image
+        : null;
 }
 
-/* DRAW IMAGE WITH COVER */
+/* =========================================
+   IMAGE DRAWING
+========================================= */
 
 function drawImageCover(image,x,y,w,h,radius) {
-    if(!image) return;
+
+    if (!image) return;
 
     ctx.save();
 
     roundedRect(ctx,x,y,w,h,radius);
     ctx.clip();
 
-    const scale = Math.max(w/image.naturalWidth,h/image.naturalHeight);
+    const scale = Math.max(
+        w/image.naturalWidth,
+        h/image.naturalHeight
+    );
+
     const sw = image.naturalWidth*scale;
     const sh = image.naturalHeight*scale;
 
-    ctx.drawImage(image,x+(w-sw)/2,y+(h-sh)/2,sw,sh);
+    ctx.drawImage(
+        image,
+        x+(w-sw)/2,
+        y+(h-sh)/2,
+        sw,
+        sh
+    );
 
     ctx.restore();
 
-    // Image border
     ctx.save();
+
     roundedRect(ctx,x,y,w,h,radius);
+
     ctx.strokeStyle="rgba(255,255,255,.8)";
     ctx.lineWidth=3;
     ctx.shadowColor="rgba(0,0,0,.8)";
     ctx.shadowBlur=12;
+
     ctx.stroke();
+
     ctx.restore();
 }
 
-/* WHEEL DECORATIONS */
+/* =========================================
+   OUTER WHEEL RIM
+========================================= */
 
 function drawOuterRim(center,radius) {
+
     const rim = ctx.createRadialGradient(
         center,center,radius-22,
         center,center,radius+28
@@ -1229,47 +1788,60 @@ function drawOuterRim(center,radius) {
 
     ctx.beginPath();
     ctx.arc(center,center,radius+20,0,Math.PI*2);
+
     ctx.fillStyle=rim;
     ctx.fill();
 
     ctx.beginPath();
     ctx.arc(center,center,radius+17,0,Math.PI*2);
+
     ctx.strokeStyle="#aaa";
     ctx.lineWidth=4;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(center,center,radius+7,0,Math.PI*2);
+
     ctx.strokeStyle="rgba(255,255,255,.24)";
     ctx.lineWidth=2;
     ctx.stroke();
 
-    // Outer small lights
     for(let i=0;i<36;i++) {
+
         const angle=i*Math.PI*2/36;
+
         const x=center+Math.cos(angle)*(radius+9);
         const y=center+Math.sin(angle)*(radius+9);
 
-        const light=ctx.createRadialGradient(x-1,y-1,1,x,y,5);
+        const light=ctx.createRadialGradient(
+            x-1,y-1,1,x,y,5
+        );
+
         light.addColorStop(0,"#fff");
         light.addColorStop(1,"#777");
 
         ctx.beginPath();
         ctx.arc(x,y,4,0,Math.PI*2);
+
         ctx.fillStyle=light;
         ctx.fill();
+
     }
 }
 
-/* HUB */
+/* =========================================
+   CENTRAL HUB
+========================================= */
 
 function drawWheelHub(center) {
+
     const hubRadius=68;
 
     ctx.save();
 
     ctx.beginPath();
     ctx.arc(center,center,hubRadius+17,0,Math.PI*2);
+
     ctx.fillStyle="rgba(0,0,0,.6)";
     ctx.shadowColor="#000";
     ctx.shadowBlur=20;
@@ -1288,6 +1860,7 @@ function drawWheelHub(center) {
 
     ctx.beginPath();
     ctx.arc(center,center,hubRadius+10,0,Math.PI*2);
+
     ctx.fillStyle=metal;
     ctx.fill();
 
@@ -1302,11 +1875,13 @@ function drawWheelHub(center) {
 
     ctx.beginPath();
     ctx.arc(center,center,hubRadius,0,Math.PI*2);
+
     ctx.fillStyle=hub;
     ctx.fill();
 
     ctx.beginPath();
     ctx.arc(center,center,hubRadius-3,0,Math.PI*2);
+
     ctx.strokeStyle="#e54848";
     ctx.lineWidth=4;
     ctx.stroke();
@@ -1315,16 +1890,21 @@ function drawWheelHub(center) {
     ctx.font="900 31px Montserrat";
     ctx.textAlign="center";
     ctx.textBaseline="middle";
+
     ctx.shadowColor="rgba(229,72,72,.9)";
     ctx.shadowBlur=15;
+
     ctx.fillText("G_S",center,center);
 
     ctx.restore();
 }
 
-/* WHEEL DRAWING */
+/* =========================================
+   DRAW WHEEL
+========================================= */
 
 function drawWheel() {
+
     const size=canvas.width;
     const center=size/2;
     const radius=455;
@@ -1333,13 +1913,19 @@ function drawWheel() {
 
     drawOuterRim(center,radius);
 
-    if(levels.length===0) {
-        const empty=ctx.createRadialGradient(center,center,30,center,center,radius);
+    if (levels.length===0) {
+
+        const empty=ctx.createRadialGradient(
+            center,center,30,
+            center,center,radius
+        );
+
         empty.addColorStop(0,"#333");
         empty.addColorStop(1,"#171717");
 
         ctx.beginPath();
         ctx.arc(center,center,radius,0,Math.PI*2);
+
         ctx.fillStyle=empty;
         ctx.fill();
 
@@ -1347,23 +1933,27 @@ function drawWheel() {
         ctx.font="900 32px Montserrat";
         ctx.textAlign="center";
         ctx.textBaseline="middle";
+
         ctx.fillText("ADD LEVELS",center,center);
 
         drawWheelHub(center);
+
         return;
     }
 
     const arc=Math.PI*2/levels.length;
     const wheelRadius=radius-9;
 
-    levels.forEach((level,index)=>{
+    levels.forEach((level,index) => {
+
         const start=index*arc-Math.PI/2;
         const end=start+arc;
         const middle=start+arc/2;
 
-        const color=level.isList
+        const color=level.source==="list"
             ? COLORS[index%COLORS.length]
-            : (COLORS.includes(level.color)?level.color:"#666");
+            : (COLORS.includes(level.color)
+                ? level.color : "#666");
 
         /* SLICE BACKGROUND */
 
@@ -1405,10 +1995,11 @@ function drawWheel() {
 
         ctx.restore();
 
-        /* SLICE DIVIDERS */
+        /* DIVIDERS */
 
         ctx.beginPath();
         ctx.moveTo(center,center);
+
         ctx.lineTo(
             center+Math.cos(start)*wheelRadius,
             center+Math.sin(start)*wheelRadius
@@ -1418,18 +2009,15 @@ function drawWheel() {
         ctx.lineWidth=3;
         ctx.stroke();
 
-        /* CONTENT: ALWAYS HORIZONTAL */
+        /* CONTENT */
 
         const count=levels.length;
 
-        // Move content outward from the center.
-        // This leaves enough space for the central hub.
         const imageDistance=wheelRadius*.63;
 
         const imageX=center+Math.cos(middle)*imageDistance;
         const imageY=center+Math.sin(middle)*imageDistance;
 
-        // Available width depends on the number of slices.
         const availableWidth=2*imageDistance*Math.sin(arc/2);
 
         const imageWidth=Math.max(
@@ -1437,27 +2025,25 @@ function drawWheel() {
             Math.min(190,availableWidth*.76,wheelRadius*.46)
         );
 
-        const imageHeight=Math.max(
-            28,
-            Math.min(112,imageWidth*.59)
-        );
-
-        // For many levels, move images slightly outward
-        // and reduce their size to avoid collisions.
         const compact=count>8;
+
         const finalImageWidth=compact
             ? Math.max(38,imageWidth*.78)
             : imageWidth;
 
         const finalImageHeight=finalImageWidth*.59;
 
-        const image=getWheelImage(level.isList?level.img:null);
+        const image=getWheelImage(
+            level.source==="list" ? level.img : null
+        );
 
-        if(image) {
+        if (image) {
+
             const x=imageX-finalImageWidth/2;
             const y=imageY-finalImageHeight/2;
 
             ctx.save();
+
             ctx.shadowColor="rgba(0,0,0,.8)";
             ctx.shadowBlur=18;
             ctx.shadowOffsetY=5;
@@ -1471,7 +2057,9 @@ function drawWheel() {
             );
 
             ctx.restore();
+
         } else {
+
             const badgeWidth=finalImageWidth;
             const badgeHeight=Math.min(58,finalImageHeight);
 
@@ -1481,6 +2069,7 @@ function drawWheel() {
             ctx.save();
 
             roundedRect(ctx,x,y,badgeWidth,badgeHeight,9);
+
             ctx.fillStyle="rgba(0,0,0,.38)";
             ctx.fill();
 
@@ -1489,7 +2078,9 @@ function drawWheel() {
             ctx.stroke();
 
             ctx.fillStyle="#fff";
+
             ctx.font=`900 ${Math.max(10,Math.min(17,finalImageWidth*.12))}px Montserrat`;
+
             ctx.textAlign="center";
             ctx.textBaseline="middle";
 
@@ -1500,9 +2091,10 @@ function drawWheel() {
             ctx.fillText(shortName,imageX,imageY,finalImageWidth-10);
 
             ctx.restore();
+
         }
 
-        /* LEVEL NAME UNDER IMAGE */
+        /* LEVEL NAME + AREDL RANK */
 
         const labelY=imageY+finalImageHeight/2+20;
 
@@ -1519,10 +2111,12 @@ function drawWheel() {
             Math.min(availableWidth*.9,wheelRadius*.48)
         );
 
+        const displayName=level.source==="aredl" && level.rank
+            ? `${level.name} #${level.rank}`
+            : level.name;
+
         ctx.save();
 
-        // Important: no rotation here.
-        // Text is always horizontal and readable.
         ctx.translate(imageX,labelY);
 
         ctx.font=`900 ${fontSize}px Montserrat`;
@@ -1533,18 +2127,18 @@ function drawWheel() {
         ctx.strokeStyle="rgba(0,0,0,.65)";
         ctx.lineJoin="round";
 
-        ctx.strokeText(level.name,0,0,maxTextWidth);
+        ctx.strokeText(displayName,0,0,maxTextWidth);
 
         ctx.fillStyle="#fff";
         ctx.shadowColor="rgba(0,0,0,.9)";
         ctx.shadowBlur=8;
         ctx.shadowOffsetY=2;
 
-        ctx.fillText(level.name,0,0,maxTextWidth);
+        ctx.fillText(displayName,0,0,maxTextWidth);
 
         ctx.restore();
 
-        /* SLICE INNER EDGE */
+        /* INNER EDGE */
 
         ctx.beginPath();
         ctx.moveTo(center,center);
@@ -1556,12 +2150,12 @@ function drawWheel() {
         ctx.stroke();
 
         ctx.restore();
-    });
 
-    /* INNER CIRCLE */
+    });
 
     ctx.beginPath();
     ctx.arc(center,center,105,0,Math.PI*2);
+
     ctx.strokeStyle="rgba(255,255,255,.2)";
     ctx.lineWidth=3;
     ctx.stroke();
@@ -1569,21 +2163,28 @@ function drawWheel() {
     drawWheelHub(center);
 }
 
-/* SPIN STATE */
+/* =========================================
+   SPIN STATE
+========================================= */
 
 function updateSpinState() {
+
     spinBtn.disabled=isSpinning || levels.length===0;
 
-    document.getElementById("wheelHint").textContent=
+    document.getElementById("wheelHint").textContent =
         levels.length===0
             ? "Add at least one level to start spinning."
             : `${levels.length} ${levels.length===1?"level":"levels"} on the wheel · Good luck!`;
+
 }
 
-/* SPIN ANIMATION */
+/* =========================================
+   SPIN ANIMATION
+========================================= */
 
 function spinWheel() {
-    if(isSpinning || levels.length===0) return;
+
+    if (isSpinning || levels.length===0) return;
 
     isSpinning=true;
 
@@ -1591,9 +2192,11 @@ function spinWheel() {
     spinBtn.textContent="⟳  SPINNING...";
 
     canvas.classList.add("spinning");
+
     resultBox.classList.remove("show");
 
     const winnerIndex=Math.floor(Math.random()*levels.length);
+
     const arcDegrees=360/levels.length;
 
     const winnerCenter=(winnerIndex+.5)*arcDegrees-90;
@@ -1610,9 +2213,12 @@ function spinWheel() {
     const extraSpins=6+Math.floor(Math.random()*3);
 
     const startRotation=currentRotation;
-    const endRotation=startRotation+extraSpins*360+alignment;
+
+    const endRotation=
+        startRotation+extraSpins*360+alignment;
 
     const duration=5000+Math.random()*900;
+
     const startTime=performance.now();
 
     function easeOutQuint(t) {
@@ -1620,20 +2226,26 @@ function spinWheel() {
     }
 
     function animate(now) {
-        const progress=Math.min((now-startTime)/duration,1);
+
+        const progress=Math.min(
+            (now-startTime)/duration,
+            1
+        );
 
         currentRotation=
             startRotation+
             (endRotation-startRotation)*easeOutQuint(progress);
 
-        canvas.style.transform=`rotate(${currentRotation}deg)`;
+        canvas.style.transform=
+            `rotate(${currentRotation}deg)`;
 
-        if(progress<1) {
+        if (progress<1) {
             requestAnimationFrame(animate);
             return;
         }
 
         currentRotation=endRotation;
+
         isSpinning=false;
 
         canvas.classList.remove("spinning");
@@ -1641,10 +2253,20 @@ function spinWheel() {
         const winner=levels[winnerIndex];
 
         resultName.textContent=winner.name;
+
+        resultRank.textContent=
+            winner.source==="aredl" && winner.rank
+                ? `AREDL RANK #${winner.rank}`
+                : winner.source==="list"
+                    ? "G_S DEMON LIST"
+                    : "CUSTOM LEVEL";
+
         resultBox.classList.add("show");
 
         updateSpinState();
+
         spinBtn.textContent="✦  SPIN AGAIN";
+
     }
 
     requestAnimationFrame(animate);
@@ -1652,18 +2274,26 @@ function spinWheel() {
 
 spinBtn.addEventListener("click",spinWheel);
 
-/* INITIALIZATION */
+/* =========================================
+   INITIALIZATION
+========================================= */
 
 function init() {
+
     initListSelect();
+
     levels=loadLevels();
 
     renderLevels();
+
     drawWheel();
+
     updateSpinState();
+
 }
 
 init();
+
 </script>
 
 </body>
