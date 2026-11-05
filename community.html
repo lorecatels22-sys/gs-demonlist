@@ -11,6 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        @property --ang {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 0deg;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html { background: #1e1e1e; scroll-behavior: smooth; }
@@ -40,19 +46,6 @@
         }
         .barra-sinistra { left: 0; }
         .barra-destra { right: 0; transform: scaleX(-1); }
-
-        /* Aloni rossi sullo sfondo */
-        .alone {
-            position: fixed;
-            width: 520px; height: 520px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(229, 72, 72, 0.22), transparent 68%);
-            filter: blur(20px);
-            pointer-events: none;
-            z-index: 0;
-        }
-        .alone.a1 { top: -160px; left: 28%; animation: deriva1 16s ease-in-out infinite alternate; }
-        .alone.a2 { bottom: -200px; right: 22%; animation: deriva2 20s ease-in-out infinite alternate; }
 
         main {
             position: relative;
@@ -100,7 +93,6 @@
         .badge-link.attivo {
             border-left-color: #ff5555;
             background: rgba(42, 42, 42, 0.99);
-            box-shadow: 0 0 18px rgba(229, 72, 72, 0.3);
         }
         .badge-link img {
             width: 24px; height: 24px; object-fit: cover;
@@ -115,6 +107,7 @@
             font-size: 0.85rem;
             border-radius: 5px; border: 1px solid #555; background: #252525;
         }
+        .badge-link.attivo .badge-emoji { animation: dondola 3s 1.5s ease-in-out infinite; }
 
         .arrow {
             font-size: 0.75rem; font-weight: 800; color: #999;
@@ -174,15 +167,13 @@
             font-size: clamp(2.1rem, 5vw, 3.4rem);
             font-weight: 800;
             letter-spacing: -1.5px;
+            color: #fff;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
             overflow-wrap: anywhere;
-            background: linear-gradient(100deg, #fff 35%, #ff9a9a 50%, #fff 65%);
-            background-size: 250% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.14));
-            animation: scendi 0.7s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) both, brillio 6s 1.2s ease-in-out infinite;
+        }
+        .testo-illuminato .lettera {
+            display: inline-block;
+            animation: lettera 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) both, onda 4.5s ease-in-out infinite;
         }
 
         .sottotitolo {
@@ -190,7 +181,7 @@
             color: #999;
             font-size: clamp(0.75rem, 1.5vw, 0.95rem);
             font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
-            animation: scendi 0.7s 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            animation: scendi 0.7s 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
 
         .linea-titolo {
@@ -199,7 +190,7 @@
             border-radius: 10px;
             background: #e54848;
             box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
-            animation: allarga 0.9s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both, respiro 3s 1.4s ease-in-out infinite;
+            animation: allarga 0.9s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both, respiro 3s 1.6s ease-in-out infinite;
         }
 
         /* CONTENUTO */
@@ -213,9 +204,12 @@
         }
 
         .scheda {
+            --mx: 50%; --my: 0%;
             position: relative;
             padding: 26px 28px;
-            background: rgba(32, 32, 32, 0.97);
+            background:
+                radial-gradient(420px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.055), transparent 60%),
+                rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
             border-radius: 12px;
             box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
@@ -223,21 +217,35 @@
             animation: sali 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .scheda:nth-of-type(1) { animation-delay: 0.45s; }
-        .scheda:nth-of-type(2) { animation-delay: 0.6s; }
+        .scheda:nth-of-type(1) { animation-delay: 0.7s; }
+        .scheda:nth-of-type(2) { animation-delay: 0.85s; }
 
+        /* barra rossa laterale che cresce */
         .scheda::before {
             content: "";
             position: absolute; left: 0; top: 0; bottom: 0;
             width: 4px;
             background: linear-gradient(180deg, #ff5555, #b82e2e);
             transform-origin: top;
-            animation: cresci 0.8s 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            animation: cresci 0.8s 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
-        .scheda:hover {
-            border-color: #4d4d4d;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3), 0 0 22px rgba(229, 72, 72, 0.08);
+        /* bordo luminoso che gira */
+        .scheda::after {
+            content: "";
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: conic-gradient(from var(--ang), transparent 0 72%, #ff5555 86%, transparent 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: gira-bordo 4s linear infinite;
+            pointer-events: none;
         }
+        .scheda:hover::after, .scheda:focus-within::after { opacity: 1; }
+        .scheda:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32); }
 
         .scheda h2 {
             display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
@@ -270,11 +278,25 @@
             background: rgba(229, 72, 72, 0.18);
             border-color: #e54848;
             color: #ff8a8a;
-            animation: scatto 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+            animation: scatto 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
         }
         .tipi input:focus-visible + label { outline: 2px solid #ff5555; outline-offset: 2px; }
 
+        .campo-wrap { position: relative; }
+        .campo-wrap::after {
+            content: "";
+            position: absolute; left: 12px; right: 12px; bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff5555, transparent);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+        }
+        .campo-wrap:focus-within::after { transform: scaleX(1); }
+
         input[type="text"], textarea {
+            display: block;
             width: 100%;
             padding: 12px 15px;
             background: #252525;
@@ -290,7 +312,7 @@
             outline: none;
             background: #2a2a2a;
             border-color: #ff5555;
-            box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.2), 0 0 18px rgba(229, 72, 72, 0.12);
+            box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.18);
         }
         input::placeholder, textarea::placeholder { color: #666; }
 
@@ -317,7 +339,7 @@
             font-family: inherit; font-size: 0.82rem; font-weight: 800;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(229, 72, 72, 0.3);
+            box-shadow: 0 4px 16px rgba(229, 72, 72, 0.28);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .invia::after {
@@ -327,17 +349,27 @@
             background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
             transform: skewX(-20deg);
         }
-        .invia:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(229, 72, 72, 0.45); }
+        .invia:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(229, 72, 72, 0.42); }
         .invia:hover::after { animation: passa 0.7s ease; }
         .invia:active { transform: translateY(0) scale(0.97); }
         .invia:disabled { background: #555; box-shadow: none; cursor: default; transform: none; }
         .invia .icona { display: inline-block; transition: transform 0.25s ease; }
         .invia:hover:not(:disabled) .icona { transform: translateX(3px) rotate(-12deg); }
+        .invia .icona.vola { animation: vola 0.8s ease; }
         .invia .gira {
             width: 14px; height: 14px;
             border: 2px solid rgba(255, 255, 255, 0.35); border-top-color: #fff;
             border-radius: 50%;
             animation: ruota 0.7s linear infinite;
+        }
+        .onda-click {
+            position: absolute;
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%) scale(0);
+            animation: onda-click 0.6s ease-out forwards;
+            pointer-events: none;
         }
 
         .esito {
@@ -359,6 +391,28 @@
             z-index: 1000;
             animation: esplodi 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
         }
+
+        /* Notifica nuovo messaggio */
+        .notifiche {
+            position: fixed;
+            right: 18px; bottom: 18px;
+            display: flex; flex-direction: column; gap: 10px;
+            z-index: 999;
+            pointer-events: none;
+        }
+        .notifica {
+            max-width: 290px;
+            padding: 12px 16px;
+            background: rgba(36, 36, 36, 0.98);
+            border: 1px solid #444;
+            border-left: 3px solid #00e676;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            font-size: 0.78rem; font-weight: 600; line-height: 1.5;
+            color: #eee;
+            animation: notifica 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, esci 0.4s 4s ease forwards;
+        }
+        .notifica b { color: #fff; }
 
         /* Bacheca */
 
@@ -406,6 +460,7 @@
             font-size: 0.66rem;
             text-align: center;
         }
+        .filtri .num.salta { animation: scatto 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); }
 
         .post {
             display: flex; gap: 14px;
@@ -439,6 +494,10 @@
         .tag.domanda { background: rgba(80, 160, 255, 0.15); color: #7db8ff; }
         .tag.richiesta { background: rgba(255, 190, 60, 0.15); color: #ffc65a; }
         .tag.annuncio { background: rgba(0, 230, 118, 0.12); color: #00e676; }
+        .tag.novita {
+            background: #e54848; color: #fff;
+            animation: pulsa 1.2s ease-in-out 3;
+        }
 
         .post-autore { color: #f5f5f5; font-size: 0.85rem; font-weight: 700; }
         .post-data { color: #666; font-size: 0.72rem; }
@@ -451,7 +510,7 @@
         .vuoto { padding: 26px 0 8px; text-align: center; color: #999; font-size: 0.85rem; animation: entra 0.5s both; }
         .vuoto .grande { display: block; font-size: 2rem; margin-bottom: 8px; animation: fluttua 2.6s ease-in-out infinite; }
 
-        .torna-indietro { align-self: center; margin-top: 6px; animation: sali 0.7s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+        .torna-indietro { align-self: center; margin-top: 6px; animation: sali 0.7s 1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
         footer {
             position: relative; z-index: 2;
@@ -466,18 +525,33 @@
         @keyframes scendi { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
         @keyframes sali { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
         @keyframes entra { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+        @keyframes lettera { from { opacity: 0; transform: translateY(-28px) rotate(-8deg); } to { opacity: 1; transform: none; } }
+        @keyframes onda {
+            0%, 70%, 100% { transform: translateY(0); color: #fff; }
+            80% { transform: translateY(-5px); color: #ffb0b0; }
+            90% { transform: translateY(0); color: #fff; }
+        }
         @keyframes allarga { from { width: 0; opacity: 0; } to { width: 75px; opacity: 1; } }
         @keyframes cresci { from { transform: scaleY(0); } to { transform: scaleY(1); } }
         @keyframes respiro { 0%, 100% { box-shadow: 0 0 10px rgba(229, 72, 72, 0.35); } 50% { box-shadow: 0 0 22px rgba(229, 72, 72, 0.7); } }
-        @keyframes brillio { 0%, 55% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-        @keyframes scatto { 0% { transform: scale(0.92); } 100% { transform: scale(1); } }
+        @keyframes scatto { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
         @keyframes passa { to { left: 140%; } }
         @keyframes ruota { to { transform: rotate(360deg); } }
+        @keyframes gira-bordo { to { --ang: 360deg; } }
         @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.6); } 80%, 100% { box-shadow: 0 0 0 9px rgba(0, 230, 118, 0); } }
         @keyframes lampo { 0% { background: rgba(229, 72, 72, 0.28); } 100% { background: transparent; } }
         @keyframes fluttua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-        @keyframes deriva1 { to { transform: translate(120px, 90px); } }
-        @keyframes deriva2 { to { transform: translate(-110px, -70px); } }
+        @keyframes dondola { 0%, 80%, 100% { transform: rotate(0); } 85% { transform: rotate(-14deg); } 92% { transform: rotate(12deg); } }
+        @keyframes pulsa { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes vola {
+            0% { transform: translate(0, 0); opacity: 1; }
+            60% { transform: translate(34px, -16px) rotate(-20deg); opacity: 0; }
+            61% { transform: translate(-20px, 8px); opacity: 0; }
+            100% { transform: translate(0, 0); opacity: 1; }
+        }
+        @keyframes onda-click { to { transform: translate(-50%, -50%) scale(18); opacity: 0; } }
+        @keyframes notifica { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+        @keyframes esci { to { opacity: 0; transform: translateX(40px); } }
         @keyframes esplodi {
             from { opacity: 1; transform: translate(0, 0) scale(1); }
             to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
@@ -485,7 +559,6 @@
 
         @media (max-width: 700px) {
             .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
-            .alone { width: 340px; height: 340px; }
             main { padding-top: 30px; }
             .navigation-badges { gap: 8px; margin-bottom: 20px; }
             .badge-link { padding: 6px 12px; font-size: 0.68rem; }
@@ -494,6 +567,8 @@
             .contenuto { width: 95%; margin-top: 28px; }
             .scheda { padding: 18px 16px; }
             .avatar { width: 34px; height: 34px; font-size: 0.82rem; }
+            .notifiche { left: 14px; right: 14px; }
+            .notifica { max-width: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -510,8 +585,6 @@
 
     <div class="barra-sinistra" aria-hidden="true"></div>
     <div class="barra-destra" aria-hidden="true"></div>
-    <div class="alone a1" aria-hidden="true"></div>
-    <div class="alone a2" aria-hidden="true"></div>
 
     <main>
 
@@ -571,7 +644,7 @@
         </nav>
 
         <header>
-            <h1 class="testo-illuminato">Community</h1>
+            <h1 class="testo-illuminato" id="titolo">Community</h1>
             <p class="sottotitolo">Ask, suggest, announce</p>
             <div class="linea-titolo"></div>
         </header>
@@ -594,9 +667,13 @@
                         <label for="tipo-annuncio">📢 Announcement</label>
                     </div>
 
-                    <input type="text" id="nome" maxlength="40" placeholder="Your name or nickname" autocomplete="nickname" aria-label="Your name or nickname">
+                    <div class="campo-wrap">
+                        <input type="text" id="nome" maxlength="40" placeholder="Your name or nickname" autocomplete="nickname" aria-label="Your name or nickname">
+                    </div>
 
-                    <textarea id="messaggio" maxlength="800" placeholder="Write your message here. For new info, include the level or player name and a link to proof if you have one." aria-label="Message"></textarea>
+                    <div class="campo-wrap">
+                        <textarea id="messaggio" maxlength="800" placeholder="Write your message here. For new info, include the level or player name and a link to proof if you have one." aria-label="Message"></textarea>
+                    </div>
 
                     <div class="barra-conta" aria-hidden="true"><span id="barra"></span></div>
 
@@ -629,6 +706,8 @@
 
     </main>
 
+    <div class="notifiche" id="notifiche" aria-live="polite"></div>
+
     <footer>
         G_S demon list
     </footer>
@@ -657,6 +736,7 @@
 
         const ETICHETTE = { domanda: "❓ Question", richiesta: "🛠️ Request", annuncio: "📢 Announcement" };
         const COOLDOWN_MS = 15000;
+        const riduci = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         const bacheca = document.getElementById("bacheca");
         const filtri = document.getElementById("filtri");
@@ -670,11 +750,53 @@
         const bottone = document.getElementById("invia");
         const bottoneTesto = document.getElementById("invia-testo");
         const bottoneIcona = document.getElementById("invia-icona");
+        const notifiche = document.getElementById("notifiche");
 
         let messaggi = [];
         let filtroAttivo = "all";
         let idNoti = null;          // null = primo caricamento
         const idNuovi = new Set();  // messaggi arrivati dopo il caricamento
+        const contatoriPrec = { all: 0, domanda: 0, richiesta: 0, annuncio: 0 };
+
+        /* ---------------- Titolo lettera per lettera ---------------- */
+
+        (function () {
+            const h1 = document.getElementById("titolo");
+            const testo = h1.textContent;
+            h1.setAttribute("aria-label", testo);
+            h1.textContent = "";
+            [...testo].forEach((c, i) => {
+                const s = document.createElement("span");
+                s.className = "lettera";
+                s.setAttribute("aria-hidden", "true");
+                s.textContent = c;
+                s.style.animationDelay = (0.1 + i * 0.05) + "s, " + (1.4 + i * 0.08) + "s";
+                h1.appendChild(s);
+            });
+        })();
+
+        /* ---------------- Luce che segue il mouse sulle schede ---------------- */
+
+        document.querySelectorAll(".scheda").forEach(el => {
+            el.addEventListener("pointermove", e => {
+                const r = el.getBoundingClientRect();
+                el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+                el.style.setProperty("--my", (e.clientY - r.top) + "px");
+            });
+        });
+
+        /* ---------------- Effetto onda sul pulsante ---------------- */
+
+        bottone.addEventListener("click", e => {
+            if (riduci) return;
+            const r = bottone.getBoundingClientRect();
+            const o = document.createElement("span");
+            o.className = "onda-click";
+            o.style.left = (e.clientX - r.left) + "px";
+            o.style.top = (e.clientY - r.top) + "px";
+            bottone.appendChild(o);
+            setTimeout(() => o.remove(), 650);
+        });
 
         /* ---------------- Utilita' ---------------- */
 
@@ -707,7 +829,7 @@
         }
 
         function particelle(origine) {
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+            if (riduci) return;
             const r = origine.getBoundingClientRect();
             const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
             const colori = ["#ff5555", "#ffb33c", "#00e676", "#7db8ff", "#fff"];
@@ -726,17 +848,43 @@
             }
         }
 
+        function mostraNotifica(nome) {
+            const n = document.createElement("div");
+            n.className = "notifica";
+            const b = document.createElement("b");
+            b.textContent = nome;
+            n.append("💬 New message from ", b);
+            notifiche.appendChild(n);
+            setTimeout(() => n.remove(), 4500);
+        }
+
+        function contaSu(el, da, a) {
+            if (riduci || da === a) { el.textContent = a; return; }
+            const durata = 500, inizio = performance.now();
+            el.classList.remove("salta");
+            void el.offsetWidth;
+            el.classList.add("salta");
+            (function passo(t) {
+                const k = Math.min(1, (t - inizio) / durata);
+                el.textContent = Math.round(da + (a - da) * k);
+                if (k < 1) requestAnimationFrame(passo);
+            })(inizio);
+        }
+
         /* ---------------- Bacheca ---------------- */
 
         function aggiornaContatori() {
             const n = { all: messaggi.length, domanda: 0, richiesta: 0, annuncio: 0 };
             messaggi.forEach(m => { if (n[m.tipo] !== undefined) n[m.tipo]++; });
-            document.querySelectorAll("[data-num]").forEach(el => { el.textContent = n[el.dataset.num]; });
+            document.querySelectorAll("[data-num]").forEach(el => {
+                const k = el.dataset.num;
+                contaSu(el, contatoriPrec[k], n[k]);
+                contatoriPrec[k] = n[k];
+            });
         }
 
         function disegnaBacheca() {
             bacheca.textContent = "";
-            aggiornaContatori();
 
             const visibili = messaggi.filter(m => filtroAttivo === "all" || m.tipo === filtroAttivo);
 
@@ -754,9 +902,10 @@
             visibili.forEach((m, i) => {
                 const nome = m.nome || "Anonymous";
                 const tipo = ETICHETTE[m.tipo] ? m.tipo : "domanda";
+                const nuovo = idNuovi.has(m.id);
 
                 const post = document.createElement("div");
-                post.className = "post" + (idNuovi.has(m.id) ? " nuovo" : "");
+                post.className = "post" + (nuovo ? " nuovo" : "");
                 post.style.animationDelay = Math.min(i, 10) * 45 + "ms";
 
                 const avatar = document.createElement("div");
@@ -783,6 +932,13 @@
                 data.textContent = tempoFa(m.creato);
 
                 testa.append(autore, tag, data);
+
+                if (nuovo) {
+                    const nv = document.createElement("span");
+                    nv.className = "tag novita";
+                    nv.textContent = "NEW";
+                    testa.appendChild(nv);
+                }
 
                 const testo = document.createElement("p");
                 testo.className = "post-testo";
@@ -836,13 +992,23 @@
             const q = query(colonna, orderBy("creato", "desc"), limit(100));
             onSnapshot(q,
                 snap => {
-                    const nuovi = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    const nuovi = snap.docs.map(d => ({
+                        id: d.id,
+                        locale: d.metadata.hasPendingWrites,
+                        ...d.data()
+                    }));
                     if (idNoti !== null) {
-                        nuovi.forEach(m => { if (!idNoti.has(m.id)) idNuovi.add(m.id); });
+                        nuovi.forEach(m => {
+                            if (!idNoti.has(m.id)) {
+                                idNuovi.add(m.id);
+                                if (!m.locale) mostraNotifica(m.nome || "Anonymous");
+                            }
+                        });
                     }
                     idNoti = new Set(nuovi.map(m => m.id));
                     messaggi = nuovi;
                     impostaStato(true);
+                    aggiornaContatori();
                     disegnaBacheca();
                 },
                 err => {
@@ -878,6 +1044,7 @@
                 bottoneTesto.textContent = "Sending";
                 bottoneIcona.className = "gira";
                 bottoneIcona.textContent = "";
+                let riuscito = false;
                 try {
                     await addDoc(colonna, { tipo, nome, messaggio, creato: serverTimestamp() });
                     try { localStorage.setItem("gs_ultimo_invio", String(Date.now())); } catch (_) {}
@@ -885,14 +1052,16 @@
                     azzeraConta();
                     mostraEsito("ok", "Message sent. It is now visible to everyone.");
                     particelle(bottone);
+                    riuscito = true;
                 } catch (err) {
                     console.error(err);
                     mostraEsito("errore", "The message could not be sent. Check your connection and try again.");
                 } finally {
                     bottone.disabled = false;
                     bottoneTesto.textContent = "Send message";
-                    bottoneIcona.className = "icona";
+                    bottoneIcona.className = riuscito ? "icona vola" : "icona";
                     bottoneIcona.textContent = "➤";
+                    if (riuscito) setTimeout(() => { bottoneIcona.className = "icona"; }, 900);
                 }
             });
         }
