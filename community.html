@@ -11,16 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            background: #1e1e1e;
-            scroll-behavior: smooth;
-        }
+        html { background: #1e1e1e; scroll-behavior: smooth; }
 
         body {
             min-height: 100vh;
@@ -34,8 +27,7 @@
         .barra-sinistra,
         .barra-destra {
             position: absolute;
-            top: 0;
-            bottom: 0;
+            top: 0; bottom: 0;
             width: 30vw;
             min-height: 100%;
             background-image: url("./miguel.png");
@@ -46,13 +38,21 @@
             pointer-events: none;
             z-index: 0;
         }
-
         .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
 
-        .barra-destra {
-            right: 0;
-            transform: scaleX(-1);
+        /* Aloni rossi sullo sfondo */
+        .alone {
+            position: fixed;
+            width: 520px; height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(229, 72, 72, 0.22), transparent 68%);
+            filter: blur(20px);
+            pointer-events: none;
+            z-index: 0;
         }
+        .alone.a1 { top: -160px; left: 28%; animation: deriva1 16s ease-in-out infinite alternate; }
+        .alone.a2 { bottom: -200px; right: 22%; animation: deriva2 20s ease-in-out infinite alternate; }
 
         main {
             position: relative;
@@ -64,26 +64,20 @@
         /* NAVBAR */
 
         .navigation-badges {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             gap: 12px;
             width: min(900px, 88%);
             margin: 0 auto 25px;
             flex-wrap: wrap;
             position: relative;
             z-index: 10;
+            animation: scendi 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
 
-        .dropdown-container {
-            position: relative;
-            display: inline-block;
-        }
+        .dropdown-container { position: relative; display: inline-block; }
 
         .badge-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            display: inline-flex; align-items: center; gap: 10px;
             padding: 9px 18px;
             background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
@@ -92,13 +86,10 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
             text-decoration: none;
             color: #f5f5f5;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
             transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
             cursor: pointer;
         }
-
         .badge-link:hover {
             transform: translateY(-2px);
             background: rgba(42, 42, 42, 0.99);
@@ -106,494 +97,411 @@
             border-left-color: #ff5555;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
-
         .badge-link.attivo {
             border-left-color: #ff5555;
             background: rgba(42, 42, 42, 0.99);
+            box-shadow: 0 0 18px rgba(229, 72, 72, 0.3);
         }
-
         .badge-link img {
-            width: 24px;
-            height: 24px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #555;
-            background: #252525;
+            width: 24px; height: 24px; object-fit: cover;
+            border-radius: 5px; border: 1px solid #555; background: #252525;
             transition: filter 0.2s ease, transform 0.2s ease;
         }
-
-        .badge-link:hover img {
-            filter: brightness(1.2);
-            transform: scale(1.05);
-        }
+        .badge-link:hover img { filter: brightness(1.2); transform: scale(1.05); }
 
         .badge-emoji {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px;
             font-size: 0.85rem;
-            border-radius: 5px;
-            border: 1px solid #555;
-            background: #252525;
+            border-radius: 5px; border: 1px solid #555; background: #252525;
         }
 
         .arrow {
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: #999;
+            font-size: 0.75rem; font-weight: 800; color: #999;
             transition: transform 0.25s ease, color 0.25s ease;
             display: inline-block;
         }
-
-        .dropdown-container:hover .arrow {
-            transform: rotate(90deg);
-            color: #ff5555;
-        }
+        .dropdown-container:hover .arrow { transform: rotate(90deg); color: #ff5555; }
 
         .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            padding-top: 10px;
-            min-width: 175px;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+            position: absolute; top: 100%; left: 50%;
+            padding-top: 10px; min-width: 175px; z-index: 100;
+            opacity: 0; visibility: hidden; pointer-events: none;
             transform: translateX(-50%) translateY(-12px) scale(0.96);
             transform-origin: top center;
-            transition:
-                opacity 0.25s ease,
-                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                visibility 0s linear 0.3s;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s;
         }
-
         .dropdown-container:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+            opacity: 1; visibility: visible; pointer-events: auto;
             transform: translateX(-50%) translateY(0) scale(1);
-            transition:
-                opacity 0.25s ease,
-                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                visibility 0s linear 0s;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
         }
-
         .dropdown-content {
             background: rgba(28, 28, 28, 0.98);
-            border: 1px solid #3b3b3b;
-            border-radius: 10px;
+            border: 1px solid #3b3b3b; border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             padding: 8px 0;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-
         .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
             padding: 10px 14px;
-            color: #f5f5f5;
-            text-decoration: none;
-            font-size: 0.78rem;
-            font-weight: 700;
-            opacity: 0;
-            transform: translateX(-12px);
+            color: #f5f5f5; text-decoration: none;
+            font-size: 0.78rem; font-weight: 700;
+            opacity: 0; transform: translateX(-12px);
             transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
         }
-
         .dropdown-container:hover .dropdown-item {
-            opacity: 1;
-            transform: translateX(0);
+            opacity: 1; transform: translateX(0);
             transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
         }
-
         .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
         .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
         .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
-
-        .dropdown-item:hover {
-            background: rgba(229, 72, 72, 0.15);
-            color: #ff5555;
-        }
-
+        .dropdown-item:hover { background: rgba(229, 72, 72, 0.15); color: #ff5555; }
         .dropdown-item img {
-            width: 22px;
-            height: 22px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #555;
-            background: #252525;
+            width: 22px; height: 22px; object-fit: cover;
+            border-radius: 4px; border: 1px solid #555; background: #252525;
             transition: filter 0.2s ease, transform 0.2s ease;
         }
-
-        .dropdown-item:hover img {
-            filter: brightness(1.2);
-            transform: scale(1.05);
-        }
+        .dropdown-item:hover img { filter: brightness(1.2); transform: scale(1.05); }
 
         /* HEADER */
 
-        header {
-            text-align: center;
-            padding: 0 15px;
-        }
+        header { text-align: center; padding: 0 15px; }
 
         .testo-illuminato {
-            color: #fff;
             font-size: clamp(2.1rem, 5vw, 3.4rem);
             font-weight: 800;
             letter-spacing: -1.5px;
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
             overflow-wrap: anywhere;
+            background: linear-gradient(100deg, #fff 35%, #ff9a9a 50%, #fff 65%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.14));
+            animation: scendi 0.7s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) both, brillio 6s 1.2s ease-in-out infinite;
         }
 
         .sottotitolo {
             margin-top: 14px;
             color: #999;
             font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-            font-weight: 500;
-            letter-spacing: 2.5px;
-            line-height: 1.8;
+            font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
+            animation: scendi 0.7s 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
 
         .linea-titolo {
-            width: 75px;
-            height: 3px;
+            width: 75px; height: 3px;
             margin: 22px auto 0;
             border-radius: 10px;
             background: #e54848;
             box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+            animation: allarga 0.9s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both, respiro 3s 1.4s ease-in-out infinite;
         }
 
         /* CONTENUTO */
 
         .contenuto {
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
             width: min(900px, 88%);
             margin: 40px auto 0;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            display: flex; flex-direction: column;
+            gap: 16px;
         }
 
         .scheda {
-            padding: 24px 26px;
+            position: relative;
+            padding: 26px 28px;
             background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+            animation: sali 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .scheda:nth-of-type(1) { animation-delay: 0.45s; }
+        .scheda:nth-of-type(2) { animation-delay: 0.6s; }
+
+        .scheda::before {
+            content: "";
+            position: absolute; left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ff5555, #b82e2e);
+            transform-origin: top;
+            animation: cresci 0.8s 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+        }
+        .scheda:hover {
+            border-color: #4d4d4d;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3), 0 0 22px rgba(229, 72, 72, 0.08);
         }
 
         .scheda h2 {
+            display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
             color: #f5f5f5;
-            font-size: 1.1rem;
-            font-weight: 800;
+            font-size: 1.15rem; font-weight: 800;
             margin-bottom: 10px;
         }
-
-        .scheda > p {
-            color: #999;
-            font-size: 0.85rem;
-            line-height: 1.7;
-        }
+        .scheda > p { color: #999; font-size: 0.85rem; line-height: 1.7; }
 
         /* Form */
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-top: 18px;
-        }
+        form { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
 
-        .riga-nome-tipo {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .riga-nome-tipo input[type="text"] {
-            flex: 1 1 180px;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 11px 14px;
-            background: #252525;
-            border: 1px solid #3b3b3b;
-            border-radius: 8px;
-            color: #f5f5f5;
-            font-family: inherit;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #ff5555;
-            box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.2);
-        }
-
-        input::placeholder,
-        textarea::placeholder { color: #666; }
-
-        .tipi {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tipi input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
+        .tipi { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tipi input { position: absolute; opacity: 0; pointer-events: none; }
         .tipi label {
-            padding: 8px 16px;
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 16px;
             background: #252525;
             border: 1px solid #3b3b3b;
             border-radius: 20px;
             color: #ccc;
-            font-size: 0.78rem;
-            font-weight: 700;
+            font-size: 0.78rem; font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            user-select: none;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
-
-        .tipi label:hover {
-            border-color: #555;
-            color: #fff;
-        }
-
+        .tipi label:hover { border-color: #666; color: #fff; transform: translateY(-2px); }
         .tipi input:checked + label {
             background: rgba(229, 72, 72, 0.18);
             border-color: #e54848;
-            color: #ff7a7a;
+            color: #ff8a8a;
+            animation: scatto 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
         }
+        .tipi input:focus-visible + label { outline: 2px solid #ff5555; outline-offset: 2px; }
 
-        .tipi input:focus-visible + label {
-            outline: 2px solid #ff5555;
-            outline-offset: 2px;
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: #252525;
+            border: 1px solid #3b3b3b;
+            border-radius: 9px;
+            color: #f5f5f5;
+            font-family: inherit; font-size: 0.85rem; line-height: 1.6;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
+        textarea { min-height: 110px; resize: vertical; }
+        input[type="text"]:hover, textarea:hover { border-color: #555; }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            background: #2a2a2a;
+            border-color: #ff5555;
+            box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.2), 0 0 18px rgba(229, 72, 72, 0.12);
+        }
+        input::placeholder, textarea::placeholder { color: #666; }
 
-        .riga-invio {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
+        .barra-conta { height: 3px; background: #2c2c2c; border-radius: 3px; overflow: hidden; }
+        .barra-conta span {
+            display: block; height: 100%; width: 0;
+            background: #e54848;
+            border-radius: 3px;
+            transition: width 0.2s ease, background 0.3s ease;
         }
+        .barra-conta span.quasi { background: #ffb33c; }
+        .barra-conta span.pieno { background: #ff3b3b; }
 
-        .conta {
-            color: #666;
-            font-size: 0.7rem;
-        }
+        .riga-invio { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .conta { color: #666; font-size: 0.72rem; font-weight: 600; }
 
         .invia {
-            padding: 11px 26px;
-            background: #d94343;
-            border: none;
-            border-radius: 20px;
+            position: relative;
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #e54848, #c93636);
+            border: none; border-radius: 22px;
             color: #fff;
-            font-family: inherit;
-            font-size: 0.82rem;
-            font-weight: 800;
+            font-family: inherit; font-size: 0.82rem; font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(229, 72, 72, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .invia:hover { background: #e85a5a; transform: translateY(-2px); }
-        .invia:disabled { background: #555; cursor: default; transform: none; }
+        .invia::after {
+            content: "";
+            position: absolute; top: 0; left: -80%;
+            width: 50%; height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+        }
+        .invia:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(229, 72, 72, 0.45); }
+        .invia:hover::after { animation: passa 0.7s ease; }
+        .invia:active { transform: translateY(0) scale(0.97); }
+        .invia:disabled { background: #555; box-shadow: none; cursor: default; transform: none; }
+        .invia .icona { display: inline-block; transition: transform 0.25s ease; }
+        .invia:hover:not(:disabled) .icona { transform: translateX(3px) rotate(-12deg); }
+        .invia .gira {
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.35); border-top-color: #fff;
+            border-radius: 50%;
+            animation: ruota 0.7s linear infinite;
+        }
 
         .esito {
             display: none;
-            padding: 11px 14px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            line-height: 1.6;
+            padding: 12px 15px;
+            border-radius: 9px;
+            font-size: 0.82rem; line-height: 1.6;
         }
+        .esito.ok, .esito.errore { display: block; animation: scatto 0.4s cubic-bezier(0.3, 1.4, 0.5, 1); }
+        .esito.ok { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.4); color: #00e676; }
+        .esito.errore { background: rgba(229, 72, 72, 0.12); border: 1px solid rgba(229, 72, 72, 0.5); color: #ff7a7a; }
 
-        .esito.ok {
-            display: block;
-            background: rgba(0, 230, 118, 0.1);
-            border: 1px solid rgba(0, 230, 118, 0.4);
-            color: #00e676;
-        }
-
-        .esito.errore {
-            display: block;
-            background: rgba(229, 72, 72, 0.12);
-            border: 1px solid rgba(229, 72, 72, 0.5);
-            color: #ff7a7a;
+        /* Particelle di conferma */
+        .particella {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: esplodi 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
         }
 
         /* Bacheca */
 
         .stato-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            margin-left: 10px;
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 3px 11px;
+            background: rgba(0, 230, 118, 0.1);
+            border-radius: 12px;
             color: #00e676;
-            font-size: 0.7rem;
-            font-weight: 700;
-            vertical-align: middle;
+            font-size: 0.68rem; font-weight: 700;
         }
-
         .stato-live::before {
             content: "";
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
             background: #00e676;
-            box-shadow: 0 0 8px rgba(0, 230, 118, 0.7);
+            animation: ping 1.8s ease-out infinite;
         }
+        .stato-live.offline { background: rgba(150, 150, 150, 0.12); color: #999; }
+        .stato-live.offline::before { background: #777; animation: none; }
 
-        .stato-live.offline { color: #999; }
-        .stato-live.offline::before { background: #777; box-shadow: none; }
-
-        .filtri {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0 6px;
-        }
-
+        .filtri { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
         .filtri button {
-            padding: 7px 14px;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 15px;
             background: #252525;
             border: 1px solid #3b3b3b;
             border-radius: 20px;
             color: #ccc;
-            font-family: inherit;
-            font-size: 0.74rem;
-            font-weight: 700;
+            font-family: inherit; font-size: 0.74rem; font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
-
-        .filtri button:hover { border-color: #555; color: #fff; }
-
+        .filtri button:hover { border-color: #666; color: #fff; transform: translateY(-2px); }
         .filtri button[aria-pressed="true"] {
             background: rgba(229, 72, 72, 0.18);
             border-color: #e54848;
-            color: #ff7a7a;
+            color: #ff8a8a;
+        }
+        .filtri .num {
+            min-width: 20px;
+            padding: 1px 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            font-size: 0.66rem;
+            text-align: center;
         }
 
         .post {
-            padding: 16px 0;
+            display: flex; gap: 14px;
+            padding: 16px 12px;
+            margin: 0 -12px;
             border-top: 1px solid #333;
+            border-radius: 10px;
+            animation: entra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            transition: background 0.25s ease, transform 0.25s ease;
         }
+        .post:first-child { border-top-color: transparent; }
+        .post:hover { background: rgba(255, 255, 255, 0.03); transform: translateX(4px); }
+        .post.nuovo { animation: entra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, lampo 2.4s ease-out; }
 
-        .post:first-child { border-top: none; }
-
-        .post-testa {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 8px;
+        .avatar {
+            flex: none;
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 0.95rem; font-weight: 800;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
         }
+        .post:hover .avatar { transform: scale(1.1) rotate(-6deg); }
 
-        .tag {
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.68rem;
-            font-weight: 800;
-        }
+        .post-corpo { flex: 1; min-width: 0; }
+        .post-testa { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-bottom: 6px; }
 
+        .tag { padding: 3px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; }
         .tag.domanda { background: rgba(80, 160, 255, 0.15); color: #7db8ff; }
         .tag.richiesta { background: rgba(255, 190, 60, 0.15); color: #ffc65a; }
         .tag.annuncio { background: rgba(0, 230, 118, 0.12); color: #00e676; }
 
-        .post-autore {
-            color: #f5f5f5;
-            font-size: 0.82rem;
-            font-weight: 700;
-        }
-
-        .post-data {
-            color: #666;
-            font-size: 0.72rem;
-        }
-
+        .post-autore { color: #f5f5f5; font-size: 0.85rem; font-weight: 700; }
+        .post-data { color: #666; font-size: 0.72rem; }
         .post-testo {
             color: #bbb;
-            font-size: 0.85rem;
-            line-height: 1.7;
-            white-space: pre-line;
-            overflow-wrap: anywhere;
+            font-size: 0.86rem; line-height: 1.7;
+            white-space: pre-line; overflow-wrap: anywhere;
         }
 
-        .vuoto {
-            padding: 14px 0 4px;
-            color: #999;
-            font-size: 0.85rem;
-        }
+        .vuoto { padding: 26px 0 8px; text-align: center; color: #999; font-size: 0.85rem; animation: entra 0.5s both; }
+        .vuoto .grande { display: block; font-size: 2rem; margin-bottom: 8px; animation: fluttua 2.6s ease-in-out infinite; }
 
-        .torna-indietro {
-            align-self: center;
-            margin-top: 6px;
-        }
+        .torna-indietro { align-self: center; margin-top: 6px; animation: sali 0.7s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
         footer {
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
             text-align: center;
             color: #666;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            font-size: 0.75rem; letter-spacing: 1px;
             padding: 25px 10px 35px;
         }
 
+        /* Animazioni */
+
+        @keyframes scendi { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+        @keyframes sali { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+        @keyframes entra { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+        @keyframes allarga { from { width: 0; opacity: 0; } to { width: 75px; opacity: 1; } }
+        @keyframes cresci { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+        @keyframes respiro { 0%, 100% { box-shadow: 0 0 10px rgba(229, 72, 72, 0.35); } 50% { box-shadow: 0 0 22px rgba(229, 72, 72, 0.7); } }
+        @keyframes brillio { 0%, 55% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+        @keyframes scatto { 0% { transform: scale(0.92); } 100% { transform: scale(1); } }
+        @keyframes passa { to { left: 140%; } }
+        @keyframes ruota { to { transform: rotate(360deg); } }
+        @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.6); } 80%, 100% { box-shadow: 0 0 0 9px rgba(0, 230, 118, 0); } }
+        @keyframes lampo { 0% { background: rgba(229, 72, 72, 0.28); } 100% { background: transparent; } }
+        @keyframes fluttua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        @keyframes deriva1 { to { transform: translate(120px, 90px); } }
+        @keyframes deriva2 { to { transform: translate(-110px, -70px); } }
+        @keyframes esplodi {
+            from { opacity: 1; transform: translate(0, 0) scale(1); }
+            to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+        }
+
         @media (max-width: 700px) {
-            .barra-sinistra,
-            .barra-destra {
-                width: 22vw;
-                opacity: 0.45;
-            }
-
+            .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
+            .alone { width: 340px; height: 340px; }
             main { padding-top: 30px; }
-
-            .navigation-badges {
-                gap: 8px;
-                margin-bottom: 20px;
-            }
-
-            .badge-link {
-                padding: 6px 12px;
-                font-size: 0.68rem;
-            }
-
+            .navigation-badges { gap: 8px; margin-bottom: 20px; }
+            .badge-link { padding: 6px 12px; font-size: 0.68rem; }
             .testo-illuminato { letter-spacing: -0.8px; }
             .sottotitolo { letter-spacing: 1px; }
-
-            .contenuto {
-                width: 95%;
-                margin-top: 28px;
-            }
-
-            .scheda { padding: 16px 14px; }
+            .contenuto { width: 95%; margin-top: 28px; }
+            .scheda { padding: 18px 16px; }
+            .avatar { width: 34px; height: 34px; font-size: 0.82rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -602,6 +510,8 @@
 
     <div class="barra-sinistra" aria-hidden="true"></div>
     <div class="barra-destra" aria-hidden="true"></div>
+    <div class="alone a1" aria-hidden="true"></div>
+    <div class="alone a2" aria-hidden="true"></div>
 
     <main>
 
@@ -673,27 +583,28 @@
                 <p>Ask a question, request something for the site, or share news about a level or a player. Your message appears for everyone right away.</p>
 
                 <form id="form-community" novalidate>
-                    <div class="riga-nome-tipo">
-                        <div class="tipi" role="radiogroup" aria-label="Type of message">
-                            <input type="radio" name="tipo" id="tipo-domanda" value="domanda" checked>
-                            <label for="tipo-domanda">Question</label>
+                    <div class="tipi" role="radiogroup" aria-label="Type of message">
+                        <input type="radio" name="tipo" id="tipo-domanda" value="domanda" checked>
+                        <label for="tipo-domanda">❓ Question</label>
 
-                            <input type="radio" name="tipo" id="tipo-richiesta" value="richiesta">
-                            <label for="tipo-richiesta">Request</label>
+                        <input type="radio" name="tipo" id="tipo-richiesta" value="richiesta">
+                        <label for="tipo-richiesta">🛠️ Request</label>
 
-                            <input type="radio" name="tipo" id="tipo-annuncio" value="annuncio">
-                            <label for="tipo-annuncio">Announcement</label>
-                        </div>
-                        <input type="text" id="nome" maxlength="40" placeholder="Your name or nickname" autocomplete="nickname" aria-label="Your name or nickname">
+                        <input type="radio" name="tipo" id="tipo-annuncio" value="annuncio">
+                        <label for="tipo-annuncio">📢 Announcement</label>
                     </div>
 
+                    <input type="text" id="nome" maxlength="40" placeholder="Your name or nickname" autocomplete="nickname" aria-label="Your name or nickname">
+
                     <textarea id="messaggio" maxlength="800" placeholder="Write your message here. For new info, include the level or player name and a link to proof if you have one." aria-label="Message"></textarea>
+
+                    <div class="barra-conta" aria-hidden="true"><span id="barra"></span></div>
 
                     <div class="esito" id="esito" role="status" aria-live="polite"></div>
 
                     <div class="riga-invio">
                         <span class="conta" id="conta">0 / 800</span>
-                        <button type="submit" class="invia" id="invia">Send message</button>
+                        <button type="submit" class="invia" id="invia"><span id="invia-testo">Send message</span><span class="icona" id="invia-icona">➤</span></button>
                     </div>
                 </form>
             </article>
@@ -702,10 +613,10 @@
                 <h2>Community board <span class="stato-live offline" id="stato">connecting...</span></h2>
 
                 <div class="filtri" id="filtri">
-                    <button type="button" data-filtro="all" aria-pressed="true">All</button>
-                    <button type="button" data-filtro="domanda" aria-pressed="false">Questions</button>
-                    <button type="button" data-filtro="richiesta" aria-pressed="false">Requests</button>
-                    <button type="button" data-filtro="annuncio" aria-pressed="false">Announcements</button>
+                    <button type="button" data-filtro="all" aria-pressed="true">All <span class="num" data-num="all">0</span></button>
+                    <button type="button" data-filtro="domanda" aria-pressed="false">❓ Questions <span class="num" data-num="domanda">0</span></button>
+                    <button type="button" data-filtro="richiesta" aria-pressed="false">🛠️ Requests <span class="num" data-num="richiesta">0</span></button>
+                    <button type="button" data-filtro="annuncio" aria-pressed="false">📢 Announcements <span class="num" data-num="annuncio">0</span></button>
                 </div>
 
                 <div id="bacheca"></div>
@@ -730,8 +641,8 @@
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         /* ============================================================
-           INCOLLA QUI la configurazione che ti da' Firebase
-           (Project settings > Your apps > Web app > firebaseConfig)
+           INCOLLA QUI la configurazione del tuo progetto Firebase
+           (la stessa che usi in announcements.html)
            ============================================================ */
         const firebaseConfig = {
             apiKey: "INCOLLA_QUI",
@@ -744,8 +655,8 @@
 
         const configurato = firebaseConfig.projectId !== "INCOLLA_QUI";
 
-        const ETICHETTE = { domanda: "Question", richiesta: "Request", annuncio: "Announcement" };
-        const COOLDOWN_MS = 15000; // tempo minimo tra un messaggio e il successivo
+        const ETICHETTE = { domanda: "❓ Question", richiesta: "🛠️ Request", annuncio: "📢 Announcement" };
+        const COOLDOWN_MS = 15000;
 
         const bacheca = document.getElementById("bacheca");
         const filtri = document.getElementById("filtri");
@@ -754,73 +665,131 @@
         const campoNome = document.getElementById("nome");
         const campoMsg = document.getElementById("messaggio");
         const conta = document.getElementById("conta");
+        const barra = document.getElementById("barra");
         const esito = document.getElementById("esito");
         const bottone = document.getElementById("invia");
+        const bottoneTesto = document.getElementById("invia-testo");
+        const bottoneIcona = document.getElementById("invia-icona");
 
         let messaggi = [];
         let filtroAttivo = "all";
+        let idNoti = null;          // null = primo caricamento
+        const idNuovi = new Set();  // messaggi arrivati dopo il caricamento
 
         /* ---------------- Utilita' ---------------- */
 
         function mostraEsito(tipo, testo) {
+            esito.className = "esito";
+            void esito.offsetWidth; // riavvia l'animazione
             esito.className = "esito " + tipo;
             esito.textContent = testo;
         }
 
-        function impostaStato(online) {
-            stato.textContent = online ? "live" : "offline";
+        function impostaStato(online, testo) {
+            stato.textContent = testo || (online ? "live" : "offline");
             stato.classList.toggle("offline", !online);
         }
 
-        function formattaData(ts) {
+        function tempoFa(ts) {
             if (!ts) return "just now";
-            return ts.toDate().toLocaleString("it-IT", {
-                day: "numeric", month: "short", year: "numeric",
-                hour: "2-digit", minute: "2-digit"
-            });
+            const s = Math.max(0, Math.floor((Date.now() - ts.toDate().getTime()) / 1000));
+            if (s < 45) return "just now";
+            if (s < 3600) return Math.round(s / 60) + " min ago";
+            if (s < 86400) return Math.round(s / 3600) + " h ago";
+            if (s < 604800) return Math.round(s / 86400) + " d ago";
+            return ts.toDate().toLocaleDateString("it-IT", { day: "numeric", month: "short", year: "numeric" });
+        }
+
+        function coloreAvatar(nome) {
+            let h = 0;
+            for (let i = 0; i < nome.length; i++) h = (h * 31 + nome.charCodeAt(i)) % 360;
+            return "linear-gradient(135deg, hsl(" + h + ", 70%, 52%), hsl(" + ((h + 40) % 360) + ", 65%, 38%))";
+        }
+
+        function particelle(origine) {
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+            const r = origine.getBoundingClientRect();
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            const colori = ["#ff5555", "#ffb33c", "#00e676", "#7db8ff", "#fff"];
+            for (let i = 0; i < 16; i++) {
+                const p = document.createElement("span");
+                const ang = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+                const dist = 50 + Math.random() * 70;
+                p.className = "particella";
+                p.style.left = cx + "px";
+                p.style.top = cy + "px";
+                p.style.background = colori[i % colori.length];
+                p.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+                p.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 950);
+            }
         }
 
         /* ---------------- Bacheca ---------------- */
 
+        function aggiornaContatori() {
+            const n = { all: messaggi.length, domanda: 0, richiesta: 0, annuncio: 0 };
+            messaggi.forEach(m => { if (n[m.tipo] !== undefined) n[m.tipo]++; });
+            document.querySelectorAll("[data-num]").forEach(el => { el.textContent = n[el.dataset.num]; });
+        }
+
         function disegnaBacheca() {
             bacheca.textContent = "";
+            aggiornaContatori();
 
             const visibili = messaggi.filter(m => filtroAttivo === "all" || m.tipo === filtroAttivo);
 
             if (visibili.length === 0) {
-                const v = document.createElement("p");
+                const v = document.createElement("div");
                 v.className = "vuoto";
-                v.textContent = "Nothing here yet. Be the first to write something.";
+                const g = document.createElement("span");
+                g.className = "grande";
+                g.textContent = "💬";
+                v.append(g, document.createTextNode("Nothing here yet. Be the first to write something."));
                 bacheca.appendChild(v);
                 return;
             }
 
-            visibili.forEach(m => {
+            visibili.forEach((m, i) => {
+                const nome = m.nome || "Anonymous";
+                const tipo = ETICHETTE[m.tipo] ? m.tipo : "domanda";
+
                 const post = document.createElement("div");
-                post.className = "post";
+                post.className = "post" + (idNuovi.has(m.id) ? " nuovo" : "");
+                post.style.animationDelay = Math.min(i, 10) * 45 + "ms";
+
+                const avatar = document.createElement("div");
+                avatar.className = "avatar";
+                avatar.style.background = coloreAvatar(nome);
+                avatar.textContent = nome.trim().charAt(0).toUpperCase() || "?";
+
+                const corpo = document.createElement("div");
+                corpo.className = "post-corpo";
 
                 const testa = document.createElement("div");
                 testa.className = "post-testa";
 
-                const tag = document.createElement("span");
-                tag.className = "tag " + (ETICHETTE[m.tipo] ? m.tipo : "domanda");
-                tag.textContent = ETICHETTE[m.tipo] || m.tipo;
-
                 const autore = document.createElement("span");
                 autore.className = "post-autore";
-                autore.textContent = m.nome;
+                autore.textContent = nome;
+
+                const tag = document.createElement("span");
+                tag.className = "tag " + tipo;
+                tag.textContent = ETICHETTE[tipo];
 
                 const data = document.createElement("span");
                 data.className = "post-data";
-                data.textContent = formattaData(m.creato);
+                data.textContent = tempoFa(m.creato);
 
-                testa.append(tag, autore, data);
+                testa.append(autore, tag, data);
 
                 const testo = document.createElement("p");
                 testo.className = "post-testo";
                 testo.textContent = m.messaggio;
 
-                post.append(testa, testo);
+                corpo.append(testa, testo);
+                post.append(avatar, corpo);
                 bacheca.appendChild(post);
             });
         }
@@ -832,18 +801,30 @@
             filtri.querySelectorAll("button").forEach(x =>
                 x.setAttribute("aria-pressed", String(x === b))
             );
+            idNuovi.clear();
             disegnaBacheca();
         });
 
         campoMsg.addEventListener("input", () => {
-            conta.textContent = campoMsg.value.length + " / " + campoMsg.maxLength;
+            const len = campoMsg.value.length, max = campoMsg.maxLength;
+            conta.textContent = len + " / " + max;
+            barra.style.width = (len / max) * 100 + "%";
+            barra.className = len >= max ? "pieno" : len >= max * 0.85 ? "quasi" : "";
         });
+
+        function azzeraConta() {
+            conta.textContent = "0 / " + campoMsg.maxLength;
+            barra.style.width = "0";
+            barra.className = "";
+        }
+
+        // Aggiorna "x min ago" ogni 30 secondi
+        setInterval(() => { if (messaggi.length) disegnaBacheca(); }, 30000);
 
         /* ---------------- Firebase ---------------- */
 
         if (!configurato) {
-            impostaStato(false);
-            stato.textContent = "not set up";
+            impostaStato(false, "not set up");
             mostraEsito("errore", "The board is not connected yet. The site owner needs to paste the Firebase config in the script of this page.");
             bottone.disabled = true;
             disegnaBacheca();
@@ -852,11 +833,15 @@
             const db = getFirestore(app);
             const colonna = collection(db, "community");
 
-            // Ascolto in tempo reale: ogni nuovo messaggio arriva a tutti subito
             const q = query(colonna, orderBy("creato", "desc"), limit(100));
             onSnapshot(q,
                 snap => {
-                    messaggi = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    const nuovi = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    if (idNoti !== null) {
+                        nuovi.forEach(m => { if (!idNoti.has(m.id)) idNuovi.add(m.id); });
+                    }
+                    idNoti = new Set(nuovi.map(m => m.id));
+                    messaggi = nuovi;
                     impostaStato(true);
                     disegnaBacheca();
                 },
@@ -880,7 +865,6 @@
                     return;
                 }
 
-                // Anti-spam semplice: attesa tra un invio e il successivo
                 let ultimo = 0;
                 try { ultimo = Number(localStorage.getItem("gs_ultimo_invio")) || 0; } catch (_) {}
                 const trascorso = Date.now() - ultimo;
@@ -891,24 +875,24 @@
                 }
 
                 bottone.disabled = true;
-                bottone.textContent = "Sending...";
+                bottoneTesto.textContent = "Sending";
+                bottoneIcona.className = "gira";
+                bottoneIcona.textContent = "";
                 try {
-                    await addDoc(colonna, {
-                        tipo,
-                        nome,
-                        messaggio,
-                        creato: serverTimestamp()
-                    });
+                    await addDoc(colonna, { tipo, nome, messaggio, creato: serverTimestamp() });
                     try { localStorage.setItem("gs_ultimo_invio", String(Date.now())); } catch (_) {}
                     campoMsg.value = "";
-                    conta.textContent = "0 / " + campoMsg.maxLength;
+                    azzeraConta();
                     mostraEsito("ok", "Message sent. It is now visible to everyone.");
+                    particelle(bottone);
                 } catch (err) {
                     console.error(err);
                     mostraEsito("errore", "The message could not be sent. Check your connection and try again.");
                 } finally {
                     bottone.disabled = false;
-                    bottone.textContent = "Send message";
+                    bottoneTesto.textContent = "Send message";
+                    bottoneIcona.className = "icona";
+                    bottoneIcona.textContent = "➤";
                 }
             });
         }
