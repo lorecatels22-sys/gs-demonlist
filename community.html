@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community - G_S demon list</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #1e1e1e;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1e1e1e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .barra-sinistra,
+        .barra-destra {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30vw;
+            min-height: 100%;
+            background-image: url("./miguel.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+            background-position: top center;
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .barra-sinistra { left: 0; }
+
+        .barra-destra {
+            right: 0;
+            transform: scaleX(-1);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 0 90px;
+        }
+
+        /* NAVBAR */
+
+        .navigation-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: min(900px, 88%);
+            margin: 0 auto 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            cursor: pointer;
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            background: rgba(42, 42, 42, 0.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge-link.attivo {
+            border-left-color: #ff5555;
+            background: rgba(42, 42, 42, 0.99);
+        }
+
+        .badge-link img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .badge-link:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+        }
+
+        .arrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #999;
+            transition: transform 0.25s ease, color 0.25s ease;
+            display: inline-block;
+        }
+
+        .dropdown-container:hover .arrow {
+            transform: rotate(90deg);
+            color: #ff5555;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            padding-top: 10px;
+            min-width: 175px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(0.96);
+            transform-origin: top center;
+            transition:
+                opacity 0.25s ease,
+                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                visibility 0s linear 0.3s;
+        }
+
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+            transition:
+                opacity 0.25s ease,
+                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                visibility 0s linear 0s;
+        }
+
+        .dropdown-content {
+            background: rgba(28, 28, 28, 0.98);
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1;
+            transform: translateX(0);
+            transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
+        .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
+        .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
+
+        .dropdown-item:hover {
+            background: rgba(229, 72, 72, 0.15);
+            color: #ff5555;
+        }
+
+        .dropdown-item img {
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown-item:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        /* HEADER */
+
+        header {
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .testo-illuminato {
+            color: #fff;
+            font-size: clamp(2.1rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
+            overflow-wrap: anywhere;
+        }
+
+        .sottotitolo {
+            margin-top: 14px;
+            color: #999;
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            line-height: 1.8;
+        }
+
+        .linea-titolo {
+            width: 75px;
+            height: 3px;
+            margin: 22px auto 0;
+            border-radius: 10px;
+            background: #e54848;
+            box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+        }
+
+        /* CONTENUTO */
+
+        .contenuto {
+            position: relative;
+            z-index: 2;
+            width: min(900px, 88%);
+            margin: 40px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .scheda {
+            padding: 24px 26px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .scheda h2 {
+            color: #f5f5f5;
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .scheda > p {
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        /* Form */
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .riga-nome-tipo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .riga-nome-tipo input[type="text"] {
+            flex: 1 1 180px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: #252525;
+            border: 1px solid #3b3b3b;
+            border-radius: 8px;
+            color: #f5f5f5;
+            font-family: inherit;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #ff5555;
+            box-shadow: 0 0 0 3px rgba(229, 72, 72, 0.2);
+        }
+
+        input::placeholder,
+        textarea::placeholder { color: #666; }
+
+        .tipi {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tipi input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .tipi label {
+            padding: 8px 16px;
+            background: #252525;
+            border: 1px solid #3b3b3b;
+            border-radius: 20px;
+            color: #ccc;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .tipi label:hover {
+            border-color: #555;
+            color: #fff;
+        }
+
+        .tipi input:checked + label {
+            background: rgba(229, 72, 72, 0.18);
+            border-color: #e54848;
+            color: #ff7a7a;
+        }
+
+        .tipi input:focus-visible + label {
+            outline: 2px solid #ff5555;
+            outline-offset: 2px;
+        }
+
+        .riga-invio {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .conta {
+            color: #666;
+            font-size: 0.7rem;
+        }
+
+        .invia {
+            padding: 11px 26px;
+            background: #d94343;
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .invia:hover { background: #e85a5a; transform: translateY(-2px); }
+        .invia:disabled { background: #555; cursor: default; transform: none; }
+
+        .esito {
+            display: none;
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .esito.ok {
+            display: block;
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+            color: #00e676;
+        }
+
+        .esito.errore {
+            display: block;
+            background: rgba(229, 72, 72, 0.12);
+            border: 1px solid rgba(229, 72, 72, 0.5);
+            color: #ff7a7a;
+        }
+
+        /* Bacheca */
+
+        .stato-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: 10px;
+            color: #00e676;
+            font-size: 0.7rem;
+            font-weight: 700;
+            vertical-align: middle;
+        }
+
+        .stato-live::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00e676;
+            box-shadow: 0 0 8px rgba(0, 230, 118, 0.7);
+        }
+
+        .stato-live.offline { color: #999; }
+        .stato-live.offline::before { background: #777; box-shadow: none; }
+
+        .filtri {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0 6px;
+        }
+
+        .filtri button {
+            padding: 7px 14px;
+            background: #252525;
+            border: 1px solid #3b3b3b;
+            border-radius: 20px;
+            color: #ccc;
+            font-family: inherit;
+            font-size: 0.74rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .filtri button:hover { border-color: #555; color: #fff; }
+
+        .filtri button[aria-pressed="true"] {
+            background: rgba(229, 72, 72, 0.18);
+            border-color: #e54848;
+            color: #ff7a7a;
+        }
+
+        .post {
+            padding: 16px 0;
+            border-top: 1px solid #333;
+        }
+
+        .post:first-child { border-top: none; }
+
+        .post-testa {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.68rem;
+            font-weight: 800;
+        }
+
+        .tag.domanda { background: rgba(80, 160, 255, 0.15); color: #7db8ff; }
+        .tag.richiesta { background: rgba(255, 190, 60, 0.15); color: #ffc65a; }
+        .tag.annuncio { background: rgba(0, 230, 118, 0.12); color: #00e676; }
+
+        .post-autore {
+            color: #f5f5f5;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .post-data {
+            color: #666;
+            font-size: 0.72rem;
+        }
+
+        .post-testo {
+            color: #bbb;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+        }
+
+        .vuoto {
+            padding: 14px 0 4px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .torna-indietro {
+            align-self: center;
+            margin-top: 6px;
+        }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 25px 10px 35px;
+        }
+
+        @media (max-width: 700px) {
+            .barra-sinistra,
+            .barra-destra {
+                width: 22vw;
+                opacity: 0.45;
+            }
+
+            main { padding-top: 30px; }
+
+            .navigation-badges {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .badge-link {
+                padding: 6px 12px;
+                font-size: 0.68rem;
+            }
+
+            .testo-illuminato { letter-spacing: -0.8px; }
+            .sottotitolo { letter-spacing: 1px; }
+
+            .contenuto {
+                width: 95%;
+                margin-top: 28px;
+            }
+
+            .scheda { padding: 16px 14px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="barra-sinistra" aria-hidden="true"></div>
+    <div class="barra-destra" aria-hidden="true"></div>
+
+    <main>
+
+        <nav class="navigation-badges">
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="players.png" alt="Players">
+                    <span>Players</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="who.html" class="dropdown-item">
+                            <span>❓ Who?</span>
+                        </a>
+                        <a href="leaderboard.html" class="dropdown-item">
+                            <img src="lb.png" alt="Leaderboard">
+                            <span>Leaderboard</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-container">
+                <a class="badge-link">
+                    <img src="games.png" alt="Games">
+                    <span>Games</span>
+                    <span class="arrow">&gt;</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="horse.html" class="dropdown-item">
+                            <img src="horse.png" alt="H.O.R.S.E.">
+                            <span>H.O.R.S.E.</span>
+                        </a>
+                        <a href="thedemonwheel.html" class="dropdown-item">
+                            <img src="tdw.png" alt="The Demon Wheel">
+                            <span>The Demon Wheel</span>
+                        </a>
+                        <a href="roulette.html" class="dropdown-item">
+                            <img src="roulette.png" alt="Roulette">
+                            <span>Roulette</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <a href="announcements.html" class="badge-link">
+                <img src="announcements.png" alt="Announcements">
+                <span>Announcements</span>
+            </a>
+
+            <a href="community.html" class="badge-link attivo">
+                <span class="badge-emoji" aria-hidden="true">💬</span>
+                <span>Community</span>
+            </a>
+        </nav>
+
+        <header>
+            <h1 class="testo-illuminato">Community</h1>
+            <p class="sottotitolo">Ask, suggest, announce</p>
+            <div class="linea-titolo"></div>
+        </header>
+
+        <section class="contenuto">
+
+            <article class="scheda">
+                <h2>Write to the community</h2>
+                <p>Ask a question, request something for the site, or share news about a level or a player. Your message appears for everyone right away.</p>
+
+                <form id="form-community" novalidate>
+                    <div class="riga-nome-tipo">
+                        <div class="tipi" role="radiogroup" aria-label="Type of message">
+                            <input type="radio" name="tipo" id="tipo-domanda" value="domanda" checked>
+                            <label for="tipo-domanda">Question</label>
+
+                            <input type="radio" name="tipo" id="tipo-richiesta" value="richiesta">
+                            <label for="tipo-richiesta">Request</label>
+
+                            <input type="radio" name="tipo" id="tipo-annuncio" value="annuncio">
+                            <label for="tipo-annuncio">Announcement</label>
+                        </div>
+                        <input type="text" id="nome" maxlength="40" placeholder="Your name or nickname" autocomplete="nickname" aria-label="Your name or nickname">
+                    </div>
+
+                    <textarea id="messaggio" maxlength="800" placeholder="Write your message here. For new info, include the level or player name and a link to proof if you have one." aria-label="Message"></textarea>
+
+                    <div class="esito" id="esito" role="status" aria-live="polite"></div>
+
+                    <div class="riga-invio">
+                        <span class="conta" id="conta">0 / 800</span>
+                        <button type="submit" class="invia" id="invia">Send message</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="scheda">
+                <h2>Community board <span class="stato-live offline" id="stato">connecting...</span></h2>
+
+                <div class="filtri" id="filtri">
+                    <button type="button" data-filtro="all" aria-pressed="true">All</button>
+                    <button type="button" data-filtro="domanda" aria-pressed="false">Questions</button>
+                    <button type="button" data-filtro="richiesta" aria-pressed="false">Requests</button>
+                    <button type="button" data-filtro="annuncio" aria-pressed="false">Announcements</button>
+                </div>
+
+                <div id="bacheca"></div>
+            </article>
+
+            <a href="index.html" class="badge-link torna-indietro">
+                <span>&lt; Back to the list</span>
+            </a>
+        </section>
+
+    </main>
+
+    <footer>
+        G_S demon list
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getFirestore, collection, addDoc, query, orderBy, limit,
+            onSnapshot, serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        /* ============================================================
+           INCOLLA QUI la configurazione che ti da' Firebase
+           (Project settings > Your apps > Web app > firebaseConfig)
+           ============================================================ */
+        const firebaseConfig = {
+            apiKey: "INCOLLA_QUI",
+            authDomain: "INCOLLA_QUI",
+            projectId: "INCOLLA_QUI",
+            storageBucket: "INCOLLA_QUI",
+            messagingSenderId: "INCOLLA_QUI",
+            appId: "INCOLLA_QUI"
+        };
+
+        const configurato = firebaseConfig.projectId !== "INCOLLA_QUI";
+
+        const ETICHETTE = { domanda: "Question", richiesta: "Request", annuncio: "Announcement" };
+        const COOLDOWN_MS = 15000; // tempo minimo tra un messaggio e il successivo
+
+        const bacheca = document.getElementById("bacheca");
+        const filtri = document.getElementById("filtri");
+        const stato = document.getElementById("stato");
+        const form = document.getElementById("form-community");
+        const campoNome = document.getElementById("nome");
+        const campoMsg = document.getElementById("messaggio");
+        const conta = document.getElementById("conta");
+        const esito = document.getElementById("esito");
+        const bottone = document.getElementById("invia");
+
+        let messaggi = [];
+        let filtroAttivo = "all";
+
+        /* ---------------- Utilita' ---------------- */
+
+        function mostraEsito(tipo, testo) {
+            esito.className = "esito " + tipo;
+            esito.textContent = testo;
+        }
+
+        function impostaStato(online) {
+            stato.textContent = online ? "live" : "offline";
+            stato.classList.toggle("offline", !online);
+        }
+
+        function formattaData(ts) {
+            if (!ts) return "just now";
+            return ts.toDate().toLocaleString("it-IT", {
+                day: "numeric", month: "short", year: "numeric",
+                hour: "2-digit", minute: "2-digit"
+            });
+        }
+
+        /* ---------------- Bacheca ---------------- */
+
+        function disegnaBacheca() {
+            bacheca.textContent = "";
+
+            const visibili = messaggi.filter(m => filtroAttivo === "all" || m.tipo === filtroAttivo);
+
+            if (visibili.length === 0) {
+                const v = document.createElement("p");
+                v.className = "vuoto";
+                v.textContent = "Nothing here yet. Be the first to write something.";
+                bacheca.appendChild(v);
+                return;
+            }
+
+            visibili.forEach(m => {
+                const post = document.createElement("div");
+                post.className = "post";
+
+                const testa = document.createElement("div");
+                testa.className = "post-testa";
+
+                const tag = document.createElement("span");
+                tag.className = "tag " + (ETICHETTE[m.tipo] ? m.tipo : "domanda");
+                tag.textContent = ETICHETTE[m.tipo] || m.tipo;
+
+                const autore = document.createElement("span");
+                autore.className = "post-autore";
+                autore.textContent = m.nome;
+
+                const data = document.createElement("span");
+                data.className = "post-data";
+                data.textContent = formattaData(m.creato);
+
+                testa.append(tag, autore, data);
+
+                const testo = document.createElement("p");
+                testo.className = "post-testo";
+                testo.textContent = m.messaggio;
+
+                post.append(testa, testo);
+                bacheca.appendChild(post);
+            });
+        }
+
+        filtri.addEventListener("click", e => {
+            const b = e.target.closest("button[data-filtro]");
+            if (!b) return;
+            filtroAttivo = b.dataset.filtro;
+            filtri.querySelectorAll("button").forEach(x =>
+                x.setAttribute("aria-pressed", String(x === b))
+            );
+            disegnaBacheca();
+        });
+
+        campoMsg.addEventListener("input", () => {
+            conta.textContent = campoMsg.value.length + " / " + campoMsg.maxLength;
+        });
+
+        /* ---------------- Firebase ---------------- */
+
+        if (!configurato) {
+            impostaStato(false);
+            stato.textContent = "not set up";
+            mostraEsito("errore", "The board is not connected yet. The site owner needs to paste the Firebase config in the script of this page.");
+            bottone.disabled = true;
+            disegnaBacheca();
+        } else {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const colonna = collection(db, "community");
+
+            // Ascolto in tempo reale: ogni nuovo messaggio arriva a tutti subito
+            const q = query(colonna, orderBy("creato", "desc"), limit(100));
+            onSnapshot(q,
+                snap => {
+                    messaggi = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    impostaStato(true);
+                    disegnaBacheca();
+                },
+                err => {
+                    console.error(err);
+                    impostaStato(false);
+                    mostraEsito("errore", "Could not load messages. Reload the page and try again.");
+                }
+            );
+
+            form.addEventListener("submit", async e => {
+                e.preventDefault();
+
+                const tipo = form.elements["tipo"].value;
+                const nome = campoNome.value.trim() || "Anonymous";
+                const messaggio = campoMsg.value.trim();
+
+                if (messaggio.length < 2) {
+                    mostraEsito("errore", "Write a message before sending.");
+                    campoMsg.focus();
+                    return;
+                }
+
+                // Anti-spam semplice: attesa tra un invio e il successivo
+                let ultimo = 0;
+                try { ultimo = Number(localStorage.getItem("gs_ultimo_invio")) || 0; } catch (_) {}
+                const trascorso = Date.now() - ultimo;
+                if (trascorso < COOLDOWN_MS) {
+                    const secondi = Math.ceil((COOLDOWN_MS - trascorso) / 1000);
+                    mostraEsito("errore", "Wait " + secondi + " seconds before sending another message.");
+                    return;
+                }
+
+                bottone.disabled = true;
+                bottone.textContent = "Sending...";
+                try {
+                    await addDoc(colonna, {
+                        tipo,
+                        nome,
+                        messaggio,
+                        creato: serverTimestamp()
+                    });
+                    try { localStorage.setItem("gs_ultimo_invio", String(Date.now())); } catch (_) {}
+                    campoMsg.value = "";
+                    conta.textContent = "0 / " + campoMsg.maxLength;
+                    mostraEsito("ok", "Message sent. It is now visible to everyone.");
+                } catch (err) {
+                    console.error(err);
+                    mostraEsito("errore", "The message could not be sent. Check your connection and try again.");
+                } finally {
+                    bottone.disabled = false;
+                    bottone.textContent = "Send message";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
