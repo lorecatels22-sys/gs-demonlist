@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -257,14 +258,8 @@
         }
 
         @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .scheda h2 {
@@ -280,8 +275,6 @@
             font-size: .78rem;
             line-height: 1.7;
         }
-
-        /* WHEEL */
 
         .wheel-wrapper {
             display: flex;
@@ -370,14 +363,8 @@
         }
 
         @keyframes resultPop {
-            from {
-                opacity: 0;
-                transform: scale(.82);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(.82); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .result-label {
@@ -395,8 +382,6 @@
             text-shadow: 0 0 16px rgba(0,230,118,.3);
             overflow-wrap: anywhere;
         }
-
-        /* FORM */
 
         .form-sfida {
             display: flex;
@@ -447,6 +432,7 @@
         }
 
         .form-gruppo select { cursor: pointer; }
+
         .form-gruppo select option {
             background: #222;
             color: #fff;
@@ -457,8 +443,6 @@
             font-size: .68rem;
             line-height: 1.5;
         }
-
-        /* BUTTONS */
 
         .btn {
             display: inline-flex;
@@ -512,8 +496,6 @@
             color: #fff;
             background: var(--red);
         }
-
-        /* LEVEL LIST */
 
         .levels-heading {
             display: flex;
@@ -749,7 +731,6 @@
                         <a href="who.html" class="dropdown-item">
                             <span>❓ Who?</span>
                         </a>
-
                         <a href="leaderboard.html" class="dropdown-item">
                             <img src="lb.png" alt="">
                             <span>Leaderboard</span>
@@ -771,12 +752,10 @@
                             <img src="horse.png" alt="">
                             <span>H.O.R.S.E.</span>
                         </a>
-
                         <a href="thedemonwheel.html" class="dropdown-item">
                             <img src="tdw.png" alt="">
                             <span>The Demon Wheel</span>
                         </a>
-
                         <a href="roulette.html" class="dropdown-item">
                             <img src="roulette.png" alt="">
                             <span>Roulette</span>
@@ -803,7 +782,6 @@
         </header>
 
         <section class="contenuto">
-
             <article class="scheda">
                 <h2>Spin the Wheel</h2>
                 <p class="scheda-intro">
@@ -854,13 +832,8 @@
 
                         <div class="form-gruppo" id="customNameGroup" hidden>
                             <label for="customName">CUSTOM LEVEL NAME</label>
-                            <input
-                                type="text"
-                                id="customName"
-                                maxlength="40"
-                                placeholder="e.g. Acheron"
-                                autocomplete="off"
-                            >
+                            <input type="text" id="customName" maxlength="40"
+                                   placeholder="e.g. Acheron" autocomplete="off">
                         </div>
                     </div>
 
@@ -886,7 +859,6 @@
                     <div class="vuoto">No levels yet. Add some above!</div>
                 </div>
             </article>
-
         </section>
     </main>
 
@@ -937,6 +909,31 @@
         let levels = [];
         let isSpinning = false;
         let currentRotation = 0;
+
+        // Cache delle immagini: evita di ricaricarle ad ogni aggiornamento.
+        const imageCache = {};
+
+        function getLevelImage(src) {
+            if (!src) return null;
+
+            if (!imageCache[src]) {
+                const img = new Image();
+                imageCache[src] = img;
+
+                img.onload = () => {
+                    drawWheel();
+                };
+
+                img.onerror = () => {
+                    imageCache[src] = null;
+                    drawWheel();
+                };
+
+                img.src = src;
+            }
+
+            return imageCache[src];
+        }
 
         function randomColor() {
             return COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -1030,7 +1027,6 @@
                 }
 
                 const found = LIST_LEVELS.find(level => level.name === name);
-
                 if (!found) return;
 
                 addLevel({
@@ -1097,7 +1093,6 @@
                     }, { once: true });
 
                     row.appendChild(img);
-
                 } else {
                     const color = document.createElement("div");
 
@@ -1112,26 +1107,20 @@
                 const name = document.createElement("span");
                 name.className = "level-name";
                 name.textContent = level.name;
-
                 row.appendChild(name);
 
                 const badge = document.createElement("span");
-
                 badge.className = `level-badge${level.isList ? "" : " custom"}`;
                 badge.textContent = level.isList ? "LIST" : "CUSTOM";
-
                 row.appendChild(badge);
 
                 const remove = document.createElement("button");
-
                 remove.className = "btn btn-danger";
                 remove.type = "button";
                 remove.textContent = "Remove";
                 remove.setAttribute("aria-label", `Remove ${level.name}`);
 
-                remove.addEventListener("click", () => {
-                    removeLevel(index);
-                });
+                remove.addEventListener("click", () => removeLevel(index));
 
                 row.appendChild(remove);
                 levelsList.appendChild(row);
@@ -1167,6 +1156,33 @@
         });
 
         /* ========================================
+           IMAGE DRAWING HELPERS
+        ======================================== */
+
+        // Disegna un'immagine riempiendo un rettangolo senza deformarla.
+        function drawImageCover(img, x, y, width, height) {
+            if (!img || !img.complete || !img.naturalWidth) return;
+
+            const imageRatio = img.naturalWidth / img.naturalHeight;
+            const targetRatio = width / height;
+
+            let sx = 0;
+            let sy = 0;
+            let sw = img.naturalWidth;
+            let sh = img.naturalHeight;
+
+            if (imageRatio > targetRatio) {
+                sw = img.naturalHeight * targetRatio;
+                sx = (img.naturalWidth - sw) / 2;
+            } else {
+                sh = img.naturalWidth / targetRatio;
+                sy = (img.naturalHeight - sh) / 2;
+            }
+
+            ctx.drawImage(img, sx, sy, sw, sh, x, y, width, height);
+        }
+
+        /* ========================================
            IMPROVED WHEEL DRAWING
         ======================================== */
 
@@ -1177,12 +1193,11 @@
 
             ctx.clearRect(0, 0, size, size);
 
-            // Metallic outer rim
+            // Bordo metallico esterno
             ctx.beginPath();
             ctx.arc(center, center, radius + 8, 0, Math.PI * 2);
 
             const rim = ctx.createLinearGradient(0, 0, size, size);
-
             rim.addColorStop(0, "#eeeeee");
             rim.addColorStop(.22, "#777777");
             rim.addColorStop(.5, "#292929");
@@ -1215,39 +1230,100 @@
             }
 
             const arc = (Math.PI * 2) / levels.length;
-            const labelRadius = radius - 34;
 
             levels.forEach((level, index) => {
                 const start = index * arc - Math.PI / 2;
                 const end = start + arc;
+                const middle = start + arc / 2;
 
                 const baseColor = level.isList
                     ? COLORS[index % COLORS.length]
                     : (COLORS.includes(level.color) ? level.color : "#777777");
 
-                // Colored slice with gradient
+                // 1. Crea il settore e lo usa come maschera per l'immagine.
+                ctx.save();
+
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, radius - 7, start, end);
+                ctx.closePath();
+                ctx.clip();
+
+                // 2. Colore di base del settore.
+                ctx.fillStyle = baseColor;
+                ctx.fillRect(0, 0, size, size);
+
+                // 3. Immagine specifica del livello.
+                const img = level.isList ? getLevelImage(level.img) : null;
+
+                if (img && img.complete && img.naturalWidth > 0) {
+                    // Posiziona l'immagine verso l'esterno dello spicchio.
+                    // Ogni settore ha quindi la propria immagine indipendente.
+                    const imageCenterRadius = radius * 0.57;
+                    const imageCenterX = center + Math.cos(middle) * imageCenterRadius;
+                    const imageCenterY = center + Math.sin(middle) * imageCenterRadius;
+
+                    ctx.save();
+                    ctx.translate(imageCenterX, imageCenterY);
+                    ctx.rotate(middle);
+
+                    const imageWidth = radius * 1.05;
+                    const imageHeight = radius * 0.85;
+
+                    drawImageCover(
+                        img,
+                        -imageWidth / 2,
+                        -imageHeight / 2,
+                        imageWidth,
+                        imageHeight
+                    );
+
+                    ctx.restore();
+
+                    // Overlay scuro per rendere il testo leggibile.
+                    ctx.fillStyle = "rgba(0,0,0,0.43)";
+                    ctx.fillRect(0, 0, size, size);
+
+                    // Leggera sfumatura scura verso il centro.
+                    const shade = ctx.createRadialGradient(
+                        center, center, radius * 0.12,
+                        center, center, radius
+                    );
+
+                    shade.addColorStop(0, "rgba(0,0,0,0.10)");
+                    shade.addColorStop(1, "rgba(0,0,0,0.30)");
+
+                    ctx.fillStyle = shade;
+                    ctx.fillRect(0, 0, size, size);
+
+                } else {
+                    // Per livelli personalizzati o immagini non disponibili.
+                    const gradient = ctx.createRadialGradient(
+                        center, center, 35,
+                        center, center, radius
+                    );
+
+                    gradient.addColorStop(0, lightenColor(baseColor, 28));
+                    gradient.addColorStop(.72, baseColor);
+                    gradient.addColorStop(1, lightenColor(baseColor, -18));
+
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, size, size);
+                }
+
+                ctx.restore();
+
+                // 4. Bordo del settore.
                 ctx.beginPath();
                 ctx.moveTo(center, center);
                 ctx.arc(center, center, radius - 7, start, end);
                 ctx.closePath();
 
-                const gradient = ctx.createRadialGradient(
-                    center, center, 35,
-                    center, center, radius
-                );
-
-                gradient.addColorStop(0, lightenColor(baseColor, 28));
-                gradient.addColorStop(.72, baseColor);
-                gradient.addColorStop(1, lightenColor(baseColor, -18));
-
-                ctx.fillStyle = gradient;
-                ctx.fill();
-
                 ctx.lineWidth = 3;
-                ctx.strokeStyle = "rgba(15,15,15,.8)";
+                ctx.strokeStyle = "rgba(15,15,15,.9)";
                 ctx.stroke();
 
-                // Bright separator lines
+                // Separatore luminoso.
                 ctx.beginPath();
                 ctx.moveTo(center, center);
                 ctx.lineTo(
@@ -1255,24 +1331,22 @@
                     center + Math.sin(start) * (radius - 9)
                 );
 
-                ctx.strokeStyle = "rgba(255,255,255,.32)";
+                ctx.strokeStyle = "rgba(255,255,255,.35)";
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Level names: larger, upright and readable
-                const middle = start + arc / 2;
-
+                // 5. Etichetta del livello.
                 ctx.save();
                 ctx.translate(center, center);
                 ctx.rotate(middle);
 
-                // Flip the text on the lower half so it stays upright
                 const lowerHalf = Math.cos(middle) < 0;
 
                 if (lowerHalf) {
                     ctx.rotate(Math.PI);
                 }
 
+                const labelRadius = radius - 34;
                 const maxTextWidth = radius * .70;
 
                 let fontSize =
@@ -1283,7 +1357,6 @@
                 ctx.textBaseline = "middle";
                 ctx.font = `900 ${fontSize}px Montserrat`;
 
-                // Reduce font size only when the name is too long
                 while (
                     ctx.measureText(level.name).width > maxTextWidth &&
                     fontSize > 11
@@ -1308,69 +1381,54 @@
                 const boxW = textWidth + 14;
                 const boxH = fontSize * 1.72;
 
-                // Dark translucent background behind the name
+                // Pannello scuro dietro il nome.
                 ctx.beginPath();
-
-                const cornerRadius = Math.min(8, boxH / 2);
-
                 ctx.roundRect(
                     boxX,
                     boxY,
                     boxW,
                     boxH,
-                    cornerRadius
+                    Math.min(8, boxH / 2)
                 );
 
-                ctx.fillStyle = "rgba(12,12,12,.58)";
+                ctx.fillStyle = "rgba(8,8,8,.78)";
                 ctx.fill();
 
-                ctx.strokeStyle = "rgba(255,255,255,.18)";
+                ctx.strokeStyle = "rgba(255,255,255,.35)";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Text outline for extra contrast
+                // Testo con contorno.
                 ctx.textAlign = textAlign;
                 ctx.lineJoin = "round";
                 ctx.lineWidth = 4;
-                ctx.strokeStyle = "rgba(0,0,0,.9)";
+                ctx.strokeStyle = "rgba(0,0,0,.95)";
 
-                ctx.strokeText(
-                    level.name,
-                    anchorX,
-                    0,
-                    maxTextWidth
-                );
+                ctx.strokeText(level.name, anchorX, 0, maxTextWidth);
 
                 ctx.fillStyle = "#ffffff";
-                ctx.shadowColor = "rgba(0,0,0,.75)";
-                ctx.shadowBlur = 7;
+                ctx.shadowColor = "rgba(0,0,0,.95)";
+                ctx.shadowBlur = 8;
 
-                ctx.fillText(
-                    level.name,
-                    anchorX,
-                    0,
-                    maxTextWidth
-                );
+                ctx.fillText(level.name, anchorX, 0, maxTextWidth);
 
                 ctx.restore();
             });
 
-            // Inner ring
+            // Anello interno.
             ctx.beginPath();
             ctx.arc(center, center, 66, 0, Math.PI * 2);
-
-            ctx.fillStyle = "rgba(15,15,15,.28)";
+            ctx.fillStyle = "rgba(15,15,15,.45)";
             ctx.fill();
 
             ctx.lineWidth = 3;
-            ctx.strokeStyle = "rgba(255,255,255,.16)";
+            ctx.strokeStyle = "rgba(255,255,255,.20)";
             ctx.stroke();
 
             drawWheelHub(center);
             drawWheelStuds(center, radius);
         }
 
-        // Metallic details around the wheel
         function drawWheelStuds(center, radius) {
             for (let i = 0; i < 36; i++) {
                 const angle = (Math.PI * 2 * i) / 36;
@@ -1404,7 +1462,6 @@
             return `rgb(${r}, ${g}, ${b})`;
         }
 
-        // Improved central hub
         function drawWheelHub(center) {
             const hubRadius = 48;
 
@@ -1425,7 +1482,6 @@
 
             ctx.beginPath();
             ctx.arc(center, center, hubRadius + 5, 0, Math.PI * 2);
-
             ctx.fillStyle = "#151515";
             ctx.fill();
 
@@ -1444,7 +1500,6 @@
 
             ctx.beginPath();
             ctx.arc(center, center, hubRadius, 0, Math.PI * 2);
-
             ctx.fillStyle = hubGradient;
             ctx.fill();
 
@@ -1455,9 +1510,7 @@
 
             ctx.shadowColor = "rgba(229,72,72,.8)";
             ctx.shadowBlur = 12;
-
             ctx.fillText("G_S", center, center);
-
             ctx.shadowBlur = 0;
         }
 
@@ -1485,9 +1538,7 @@
             canvas.classList.add("spinning");
             resultBox.classList.remove("show");
 
-            // Choose the winner before starting the animation
             const winnerIndex = Math.floor(Math.random() * levels.length);
-
             const arcDegrees = 360 / levels.length;
 
             const winnerCenter =
@@ -1505,7 +1556,6 @@
             const extraSpins = 6 + Math.floor(Math.random() * 3);
 
             const startRotation = currentRotation;
-
             const endRotation =
                 startRotation + extraSpins * 360 + alignment;
 
@@ -1538,16 +1588,12 @@
 
                 canvas.classList.remove("spinning");
 
-                spinBtn.disabled = levels.length === 0;
-                spinBtn.textContent = "✦  SPIN AGAIN";
-
                 const winner = levels[winnerIndex];
 
                 resultName.textContent = winner.name;
                 resultBox.classList.add("show");
 
                 updateSpinState();
-
                 spinBtn.textContent = "✦  SPIN AGAIN";
             }
 
@@ -1564,6 +1610,13 @@
             initListSelect();
 
             levels = loadLevels();
+
+            // Precarica tutte le immagini dei livelli presenti.
+            levels.forEach(level => {
+                if (level.isList && level.img) {
+                    getLevelImage(level.img);
+                }
+            });
 
             renderLevels();
             drawWheel();
