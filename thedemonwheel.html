@@ -1,6 +1,5 @@
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,16 +14,24 @@
         :root {
             --bg: #1e1e1e;
             --panel: rgba(32, 32, 32, .97);
-            --panel-soft: #191919;
             --border: #3b3b3b;
             --red: #e54848;
             --red-light: #ff6262;
-            --muted: #999;
             --green: #00e676;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { min-height: 100%; background: var(--bg); scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--bg);
+            scroll-behavior: smooth;
+        }
+
         body {
             min-height: 100vh;
             position: relative;
@@ -34,7 +41,8 @@
             font-family: "Montserrat", sans-serif;
         }
 
-        .barra-sinistra, .barra-destra {
+        .barra-sinistra,
+        .barra-destra {
             position: absolute;
             top: 0;
             bottom: 0;
@@ -45,8 +53,12 @@
             pointer-events: none;
             z-index: 0;
         }
+
         .barra-sinistra { left: 0; }
-        .barra-destra { right: 0; transform: scaleX(-1); }
+        .barra-destra {
+            right: 0;
+            transform: scaleX(-1);
+        }
 
         main {
             position: relative;
@@ -90,8 +102,9 @@
             font-weight: 700;
             letter-spacing: .3px;
             cursor: pointer;
-            transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+            transition: .2s ease;
         }
+
         .badge-link:hover {
             transform: translateY(-2px);
             background: #292929;
@@ -99,7 +112,9 @@
             border-left-color: var(--red-light);
             box-shadow: 0 7px 18px rgba(0,0,0,.3);
         }
-        .badge-link img, .badge-emoji {
+
+        .badge-link img,
+        .badge-emoji {
             width: 24px;
             height: 24px;
             flex: 0 0 24px;
@@ -112,8 +127,14 @@
             background: #252525;
             font-size: .85rem;
         }
-        .arrow { color: #999; transition: transform .2s ease, color .2s ease; }
+
+        .arrow {
+            color: #999;
+            transition: transform .2s ease;
+        }
+
         .dropdown-container { position: relative; }
+
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -124,8 +145,9 @@
             visibility: hidden;
             pointer-events: none;
             transform: translate(-50%, -8px);
-            transition: opacity .2s ease, transform .2s ease, visibility .2s;
+            transition: .2s ease;
         }
+
         .dropdown-container:hover .dropdown-menu,
         .dropdown-container:focus-within .dropdown-menu {
             opacity: 1;
@@ -133,11 +155,13 @@
             pointer-events: auto;
             transform: translate(-50%, 0);
         }
+
         .dropdown-container:hover .arrow,
         .dropdown-container:focus-within .arrow {
             transform: rotate(90deg);
             color: var(--red-light);
         }
+
         .dropdown-content {
             display: flex;
             flex-direction: column;
@@ -148,6 +172,7 @@
             border-radius: 11px;
             box-shadow: 0 10px 28px rgba(0,0,0,.45);
         }
+
         .dropdown-item {
             display: flex;
             align-items: center;
@@ -157,12 +182,26 @@
             text-decoration: none;
             font-size: .76rem;
             font-weight: 700;
-            transition: background .2s ease, color .2s ease;
+            transition: .2s ease;
         }
-        .dropdown-item:hover { color: var(--red-light); background: rgba(229,72,72,.13); }
-        .dropdown-item img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; }
 
-        header { text-align: center; padding: 0 15px; }
+        .dropdown-item:hover {
+            color: var(--red-light);
+            background: rgba(229,72,72,.13);
+        }
+
+        .dropdown-item img {
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        header {
+            text-align: center;
+            padding: 0 15px;
+        }
+
         .testo-illuminato {
             color: #fff;
             font-size: clamp(2.1rem, 5vw, 3.5rem);
@@ -171,10 +210,12 @@
             text-shadow: 0 0 25px rgba(255,255,255,.13);
             animation: titleGlow 3s ease-in-out infinite alternate;
         }
+
         @keyframes titleGlow {
             from { text-shadow: 0 0 22px rgba(255,255,255,.12); }
             to { text-shadow: 0 0 34px rgba(229,72,72,.38); }
         }
+
         .sottotitolo {
             margin-top: 12px;
             color: #999;
@@ -184,6 +225,7 @@
             line-height: 1.8;
             text-transform: uppercase;
         }
+
         .linea-titolo {
             width: 78px;
             height: 3px;
@@ -191,11 +233,6 @@
             border-radius: 10px;
             background: var(--red);
             box-shadow: 0 0 15px rgba(229,72,72,.5);
-            animation: linePulse 2s ease-in-out infinite;
-        }
-        @keyframes linePulse {
-            0%, 100% { width: 78px; opacity: 1; }
-            50% { width: 100px; opacity: .8; }
         }
 
         .contenuto {
@@ -207,6 +244,7 @@
             width: min(900px, 88%);
             margin: 40px auto 0;
         }
+
         .scheda {
             padding: 24px 26px;
             background: var(--panel);
@@ -217,24 +255,33 @@
             animation: fadeUp .5s ease both;
             backdrop-filter: blur(5px);
         }
-        .scheda:nth-child(2) { animation-delay: .08s; }
-        .scheda:nth-child(3) { animation-delay: .16s; }
+
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .scheda h2 {
             margin-bottom: 8px;
             color: #f5f5f5;
             font-size: 1.08rem;
             font-weight: 800;
         }
+
         .scheda-intro {
             margin-bottom: 16px;
             color: #888;
             font-size: .78rem;
             line-height: 1.7;
         }
+
+        /* WHEEL */
 
         .wheel-wrapper {
             display: flex;
@@ -243,13 +290,15 @@
             gap: 19px;
             padding: 12px 0 8px;
         }
+
         .wheel-container {
             position: relative;
-            width: min(390px, 78vw);
+            width: min(430px, 82vw);
             aspect-ratio: 1;
             margin: 8px 0 3px;
             filter: drop-shadow(0 12px 25px rgba(0,0,0,.35));
         }
+
         .wheel-pointer {
             position: absolute;
             top: -13px;
@@ -263,26 +312,46 @@
             border-top: 31px solid var(--red-light);
             filter: drop-shadow(0 3px 5px rgba(229,72,72,.65));
         }
+
         canvas#wheelCanvas {
             display: block;
             width: 100%;
             height: 100%;
             border-radius: 50%;
             transform: rotate(0deg);
-            box-shadow: 0 0 0 5px #292929, 0 0 0 8px #555, 0 0 28px rgba(229,72,72,.25);
-            transition: box-shadow .3s ease;
+            box-shadow:
+                0 0 0 6px #171717,
+                0 0 0 10px #777,
+                0 0 0 13px #292929,
+                0 0 38px rgba(229,72,72,.32);
         }
+
         canvas#wheelCanvas.spinning {
-            box-shadow: 0 0 0 5px #292929, 0 0 0 8px var(--red), 0 0 42px rgba(229,72,72,.55);
+            box-shadow:
+                0 0 0 6px #171717,
+                0 0 0 10px var(--red),
+                0 0 0 13px #292929,
+                0 0 52px rgba(229,72,72,.65);
         }
+
         .spin-btn {
             min-width: 190px;
             padding: 14px 38px;
             font-size: .95rem;
             letter-spacing: 1.5px;
         }
-        .spin-btn:disabled { opacity: .55; cursor: not-allowed; transform: none !important; }
-        .wheel-hint { color: #777; font-size: .7rem; text-align: center; }
+
+        .spin-btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .wheel-hint {
+            color: #777;
+            font-size: .7rem;
+            text-align: center;
+        }
 
         .result-box {
             display: none;
@@ -294,18 +363,31 @@
             border: 1px solid rgba(0,230,118,.28);
             border-radius: 12px;
         }
-        .result-box.show { display: block; animation: resultPop .45s cubic-bezier(.34,1.56,.64,1); }
-        @keyframes resultPop {
-            from { opacity: 0; transform: scale(.82); }
-            to { opacity: 1; transform: scale(1); }
+
+        .result-box.show {
+            display: block;
+            animation: resultPop .45s cubic-bezier(.34,1.56,.64,1);
         }
-        .result-box .result-label {
+
+        @keyframes resultPop {
+            from {
+                opacity: 0;
+                transform: scale(.82);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-label {
             color: #8caa99;
             font-size: .65rem;
             font-weight: 800;
             letter-spacing: 2px;
         }
-        .result-box .result-name {
+
+        .result-name {
             margin-top: 5px;
             color: var(--green);
             font-size: clamp(1.15rem, 4vw, 1.5rem);
@@ -314,16 +396,37 @@
             overflow-wrap: anywhere;
         }
 
-        .form-sfida { display: flex; flex-direction: column; gap: 13px; }
-        .form-riga { display: flex; gap: 12px; flex-wrap: wrap; }
-        .form-gruppo { display: flex; flex: 1; min-width: 150px; flex-direction: column; gap: 7px; }
+        /* FORM */
+
+        .form-sfida {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .form-riga {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-gruppo {
+            display: flex;
+            flex: 1;
+            min-width: 150px;
+            flex-direction: column;
+            gap: 7px;
+        }
+
         .form-gruppo label {
             color: #999;
             font-size: .67rem;
             font-weight: 800;
             letter-spacing: 1px;
         }
-        .form-gruppo input, .form-gruppo select {
+
+        .form-gruppo input,
+        .form-gruppo select {
             width: 100%;
             min-height: 42px;
             padding: 10px 12px;
@@ -334,15 +437,28 @@
             outline: none;
             font-family: inherit;
             font-size: .82rem;
-            transition: border-color .2s ease, box-shadow .2s ease;
+            transition: .2s ease;
         }
-        .form-gruppo input:focus, .form-gruppo select:focus {
+
+        .form-gruppo input:focus,
+        .form-gruppo select:focus {
             border-color: var(--red-light);
             box-shadow: 0 0 0 3px rgba(232,90,90,.13);
         }
+
         .form-gruppo select { cursor: pointer; }
-        .form-gruppo select option { background: #222; color: #fff; }
-        .form-note { color: #777; font-size: .68rem; line-height: 1.5; }
+        .form-gruppo select option {
+            background: #222;
+            color: #fff;
+        }
+
+        .form-note {
+            color: #777;
+            font-size: .68rem;
+            line-height: 1.5;
+        }
+
+        /* BUTTONS */
 
         .btn {
             display: inline-flex;
@@ -356,18 +472,34 @@
             font-size: .78rem;
             font-weight: 800;
             cursor: pointer;
-            transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+            transition: .2s ease;
         }
+
         .btn:hover { transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
+
         .btn-primary {
             color: #fff;
             background: var(--red);
             box-shadow: 0 4px 13px rgba(229,72,72,.28);
         }
-        .btn-primary:hover { background: #ff5555; box-shadow: 0 6px 17px rgba(229,72,72,.4); }
-        .btn-secondary { color: #ccc; background: #333; border: 1px solid #555; }
-        .btn-secondary:hover { color: #fff; background: #444; }
+
+        .btn-primary:hover {
+            background: #ff5555;
+            box-shadow: 0 6px 17px rgba(229,72,72,.4);
+        }
+
+        .btn-secondary {
+            color: #ccc;
+            background: #333;
+            border: 1px solid #555;
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+            background: #444;
+        }
+
         .btn-danger {
             padding: 6px 11px;
             color: #ff6969;
@@ -375,7 +507,13 @@
             border: 1px solid rgba(229,72,72,.55);
             font-size: .68rem;
         }
-        .btn-danger:hover { color: #fff; background: var(--red); }
+
+        .btn-danger:hover {
+            color: #fff;
+            background: var(--red);
+        }
+
+        /* LEVEL LIST */
 
         .levels-heading {
             display: flex;
@@ -384,7 +522,9 @@
             gap: 12px;
             margin-bottom: 14px;
         }
+
         .levels-heading h2 { margin: 0; }
+
         #levelCount {
             display: inline-flex;
             align-items: center;
@@ -399,6 +539,7 @@
             border-radius: 20px;
             font-size: .7rem;
         }
+
         .levels-list {
             display: flex;
             flex-direction: column;
@@ -407,9 +548,17 @@
             overflow-y: auto;
             padding: 2px 5px 2px 0;
         }
+
         .levels-list::-webkit-scrollbar { width: 6px; }
-        .levels-list::-webkit-scrollbar-track { background: #292929; border-radius: 5px; }
-        .levels-list::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+        .levels-list::-webkit-scrollbar-track {
+            background: #292929;
+            border-radius: 5px;
+        }
+        .levels-list::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 5px;
+        }
+
         .level-item {
             display: flex;
             align-items: center;
@@ -419,9 +568,15 @@
             background: rgba(25,25,25,.9);
             border: 1px solid #393939;
             border-radius: 9px;
-            transition: background .2s ease, border-color .2s ease, transform .2s ease;
+            transition: .2s ease;
         }
-        .level-item:hover { background: #252525; border-color: #555; transform: translateX(2px); }
+
+        .level-item:hover {
+            background: #252525;
+            border-color: #555;
+            transform: translateX(2px);
+        }
+
         .level-color {
             width: 30px;
             height: 30px;
@@ -429,6 +584,7 @@
             border: 1px solid rgba(255,255,255,.18);
             border-radius: 7px;
         }
+
         .level-img {
             width: 44px;
             height: 29px;
@@ -438,6 +594,7 @@
             border-radius: 5px;
             background: #292929;
         }
+
         .level-name {
             flex: 1;
             min-width: 0;
@@ -448,6 +605,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .level-badge {
             flex: 0 0 auto;
             padding: 3px 8px;
@@ -459,9 +617,25 @@
             font-weight: 800;
             letter-spacing: .5px;
         }
-        .level-badge.custom { color: #aaa; background: rgba(120,120,120,.12); border-color: #555; }
-        .vuoto { padding: 24px 10px; color: #707070; text-align: center; font-size: .8rem; }
-        .status-message { min-height: 16px; color: #ff8585; font-size: .7rem; }
+
+        .level-badge.custom {
+            color: #aaa;
+            background: rgba(120,120,120,.12);
+            border-color: #555;
+        }
+
+        .vuoto {
+            padding: 24px 10px;
+            color: #707070;
+            text-align: center;
+            font-size: .8rem;
+        }
+
+        .status-message {
+            min-height: 16px;
+            color: #ff8585;
+            font-size: .7rem;
+        }
 
         footer {
             position: relative;
@@ -474,27 +648,76 @@
         }
 
         @media (max-width: 900px) {
-            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
+            .torna-indietro {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 0 0 14px 14px;
+            }
         }
+
         @media (max-width: 700px) {
-            .barra-sinistra, .barra-destra { width: 22vw; opacity: .42; }
+            .barra-sinistra,
+            .barra-destra {
+                width: 22vw;
+                opacity: .42;
+            }
+
             main { padding-top: 25px; }
-            .torna-indietro { margin: 0 0 12px 10px; }
-            .navigation-badges { gap: 7px; width: 96%; margin-bottom: 22px; }
-            .badge-link { gap: 7px; padding: 7px 10px; font-size: .66rem; }
-            .badge-link img, .badge-emoji { width: 21px; height: 21px; flex-basis: 21px; }
+
+            .torna-indietro {
+                margin: 0 0 12px 10px;
+            }
+
+            .navigation-badges {
+                gap: 7px;
+                width: 96%;
+                margin-bottom: 22px;
+            }
+
+            .badge-link {
+                gap: 7px;
+                padding: 7px 10px;
+                font-size: .66rem;
+            }
+
+            .badge-link img,
+            .badge-emoji {
+                width: 21px;
+                height: 21px;
+                flex-basis: 21px;
+            }
+
             .testo-illuminato { letter-spacing: -.8px; }
             .sottotitolo { letter-spacing: 1.3px; }
-            .contenuto { width: 94%; margin-top: 28px; }
+
+            .contenuto {
+                width: 94%;
+                margin-top: 28px;
+            }
+
             .scheda { padding: 18px 15px; }
             .form-riga { flex-direction: column; }
-            .level-item { gap: 8px; padding: 9px; }
+
+            .level-item {
+                gap: 8px;
+                padding: 9px;
+            }
+
             .level-name { font-size: .74rem; }
-            .level-badge { font-size: .52rem; padding: 3px 6px; }
+
+            .level-badge {
+                font-size: .52rem;
+                padding: 3px 6px;
+            }
+
             .btn-danger { padding: 6px 8px; }
         }
+
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+            *,
+            *::before,
+            *::after {
                 scroll-behavior: auto !important;
                 animation-duration: .01ms !important;
                 animation-iteration-count: 1 !important;
@@ -517,13 +740,19 @@
             <div class="dropdown-container">
                 <a class="badge-link" href="#" aria-label="Players menu">
                     <img src="players.png" alt="">
-                    <span>Players</span><span class="arrow">&gt;</span>
+                    <span>Players</span>
+                    <span class="arrow">&gt;</span>
                 </a>
+
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
-                        <a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
+                        <a href="who.html" class="dropdown-item">
+                            <span>❓ Who?</span>
+                        </a>
+
                         <a href="leaderboard.html" class="dropdown-item">
-                            <img src="lb.png" alt=""><span>Leaderboard</span>
+                            <img src="lb.png" alt="">
+                            <span>Leaderboard</span>
                         </a>
                     </div>
                 </div>
@@ -532,28 +761,38 @@
             <div class="dropdown-container">
                 <a class="badge-link" href="#" aria-label="Games menu">
                     <img src="games.png" alt="">
-                    <span>Games</span><span class="arrow">&gt;</span>
+                    <span>Games</span>
+                    <span class="arrow">&gt;</span>
                 </a>
+
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
                         <a href="horse.html" class="dropdown-item">
-                            <img src="horse.png" alt=""><span>H.O.R.S.E.</span>
+                            <img src="horse.png" alt="">
+                            <span>H.O.R.S.E.</span>
                         </a>
+
                         <a href="thedemonwheel.html" class="dropdown-item">
-                            <img src="tdw.png" alt=""><span>The Demon Wheel</span>
+                            <img src="tdw.png" alt="">
+                            <span>The Demon Wheel</span>
                         </a>
+
                         <a href="roulette.html" class="dropdown-item">
-                            <img src="roulette.png" alt=""><span>Roulette</span>
+                            <img src="roulette.png" alt="">
+                            <span>Roulette</span>
                         </a>
                     </div>
                 </div>
             </div>
 
             <a href="announcements.html" class="badge-link">
-                <img src="announcements.png" alt=""><span>Announcements</span>
+                <img src="announcements.png" alt="">
+                <span>Announcements</span>
             </a>
+
             <a href="community.html" class="badge-link">
-                <span class="badge-emoji" aria-hidden="true">💬</span><span>Community</span>
+                <span class="badge-emoji">💬</span>
+                <span>Community</span>
             </a>
         </nav>
 
@@ -564,18 +803,26 @@
         </header>
 
         <section class="contenuto">
+
             <article class="scheda">
                 <h2>Spin the Wheel</h2>
-                <p class="scheda-intro">Add your levels to the wheel and let fate choose your next challenge.</p>
+                <p class="scheda-intro">
+                    Add your levels to the wheel and let fate choose your next challenge.
+                </p>
 
                 <div class="wheel-wrapper">
                     <div class="wheel-container">
-                        <div class="wheel-pointer" aria-hidden="true"></div>
-                        <canvas id="wheelCanvas" width="700" height="700" aria-label="Random level wheel"></canvas>
+                        <div class="wheel-pointer"></div>
+                        <canvas id="wheelCanvas" width="700" height="700"></canvas>
                     </div>
 
-                    <button class="btn btn-primary spin-btn" id="spinBtn" type="button">✦ &nbsp; SPIN THE WHEEL</button>
-                    <p class="wheel-hint" id="wheelHint">Add at least one level to start spinning.</p>
+                    <button class="btn btn-primary spin-btn" id="spinBtn" type="button">
+                        ✦ &nbsp; SPIN THE WHEEL
+                    </button>
+
+                    <p class="wheel-hint" id="wheelHint">
+                        Add at least one level to start spinning.
+                    </p>
 
                     <div class="result-box" id="resultBox" aria-live="polite">
                         <div class="result-label">THE WHEEL HAS CHOSEN</div>
@@ -586,7 +833,9 @@
 
             <article class="scheda">
                 <h2>Add Level to Wheel</h2>
-                <p class="scheda-intro">Choose a level from the G_S list or add your own custom level.</p>
+                <p class="scheda-intro">
+                    Choose a level from the G_S list or add your own custom level.
+                </p>
 
                 <form class="form-sfida" id="addForm">
                     <div class="form-riga">
@@ -605,13 +854,22 @@
 
                         <div class="form-gruppo" id="customNameGroup" hidden>
                             <label for="customName">CUSTOM LEVEL NAME</label>
-                            <input type="text" id="customName" maxlength="40" placeholder="e.g. Acheron" autocomplete="off">
+                            <input
+                                type="text"
+                                id="customName"
+                                maxlength="40"
+                                placeholder="e.g. Acheron"
+                                autocomplete="off"
+                            >
                         </div>
                     </div>
 
                     <div class="status-message" id="formMessage" role="status"></div>
+
                     <div>
-                        <button type="submit" class="btn btn-primary">＋ Add to Wheel</button>
+                        <button type="submit" class="btn btn-primary">
+                            ＋ Add to Wheel
+                        </button>
                     </div>
                 </form>
             </article>
@@ -619,12 +877,16 @@
             <article class="scheda">
                 <div class="levels-heading">
                     <h2>Levels on the Wheel <span id="levelCount">0</span></h2>
-                    <button class="btn btn-secondary btn-small" id="clearBtn" type="button">Clear all</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button">
+                        Clear all
+                    </button>
                 </div>
+
                 <div class="levels-list" id="levelsList">
                     <div class="vuoto">No levels yet. Add some above!</div>
                 </div>
             </article>
+
         </section>
     </main>
 
@@ -663,8 +925,10 @@
         ];
 
         const STORAGE_KEY = "gs_demon_wheel_v1";
+
         const canvas = document.getElementById("wheelCanvas");
         const ctx = canvas.getContext("2d");
+
         const spinBtn = document.getElementById("spinBtn");
         const resultBox = document.getElementById("resultBox");
         const resultName = document.getElementById("resultName");
@@ -689,6 +953,7 @@
         function loadLevels() {
             try {
                 const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
                 if (!Array.isArray(saved)) return [];
 
                 return saved
@@ -696,13 +961,17 @@
                     .map(item => {
                         const known = LIST_LEVELS.find(level => level.name === item.name);
                         const isList = Boolean(known && item.isList);
+
                         return {
                             name: item.name.trim().slice(0, 40),
                             img: isList ? known.img : null,
-                            color: isList ? null : (COLORS.includes(item.color) ? item.color : randomColor()),
+                            color: isList ? null : (
+                                COLORS.includes(item.color) ? item.color : randomColor()
+                            ),
                             isList
                         };
                     });
+
             } catch (error) {
                 return [];
             }
@@ -716,6 +985,7 @@
 
         function initListSelect() {
             const select = document.getElementById("listLevel");
+
             LIST_LEVELS.forEach(level => {
                 const option = document.createElement("option");
                 option.value = level.name;
@@ -726,37 +996,50 @@
 
         function addLevel(level) {
             levels.push(level);
+
             saveLevels();
             renderLevels();
             drawWheel();
+
             resultBox.classList.remove("show");
             updateSpinState();
         }
 
         document.getElementById("levelType").addEventListener("change", event => {
             const custom = event.target.value === "custom";
+
             document.getElementById("listSelectGroup").hidden = custom;
             document.getElementById("customNameGroup").hidden = !custom;
+
             showFormMessage("");
         });
 
         document.getElementById("addForm").addEventListener("submit", event => {
             event.preventDefault();
+
             if (isSpinning) return;
 
             const type = document.getElementById("levelType").value;
 
             if (type === "list") {
                 const name = document.getElementById("listLevel").value;
+
                 if (levels.some(level => level.name === name)) {
                     showFormMessage("This level is already on the wheel.");
                     return;
                 }
 
                 const found = LIST_LEVELS.find(level => level.name === name);
+
                 if (!found) return;
 
-                addLevel({ name: found.name, img: found.img, color: null, isList: true });
+                addLevel({
+                    name: found.name,
+                    img: found.img,
+                    color: null,
+                    isList: true
+                });
+
             } else {
                 const input = document.getElementById("customName");
                 const name = input.value.trim();
@@ -766,12 +1049,19 @@
                     input.focus();
                     return;
                 }
+
                 if (levels.some(level => level.name.toLowerCase() === name.toLowerCase())) {
                     showFormMessage("This level is already on the wheel.");
                     return;
                 }
 
-                addLevel({ name: name.slice(0, 40), img: null, color: randomColor(), isList: false });
+                addLevel({
+                    name: name.slice(0, 40),
+                    img: null,
+                    color: randomColor(),
+                    isList: false
+                });
+
                 input.value = "";
             }
 
@@ -780,6 +1070,7 @@
 
         function renderLevels() {
             levelsList.replaceChildren();
+
             document.getElementById("levelCount").textContent = levels.length;
 
             if (levels.length === 0) {
@@ -796,179 +1087,387 @@
 
                 if (level.isList && level.img) {
                     const img = document.createElement("img");
+
                     img.className = "level-img";
                     img.src = level.img;
                     img.alt = "";
-                    img.addEventListener("error", () => { img.hidden = true; }, { once: true });
+
+                    img.addEventListener("error", () => {
+                        img.hidden = true;
+                    }, { once: true });
+
                     row.appendChild(img);
+
                 } else {
                     const color = document.createElement("div");
+
                     color.className = "level-color";
-                    color.style.backgroundColor = COLORS.includes(level.color) ? level.color : "#666";
+                    color.style.backgroundColor = COLORS.includes(level.color)
+                        ? level.color
+                        : "#666";
+
                     row.appendChild(color);
                 }
 
                 const name = document.createElement("span");
                 name.className = "level-name";
                 name.textContent = level.name;
+
                 row.appendChild(name);
 
                 const badge = document.createElement("span");
+
                 badge.className = `level-badge${level.isList ? "" : " custom"}`;
                 badge.textContent = level.isList ? "LIST" : "CUSTOM";
+
                 row.appendChild(badge);
 
                 const remove = document.createElement("button");
+
                 remove.className = "btn btn-danger";
                 remove.type = "button";
                 remove.textContent = "Remove";
                 remove.setAttribute("aria-label", `Remove ${level.name}`);
-                remove.addEventListener("click", () => removeLevel(index));
-                row.appendChild(remove);
 
+                remove.addEventListener("click", () => {
+                    removeLevel(index);
+                });
+
+                row.appendChild(remove);
                 levelsList.appendChild(row);
             });
         }
 
         function removeLevel(index) {
             if (isSpinning || index < 0 || index >= levels.length) return;
+
             levels.splice(index, 1);
+
             saveLevels();
             renderLevels();
             drawWheel();
+
             resultBox.classList.remove("show");
             updateSpinState();
         }
 
         document.getElementById("clearBtn").addEventListener("click", () => {
             if (isSpinning || levels.length === 0) return;
+
             if (!confirm("Remove every level from the wheel?")) return;
 
             levels = [];
+
             saveLevels();
             renderLevels();
             drawWheel();
+
             resultBox.classList.remove("show");
             updateSpinState();
         });
 
+        /* ========================================
+           IMPROVED WHEEL DRAWING
+        ======================================== */
+
         function drawWheel() {
             const size = canvas.width;
             const center = size / 2;
-            const radius = center - 12;
+            const radius = center - 18;
 
             ctx.clearRect(0, 0, size, size);
 
-            // Outer rim
+            // Metallic outer rim
             ctx.beginPath();
-            ctx.arc(center, center, radius + 3, 0, Math.PI * 2);
-            ctx.fillStyle = "#171717";
+            ctx.arc(center, center, radius + 8, 0, Math.PI * 2);
+
+            const rim = ctx.createLinearGradient(0, 0, size, size);
+
+            rim.addColorStop(0, "#eeeeee");
+            rim.addColorStop(.22, "#777777");
+            rim.addColorStop(.5, "#292929");
+            rim.addColorStop(.78, "#999999");
+            rim.addColorStop(1, "#eeeeee");
+
+            ctx.fillStyle = rim;
             ctx.fill();
-            ctx.lineWidth = 9;
-            ctx.strokeStyle = "#777";
-            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(center, center, radius + 1, 0, Math.PI * 2);
+            ctx.fillStyle = "#151515";
+            ctx.fill();
 
             if (levels.length === 0) {
                 ctx.beginPath();
-                ctx.arc(center, center, radius - 5, 0, Math.PI * 2);
+                ctx.arc(center, center, radius - 8, 0, Math.PI * 2);
                 ctx.fillStyle = "#292929";
                 ctx.fill();
-                ctx.fillStyle = "#888";
-                ctx.font = "800 27px Montserrat";
+
+                ctx.fillStyle = "#aaa";
+                ctx.font = "900 29px Montserrat";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText("ADD LEVELS", center, center);
+
                 drawWheelHub(center);
+                drawWheelStuds(center, radius);
                 return;
             }
 
             const arc = (Math.PI * 2) / levels.length;
+            const labelRadius = radius - 34;
 
             levels.forEach((level, index) => {
                 const start = index * arc - Math.PI / 2;
                 const end = start + arc;
-                const color = level.isList ? COLORS[index % COLORS.length] : (COLORS.includes(level.color) ? level.color : randomColor());
 
+                const baseColor = level.isList
+                    ? COLORS[index % COLORS.length]
+                    : (COLORS.includes(level.color) ? level.color : "#777777");
+
+                // Colored slice with gradient
                 ctx.beginPath();
                 ctx.moveTo(center, center);
-                ctx.arc(center, center, radius - 5, start, end);
+                ctx.arc(center, center, radius - 7, start, end);
                 ctx.closePath();
 
-                const gradient = ctx.createRadialGradient(center, center, radius * .12, center, center, radius);
-                gradient.addColorStop(0, lightenColor(color, 18));
-                gradient.addColorStop(1, color);
+                const gradient = ctx.createRadialGradient(
+                    center, center, 35,
+                    center, center, radius
+                );
+
+                gradient.addColorStop(0, lightenColor(baseColor, 28));
+                gradient.addColorStop(.72, baseColor);
+                gradient.addColorStop(1, lightenColor(baseColor, -18));
+
                 ctx.fillStyle = gradient;
                 ctx.fill();
 
                 ctx.lineWidth = 3;
-                ctx.strokeStyle = "rgba(20,20,20,.7)";
+                ctx.strokeStyle = "rgba(15,15,15,.8)";
                 ctx.stroke();
 
-                // Small separator highlight
+                // Bright separator lines
                 ctx.beginPath();
                 ctx.moveTo(center, center);
-                ctx.lineTo(center + Math.cos(start) * (radius - 7), center + Math.sin(start) * (radius - 7));
-                ctx.strokeStyle = "rgba(255,255,255,.16)";
+                ctx.lineTo(
+                    center + Math.cos(start) * (radius - 9),
+                    center + Math.sin(start) * (radius - 9)
+                );
+
+                ctx.strokeStyle = "rgba(255,255,255,.32)";
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
+                // Level names: larger, upright and readable
+                const middle = start + arc / 2;
+
                 ctx.save();
                 ctx.translate(center, center);
-                ctx.rotate(start + arc / 2);
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "#fff";
-                ctx.shadowColor = "rgba(0,0,0,.75)";
-                ctx.shadowBlur = 5;
+                ctx.rotate(middle);
 
-                const fontSize = Math.max(11, Math.min(21, 25 - levels.length * .55));
-                ctx.font = `800 ${fontSize}px Montserrat`;
-                const maxLength = levels.length > 12 ? 10 : 16;
-                const label = level.name.length > maxLength ? level.name.slice(0, maxLength - 1) + "…" : level.name;
-                ctx.fillText(label, radius - 28, 0, radius * .62);
+                // Flip the text on the lower half so it stays upright
+                const lowerHalf = Math.cos(middle) < 0;
+
+                if (lowerHalf) {
+                    ctx.rotate(Math.PI);
+                }
+
+                const maxTextWidth = radius * .70;
+
+                let fontSize =
+                    levels.length > 16 ? 16 :
+                    levels.length > 11 ? 18 :
+                    levels.length > 7 ? 21 : 24;
+
+                ctx.textBaseline = "middle";
+                ctx.font = `900 ${fontSize}px Montserrat`;
+
+                // Reduce font size only when the name is too long
+                while (
+                    ctx.measureText(level.name).width > maxTextWidth &&
+                    fontSize > 11
+                ) {
+                    fontSize--;
+                    ctx.font = `900 ${fontSize}px Montserrat`;
+                }
+
+                const textWidth = Math.min(
+                    ctx.measureText(level.name).width,
+                    maxTextWidth
+                );
+
+                const anchorX = lowerHalf ? -labelRadius : labelRadius;
+                const textAlign = lowerHalf ? "left" : "right";
+
+                const boxX = lowerHalf
+                    ? anchorX - 7
+                    : anchorX - textWidth - 7;
+
+                const boxY = -fontSize * .86;
+                const boxW = textWidth + 14;
+                const boxH = fontSize * 1.72;
+
+                // Dark translucent background behind the name
+                ctx.beginPath();
+
+                const cornerRadius = Math.min(8, boxH / 2);
+
+                ctx.roundRect(
+                    boxX,
+                    boxY,
+                    boxW,
+                    boxH,
+                    cornerRadius
+                );
+
+                ctx.fillStyle = "rgba(12,12,12,.58)";
+                ctx.fill();
+
+                ctx.strokeStyle = "rgba(255,255,255,.18)";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Text outline for extra contrast
+                ctx.textAlign = textAlign;
+                ctx.lineJoin = "round";
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "rgba(0,0,0,.9)";
+
+                ctx.strokeText(
+                    level.name,
+                    anchorX,
+                    0,
+                    maxTextWidth
+                );
+
+                ctx.fillStyle = "#ffffff";
+                ctx.shadowColor = "rgba(0,0,0,.75)";
+                ctx.shadowBlur = 7;
+
+                ctx.fillText(
+                    level.name,
+                    anchorX,
+                    0,
+                    maxTextWidth
+                );
+
                 ctx.restore();
             });
 
+            // Inner ring
+            ctx.beginPath();
+            ctx.arc(center, center, 66, 0, Math.PI * 2);
+
+            ctx.fillStyle = "rgba(15,15,15,.28)";
+            ctx.fill();
+
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "rgba(255,255,255,.16)";
+            ctx.stroke();
+
             drawWheelHub(center);
+            drawWheelStuds(center, radius);
+        }
+
+        // Metallic details around the wheel
+        function drawWheelStuds(center, radius) {
+            for (let i = 0; i < 36; i++) {
+                const angle = (Math.PI * 2 * i) / 36;
+
+                const x = center + Math.cos(angle) * (radius + 1);
+                const y = center + Math.sin(angle) * (radius + 1);
+
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+
+                ctx.fillStyle = i % 3 === 0 ? "#f0f0f0" : "#777";
+                ctx.fill();
+
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = "#222";
+                ctx.stroke();
+            }
         }
 
         function lightenColor(hex, amount) {
             const value = hex.replace("#", "");
             const number = parseInt(value, 16);
-            const r = Math.min(255, ((number >> 16) & 255) + amount);
-            const g = Math.min(255, ((number >> 8) & 255) + amount);
-            const b = Math.min(255, (number & 255) + amount);
+
+            const adjust = channel =>
+                Math.max(0, Math.min(255, channel + amount));
+
+            const r = adjust((number >> 16) & 255);
+            const g = adjust((number >> 8) & 255);
+            const b = adjust(number & 255);
+
             return `rgb(${r}, ${g}, ${b})`;
         }
 
+        // Improved central hub
         function drawWheelHub(center) {
-            const hubRadius = 47;
+            const hubRadius = 48;
 
             ctx.beginPath();
-            ctx.arc(center, center, hubRadius + 8, 0, Math.PI * 2);
-            ctx.fillStyle = "#181818";
+            ctx.arc(center, center, hubRadius + 13, 0, Math.PI * 2);
+
+            const outer = ctx.createRadialGradient(
+                center - 10, center - 12, 3,
+                center, center, hubRadius + 13
+            );
+
+            outer.addColorStop(0, "#f06a6a");
+            outer.addColorStop(.55, "#9f2929");
+            outer.addColorStop(1, "#421515");
+
+            ctx.fillStyle = outer;
             ctx.fill();
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = "#e54848";
+
+            ctx.beginPath();
+            ctx.arc(center, center, hubRadius + 5, 0, Math.PI * 2);
+
+            ctx.fillStyle = "#151515";
+            ctx.fill();
+
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "#aaa";
             ctx.stroke();
 
-            const hubGradient = ctx.createRadialGradient(center - 10, center - 12, 3, center, center, hubRadius);
-            hubGradient.addColorStop(0, "#444");
-            hubGradient.addColorStop(1, "#202020");
+            const hubGradient = ctx.createRadialGradient(
+                center - 13, center - 16, 3,
+                center, center, hubRadius
+            );
+
+            hubGradient.addColorStop(0, "#555");
+            hubGradient.addColorStop(.5, "#292929");
+            hubGradient.addColorStop(1, "#111");
+
             ctx.beginPath();
             ctx.arc(center, center, hubRadius, 0, Math.PI * 2);
+
             ctx.fillStyle = hubGradient;
             ctx.fill();
 
             ctx.fillStyle = "#fff";
-            ctx.font = "900 22px Montserrat";
+            ctx.font = "900 24px Montserrat";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+
+            ctx.shadowColor = "rgba(229,72,72,.8)";
+            ctx.shadowBlur = 12;
+
             ctx.fillText("G_S", center, center);
+
+            ctx.shadowBlur = 0;
         }
+
+        /* ========================================
+           SPIN SYSTEM
+        ======================================== */
 
         function updateSpinState() {
             spinBtn.disabled = isSpinning || levels.length === 0;
+
             document.getElementById("wheelHint").textContent =
                 levels.length === 0
                     ? "Add at least one level to start spinning."
@@ -979,22 +1478,37 @@
             if (isSpinning || levels.length === 0) return;
 
             isSpinning = true;
+
             spinBtn.disabled = true;
             spinBtn.textContent = "⟳  SPINNING...";
+
             canvas.classList.add("spinning");
             resultBox.classList.remove("show");
 
-            // Pick the winner first, then calculate the exact stopping angle.
+            // Choose the winner before starting the animation
             const winnerIndex = Math.floor(Math.random() * levels.length);
-            const arcDegrees = 360 / levels.length;
-            const winnerCenter = (winnerIndex + .5) * arcDegrees - 90;
-            const desiredRotation = ((-90 - winnerCenter) % 360 + 360) % 360;
 
-            const currentNormalized = ((currentRotation % 360) + 360) % 360;
-            const alignment = (desiredRotation - currentNormalized + 360) % 360;
+            const arcDegrees = 360 / levels.length;
+
+            const winnerCenter =
+                (winnerIndex + .5) * arcDegrees - 90;
+
+            const desiredRotation =
+                ((-90 - winnerCenter) % 360 + 360) % 360;
+
+            const currentNormalized =
+                ((currentRotation % 360) + 360) % 360;
+
+            const alignment =
+                (desiredRotation - currentNormalized + 360) % 360;
+
             const extraSpins = 6 + Math.floor(Math.random() * 3);
+
             const startRotation = currentRotation;
-            const endRotation = startRotation + extraSpins * 360 + alignment;
+
+            const endRotation =
+                startRotation + extraSpins * 360 + alignment;
+
             const duration = 4800 + Math.random() * 900;
             const startTime = performance.now();
 
@@ -1003,8 +1517,15 @@
             }
 
             function animate(now) {
-                const progress = Math.min((now - startTime) / duration, 1);
-                currentRotation = startRotation + (endRotation - startRotation) * easeOutQuint(progress);
+                const progress = Math.min(
+                    (now - startTime) / duration,
+                    1
+                );
+
+                currentRotation =
+                    startRotation +
+                    (endRotation - startRotation) * easeOutQuint(progress);
+
                 canvas.style.transform = `rotate(${currentRotation}deg)`;
 
                 if (progress < 1) {
@@ -1014,14 +1535,19 @@
 
                 currentRotation = endRotation;
                 isSpinning = false;
+
                 canvas.classList.remove("spinning");
+
                 spinBtn.disabled = levels.length === 0;
                 spinBtn.textContent = "✦  SPIN AGAIN";
 
                 const winner = levels[winnerIndex];
+
                 resultName.textContent = winner.name;
                 resultBox.classList.add("show");
+
                 updateSpinState();
+
                 spinBtn.textContent = "✦  SPIN AGAIN";
             }
 
@@ -1030,9 +1556,15 @@
 
         spinBtn.addEventListener("click", spinWheel);
 
+        /* ========================================
+           INITIALIZATION
+        ======================================== */
+
         function init() {
             initListSelect();
+
             levels = loadLevels();
+
             renderLevels();
             drawWheel();
             updateSpinState();
