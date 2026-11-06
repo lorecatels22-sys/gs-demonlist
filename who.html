@@ -549,7 +549,7 @@
 @keyframes shimmer { to { background-position: -200% 0; } }
 @keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
 @keyframes nudge { 50% { translate: 3px 0; } }
-@keyframes bar-in { from { opacity: 0; } }
+@keyframes bar-roll { to { background-position-y: var(--tile-h, 1000px); } }
 @keyframes bar-breathe { from { filter: brightness(.9); } to { filter: brightness(1.3); } }
 @keyframes ping { from { transform: scale(1); opacity: .8; } to { transform: scale(3.2); opacity: 0; } }
 @keyframes blink { 50% { opacity: .25; } }
@@ -558,7 +558,7 @@
 @keyframes wave { 40% { transform: translateY(-10px); color: #ff6666; } }
 
 .barra-sinistra, .barra-destra {
-    animation: bar-in 1.6s ease backwards, bar-breathe 7s ease-in-out 1.6s infinite alternate;
+    animation: bar-roll 35s linear infinite, bar-breathe 7s ease-in-out infinite alternate;
 }
 
 .navigation-badges > * { animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards; }
@@ -989,6 +989,18 @@ footer { animation: foot 5s ease-in-out infinite; }
     const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const $$ = (s) => [...document.querySelectorAll(s)];
     if (reduce) return;
+
+    /* Sfondo che scorre senza stacchi: lo spostamento è esattamente l'altezza di una tessera */
+    const bg = new Image();
+    bg.onload = () => {
+        const setTile = () => {
+            const w = document.querySelector('.barra-sinistra').clientWidth;
+            document.documentElement.style.setProperty('--tile-h', (w * bg.naturalHeight / bg.naturalWidth) + 'px');
+        };
+        setTile();
+        addEventListener('resize', setTile);
+    };
+    bg.src = 'miguel.png';
 
     /* Titolo diviso in lettere */
     const h1 = document.querySelector('.testo-illuminato');
