@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -45,7 +46,6 @@
             align-items: center;
             gap: 9px;
             width: fit-content;
-            margin: 10px 0 14px 18px;
             padding: 7px 14px;
             background: rgba(38, 38, 38, .97);
             border: 1px solid #424242;
@@ -59,12 +59,15 @@
             letter-spacing: .35px;
             transition: .22s ease;
             cursor: pointer;
-            position: relative;
-            z-index: 10;
+            position: absolute;
+            left: max(18px, calc((100% - 1100px) / 2));
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 20;
         }
 
         .back-to-list:hover {
-            transform: translateY(-2px);
+            transform: translateY(calc(-50% - 2px));
             background: #303030;
             border-color: #555;
             border-left-color: #00ff88;
@@ -113,13 +116,23 @@
 
         /* NAVBAR */
 
+        .navigation-top {
+            position: relative;
+            width: 100%;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
         .navigation-badges {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             width: min(900px, 88%);
-            margin: 0 auto 25px;
+            margin: 0 auto;
             flex-wrap: wrap;
             position: relative;
             z-index: 10;
@@ -1032,17 +1045,20 @@
                 opacity: 0.45;
             }
 
+            .navigation-top {
+                min-height: 48px;
+                margin-bottom: 20px;
+            }
+
             .back-to-list {
-                margin: 8px 0 12px 10px;
+                left: 10px;
                 padding: 6px 11px;
                 font-size: .67rem;
             }
 
-            main { padding-top: 0; }
-
             .navigation-badges {
                 gap: 8px;
-                margin-bottom: 20px;
+                width: 88%;
             }
 
             .badge-link {
@@ -1074,6 +1090,27 @@
             .notifica { max-width: none; }
         }
 
+        @media (max-width: 430px) {
+            .navigation-top {
+                padding-top: 43px;
+                min-height: auto;
+            }
+
+            .back-to-list {
+                top: 0;
+                left: 10px;
+                transform: none;
+            }
+
+            .back-to-list:hover {
+                transform: translateY(-2px);
+            }
+
+            .navigation-badges {
+                margin-top: 8px;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -1081,26 +1118,6 @@
                 transition-duration: 0.01ms !important;
             }
         }
-        .navigation-top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    margin: 10px auto 25px;
-}
-
-.back-to-list {
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-}
-
-.navigation-badges {
-    margin: 0 auto;
-}
     </style>
 </head>
 
@@ -1110,74 +1127,76 @@
     <div class="barra-destra" aria-hidden="true"></div>
 
     <main>
-    <div class="navigation-top">
-        <a href="./index.html" class="back-to-list">
-            <span class="back-arrow">←</span>
-            <span>Back to the list</span>
-        </a>
 
-        <nav class="navigation-badges">
+        <div class="navigation-top">
 
-            <div class="dropdown-container">
-                <a class="badge-link">
-                    <img src="players.png" alt="Players">
-                    <span>Players</span>
-                    <span class="arrow">&gt;</span>
-                </a>
-
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="who.html" class="dropdown-item">
-                            <span>❓ Who?</span>
-                        </a>
-
-                        <a href="leaderboard.html" class="dropdown-item">
-                            <img src="lb.png" alt="Leaderboard">
-                            <span>Leaderboard</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dropdown-container">
-                <a class="badge-link">
-                    <img src="games.png" alt="Games">
-                    <span>Games</span>
-                    <span class="arrow">&gt;</span>
-                </a>
-
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="horse.html" class="dropdown-item">
-                            <img src="horse.png" alt="H.O.R.S.E.">
-                            <span>H.O.R.S.E.</span>
-                        </a>
-
-                        <a href="thedemonwheel.html" class="dropdown-item">
-                            <img src="tdw.png" alt="The Demon Wheel">
-                            <span>The Demon Wheel</span>
-                        </a>
-
-                        <a href="roulette.html" class="dropdown-item">
-                            <img src="roulette.png" alt="Roulette">
-                            <span>Roulette</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <a href="announcements.html" class="badge-link">
-                <img src="announcements.png" alt="Announcements">
-                <span>Announcements</span>
+            <a href="./index.html" class="back-to-list">
+                <span class="back-arrow">←</span>
+                <span>Back to the list</span>
             </a>
 
-            <a href="community.html" class="badge-link attivo">
-                <span class="badge-emoji" aria-hidden="true">💬</span>
-                <span>Community</span>
-            </a>
+            <nav class="navigation-badges">
 
-        </nav>
-          </div>
+                <div class="dropdown-container">
+                    <a class="badge-link">
+                        <img src="players.png" alt="Players">
+                        <span>Players</span>
+                        <span class="arrow">&gt;</span>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <a href="who.html" class="dropdown-item">
+                                <span>❓ Who?</span>
+                            </a>
+
+                            <a href="leaderboard.html" class="dropdown-item">
+                                <img src="lb.png" alt="Leaderboard">
+                                <span>Leaderboard</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-container">
+                    <a class="badge-link">
+                        <img src="games.png" alt="Games">
+                        <span>Games</span>
+                        <span class="arrow">&gt;</span>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                            <a href="horse.html" class="dropdown-item">
+                                <img src="horse.png" alt="H.O.R.S.E.">
+                                <span>H.O.R.S.E.</span>
+                            </a>
+
+                            <a href="thedemonwheel.html" class="dropdown-item">
+                                <img src="tdw.png" alt="The Demon Wheel">
+                                <span>The Demon Wheel</span>
+                            </a>
+
+                            <a href="roulette.html" class="dropdown-item">
+                                <img src="roulette.png" alt="Roulette">
+                                <span>Roulette</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="announcements.html" class="badge-link">
+                    <img src="announcements.png" alt="Announcements">
+                    <span>Announcements</span>
+                </a>
+
+                <a href="community.html" class="badge-link attivo">
+                    <span class="badge-emoji" aria-hidden="true">💬</span>
+                    <span>Community</span>
+                </a>
+
+            </nav>
+        </div>
 
         <header>
             <h1 class="testo-illuminato" id="titolo">Community</h1>
