@@ -797,6 +797,213 @@
             .punti { font-size: .52rem; max-width: 75px; }
             .difficolta { font-size: .46rem; }
         }
+
+        /* ==================== ANIMAZIONI ==================== */
+
+/* G_S demon list - animazioni extra. Caricare DOPO lo <style> della pagina. */
+
+/* ---------- INGRESSO PAGINA ---------- */
+@keyframes drop-in { from { opacity: 0; transform: translateY(-30px) scale(.8); } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(50px) scale(.9); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes slide-l { from { opacity: 0; transform: translateX(-24px); } }
+@keyframes letter-in { from { opacity: 0; transform: translateY(-60px) rotate(-12deg) scale(.5); } 60% { transform: translateY(8px) rotate(3deg) scale(1.08); } }
+@keyframes sub-in { from { opacity: 0; letter-spacing: 12px; filter: blur(6px); } }
+@keyframes line-grow { from { width: 0; opacity: 0; } }
+@keyframes float { 50% { translate: 0 -5px; } }
+@keyframes glow-title { 50% { text-shadow: 0 0 40px rgba(255,255,255,.3), 0 0 12px rgba(229,72,72,.35); } }
+@keyframes glow-points { 50% { text-shadow: 0 0 26px rgba(0,230,118,.8); } }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
+@keyframes nudge { 50% { translate: 3px 0; } }
+@keyframes bar-breathe { from { filter: brightness(.9); } to { filter: brightness(1.3); } }
+@keyframes ping { from { transform: scale(1); opacity: .8; } to { transform: scale(3.2); opacity: 0; } }
+@keyframes blink { 50% { opacity: .25; } }
+@keyframes foot { 50% { letter-spacing: 3px; color: #999; } }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+@keyframes wave { 40% { transform: translateY(-10px); color: #ff6666; } }
+
+.barra-sinistra, .barra-destra {
+    animation: bar-breathe 7s ease-in-out infinite alternate;
+}
+
+.navigation-badges > * { animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards; }
+.navigation-badges > :nth-child(1) { animation-delay: .1s; }
+.navigation-badges > :nth-child(2) { animation-delay: .22s; }
+.navigation-badges > :nth-child(3) { animation-delay: .34s; }
+.navigation-badges > :nth-child(4) { animation-delay: .46s; }
+
+.testo-illuminato { animation: glow-title 4s ease-in-out 1.4s infinite; }
+.lettera { display: inline-block; animation: letter-in .9s cubic-bezier(.2,.9,.3,1.2) backwards; animation-delay: calc(.5s + var(--i) * .1s); }
+.testo-illuminato.ready .lettera { animation: none; }
+.testo-illuminato.ready:hover .lettera { animation: wave .6s ease calc(var(--i) * .06s); }
+.sottotitolo { animation: sub-in 1.2s ease .9s backwards; }
+.linea-titolo {
+    background: linear-gradient(90deg, #e54848, #ff9a9a, #e54848);
+    background-size: 200% 100%;
+    animation: line-grow .8s ease 1.1s backwards, shimmer 2.5s linear 1.9s infinite;
+}
+.intro p { animation: fade-in 1s ease 1.3s backwards; }
+.firebase-status { animation: fade-in 1s ease 1.6s backwards; }
+
+/* ---------- BADGE E MENU ---------- */
+.badge-link { position: relative; overflow: hidden; }
+.badge-link::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    transform: translateX(-120%) skewX(-20deg); pointer-events: none;
+}
+.badge-link:hover { box-shadow: 0 6px 18px rgba(229,72,72,.3); }
+.badge-link:hover::after { animation: sweep .8s ease; }
+.badge-link:hover img { animation: wave .5s ease; }
+.badge-link:active { transform: scale(.95); }
+.arrow { animation: nudge 1.6s ease-in-out infinite; display: inline-block; }
+
+/* ---------- CARD GIOCATORI ---------- */
+.giocatore-card {
+    --d: 1.2s;
+    position: relative; overflow: hidden;
+    animation: rise-in .9s cubic-bezier(.2,.9,.3,1.15) var(--d) backwards,
+               float 7s ease-in-out calc(var(--d) + 1s) infinite;
+    transition: transform .15s ease-out, background .22s, border-color .22s, box-shadow .3s;
+}
+.giocatore-card:nth-child(2) { --d: 1.4s; }
+.giocatore-card:nth-child(3) { --d: 1.6s; }
+.giocatore-card:hover {
+    animation-play-state: running, paused;
+    box-shadow: 0 14px 34px rgba(229,72,72,.22);
+}
+.giocatore-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), rgba(229,72,72,.18), transparent 70%);
+}
+.giocatore-card:hover::before { opacity: 1; }
+.giocatore-card::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; pointer-events: none;
+    background: linear-gradient(90deg, transparent, #ff7777, transparent);
+    background-size: 200% 100%; animation: shimmer 3s linear infinite;
+}
+.giocatore-nome { position: relative; }
+.giocatore-nome::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: #ff5555;
+    transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+.giocatore-nome:hover::after { transform: scaleX(1); }
+.giocatore-punti { animation: glow-points 2.8s ease-in-out infinite; transition: transform .25s ease; }
+.giocatore-card:hover .giocatore-punti { transform: scale(1.12); }
+.giocatore-card > .giocatore-label,
+.stat-riga, .progress-container { animation: slide-l .6s ease backwards; animation-delay: calc(var(--d) + .5s); }
+.stat-riga + .stat-riga { animation-delay: calc(var(--d) + .65s); }
+.progress-container { animation-delay: calc(var(--d) + .8s); }
+.stat-riga { transition: transform .2s ease, background .2s ease; border-radius: 4px; }
+.stat-riga:hover { transform: translateX(4px); }
+
+.progress-fill { position: relative; overflow: hidden; }
+.progress-fill::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 45%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    animation: sweep 2.2s ease-in-out infinite;
+}
+
+/* ---------- SEZIONE REGOLE ---------- */
+.reveal { opacity: 0; translate: -36px 0; }
+.reveal.in { opacity: 1; translate: 0 0; transition: opacity .7s ease, translate .7s cubic-bezier(.2,.9,.3,1.1), transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.sezione-extra.reveal { translate: 0 40px; }
+.regola { transition: transform .25s ease, background .25s ease, border-left-color .25s ease, box-shadow .25s ease; }
+.regola:hover { transform: translateX(8px); background: #222; border-left-color: #ff5555; box-shadow: -4px 0 14px rgba(229,72,72,.2); }
+
+/* ---------- STATO FIREBASE ---------- */
+.firebase-dot { position: relative; animation: blink 1s ease-in-out infinite; }
+.firebase-dot.online, .firebase-dot.error { animation: none; }
+.firebase-dot.online::after, .firebase-dot.error::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit;
+    animation: ping 1.8s ease-out infinite;
+}
+
+footer { animation: foot 5s ease-in-out infinite; }
+
+
+/* ---------- SFONDO FISSO ---------- */
+
+
+/* ---------- LUCE SOLO SUI RETTANGOLI ---------- */
+.regola { position: relative; }
+.regola, .sezione-extra { overflow: hidden; }
+.regola::before, .sezione-extra::before, .badge-link::before, .dropdown-item::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.18), transparent 70%);
+}
+.regola:hover::before, .sezione-extra:hover::before, .badge-link:hover::before, .dropdown-item:hover::before { opacity: 1; }
+
+/* ---------- SFONDO: bordo interno sfumato ---------- */
+.barra-sinistra, .barra-destra {
+    -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+}
+
+/* ---------- EXTRA CREATI DA JS ---------- */
+.scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
+    background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
+.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.ripple { position: absolute; border-radius: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; pointer-events: none;
+    background: rgba(255,255,255,.35); animation: ripple .6s ease-out forwards; }
+
+@media (max-width: 700px) { .giocatore-card { animation-name: rise-in; } }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    .reveal { opacity: 1; translate: 0 0; }
+    .dropdown-item { opacity: 1; translate: 0 0; }
+}
+
+
+/* ---------- HOME: LIVELLI ---------- */
+@keyframes glow-red { 50% { text-shadow: 0 0 14px rgba(255,82,82,.75); } }
+@keyframes glow-box { to { box-shadow: 0 0 22px rgba(0,230,118,.24), 0 0 40px rgba(0,230,118,.1); } }
+@keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes slide-card { from { opacity: 0; transform: translateX(-70px) scale(.96); } }
+
+.lettera { white-space: pre; }
+
+.livello { overflow: hidden; }
+.livello.enter { animation: slide-card .8s cubic-bezier(.2,.9,.3,1.15) calc(1.2s + var(--i) * .15s) backwards; }
+.classifica > .livello:nth-child(even).reveal:not(.in) { translate: 50px 0; }
+.livello::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.livello:hover::before { opacity: 1; }
+.livello::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 35%; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.livello:hover::after { animation: sweep .9s ease; }
+.posizione { display: inline-block; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+.livello:hover .posizione { transform: scale(1.25) rotate(-6deg); }
+.livello img { transition: filter .22s ease, transform .35s ease; }
+.livello:hover img { transform: scale(1.06) rotate(-1deg); }
+.livello .punti { animation: glow-red 2.6s ease-in-out infinite; }
+.livello .progressi { animation: glow-box 3.5s ease-in-out infinite alternate; }
+.difficolta { transition: letter-spacing .3s ease; }
+.livello:hover .difficolta { letter-spacing: 1.4px; }
+
+/* ---------- HOME: FORM E ADMIN ---------- */
+.campo input:focus, .campo select:focus { box-shadow: 0 0 0 3px rgba(229,72,72,.18); }
+.pulsante { position: relative; overflow: hidden; }
+.pulsante::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.pulsante:hover:not(:disabled)::after { animation: sweep .8s ease; }
+.pulsante:active:not(:disabled) { transform: scale(.96); }
+.messaggio:not(:empty) { animation: fade-in .4s ease; }
+.messaggio.errore:not(:empty) { animation: shake .45s ease; }
+.richiesta { animation: slide-l .45s ease backwards; transition: transform .2s ease, border-left-color .2s ease; }
+.richiesta:hover { transform: translateX(6px); border-left-color: #ff5555; }
+.admin-contenuto:not([hidden]) { animation: fade-in .6s ease; }
+
     </style>
 </head>
 
@@ -1137,6 +1344,7 @@
             <div class="dati-destra"><span class="punti">+15 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
         </article>
 
+
     </section>
 
     <!-- INVIO PROGRESSI -->
@@ -1278,6 +1486,175 @@
 </main>
 
 <footer>G_S demon list</footer>
+
+<!-- ANIMAZIONI -->
+
+<script>
+/* G_S demon list - animazioni extra (da caricare con "defer") */
+(() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const $$ = (s) => [...document.querySelectorAll(s)];
+    if (reduce) return;
+
+    /* Titolo diviso in lettere */
+    const h1 = document.querySelector('.testo-illuminato');
+    if (h1) {
+        const t = h1.textContent.trim();
+        h1.setAttribute('aria-label', t);
+        h1.textContent = '';
+        [...t].forEach((c, i) => {
+            const s = document.createElement('span');
+            s.className = 'lettera';
+            s.textContent = c;
+            s.style.setProperty('--i', i);
+            s.setAttribute('aria-hidden', 'true');
+            h1.appendChild(s);
+        });
+        setTimeout(() => h1.classList.add('ready'), 500 + t.length * 100 + 1000);
+    }
+
+    /* Barra di scroll + bagliore del cursore */
+    const bar = Object.assign(document.createElement('div'), { className: 'scroll-bar' });
+    document.body.appendChild(bar);
+    addEventListener('scroll', () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    }, { passive: true });
+
+    /* Luce che segue il mouse solo sopra i rettangoli */
+    if (fine) {
+        const sel = '.giocatore-card, .livello, .sezione-extra, .badge-link, .dropdown-item';
+        document.addEventListener('mousemove', (e) => {
+            const el = e.target.closest(sel);
+            if (!el) return;
+            const r = el.getBoundingClientRect();
+            el.style.setProperty('--mx', ((e.clientX - r.left) / r.width) * 100 + '%');
+            el.style.setProperty('--my', ((e.clientY - r.top) / r.height) * 100 + '%');
+        }, { passive: true });
+    }
+
+    /* Rivelazione allo scroll (solo per ciò che è sotto la piega) */
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); const t = e.target; setTimeout(() => { t.style.transitionDelay = ''; }, 1000); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    $$('.sezione-extra, .livello').forEach((el, i) => {
+        if (el.getBoundingClientRect().top > innerHeight * 0.9) {
+            el.classList.add('reveal');
+            el.style.transitionDelay = (el.classList.contains('regola') ? (i % 3) * 0.1 : 0) + 's';
+            io.observe(el);
+        }
+    });
+
+    /* Inclinazione 3D + luce sulle card */
+    if (fine) {
+        $$('.giocatore-card').forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width;
+                const y = (e.clientY - r.top) / r.height;
+                card.style.setProperty('--mx', x * 100 + '%');
+                card.style.setProperty('--my', y * 100 + '%');
+                card.style.transform = `perspective(800px) rotateX(${(0.5 - y) * 10}deg) rotateY(${(x - 0.5) * 12}deg) translateY(-4px)`;
+            });
+            card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+        });
+    }
+
+    /* Ripple al click */
+    document.addEventListener('click', (e) => {
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .pulsante');
+        if (!host) return;
+        const r = host.getBoundingClientRect();
+        const s = document.createElement('span');
+        s.className = 'ripple';
+        s.style.left = e.clientX - r.left + 'px';
+        s.style.top = e.clientY - r.top + 'px';
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+        host.style.overflow = 'hidden';
+        host.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+    });
+
+    /* Conteggio animato dei numeri aggiornati da Firebase */
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    function countUp(el) {
+        if (el.textContent === el._last) return;
+        const txt = el.textContent;
+        const m = txt.match(/\d[\d,]*\.?\d*/);
+        if (!m) return;
+        const raw = m[0];
+        const dec = (raw.split('.')[1] || '').length;
+        const to = parseFloat(raw.replace(/,/g, ''));
+        const from = el._shown ?? 0;
+        el._shown = to;
+        const pre = txt.slice(0, m.index);
+        const post = txt.slice(m.index + raw.length);
+        cancelAnimationFrame(el._raf);
+        const t0 = performance.now();
+        const step = (now) => {
+            const p = Math.min(1, (now - t0) / 1100);
+            const v = from + (to - from) * ease(p);
+            const n = Number(dec ? v.toFixed(dec) : Math.round(v));
+            const s = n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+            el._last = pre + s + post;
+            el.textContent = el._last;
+            if (p < 1) el._raf = requestAnimationFrame(step);
+        };
+        el._raf = requestAnimationFrame(step);
+    }
+    const mo = new MutationObserver((list) => list.forEach((m) => countUp(m.target.nodeType === 3 ? m.target.parentNode : m.target)));
+    $$('[id$="-points"], [id$="-beaten"], [id$="-progress-text"], [id^="total-"]').forEach((el) => {
+        mo.observe(el, { childList: true, characterData: true, subtree: true });
+    });
+
+    /* Livelli già visibili al caricamento: entrata a cascata */
+    $$('.livello').forEach((el, i) => {
+        if (!el.classList.contains('reveal')) { el.style.setProperty('--i', i); el.classList.add('enter'); }
+    });
+
+    /* Particelle: braci rosse e verdi che salgono piano */
+    const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
+    document.body.prepend(cv);
+    const ctx = cv.getContext('2d');
+    let W, H, dpr;
+    const resize = () => {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        W = cv.width = innerWidth * dpr;
+        H = cv.height = innerHeight * dpr;
+    };
+    resize();
+    addEventListener('resize', resize);
+    const count = innerWidth < 700 ? 22 : 48;
+    const mk = (init) => ({
+        x: Math.random() * W,
+        y: init ? Math.random() * H : H + 10,
+        r: (Math.random() * 1.8 + 0.6) * dpr,
+        v: (Math.random() * 0.35 + 0.12) * dpr,
+        a: Math.random() * Math.PI * 2,
+        c: Math.random() < 0.75 ? '229,72,72' : '0,230,118',
+    });
+    const ps = Array.from({ length: count }, () => mk(true));
+    (function loop(t) {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of ps) {
+            p.y -= p.v;
+            p.x += Math.sin(t / 1500 + p.a) * 0.3 * dpr;
+            if (p.y < -10) Object.assign(p, mk(false));
+            const al = 0.25 + 0.25 * Math.sin(t / 700 + p.a);
+            ctx.fillStyle = `rgba(${p.c},${al})`;
+            ctx.shadowColor = `rgba(${p.c},.8)`;
+            ctx.shadowBlur = 8 * dpr;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, 6.283);
+            ctx.fill();
+        }
+        requestAnimationFrame(loop);
+    })(0);
+})();
+
+
+</script>
 
 <script type="module">
 
