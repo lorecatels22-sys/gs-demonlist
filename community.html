@@ -1081,6 +1081,26 @@
                 transition-duration: 0.01ms !important;
             }
         }
+        .navigation-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    margin: 10px auto 25px;
+}
+
+.back-to-list {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+}
+
+.navigation-badges {
+    margin: 0 auto;
+}
     </style>
 </head>
 
@@ -1090,7 +1110,7 @@
     <div class="barra-destra" aria-hidden="true"></div>
 
     <main>
-
+    <div class="navigation-top">
         <a href="./index.html" class="back-to-list">
             <span class="back-arrow">←</span>
             <span>Back to the list</span>
@@ -1157,6 +1177,7 @@
             </a>
 
         </nav>
+          </div>
 
         <header>
             <h1 class="testo-illuminato" id="titolo">Community</h1>
