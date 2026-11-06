@@ -6,34 +6,33 @@
     <meta name="theme-color" content="#1e1e1e">
 
     <title>Who? - G_S demon list</title>
-    <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
+
+    <link rel="icon" type="image/png" href="./gs-logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         html {
-            background: #1e1e1e;
             scroll-behavior: smooth;
         }
 
         body {
             min-height: 100vh;
             background: #1e1e1e;
-            color: #fff;
+            color: white;
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* SFONDO */
+        /* IMMAGINI LATERALI */
 
         .barra-sinistra,
         .barra-destra {
@@ -41,13 +40,15 @@
             top: 0;
             bottom: 0;
             width: 27vw;
+            height: 100vh;
             background-image: url("./miguel.png");
             background-repeat: repeat-y;
             background-size: 100% auto;
             background-position: top center;
-            opacity: 0.55;
+            opacity: 0.72;
             pointer-events: none;
             z-index: 0;
+            filter: drop-shadow(0 0 18px rgba(0,0,0,0.5));
         }
 
         .barra-sinistra {
@@ -63,736 +64,514 @@
             content: "";
             position: fixed;
             inset: 0;
-            background: radial-gradient(
-                ellipse at center,
-                rgba(30, 30, 30, 0.94) 0%,
-                rgba(30, 30, 30, 0.84) 48%,
-                rgba(30, 30, 30, 0.45) 100%
+            background: linear-gradient(
+                90deg,
+                rgba(30,30,30,0.08) 0%,
+                rgba(30,30,30,0.65) 22%,
+                rgba(30,30,30,0.96) 38%,
+                rgba(30,30,30,0.96) 62%,
+                rgba(30,30,30,0.65) 78%,
+                rgba(30,30,30,0.08) 100%
             );
             pointer-events: none;
             z-index: 0;
         }
 
-        main {
+        /* CONTENUTO */
+
+        .pagina {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
-            padding: 32px 0 70px;
+            width: min(1050px, 92%);
+            margin: auto;
+            padding-bottom: 80px;
         }
 
         /* NAVIGAZIONE */
 
-        .navigation-badges {
+        .navigazione {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 30px 0 15px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: min(1000px, 92%);
-            margin: 0 auto 35px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 20;
-        }
-
-        .dropdown-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .badge-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 17px;
-            background: rgba(32, 32, 32, 0.97);
-            border: 1px solid #3b3b3b;
-            border-left: 3px solid #e85a5a;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            gap: 9px;
+            padding: 12px 17px;
+            color: #eee;
             text-decoration: none;
-            color: #f5f5f5;
-            font-size: 0.78rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.4px;
-            transition: 0.22s ease;
+            background: rgba(32,32,32,0.95);
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e54848;
+            border-radius: 9px;
+            transition: 0.25s;
             cursor: pointer;
         }
 
-        .badge-link:hover {
-            transform: translateY(-2px);
+        .nav-link:hover {
+            transform: translateY(-3px);
             background: #292929;
-            border-color: #555;
-            border-left-color: #ff5555;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            border-color: #e54848;
+            box-shadow: 0 5px 20px rgba(229,72,72,0.15);
         }
 
-        .badge-link img {
-            width: 23px;
-            height: 23px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #555;
+        .nav-link img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
         }
 
-        .badge-emoji {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 23px;
-            height: 23px;
-            font-size: 0.85rem;
-            border-radius: 5px;
-            border: 1px solid #555;
-            background: #252525;
-        }
-
-        .arrow {
-            color: #999;
-            font-size: 0.75rem;
-            font-weight: 800;
-            transition: transform 0.25s ease;
-        }
-
-        .dropdown-container:hover .arrow {
-            transform: rotate(90deg);
-            color: #ff5555;
-        }
-
-        .dropdown-menu {
+        .dropdown {
             position: absolute;
-            top: 100%;
-            left: 50%;
-            padding-top: 10px;
-            min-width: 175px;
+            top: calc(100% + 9px);
+            left: 0;
+            min-width: 190px;
+            background: #252525;
+            border: 1px solid #414141;
+            border-radius: 10px;
+            padding: 7px;
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
-            transform: translateX(-50%) translateY(-10px);
-            transition: 0.25s ease;
+            transform: translateY(8px);
+            transition: 0.2s;
+            z-index: 20;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
         }
 
-        .dropdown-container:hover .dropdown-menu,
-        .dropdown-container:focus-within .dropdown-menu {
+        .nav-item:hover .dropdown {
             opacity: 1;
             visibility: visible;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
+            transform: translateY(0);
         }
 
-        .dropdown-content {
-            background: rgba(28, 28, 28, 0.99);
-            border: 1px solid #3b3b3b;
-            border-radius: 11px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            padding: 7px 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .dropdown-item {
+        .dropdown a {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 14px;
-            color: #eee;
+            padding: 11px;
+            color: #ddd;
             text-decoration: none;
-            font-size: 0.77rem;
-            font-weight: 700;
-            transition: 0.2s ease;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: 0.2s;
         }
 
-        .dropdown-item:hover {
-            background: rgba(229, 72, 72, 0.13);
-            color: #ff6666;
+        .dropdown a:hover {
+            background: #383838;
+            color: #ff6868;
         }
 
-        .dropdown-item img {
-            width: 22px;
-            height: 22px;
-            object-fit: cover;
-            border-radius: 4px;
+        .dropdown img {
+            width: 19px;
+            height: 19px;
+            object-fit: contain;
         }
 
-        /* HEADER */
+        /* TITOLO */
 
         header {
             text-align: center;
-            padding: 10px 15px 0;
+            padding: 65px 15px 45px;
+            position: relative;
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             color: #ff6666;
             font-size: 0.68rem;
             font-weight: 800;
-            letter-spacing: 3px;
-            margin-bottom: 12px;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(229,72,72,0.35);
         }
 
         .eyebrow::before,
         .eyebrow::after {
             content: "";
-            width: 22px;
+            width: 32px;
             height: 1px;
-            background: #e54848;
+            background: linear-gradient(90deg, transparent, #e54848);
+        }
+
+        .eyebrow::after {
+            transform: scaleX(-1);
         }
 
         .testo-illuminato {
             color: #fff;
-            font-size: clamp(2.7rem, 7vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.13);
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -3px;
+            line-height: 1;
+            text-shadow:
+                0 0 12px rgba(255,255,255,0.12),
+                0 0 35px rgba(229,72,72,0.17);
         }
 
         .sottotitolo {
-            margin-top: 12px;
-            color: #999;
-            font-size: clamp(0.72rem, 1.5vw, 0.9rem);
-            font-weight: 500;
-            letter-spacing: 2px;
-            line-height: 1.8;
+            margin-top: 19px;
+            color: #b0b0b0;
+            font-size: clamp(0.68rem, 1.4vw, 0.85rem);
+            font-weight: 600;
+            letter-spacing: 3px;
+            line-height: 1.9;
+            text-transform: uppercase;
         }
 
         .linea-titolo {
-            width: 80px;
+            width: 110px;
             height: 3px;
-            margin: 23px auto 0;
+            margin: 25px auto 0;
             border-radius: 10px;
-            background: #e54848;
-            box-shadow: 0 0 16px rgba(229, 72, 72, 0.5);
-        }
-
-        /* CONTENUTO */
-
-        .contenuto {
-            width: min(950px, 90%);
-            margin: 42px auto 0;
-            display: flex;
-            flex-direction: column;
-            gap: 19px;
+            background: linear-gradient(90deg, transparent, #e54848, transparent);
+            box-shadow: 0 0 18px rgba(229,72,72,0.55);
         }
 
         /* INTRO */
 
-        .intro-card {
-            position: relative;
-            overflow: hidden;
-            padding: 28px 30px;
-            background: linear-gradient(120deg, rgba(42, 42, 42, 0.98), rgba(29, 29, 29, 0.98));
-            border: 1px solid #414141;
-            border-left: 4px solid #e54848;
-            border-radius: 13px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+        .intro {
+            text-align: center;
+            margin: 0 auto 35px;
+            max-width: 650px;
         }
 
-        .intro-card::after {
-            content: "?";
-            position: absolute;
-            right: 28px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 8rem;
+        .intro h2 {
+            font-size: 1.5rem;
             font-weight: 800;
-            color: rgba(229, 72, 72, 0.055);
-            pointer-events: none;
+            margin-bottom: 12px;
         }
 
-        .intro-label {
-            color: #ff6666;
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 9px;
-        }
-
-        .intro-card h2 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .intro-card p {
-            max-width: 720px;
-            color: #aaa;
-            font-size: 0.84rem;
+        .intro p {
+            color: #999;
+            font-size: 0.9rem;
             line-height: 1.8;
         }
 
-        /* SEZIONE */
+        /* STATO FIREBASE */
 
-        .sezione-titolo {
+        .firebase-status {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 13px 0 1px;
-        }
-
-        .sezione-titolo h2 {
-            color: #f5f5f5;
-            font-size: 0.95rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        .sezione-titolo span {
-            color: #777;
-            font-size: 0.67rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .sezione-titolo::after {
-            content: "";
-            height: 1px;
-            flex: 1;
-            background: linear-gradient(90deg, #444, transparent);
-        }
-
-        /* GIOCATORI */
-
-        .giocatore {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 22px;
-            padding: 23px 25px;
-            background: rgba(32, 32, 32, 0.97);
-            border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343;
-            border-radius: 13px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-        }
-
-        .giocatore:hover {
-            transform: translateY(-3px);
-            border-color: #555;
-            border-left-color: #ff5555;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
-        }
-
-        .avatar {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            width: 82px;
-            height: 82px;
-            border-radius: 18px;
-            background: linear-gradient(145deg, #3b2929, #202020 70%);
-            border: 1px solid rgba(229, 72, 72, 0.65);
-            box-shadow: 0 0 22px rgba(229, 72, 72, 0.13);
-            color: #ff6868;
-            font-size: 2rem;
-            font-weight: 800;
-            transition: 0.22s ease;
-        }
-
-        .giocatore:hover .avatar {
-            box-shadow: 0 0 25px rgba(229, 72, 72, 0.28);
-            transform: scale(1.04);
-        }
-
-        .giocatore-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .nome-riga {
-            display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 5px;
+            gap: 9px;
+            margin: 0 auto 30px;
+            color: #999;
+            font-size: 0.72rem;
+            font-weight: 600;
         }
 
-        .giocatore-info h3 {
-            color: #fff;
-            font-size: 1.18rem;
-            font-weight: 800;
-            overflow-wrap: anywhere;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #777;
+            border-radius: 50%;
+            box-shadow: 0 0 8px currentColor;
         }
 
-        .ruolo {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 9px;
-            color: #ff7777;
-            background: rgba(229, 72, 72, 0.10);
-            border: 1px solid rgba(229, 72, 72, 0.25);
-            border-radius: 20px;
-            font-size: 0.57rem;
-            font-weight: 800;
-            letter-spacing: 1.2px;
+        .status-dot.online {
+            background: #00e676;
+            color: #00e676;
         }
 
-        .giocatore-info p {
-            color: #888;
-            font-size: 0.77rem;
-            line-height: 1.6;
+        .status-dot.offline {
+            background: #ff5555;
+            color: #ff5555;
         }
 
-        /* STATISTICHE */
+        /* PLAYER CARDS */
 
-        .statistiche {
+        .players {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 9px;
-            margin-top: 16px;
+            gap: 20px;
+            margin-bottom: 55px;
+        }
+
+        .player-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #292929, #202020);
+            border: 1px solid #414141;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .player-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e54848, transparent);
+        }
+
+        .player-card:hover {
+            transform: translateY(-6px);
+            border-color: #e54848;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35),
+                        0 0 20px rgba(229,72,72,0.08);
+        }
+
+        .player-number {
+            color: #e54848;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .player-name {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .player-name a {
+            color: inherit;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .player-name a:hover {
+            color: #ff6868;
+        }
+
+        .player-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .stat {
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            padding: 11px 12px;
-            background: rgba(0, 230, 118, 0.035);
-            border: 1px solid rgba(0, 230, 118, 0.12);
+            background: rgba(0,0,0,0.2);
+            border: 1px solid #383838;
             border-radius: 9px;
-            transition: background 0.2s ease;
+            padding: 13px 8px;
         }
 
-        .giocatore:hover .stat {
-            background: rgba(0, 230, 118, 0.06);
-        }
-
-        .stat-valore {
-            color: #00e676;
-            font-size: 1.05rem;
-            font-weight: 800;
-            text-shadow: 0 0 10px rgba(0, 230, 118, 0.22);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .stat-etichetta {
+        .stat-label {
+            display: block;
             color: #888;
-            font-size: 0.53rem;
-            font-weight: 800;
+            font-size: 0.62rem;
+            font-weight: 700;
             letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 7px;
         }
 
-        /* BARRA PROGRESSI */
+        .stat-value {
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .points-value {
+            color: #ff6666;
+            text-shadow: 0 0 12px rgba(229,72,72,0.2);
+        }
+
+        .hardest {
+            grid-column: 1 / -1;
+        }
+
+        .hardest .stat-value {
+            font-size: 0.95rem;
+        }
+
+        /* PROGRESS BAR */
 
         .progress-container {
-            margin-top: 13px;
+            margin-top: 20px;
+            text-align: left;
         }
 
         .progress-info {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 7px;
-            color: #777;
-            font-size: 0.61rem;
+            align-items: center;
+            color: #999;
+            font-size: 0.68rem;
             font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .progress-info strong {
-            color: #00e676;
+        .progress-info span:last-child {
+            color: #eee;
         }
 
-        .progress-track {
-            height: 5px;
+        .progress-bar {
+            width: 100%;
+            height: 7px;
             background: #111;
-            border-radius: 10px;
+            border-radius: 20px;
             overflow: hidden;
         }
 
         .progress-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #00a95a, #00e676);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 230, 118, 0.35);
+            background: linear-gradient(90deg, #a82d2d, #ff6262);
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(229,72,72,0.4);
             transition: width 0.7s ease;
         }
 
-        /* PROFILO */
+        /* SEZIONE PUNTEGGI */
 
-        .vai-profilo {
-            flex-shrink: 0;
-            align-self: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            padding: 11px 17px;
-            background: rgba(229, 72, 72, 0.10);
-            border: 1px solid rgba(229, 72, 72, 0.65);
-            border-radius: 22px;
-            color: #ff6666;
-            text-decoration: none;
-            font-size: 0.7rem;
+        .section-title {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .section-title h2 {
+            font-size: 1.4rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            transition: 0.2s ease;
+            margin-bottom: 8px;
         }
 
-        .vai-profilo:hover {
-            background: #e54848;
-            color: #fff;
-            transform: translateX(3px);
-        }
-
-        /* STATO FIREBASE */
-
-        .stato-dati {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
+        .section-title p {
             color: #888;
-            font-size: 0.67rem;
-            font-weight: 600;
-            margin-top: 2px;
+            font-size: 0.78rem;
         }
 
-        .stato-pallino {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #00e676;
-            box-shadow: 0 0 9px rgba(0, 230, 118, 0.6);
-        }
-
-        .stato-pallino.loading {
-            background: #e5b84b;
-            box-shadow: 0 0 9px rgba(229, 184, 75, 0.5);
-        }
-
-        .stato-pallino.error {
-            background: #ff5555;
-            box-shadow: 0 0 9px rgba(255, 85, 85, 0.5);
-        }
-
-        /* REGOLE */
-
-        .regole-card {
-            padding: 25px 27px;
-            background: rgba(32, 32, 32, 0.97);
+        .rules-card {
+            max-width: 700px;
+            margin: auto;
+            padding: 25px;
+            background: rgba(35,35,35,0.95);
             border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            border-radius: 13px;
+            text-align: center;
         }
 
-        .regole-card h2 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            margin-bottom: 17px;
+        .rules-card p {
+            color: #aaa;
+            font-size: 0.83rem;
+            line-height: 1.8;
         }
 
-        .regole-lista {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
+        .rules-card strong {
+            color: #ff6868;
         }
 
-        .regola {
-            display: flex;
-            align-items: flex-start;
-            gap: 11px;
-            padding: 13px;
-            background: rgba(255, 255, 255, 0.025);
-            border: 1px solid #353535;
-            border-radius: 9px;
-        }
-
-        .regola-numero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            width: 25px;
-            height: 25px;
-            color: #ff6666;
-            background: rgba(229, 72, 72, 0.11);
-            border-radius: 7px;
-            font-size: 0.7rem;
-            font-weight: 800;
-        }
-
-        .regola p {
-            color: #999;
-            font-size: 0.74rem;
-            line-height: 1.65;
-        }
-
-        .regola strong {
-            color: #eee;
-        }
-
-        /* BACK */
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            align-self: center;
-            gap: 9px;
-            margin-top: 7px;
-            padding: 11px 20px;
-            background: rgba(32, 32, 32, 0.97);
+        .formula {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 20px;
+            background: #191919;
             border: 1px solid #444;
-            border-left: 3px solid #e54848;
-            border-radius: 22px;
-            color: #ddd;
-            text-decoration: none;
-            font-size: 0.73rem;
-            font-weight: 800;
-            transition: 0.2s ease;
-        }
-
-        .back-link:hover {
-            background: #292929;
+            border-radius: 8px;
             color: #fff;
-            transform: translateY(-2px);
-            border-color: #666;
-            border-left-color: #ff5555;
+            font-size: 0.85rem;
+            font-weight: 800;
         }
 
-        footer {
-            position: relative;
-            z-index: 2;
+        /* FOOTER */
+
+        .footer {
+            margin-top: 55px;
             text-align: center;
             color: #666;
             font-size: 0.7rem;
-            letter-spacing: 1px;
-            padding: 25px 10px 35px;
         }
 
-        /* RESPONSIVE */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 11px 18px;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: #252525;
+            border: 1px solid #414141;
+            border-left: 3px solid #e54848;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
 
-        @media (max-width: 700px) {
+        .back-link:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+            .players {
+                grid-template-columns: 1fr;
+                max-width: 430px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
             .barra-sinistra,
             .barra-destra {
                 width: 22vw;
-                opacity: 0.35;
-            }
-
-            main {
-                padding-top: 22px;
-            }
-
-            .navigation-badges {
-                gap: 7px;
-                margin-bottom: 27px;
-            }
-
-            .badge-link {
-                padding: 7px 11px;
-                font-size: 0.65rem;
-                gap: 7px;
-            }
-
-            .badge-link img,
-            .badge-emoji {
-                width: 20px;
-                height: 20px;
-            }
-
-            .contenuto {
-                width: 94%;
-                margin-top: 30px;
-                gap: 14px;
-            }
-
-            .intro-card {
-                padding: 21px 18px;
-            }
-
-            .intro-card::after {
-                right: 10px;
-                font-size: 6rem;
-            }
-
-            .intro-card h2 {
-                font-size: 1.1rem;
-            }
-
-            .intro-card p {
-                font-size: 0.77rem;
-            }
-
-            .giocatore {
-                flex-wrap: wrap;
-                gap: 13px;
-                padding: 16px 14px;
-            }
-
-            .avatar {
-                width: 59px;
-                height: 59px;
-                border-radius: 14px;
-                font-size: 1.5rem;
-            }
-
-            .giocatore-info {
-                flex: 1 1 calc(100% - 75px);
-            }
-
-            .giocatore-info h3 {
-                font-size: 1rem;
-            }
-
-            .giocatore-info p {
-                font-size: 0.72rem;
-            }
-
-            .statistiche {
-                gap: 6px;
-            }
-
-            .stat {
-                padding: 9px 7px;
-            }
-
-            .stat-valore {
-                font-size: 0.85rem;
-            }
-
-            .stat-etichetta {
-                font-size: 0.45rem;
-                letter-spacing: 0.5px;
-            }
-
-            .vai-profilo {
-                width: 100%;
-            }
-
-            .regole-card {
-                padding: 19px 15px;
-            }
-
-            .regole-lista {
-                grid-template-columns: 1fr;
-                gap: 8px;
+                opacity: 0.45;
             }
         }
 
-        @media (max-width: 380px) {
-            .statistiche {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .stat:last-child {
-                grid-column: span 2;
-            }
-
+        @media (max-width: 700px) {
             .testo-illuminato {
-                font-size: 2.5rem;
+                font-size: 3.4rem;
+                letter-spacing: -1.5px;
             }
 
             .sottotitolo {
-                letter-spacing: 1px;
+                letter-spacing: 1.5px;
+                font-size: 0.65rem;
+            }
+
+            .eyebrow {
+                letter-spacing: 2.5px;
+            }
+
+            header {
+                padding-top: 50px;
+            }
+
+            .navigazione {
+                gap: 7px;
+            }
+
+            .nav-link {
+                padding: 10px 11px;
+                font-size: 0.72rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .nav-link {
+                padding: 9px;
+                font-size: 0.67rem;
+            }
+
+            .nav-link img {
+                width: 17px;
+                height: 17px;
+            }
+
+            .player-card {
+                padding: 22px 15px;
             }
         }
     </style>
@@ -800,314 +579,248 @@
 
 <body>
 
-    <div class="barra-sinistra" aria-hidden="true"></div>
-    <div class="barra-destra" aria-hidden="true"></div>
+    <div class="barra-sinistra"></div>
+    <div class="barra-destra"></div>
 
-    <main>
+    <div class="pagina">
 
-        <!-- NAVIGAZIONE -->
-        <nav class="navigation-badges">
+        <nav class="navigazione">
 
-            <div class="dropdown-container">
-                <a href="#" class="badge-link">
-                    <img src="players.png" alt="Players">
-                    <span>Players</span>
-                    <span class="arrow">&gt;</span>
+            <div class="nav-item">
+                <a class="nav-link" href="#">
+                    <img src="players.png" alt="">
+                    Players
                 </a>
 
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="who.html" class="dropdown-item">
-                            <span>❓ Who?</span>
-                        </a>
-
-                        <a href="leaderboard.html" class="dropdown-item">
-                            <img src="lb.png" alt="Leaderboard">
-                            <span>Leaderboard</span>
-                        </a>
-                    </div>
+                <div class="dropdown">
+                    <a href="who.html">❓ Who?</a>
+                    <a href="leaderboard.html">
+                        <img src="lb.png" alt="">
+                        Leaderboard
+                    </a>
                 </div>
             </div>
 
-            <div class="dropdown-container">
-                <a href="#" class="badge-link">
-                    <img src="games.png" alt="Games">
-                    <span>Games</span>
-                    <span class="arrow">&gt;</span>
+            <div class="nav-item">
+                <a class="nav-link" href="#">
+                    <img src="games.png" alt="">
+                    Games
                 </a>
 
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="horse.html" class="dropdown-item">
-                            <img src="horse.png" alt="H.O.R.S.E.">
-                            <span>H.O.R.S.E.</span>
-                        </a>
-
-                        <a href="thedemonwheel.html" class="dropdown-item">
-                            <img src="tdw.png" alt="The Demon Wheel">
-                            <span>The Demon Wheel</span>
-                        </a>
-
-                        <a href="roulette.html" class="dropdown-item">
-                            <img src="roulette.png" alt="Roulette">
-                            <span>Roulette</span>
-                        </a>
-                    </div>
+                <div class="dropdown">
+                    <a href="horse.html">
+                        <img src="horse.png" alt="">
+                        H.O.R.S.E.
+                    </a>
+                    <a href="thedemonwheel.html">
+                        <img src="tdw.png" alt="">
+                        The Demon Wheel
+                    </a>
+                    <a href="roulette.html">
+                        <img src="roulette.png" alt="">
+                        Roulette
+                    </a>
                 </div>
             </div>
 
-            <a href="announcements.html" class="badge-link">
-                <img src="announcements.png" alt="Announcements">
-                <span>Announcements</span>
-            </a>
-
-            <a href="community.html" class="badge-link">
-                <span class="badge-emoji" aria-hidden="true">💬</span>
-                <span>Community</span>
-            </a>
+            <a class="nav-link" href="announcements.html">📢 Announcements</a>
+            <a class="nav-link" href="community.html">💬 Community</a>
 
         </nav>
 
-        <!-- HEADER -->
         <header>
+
             <div class="eyebrow">G_S DEMON LIST</div>
+
             <h1 class="testo-illuminato">Who?</h1>
-            <p class="sottotitolo">THE PEOPLE BEHIND THE GOONERS' DEMONLIST</p>
+
+            <p class="sottotitolo">
+                The people behind the Gooners' Demonlist
+            </p>
+
             <div class="linea-titolo"></div>
+
         </header>
 
-        <section class="contenuto">
+        <section class="intro">
 
-            <!-- INTRODUZIONE -->
-            <article class="intro-card">
-                <div class="intro-label">ABOUT US</div>
-                <h2>Meet the players.</h2>
-                <p>
-                    G_S demon list is a community project dedicated to Geometry Dash.
-                    This is where you can discover the players behind the list, follow
-                    their achievements and check their progress. Every statistic is
-                    automatically updated using the latest approved records.
-                </p>
-            </article>
+            <h2>Meet the players.</h2>
 
-            <!-- GIOCATORI -->
-            <div class="sezione-titolo">
-                <h2>THE PLAYERS</h2>
-                <span>PLAYER PROFILES & STATS</span>
-            </div>
-
-            <!-- POTHERSOULS -->
-            <article class="giocatore" data-player="Pothersouls">
-
-                <div class="avatar">P</div>
-
-                <div class="giocatore-info">
-                    <div class="nome-riga">
-                        <h3>Pothersouls</h3>
-                        <span class="ruolo">PLAYER</span>
-                    </div>
-
-                    <p>Player of the G_S demon list.</p>
-
-                    <div class="statistiche">
-                        <div class="stat">
-                            <span class="stat-valore" id="pothersouls-points">--</span>
-                            <span class="stat-etichetta">POINTS EARNED</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="pothersouls-beaten">--</span>
-                            <span class="stat-etichetta">LEVELS BEATEN</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="pothersouls-hardest">--</span>
-                            <span class="stat-etichetta">HARDEST LEVEL</span>
-                        </div>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="progress-info">
-                            <span>OVERALL LIST PROGRESS</span>
-                            <strong id="pothersouls-progress">0%</strong>
-                        </div>
-
-                        <div class="progress-track">
-                            <div class="progress-fill" id="pothersouls-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="pothersouls.html" class="vai-profilo">
-                    <span>View profile</span>
-                    <span>→</span>
-                </a>
-
-            </article>
-
-            <!-- DADEFFF -->
-            <article class="giocatore" data-player="Dadefff">
-
-                <div class="avatar">D</div>
-
-                <div class="giocatore-info">
-                    <div class="nome-riga">
-                        <h3>Dadefff</h3>
-                        <span class="ruolo">PLAYER</span>
-                    </div>
-
-                    <p>Player of the G_S demon list.</p>
-
-                    <div class="statistiche">
-                        <div class="stat">
-                            <span class="stat-valore" id="dadefff-points">--</span>
-                            <span class="stat-etichetta">POINTS EARNED</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="dadefff-beaten">--</span>
-                            <span class="stat-etichetta">LEVELS BEATEN</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="dadefff-hardest">--</span>
-                            <span class="stat-etichetta">HARDEST LEVEL</span>
-                        </div>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="progress-info">
-                            <span>OVERALL LIST PROGRESS</span>
-                            <strong id="dadefff-progress">0%</strong>
-                        </div>
-
-                        <div class="progress-track">
-                            <div class="progress-fill" id="dadefff-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="dadefff.html" class="vai-profilo">
-                    <span>View profile</span>
-                    <span>→</span>
-                </a>
-
-            </article>
-
-            <!-- LEOPELLIZ -->
-            <article class="giocatore" data-player="Leopelliz">
-
-                <div class="avatar">L</div>
-
-                <div class="giocatore-info">
-                    <div class="nome-riga">
-                        <h3>Leopelliz</h3>
-                        <span class="ruolo">PLAYER</span>
-                    </div>
-
-                    <p>Player of the G_S demon list.</p>
-
-                    <div class="statistiche">
-                        <div class="stat">
-                            <span class="stat-valore" id="leopelliz-points">--</span>
-                            <span class="stat-etichetta">POINTS EARNED</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="leopelliz-beaten">--</span>
-                            <span class="stat-etichetta">LEVELS BEATEN</span>
-                        </div>
-
-                        <div class="stat">
-                            <span class="stat-valore" id="leopelliz-hardest">--</span>
-                            <span class="stat-etichetta">HARDEST LEVEL</span>
-                        </div>
-                    </div>
-
-                    <div class="progress-container">
-                        <div class="progress-info">
-                            <span>OVERALL LIST PROGRESS</span>
-                            <strong id="leopelliz-progress">0%</strong>
-                        </div>
-
-                        <div class="progress-track">
-                            <div class="progress-fill" id="leopelliz-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="leopelliz.html" class="vai-profilo">
-                    <span>View profile</span>
-                    <span>→</span>
-                </a>
-
-            </article>
-
-            <div class="stato-dati">
-                <span class="stato-pallino loading" id="firebase-dot"></span>
-                <span id="firebase-status">Loading live statistics...</span>
-            </div>
-
-            <!-- REGOLE -->
-            <div class="sezione-titolo">
-                <h2>HOW IT WORKS</h2>
-                <span>SCORING SYSTEM</span>
-            </div>
-
-            <article class="regole-card">
-                <h2>How points work</h2>
-
-                <div class="regole-lista">
-
-                    <div class="regola">
-                        <span class="regola-numero">01</span>
-                        <p>
-                            <strong>Level points</strong><br>
-                            Every level has a point value depending on its position in the list.
-                        </p>
-                    </div>
-
-                    <div class="regola">
-                        <span class="regola-numero">02</span>
-                        <p>
-                            <strong>Total points</strong><br>
-                            Points are calculated automatically using the player's approved progress.
-                        </p>
-                    </div>
-
-                    <div class="regola">
-                        <span class="regola-numero">03</span>
-                        <p>
-                            <strong>Partial progress</strong><br>
-                            Incomplete levels contribute proportionally to the player's total points.
-                        </p>
-                    </div>
-
-                    <div class="regola">
-                        <span class="regola-numero">04</span>
-                        <p>
-                            <strong>Levels beaten</strong><br>
-                            A level counts as beaten when the player's approved progress reaches 100%.
-                        </p>
-                    </div>
-
-                </div>
-            </article>
-
-            <a href="index.html" class="back-link">
-                <span>←</span>
-                <span>Back to the list</span>
-            </a>
+            <p>
+                Discover the players behind the G_S Demon List,
+                their achievements, completed levels and total points.
+                All statistics are updated automatically.
+            </p>
 
         </section>
 
-    </main>
+        <div class="firebase-status">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusText">Connecting to database...</span>
+        </div>
 
-    <footer>
-        G_S demon list · All rights reserved
-    </footer>
+        <section class="players">
 
-    <!-- FIREBASE: STATISTICHE IN TEMPO REALE -->
+            <article class="player-card" data-player="Pothersouls">
+
+                <div class="player-number">PLAYER 01</div>
+
+                <h3 class="player-name">
+                    <a href="pothersouls.html">Pothersouls</a>
+                </h3>
+
+                <div class="player-stats">
+
+                    <div class="stat">
+                        <span class="stat-label">Total points</span>
+                        <span class="stat-value points-value" id="Pothersouls-points">0</span>
+                    </div>
+
+                    <div class="stat">
+                        <span class="stat-label">Levels beaten</span>
+                        <span class="stat-value" id="Pothersouls-beaten">0</span>
+                    </div>
+
+                    <div class="stat hardest">
+                        <span class="stat-label">Hardest level</span>
+                        <span class="stat-value" id="Pothersouls-hardest">None</span>
+                    </div>
+
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>OVERALL PROGRESS</span>
+                        <span id="Pothersouls-progress-text">0%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="Pothersouls-progress"></div>
+                    </div>
+                </div>
+
+            </article>
+
+            <article class="player-card" data-player="Dadefff">
+
+                <div class="player-number">PLAYER 02</div>
+
+                <h3 class="player-name">
+                    <a href="dadefff.html">Dadefff</a>
+                </h3>
+
+                <div class="player-stats">
+
+                    <div class="stat">
+                        <span class="stat-label">Total points</span>
+                        <span class="stat-value points-value" id="Dadefff-points">0</span>
+                    </div>
+
+                    <div class="stat">
+                        <span class="stat-label">Levels beaten</span>
+                        <span class="stat-value" id="Dadefff-beaten">0</span>
+                    </div>
+
+                    <div class="stat hardest">
+                        <span class="stat-label">Hardest level</span>
+                        <span class="stat-value" id="Dadefff-hardest">None</span>
+                    </div>
+
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>OVERALL PROGRESS</span>
+                        <span id="Dadefff-progress-text">0%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="Dadefff-progress"></div>
+                    </div>
+                </div>
+
+            </article>
+
+            <article class="player-card" data-player="Leopelliz">
+
+                <div class="player-number">PLAYER 03</div>
+
+                <h3 class="player-name">
+                    <a href="leopelliz.html">Leopelliz</a>
+                </h3>
+
+                <div class="player-stats">
+
+                    <div class="stat">
+                        <span class="stat-label">Total points</span>
+                        <span class="stat-value points-value" id="Leopelliz-points">0</span>
+                    </div>
+
+                    <div class="stat">
+                        <span class="stat-label">Levels beaten</span>
+                        <span class="stat-value" id="Leopelliz-beaten">0</span>
+                    </div>
+
+                    <div class="stat hardest">
+                        <span class="stat-label">Hardest level</span>
+                        <span class="stat-value" id="Leopelliz-hardest">None</span>
+                    </div>
+
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>OVERALL PROGRESS</span>
+                        <span id="Leopelliz-progress-text">0%</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="Leopelliz-progress"></div>
+                    </div>
+                </div>
+
+            </article>
+
+        </section>
+
+        <section class="section-title">
+            <h2>How are points calculated?</h2>
+            <p>A simple system based on your progress in each level.</p>
+        </section>
+
+        <div class="rules-card">
+
+            <p>
+                Each level has a fixed amount of points.
+                Your score depends on the percentage you have achieved.
+                The more progress you make, the more points you earn.
+            </p>
+
+            <div class="formula">
+                Level points × Progress (%) / 100
+            </div>
+
+            <p style="margin-top: 16px;">
+                All statistics are calculated from approved records
+                stored in the G_S Demon List database.
+            </p>
+
+        </div>
+
+        <footer class="footer">
+
+            <a href="index.html" class="back-link">← Back to the list</a>
+
+            <p style="margin-top: 25px;">
+                G_S Demon List · Who?
+            </p>
+
+        </footer>
+
+    </div>
+
+    <!-- FIREBASE -->
+
     <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -1121,6 +834,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyBLKY1OEO2A-5eJObCjJMeKCasSLf8WmrU",
             authDomain: "gs-demonlist.firebaseapp.com",
+            databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "gs-demonlist",
             storageBucket: "gs-demonlist.firebasestorage.app",
             messagingSenderId: "789414584664",
@@ -1132,9 +846,11 @@
         const db = getFirestore(app);
 
         /*
-         * LIVELLI DELLA G_S LIST
-         * I punti sono gli stessi utilizzati nella pagina principale.
-         */
+            PUNTEGGI DEI LIVELLI
+
+            Il punteggio viene calcolato proporzionalmente:
+            punti del livello × percentuale / 100
+        */
 
         const levels = [
             { id: "001", name: "Bloodbath", points: 250 },
@@ -1160,18 +876,9 @@
         ];
 
         const players = [
-            {
-                name: "Pothersouls",
-                key: "pothersouls"
-            },
-            {
-                name: "Dadefff",
-                key: "dadefff"
-            },
-            {
-                name: "Leopelliz",
-                key: "leopelliz"
-            }
+            "Pothersouls",
+            "Dadefff",
+            "Leopelliz"
         ];
 
         const totalPossiblePoints = levels.reduce(
@@ -1179,113 +886,94 @@
             0
         );
 
-        function setStatus(message, type = "online") {
-            const status = document.getElementById("firebase-status");
-            const dot = document.getElementById("firebase-dot");
-
-            status.textContent = message;
-
-            dot.classList.remove("loading", "error");
-
-            if (type === "loading") {
-                dot.classList.add("loading");
-            } else if (type === "error") {
-                dot.classList.add("error");
-            }
-        }
-
-        function formatPoints(value) {
-            return Number(value).toFixed(1).replace(/\.0$/, "");
-        }
-
-        function calculatePlayerStats(playerName, records) {
+        function updatePlayerStats(playerName, records) {
 
             let totalPoints = 0;
-            let levelsBeaten = 0;
-            let hardestLevel = null;
-            let totalProgressPoints = 0;
+            let beaten = 0;
+            let hardest = null;
 
-            const playerRecords = records.filter(record =>
-                record.playerName === playerName
-            );
+            const progressByLevel = {};
 
-            const progressMap = {};
+            levels.forEach(level => {
+                progressByLevel[level.id] = 0;
+            });
 
-            playerRecords.forEach(record => {
+            records.forEach(record => {
+
+                if (
+                    String(record.playerName || "").toLowerCase() !==
+                    playerName.toLowerCase()
+                ) {
+                    return;
+                }
+
+                const level = levels.find(
+                    item => String(item.id) === String(record.levelId)
+                );
+
+                if (!level) return;
+
                 const progress = Math.max(
                     0,
                     Math.min(100, Number(record.progress) || 0)
                 );
 
-                progressMap[String(record.levelId).padStart(3, "0")] = progress;
+                progressByLevel[level.id] = Math.max(
+                    progressByLevel[level.id],
+                    progress
+                );
+
             });
 
             levels.forEach(level => {
 
-                const progress = progressMap[level.id] || 0;
+                const progress = progressByLevel[level.id];
 
                 totalPoints += level.points * (progress / 100);
 
-                totalProgressPoints += progress;
-
                 if (progress >= 100) {
-                    levelsBeaten++;
+                    beaten++;
 
-                    // La lista è ordinata dal livello più alto al più basso.
-                    if (!hardestLevel) {
-                        hardestLevel = level;
+                    if (!hardest) {
+                        hardest = level;
                     }
                 }
+
             });
 
-            const overallProgress = totalPossiblePoints > 0
-                ? (totalPoints / totalPossiblePoints) * 100
-                : 0;
+            const overallProgress =
+                totalPossiblePoints > 0
+                    ? (totalPoints / totalPossiblePoints) * 100
+                    : 0;
 
-            return {
-                totalPoints,
-                levelsBeaten,
-                hardestLevel,
-                overallProgress
-            };
+            document.getElementById(`${playerName}-points`).textContent =
+                totalPoints.toFixed(1).replace(/\.0$/, "");
+
+            document.getElementById(`${playerName}-beaten`).textContent =
+                beaten;
+
+            document.getElementById(`${playerName}-hardest`).textContent =
+                hardest ? hardest.name : "None";
+
+            document.getElementById(`${playerName}-progress-text`).textContent =
+                overallProgress.toFixed(1) + "%";
+
+            document.getElementById(`${playerName}-progress`).style.width =
+                overallProgress + "%";
         }
 
-        function updatePlayer(player, records) {
+        function updateAllPlayers(records) {
 
-            const stats = calculatePlayerStats(player.name, records);
+            players.forEach(player => {
+                updatePlayerStats(player, records);
+            });
 
-            document.getElementById(
-                `${player.key}-points`
-            ).textContent = formatPoints(stats.totalPoints);
-
-            document.getElementById(
-                `${player.key}-beaten`
-            ).textContent = `${stats.levelsBeaten}/${levels.length}`;
-
-            document.getElementById(
-                `${player.key}-hardest`
-            ).textContent = stats.hardestLevel
-                ? stats.hardestLevel.name
-                : "None";
-
-            const percentage = stats.overallProgress;
-
-            document.getElementById(
-                `${player.key}-progress`
-            ).textContent = `${percentage.toFixed(1)}%`;
-
-            document.getElementById(
-                `${player.key}-bar`
-            ).style.width = `${Math.min(100, percentage)}%`;
         }
 
-        /*
-         * onSnapshot mantiene la pagina sincronizzata con Firestore.
-         * Quando un record viene approvato, modificato o eliminato,
-         * le statistiche vengono ricalcolate automaticamente.
-         */
+        /* AGGIORNAMENTO AUTOMATICO IN TEMPO REALE */
 
-        setStatus("Connecting to live database...", "loading");
+        const statusDot = document.getElementById("statusDot");
+        const statusText = document.getElementById("statusText");
 
         onSnapshot(
             collection(db, "records"),
@@ -1293,21 +981,28 @@
             snapshot => {
 
                 const records = snapshot.docs.map(doc => ({
-                    ...doc.data(),
-                    id: doc.id
+                    id: doc.id,
+                    ...doc.data()
                 }));
 
-                players.forEach(player => {
-                    updatePlayer(player, records);
-                });
+                updateAllPlayers(records);
 
-                setStatus("Live statistics · Automatically updated", "online");
+                statusDot.classList.remove("offline");
+                statusDot.classList.add("online");
+
+                statusText.textContent = "Live database · Statistics updated";
+
             },
 
             error => {
-                console.error("Firebase statistics error:", error);
 
-                setStatus("Unable to load live statistics", "error");
+                console.error("Firebase error:", error);
+
+                statusDot.classList.remove("online");
+                statusDot.classList.add("offline");
+
+                statusText.textContent = "Database connection error";
+
             }
         );
 
