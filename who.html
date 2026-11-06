@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e1e1e">
 
     <title>Who? - G_S demon list</title>
     <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
@@ -32,20 +33,19 @@
             position: relative;
         }
 
-        /* SFONDO LATERALE */
+        /* SFONDO */
 
         .barra-sinistra,
         .barra-destra {
-            position: absolute;
+            position: fixed;
             top: 0;
             bottom: 0;
-            width: 30vw;
-            min-height: 100%;
+            width: 27vw;
             background-image: url("./miguel.png");
             background-repeat: repeat-y;
             background-size: 100% auto;
             background-position: top center;
-            opacity: 0.75;
+            opacity: 0.55;
             pointer-events: none;
             z-index: 0;
         }
@@ -59,13 +59,25 @@
             transform: scaleX(-1);
         }
 
-        /* CONTENUTO */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(30, 30, 30, 0.94) 0%,
+                rgba(30, 30, 30, 0.84) 48%,
+                rgba(30, 30, 30, 0.45) 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
 
         main {
             position: relative;
             z-index: 1;
             min-height: 100vh;
-            padding: 35px 0 90px;
+            padding: 32px 0 70px;
         }
 
         /* NAVIGAZIONE */
@@ -75,11 +87,11 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            width: min(900px, 88%);
-            margin: 0 auto 25px;
+            width: min(1000px, 92%);
+            margin: 0 auto 35px;
             flex-wrap: wrap;
             position: relative;
-            z-index: 10;
+            z-index: 20;
         }
 
         .dropdown-container {
@@ -91,50 +103,54 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 9px 18px;
+            padding: 9px 17px;
             background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
             border-left: 3px solid #e85a5a;
             border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             text-decoration: none;
             color: #f5f5f5;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            letter-spacing: 0.4px;
+            transition: 0.22s ease;
             cursor: pointer;
         }
 
         .badge-link:hover {
             transform: translateY(-2px);
-            background: rgba(42, 42, 42, 0.99);
+            background: #292929;
             border-color: #555;
             border-left-color: #ff5555;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
         }
 
         .badge-link img {
-            width: 24px;
-            height: 24px;
+            width: 23px;
+            height: 23px;
             object-fit: cover;
             border-radius: 5px;
             border: 1px solid #555;
-            background: #252525;
-            transition: filter 0.2s ease, transform 0.2s ease;
         }
 
-        .badge-link:hover img {
-            filter: brightness(1.2);
-            transform: scale(1.05);
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 23px;
+            height: 23px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
         }
 
         .arrow {
+            color: #999;
             font-size: 0.75rem;
             font-weight: 800;
-            color: #999;
-            transition: transform 0.25s ease, color 0.25s ease;
-            display: inline-block;
+            transition: transform 0.25s ease;
         }
 
         .dropdown-container:hover .arrow {
@@ -142,43 +158,33 @@
             color: #ff5555;
         }
 
-        /* MENU A TENDINA (CON ANIMAZIONE) */
-
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 50%;
             padding-top: 10px;
             min-width: 175px;
-            z-index: 100;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transform: translateX(-50%) translateY(-12px) scale(0.96);
-            transform-origin: top center;
-            transition:
-                opacity 0.25s ease,
-                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                visibility 0s linear 0.3s;
+            transform: translateX(-50%) translateY(-10px);
+            transition: 0.25s ease;
         }
 
-        .dropdown-container:hover .dropdown-menu {
+        .dropdown-container:hover .dropdown-menu,
+        .dropdown-container:focus-within .dropdown-menu {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateX(-50%) translateY(0) scale(1);
-            transition:
-                opacity 0.25s ease,
-                transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                visibility 0s linear 0s;
+            transform: translateX(-50%) translateY(0);
         }
 
         .dropdown-content {
-            background: rgba(28, 28, 28, 0.98);
+            background: rgba(28, 28, 28, 0.99);
             border: 1px solid #3b3b3b;
-            border-radius: 10px;
+            border-radius: 11px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            padding: 8px 0;
+            padding: 7px 0;
             display: flex;
             flex-direction: column;
         }
@@ -188,44 +194,16 @@
             align-items: center;
             gap: 10px;
             padding: 10px 14px;
-            color: #f5f5f5;
+            color: #eee;
             text-decoration: none;
-            font-size: 0.78rem;
+            font-size: 0.77rem;
             font-weight: 700;
-            opacity: 0;
-            transform: translateX(-12px);
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                opacity 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .dropdown-container:hover .dropdown-item {
-            opacity: 1;
-            transform: translateX(0);
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                opacity 0.3s ease,
-                transform 0.3s ease;
-        }
-
-        .dropdown-container:hover .dropdown-item:nth-child(1) {
-            transition-delay: 0s, 0s, 0.06s, 0.06s;
-        }
-
-        .dropdown-container:hover .dropdown-item:nth-child(2) {
-            transition-delay: 0s, 0s, 0.12s, 0.12s;
-        }
-
-        .dropdown-container:hover .dropdown-item:nth-child(3) {
-            transition-delay: 0s, 0s, 0.18s, 0.18s;
+            transition: 0.2s ease;
         }
 
         .dropdown-item:hover {
-            background: rgba(229, 72, 72, 0.15);
-            color: #ff5555;
+            background: rgba(229, 72, 72, 0.13);
+            color: #ff6666;
         }
 
         .dropdown-item img {
@@ -233,143 +211,168 @@
             height: 22px;
             object-fit: cover;
             border-radius: 4px;
-            border: 1px solid #555;
-            background: #252525;
-            transition: filter 0.2s ease, transform 0.2s ease;
         }
 
-        .dropdown-item:hover img {
-            filter: brightness(1.2);
-            transform: scale(1.05);
-        }
-
-        /* TESTATA */
+        /* HEADER */
 
         header {
             text-align: center;
-            padding: 0 15px;
+            padding: 10px 15px 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff6666;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: "";
+            width: 22px;
+            height: 1px;
+            background: #e54848;
         }
 
         .testo-illuminato {
             color: #fff;
-            font-size: clamp(2.1rem, 5vw, 3.4rem);
+            font-size: clamp(2.7rem, 7vw, 4.5rem);
             font-weight: 800;
-            letter-spacing: -1.5px;
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.13);
         }
 
         .sottotitolo {
-            margin-top: 14px;
+            margin-top: 12px;
             color: #999;
-            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            font-size: clamp(0.72rem, 1.5vw, 0.9rem);
             font-weight: 500;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             line-height: 1.8;
         }
 
         .linea-titolo {
-            width: 75px;
+            width: 80px;
             height: 3px;
-            margin: 22px auto 0;
+            margin: 23px auto 0;
             border-radius: 10px;
             background: #e54848;
-            box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+            box-shadow: 0 0 16px rgba(229, 72, 72, 0.5);
         }
 
-        /* CONTENUTO PAGINA WHO */
+        /* CONTENUTO */
 
         .contenuto {
-            position: relative;
-            z-index: 2;
-            width: min(900px, 88%);
-            margin: 40px auto 0;
+            width: min(950px, 90%);
+            margin: 42px auto 0;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 19px;
         }
 
-        /* SCHEDE INFORMATIVE */
+        /* INTRO */
 
-        .scheda {
-            padding: 24px 26px;
-            background: rgba(32, 32, 32, 0.97);
-            border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343;
-            border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+        .intro-card {
+            position: relative;
+            overflow: hidden;
+            padding: 28px 30px;
+            background: linear-gradient(120deg, rgba(42, 42, 42, 0.98), rgba(29, 29, 29, 0.98));
+            border: 1px solid #414141;
+            border-left: 4px solid #e54848;
+            border-radius: 13px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
         }
 
-        .scheda h2 {
-            color: #f5f5f5;
-            font-size: 1.1rem;
+        .intro-card::after {
+            content: "?";
+            position: absolute;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 8rem;
+            font-weight: 800;
+            color: rgba(229, 72, 72, 0.055);
+            pointer-events: none;
+        }
+
+        .intro-label {
+            color: #ff6666;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 9px;
+        }
+
+        .intro-card h2 {
+            font-size: 1.35rem;
             font-weight: 800;
             margin-bottom: 10px;
         }
 
-        .scheda p {
-            color: #999;
-            font-size: 0.85rem;
-            line-height: 1.7;
+        .intro-card p {
+            max-width: 720px;
+            color: #aaa;
+            font-size: 0.84rem;
+            line-height: 1.8;
         }
 
-        .scheda ul {
-            list-style: none;
+        /* SEZIONE */
+
+        .sezione-titolo {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 4px;
+            align-items: center;
+            gap: 12px;
+            margin: 13px 0 1px;
         }
 
-        .scheda li {
-            color: #999;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            padding-left: 18px;
-            position: relative;
-        }
-
-        .scheda li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.55em;
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #e54848;
-            box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
-        }
-
-        .scheda li strong {
+        .sezione-titolo h2 {
             color: #f5f5f5;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            white-space: nowrap;
         }
 
-        /* CARD GIOCATORI */
+        .sezione-titolo span {
+            color: #777;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .sezione-titolo::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(90deg, #444, transparent);
+        }
+
+        /* GIOCATORI */
 
         .giocatore {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 20px;
-            padding: 20px 24px;
+            gap: 22px;
+            padding: 23px 25px;
             background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
             border-left: 4px solid #d94343;
-            border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
-            transition:
-                transform 0.22s ease,
-                border-color 0.22s ease,
-                background 0.22s ease,
-                box-shadow 0.22s ease;
+            border-radius: 13px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
         }
 
         .giocatore:hover {
             transform: translateY(-3px);
-            background: rgba(42, 42, 42, 0.99);
             border-color: #555;
             border-left-color: #ff5555;
-            box-shadow: 0 9px 26px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
         }
 
         .avatar {
@@ -377,108 +380,160 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #3a3a3a, #1e1e1e);
-            border: 2px solid #e54848;
-            box-shadow: 0 0 16px rgba(229, 72, 72, 0.4);
-            color: #fff;
-            font-size: 1.9rem;
+            width: 82px;
+            height: 82px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #3b2929, #202020 70%);
+            border: 1px solid rgba(229, 72, 72, 0.65);
+            box-shadow: 0 0 22px rgba(229, 72, 72, 0.13);
+            color: #ff6868;
+            font-size: 2rem;
             font-weight: 800;
-            transition: box-shadow 0.22s ease, transform 0.22s ease;
+            transition: 0.22s ease;
         }
 
         .giocatore:hover .avatar {
-            box-shadow: 0 0 24px rgba(229, 72, 72, 0.65);
-            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(229, 72, 72, 0.28);
+            transform: scale(1.04);
         }
 
         .giocatore-info {
-            flex: 1 1 auto;
+            flex: 1;
             min-width: 0;
         }
 
-        .giocatore-info h2 {
-            color: #f5f5f5;
-            font-size: 1.2rem;
+        .nome-riga {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .giocatore-info h3 {
+            color: #fff;
+            font-size: 1.18rem;
             font-weight: 800;
-            margin-bottom: 4px;
             overflow-wrap: anywhere;
         }
 
         .ruolo {
-            display: inline-block;
-            color: #ff6666;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            color: #ff7777;
+            background: rgba(229, 72, 72, 0.10);
+            border: 1px solid rgba(229, 72, 72, 0.25);
+            border-radius: 20px;
+            font-size: 0.57rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
         }
 
         .giocatore-info p {
-            color: #999;
-            font-size: 0.8rem;
+            color: #888;
+            font-size: 0.77rem;
             line-height: 1.6;
         }
 
         /* STATISTICHE */
 
         .statistiche {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 9px;
+            margin-top: 16px;
         }
 
         .stat {
+            min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            padding: 8px 14px;
-            background: rgba(0, 230, 118, 0.045);
-            border: 1px solid rgba(0, 230, 118, 0.13);
+            gap: 5px;
+            padding: 11px 12px;
+            background: rgba(0, 230, 118, 0.035);
+            border: 1px solid rgba(0, 230, 118, 0.12);
             border-radius: 9px;
-            box-shadow:
-                0 0 12px rgba(0, 230, 118, 0.10),
-                0 0 25px rgba(0, 230, 118, 0.05);
+            transition: background 0.2s ease;
+        }
+
+        .giocatore:hover .stat {
+            background: rgba(0, 230, 118, 0.06);
         }
 
         .stat-valore {
             color: #00e676;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 800;
-            text-shadow: 0 0 8px rgba(0, 230, 118, 0.35);
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.22);
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .stat-etichetta {
-            color: #999;
-            font-size: 0.55rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            white-space: nowrap;
+            color: #888;
+            font-size: 0.53rem;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
-        /* PULSANTE PROFILO */
+        /* BARRA PROGRESSI */
+
+        .progress-container {
+            margin-top: 13px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 7px;
+            color: #777;
+            font-size: 0.61rem;
+            font-weight: 700;
+        }
+
+        .progress-info strong {
+            color: #00e676;
+        }
+
+        .progress-track {
+            height: 5px;
+            background: #111;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00a95a, #00e676);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.35);
+            transition: width 0.7s ease;
+        }
+
+        /* PROFILO */
 
         .vai-profilo {
             flex-shrink: 0;
             align-self: center;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 9px 16px;
-            background: rgba(229, 72, 72, 0.12);
-            border: 1px solid #e54848;
-            border-radius: 20px;
-            color: #ff5555;
+            justify-content: center;
+            gap: 9px;
+            padding: 11px 17px;
+            background: rgba(229, 72, 72, 0.10);
+            border: 1px solid rgba(229, 72, 72, 0.65);
+            border-radius: 22px;
+            color: #ff6666;
             text-decoration: none;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 800;
             letter-spacing: 0.5px;
             white-space: nowrap;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            transition: 0.2s ease;
         }
 
         .vai-profilo:hover {
@@ -487,76 +542,209 @@
             transform: translateX(3px);
         }
 
-        /* FOOTER */
+        /* STATO FIREBASE */
+
+        .stato-dati {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            color: #888;
+            font-size: 0.67rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .stato-pallino {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00e676;
+            box-shadow: 0 0 9px rgba(0, 230, 118, 0.6);
+        }
+
+        .stato-pallino.loading {
+            background: #e5b84b;
+            box-shadow: 0 0 9px rgba(229, 184, 75, 0.5);
+        }
+
+        .stato-pallino.error {
+            background: #ff5555;
+            box-shadow: 0 0 9px rgba(255, 85, 85, 0.5);
+        }
+
+        /* REGOLE */
+
+        .regole-card {
+            padding: 25px 27px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .regole-card h2 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 17px;
+        }
+
+        .regole-lista {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .regola {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 13px;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid #353535;
+            border-radius: 9px;
+        }
+
+        .regola-numero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 25px;
+            height: 25px;
+            color: #ff6666;
+            background: rgba(229, 72, 72, 0.11);
+            border-radius: 7px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .regola p {
+            color: #999;
+            font-size: 0.74rem;
+            line-height: 1.65;
+        }
+
+        .regola strong {
+            color: #eee;
+        }
+
+        /* BACK */
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            gap: 9px;
+            margin-top: 7px;
+            padding: 11px 20px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #444;
+            border-left: 3px solid #e54848;
+            border-radius: 22px;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.73rem;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: #292929;
+            color: #fff;
+            transform: translateY(-2px);
+            border-color: #666;
+            border-left-color: #ff5555;
+        }
 
         footer {
             position: relative;
             z-index: 2;
             text-align: center;
             color: #666;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             letter-spacing: 1px;
             padding: 25px 10px 35px;
         }
 
-        /* TABLET E TELEFONI */
+        /* RESPONSIVE */
 
         @media (max-width: 700px) {
             .barra-sinistra,
             .barra-destra {
                 width: 22vw;
-                opacity: 0.45;
+                opacity: 0.35;
             }
 
             main {
-                padding-top: 30px;
+                padding-top: 22px;
             }
 
             .navigation-badges {
-                gap: 8px;
-                margin-bottom: 20px;
+                gap: 7px;
+                margin-bottom: 27px;
             }
 
             .badge-link {
-                padding: 6px 12px;
-                font-size: 0.68rem;
+                padding: 7px 11px;
+                font-size: 0.65rem;
+                gap: 7px;
             }
 
-            .testo-illuminato {
-                letter-spacing: -0.8px;
-            }
-
-            .sottotitolo {
-                letter-spacing: 1px;
+            .badge-link img,
+            .badge-emoji {
+                width: 20px;
+                height: 20px;
             }
 
             .contenuto {
-                width: 95%;
-                margin-top: 28px;
+                width: 94%;
+                margin-top: 30px;
+                gap: 14px;
             }
 
-            .scheda {
-                padding: 16px 14px;
+            .intro-card {
+                padding: 21px 18px;
+            }
+
+            .intro-card::after {
+                right: 10px;
+                font-size: 6rem;
+            }
+
+            .intro-card h2 {
+                font-size: 1.1rem;
+            }
+
+            .intro-card p {
+                font-size: 0.77rem;
             }
 
             .giocatore {
                 flex-wrap: wrap;
-                gap: 12px;
-                padding: 14px 12px;
+                gap: 13px;
+                padding: 16px 14px;
             }
 
             .avatar {
-                width: 54px;
-                height: 54px;
-                font-size: 1.3rem;
+                width: 59px;
+                height: 59px;
+                border-radius: 14px;
+                font-size: 1.5rem;
             }
 
             .giocatore-info {
-                flex: 1 1 calc(100% - 70px);
+                flex: 1 1 calc(100% - 75px);
             }
 
-            .giocatore-info h2 {
+            .giocatore-info h3 {
                 font-size: 1rem;
+            }
+
+            .giocatore-info p {
+                font-size: 0.72rem;
             }
 
             .statistiche {
@@ -564,34 +752,49 @@
             }
 
             .stat {
-                padding: 6px 9px;
+                padding: 9px 7px;
             }
 
             .stat-valore {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
 
             .stat-etichetta {
-                font-size: 0.48rem;
-                letter-spacing: 1px;
+                font-size: 0.45rem;
+                letter-spacing: 0.5px;
             }
 
             .vai-profilo {
                 width: 100%;
-                justify-content: center;
+            }
+
+            .regole-card {
+                padding: 19px 15px;
+            }
+
+            .regole-lista {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
         }
-.badge-emoji {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    font-size: 0.85rem;
-    border-radius: 5px;
-    border: 1px solid #555;
-    background: #252525;
-}
+
+        @media (max-width: 380px) {
+            .statistiche {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat:last-child {
+                grid-column: span 2;
+            }
+
+            .testo-illuminato {
+                font-size: 2.5rem;
+            }
+
+            .sottotitolo {
+                letter-spacing: 1px;
+            }
+        }
     </style>
 </head>
 
@@ -604,17 +807,20 @@
 
         <!-- NAVIGAZIONE -->
         <nav class="navigation-badges">
+
             <div class="dropdown-container">
-                <a class="badge-link">
+                <a href="#" class="badge-link">
                     <img src="players.png" alt="Players">
                     <span>Players</span>
                     <span class="arrow">&gt;</span>
                 </a>
+
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
                         <a href="who.html" class="dropdown-item">
                             <span>❓ Who?</span>
                         </a>
+
                         <a href="leaderboard.html" class="dropdown-item">
                             <img src="lb.png" alt="Leaderboard">
                             <span>Leaderboard</span>
@@ -624,21 +830,24 @@
             </div>
 
             <div class="dropdown-container">
-                <a class="badge-link">
+                <a href="#" class="badge-link">
                     <img src="games.png" alt="Games">
                     <span>Games</span>
                     <span class="arrow">&gt;</span>
                 </a>
+
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
                         <a href="horse.html" class="dropdown-item">
                             <img src="horse.png" alt="H.O.R.S.E.">
                             <span>H.O.R.S.E.</span>
                         </a>
+
                         <a href="thedemonwheel.html" class="dropdown-item">
                             <img src="tdw.png" alt="The Demon Wheel">
                             <span>The Demon Wheel</span>
                         </a>
+
                         <a href="roulette.html" class="dropdown-item">
                             <img src="roulette.png" alt="Roulette">
                             <span>Roulette</span>
@@ -651,122 +860,243 @@
                 <img src="announcements.png" alt="Announcements">
                 <span>Announcements</span>
             </a>
-<a href="community.html" class="badge-link">
-    <span class="badge-emoji" aria-hidden="true">💬</span>
-    <span>Community</span>
-</a>
+
+            <a href="community.html" class="badge-link">
+                <span class="badge-emoji" aria-hidden="true">💬</span>
+                <span>Community</span>
+            </a>
+
         </nav>
 
+        <!-- HEADER -->
         <header>
+            <div class="eyebrow">G_S DEMON LIST</div>
             <h1 class="testo-illuminato">Who?</h1>
-            <p class="sottotitolo">The people behind the gooners' demonlist</p>
+            <p class="sottotitolo">THE PEOPLE BEHIND THE GOONERS' DEMONLIST</p>
             <div class="linea-titolo"></div>
         </header>
 
         <section class="contenuto">
 
             <!-- INTRODUZIONE -->
-            <article class="scheda">
-                <h2>About the list</h2>
-                <p>Scrivi qui una breve presentazione della demon list: chi l'ha creata, come funziona e perché esiste.</p>
+            <article class="intro-card">
+                <div class="intro-label">ABOUT US</div>
+                <h2>Meet the players.</h2>
+                <p>
+                    G_S demon list is a community project dedicated to Geometry Dash.
+                    This is where you can discover the players behind the list, follow
+                    their achievements and check their progress. Every statistic is
+                    automatically updated using the latest approved records.
+                </p>
             </article>
 
+            <!-- GIOCATORI -->
+            <div class="sezione-titolo">
+                <h2>THE PLAYERS</h2>
+                <span>PLAYER PROFILES & STATS</span>
+            </div>
+
             <!-- POTHERSOULS -->
-            <article class="giocatore">
+            <article class="giocatore" data-player="Pothersouls">
+
                 <div class="avatar">P</div>
+
                 <div class="giocatore-info">
-                    <h2>Pothersouls</h2>
-                    <span class="ruolo">PLAYER</span>
-                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="nome-riga">
+                        <h3>Pothersouls</h3>
+                        <span class="ruolo">PLAYER</span>
+                    </div>
+
+                    <p>Player of the G_S demon list.</p>
+
                     <div class="statistiche">
                         <div class="stat">
-                            <span class="stat-valore">--%</span>
-                            <span class="stat-etichetta">TOTAL POINTS</span>
+                            <span class="stat-valore" id="pothersouls-points">--</span>
+                            <span class="stat-etichetta">POINTS EARNED</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="pothersouls-beaten">--</span>
                             <span class="stat-etichetta">LEVELS BEATEN</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="pothersouls-hardest">--</span>
                             <span class="stat-etichetta">HARDEST LEVEL</span>
                         </div>
                     </div>
+
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>OVERALL LIST PROGRESS</span>
+                            <strong id="pothersouls-progress">0%</strong>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="pothersouls-bar"></div>
+                        </div>
+                    </div>
                 </div>
+
                 <a href="pothersouls.html" class="vai-profilo">
-                    <span>Profile</span>
-                    <span>&gt;</span>
+                    <span>View profile</span>
+                    <span>→</span>
                 </a>
+
             </article>
 
             <!-- DADEFFF -->
-            <article class="giocatore">
+            <article class="giocatore" data-player="Dadefff">
+
                 <div class="avatar">D</div>
+
                 <div class="giocatore-info">
-                    <h2>Dadefff</h2>
-                    <span class="ruolo">PLAYER</span>
-                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="nome-riga">
+                        <h3>Dadefff</h3>
+                        <span class="ruolo">PLAYER</span>
+                    </div>
+
+                    <p>Player of the G_S demon list.</p>
+
                     <div class="statistiche">
                         <div class="stat">
-                            <span class="stat-valore">--%</span>
-                            <span class="stat-etichetta">TOTAL POINTS</span>
+                            <span class="stat-valore" id="dadefff-points">--</span>
+                            <span class="stat-etichetta">POINTS EARNED</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="dadefff-beaten">--</span>
                             <span class="stat-etichetta">LEVELS BEATEN</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="dadefff-hardest">--</span>
                             <span class="stat-etichetta">HARDEST LEVEL</span>
                         </div>
                     </div>
+
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>OVERALL LIST PROGRESS</span>
+                            <strong id="dadefff-progress">0%</strong>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="dadefff-bar"></div>
+                        </div>
+                    </div>
                 </div>
+
                 <a href="dadefff.html" class="vai-profilo">
-                    <span>Profile</span>
-                    <span>&gt;</span>
+                    <span>View profile</span>
+                    <span>→</span>
                 </a>
+
             </article>
 
             <!-- LEOPELLIZ -->
-            <article class="giocatore">
+            <article class="giocatore" data-player="Leopelliz">
+
                 <div class="avatar">L</div>
+
                 <div class="giocatore-info">
-                    <h2>Leopelliz</h2>
-                    <span class="ruolo">PLAYER</span>
-                    <p>Scrivi qui una breve descrizione del giocatore.</p>
+                    <div class="nome-riga">
+                        <h3>Leopelliz</h3>
+                        <span class="ruolo">PLAYER</span>
+                    </div>
+
+                    <p>Player of the G_S demon list.</p>
+
                     <div class="statistiche">
                         <div class="stat">
-                            <span class="stat-valore">--%</span>
-                            <span class="stat-etichetta">TOTAL POINTS</span>
+                            <span class="stat-valore" id="leopelliz-points">--</span>
+                            <span class="stat-etichetta">POINTS EARNED</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="leopelliz-beaten">--</span>
                             <span class="stat-etichetta">LEVELS BEATEN</span>
                         </div>
+
                         <div class="stat">
-                            <span class="stat-valore">--</span>
+                            <span class="stat-valore" id="leopelliz-hardest">--</span>
                             <span class="stat-etichetta">HARDEST LEVEL</span>
                         </div>
                     </div>
+
+                    <div class="progress-container">
+                        <div class="progress-info">
+                            <span>OVERALL LIST PROGRESS</span>
+                            <strong id="leopelliz-progress">0%</strong>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="leopelliz-bar"></div>
+                        </div>
+                    </div>
                 </div>
+
                 <a href="leopelliz.html" class="vai-profilo">
-                    <span>Profile</span>
-                    <span>&gt;</span>
+                    <span>View profile</span>
+                    <span>→</span>
                 </a>
+
             </article>
 
-            <!-- REGOLE DEL PUNTEGGIO -->
-            <article class="scheda">
+            <div class="stato-dati">
+                <span class="stato-pallino loading" id="firebase-dot"></span>
+                <span id="firebase-status">Loading live statistics...</span>
+            </div>
+
+            <!-- REGOLE -->
+            <div class="sezione-titolo">
+                <h2>HOW IT WORKS</h2>
+                <span>SCORING SYSTEM</span>
+            </div>
+
+            <article class="regole-card">
                 <h2>How points work</h2>
-                <ul>
-                    <li><strong>Ogni livello</strong> ha un valore in punti che dipende dalla sua posizione nella lista.</li>
-                    <li><strong>I punti totali</strong> di un giocatore sono la somma dei punti dei livelli completati.</li>
-                    <li><strong>I progressi parziali</strong> mostrano la percentuale raggiunta sui livelli non ancora completati.</li>
-                </ul>
+
+                <div class="regole-lista">
+
+                    <div class="regola">
+                        <span class="regola-numero">01</span>
+                        <p>
+                            <strong>Level points</strong><br>
+                            Every level has a point value depending on its position in the list.
+                        </p>
+                    </div>
+
+                    <div class="regola">
+                        <span class="regola-numero">02</span>
+                        <p>
+                            <strong>Total points</strong><br>
+                            Points are calculated automatically using the player's approved progress.
+                        </p>
+                    </div>
+
+                    <div class="regola">
+                        <span class="regola-numero">03</span>
+                        <p>
+                            <strong>Partial progress</strong><br>
+                            Incomplete levels contribute proportionally to the player's total points.
+                        </p>
+                    </div>
+
+                    <div class="regola">
+                        <span class="regola-numero">04</span>
+                        <p>
+                            <strong>Levels beaten</strong><br>
+                            A level counts as beaten when the player's approved progress reaches 100%.
+                        </p>
+                    </div>
+
+                </div>
             </article>
 
-            <a href="index.html" class="badge-link" style="align-self: center; margin-top: 6px;">
-                <span>&lt; Back to the list</span>
+            <a href="index.html" class="back-link">
+                <span>←</span>
+                <span>Back to the list</span>
             </a>
 
         </section>
@@ -774,8 +1104,214 @@
     </main>
 
     <footer>
-        G_S demon list
+        G_S demon list · All rights reserved
     </footer>
+
+    <!-- FIREBASE: STATISTICHE IN TEMPO REALE -->
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+        import {
+            getFirestore,
+            collection,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLKY1OEO2A-5eJObCjJMeKCasSLf8WmrU",
+            authDomain: "gs-demonlist.firebaseapp.com",
+            projectId: "gs-demonlist",
+            storageBucket: "gs-demonlist.firebasestorage.app",
+            messagingSenderId: "789414584664",
+            appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d",
+            measurementId: "G-1V7VX6QRHZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        /*
+         * LIVELLI DELLA G_S LIST
+         * I punti sono gli stessi utilizzati nella pagina principale.
+         */
+
+        const levels = [
+            { id: "001", name: "Bloodbath", points: 250 },
+            { id: "002", name: "Future Funk II", points: 235 },
+            { id: "003", name: "Magma Bound", points: 220 },
+            { id: "004", name: "CraZy II", points: 205 },
+            { id: "005", name: "Sonic Wave Universe", points: 190 },
+            { id: "006", name: "Death Note", points: 175 },
+            { id: "007", name: "Stalemate", points: 160 },
+            { id: "008", name: "Jawbreaker", points: 145 },
+            { id: "009", name: "Future Funk", points: 130 },
+            { id: "010", name: "CraZy", points: 115 },
+            { id: "011", name: "Megalovania", points: 100 },
+            { id: "012", name: "Nine Circles", points: 90 },
+            { id: "013", name: "Troll Madness", points: 80 },
+            { id: "014", name: "HeLL", points: 70 },
+            { id: "015", name: "Phobros", points: 60 },
+            { id: "016", name: "Cycles v2 s", points: 50 },
+            { id: "017", name: "Sakupen Egg", points: 40 },
+            { id: "018", name: "Mechanical Showdown", points: 30 },
+            { id: "019", name: "Skeletal Shenanigans", points: 20 },
+            { id: "020", name: "VeritY", points: 15 }
+        ];
+
+        const players = [
+            {
+                name: "Pothersouls",
+                key: "pothersouls"
+            },
+            {
+                name: "Dadefff",
+                key: "dadefff"
+            },
+            {
+                name: "Leopelliz",
+                key: "leopelliz"
+            }
+        ];
+
+        const totalPossiblePoints = levels.reduce(
+            (sum, level) => sum + level.points,
+            0
+        );
+
+        function setStatus(message, type = "online") {
+            const status = document.getElementById("firebase-status");
+            const dot = document.getElementById("firebase-dot");
+
+            status.textContent = message;
+
+            dot.classList.remove("loading", "error");
+
+            if (type === "loading") {
+                dot.classList.add("loading");
+            } else if (type === "error") {
+                dot.classList.add("error");
+            }
+        }
+
+        function formatPoints(value) {
+            return Number(value).toFixed(1).replace(/\.0$/, "");
+        }
+
+        function calculatePlayerStats(playerName, records) {
+
+            let totalPoints = 0;
+            let levelsBeaten = 0;
+            let hardestLevel = null;
+            let totalProgressPoints = 0;
+
+            const playerRecords = records.filter(record =>
+                record.playerName === playerName
+            );
+
+            const progressMap = {};
+
+            playerRecords.forEach(record => {
+                const progress = Math.max(
+                    0,
+                    Math.min(100, Number(record.progress) || 0)
+                );
+
+                progressMap[String(record.levelId).padStart(3, "0")] = progress;
+            });
+
+            levels.forEach(level => {
+
+                const progress = progressMap[level.id] || 0;
+
+                totalPoints += level.points * (progress / 100);
+
+                totalProgressPoints += progress;
+
+                if (progress >= 100) {
+                    levelsBeaten++;
+
+                    // La lista è ordinata dal livello più alto al più basso.
+                    if (!hardestLevel) {
+                        hardestLevel = level;
+                    }
+                }
+            });
+
+            const overallProgress = totalPossiblePoints > 0
+                ? (totalPoints / totalPossiblePoints) * 100
+                : 0;
+
+            return {
+                totalPoints,
+                levelsBeaten,
+                hardestLevel,
+                overallProgress
+            };
+        }
+
+        function updatePlayer(player, records) {
+
+            const stats = calculatePlayerStats(player.name, records);
+
+            document.getElementById(
+                `${player.key}-points`
+            ).textContent = formatPoints(stats.totalPoints);
+
+            document.getElementById(
+                `${player.key}-beaten`
+            ).textContent = `${stats.levelsBeaten}/${levels.length}`;
+
+            document.getElementById(
+                `${player.key}-hardest`
+            ).textContent = stats.hardestLevel
+                ? stats.hardestLevel.name
+                : "None";
+
+            const percentage = stats.overallProgress;
+
+            document.getElementById(
+                `${player.key}-progress`
+            ).textContent = `${percentage.toFixed(1)}%`;
+
+            document.getElementById(
+                `${player.key}-bar`
+            ).style.width = `${Math.min(100, percentage)}%`;
+        }
+
+        /*
+         * onSnapshot mantiene la pagina sincronizzata con Firestore.
+         * Quando un record viene approvato, modificato o eliminato,
+         * le statistiche vengono ricalcolate automaticamente.
+         */
+
+        setStatus("Connecting to live database...", "loading");
+
+        onSnapshot(
+            collection(db, "records"),
+
+            snapshot => {
+
+                const records = snapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id
+                }));
+
+                players.forEach(player => {
+                    updatePlayer(player, records);
+                });
+
+                setStatus("Live statistics · Automatically updated", "online");
+            },
+
+            error => {
+                console.error("Firebase statistics error:", error);
+
+                setStatus("Unable to load live statistics", "error");
+            }
+        );
+
+    </script>
 
 </body>
 </html>
