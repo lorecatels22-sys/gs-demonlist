@@ -569,7 +569,8 @@
 
 .testo-illuminato { animation: glow-title 4s ease-in-out 1.4s infinite; }
 .lettera { display: inline-block; animation: letter-in .9s cubic-bezier(.2,.9,.3,1.2) backwards; animation-delay: calc(.5s + var(--i) * .1s); }
-.testo-illuminato:hover .lettera { animation: wave .6s ease calc(var(--i) * .06s); }
+.testo-illuminato.ready .lettera { animation: none; }
+.testo-illuminato.ready:hover .lettera { animation: wave .6s ease calc(var(--i) * .06s); }
 .sottotitolo { animation: sub-in 1.2s ease .9s backwards; }
 .linea-titolo {
     background: linear-gradient(90deg, #e54848, #ff9a9a, #e54848);
@@ -728,8 +729,6 @@ footer { animation: foot 5s ease-in-out infinite; }
 
 <body>
 
-<div class="barra-sinistra" aria-hidden="true"></div>
-<div class="barra-destra" aria-hidden="true"></div>
 
 <main>
 
@@ -1003,6 +1002,7 @@ footer { animation: foot 5s ease-in-out infinite; }
             s.setAttribute('aria-hidden', 'true');
             h1.appendChild(s);
         });
+        setTimeout(() => h1.classList.add('ready'), 500 + t.length * 100 + 1000);
     }
 
     /* Barra di scroll + bagliore del cursore */
