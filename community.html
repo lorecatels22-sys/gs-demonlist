@@ -1,12 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e1e1e">
 
     <title>Community - G_S demon list</title>
-    <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./gs-logo.png?v=4">
+    <link rel="shortcut icon" href="./gs-logo.png?v=4">
+    <link rel="apple-touch-icon" href="./gs-logo.png?v=4">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +24,10 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { background: #1e1e1e; scroll-behavior: smooth; }
+        html {
+            background: #1e1e1e;
+            scroll-behavior: smooth;
+        }
 
         body {
             min-height: 100vh;
@@ -35,24 +41,26 @@
         /* BACK TO THE LIST */
 
         .back-to-list {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 9px;
             width: fit-content;
-            margin: 0 0 22px 18px;
-            padding: 8px 15px;
-            background: #252525;
-            border: 1px solid #3b3b3b;
+            margin: 10px 0 14px 18px;
+            padding: 7px 14px;
+            background: rgba(38, 38, 38, .97);
+            border: 1px solid #424242;
             border-left: 3px solid #00e676;
-            border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .25);
             text-decoration: none;
             color: #f5f5f5;
-            font-size: .76rem;
+            font-size: .73rem;
             font-weight: 700;
-            letter-spacing: .4px;
+            letter-spacing: .35px;
             transition: .22s ease;
             cursor: pointer;
+            position: relative;
+            z-index: 10;
         }
 
         .back-to-list:hover {
@@ -66,7 +74,7 @@
 
         .back-arrow {
             color: #00e676;
-            font-size: 1rem;
+            font-size: .95rem;
             font-weight: 800;
             transition: transform .25s ease;
         }
@@ -74,6 +82,8 @@
         .back-to-list:hover .back-arrow {
             transform: translateX(-3px);
         }
+
+        /* SFONDO LATERALE */
 
         .barra-sinistra,
         .barra-destra {
@@ -98,7 +108,7 @@
             position: relative;
             z-index: 1;
             min-height: 100vh;
-            padding: 15px 0 90px;
+            padding: 0 0 90px;
         }
 
         /* NAVBAR */
@@ -1023,12 +1033,12 @@
             }
 
             .back-to-list {
-                margin: 0 0 18px 10px;
-                padding: 7px 12px;
-                font-size: .68rem;
+                margin: 8px 0 12px 10px;
+                padding: 6px 11px;
+                font-size: .67rem;
             }
 
-            main { padding-top: 15px; }
+            main { padding-top: 0; }
 
             .navigation-badges {
                 gap: 8px;
