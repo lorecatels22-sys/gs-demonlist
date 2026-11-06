@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -55,59 +56,6 @@ body{
     to{opacity:1;transform:translate(-50%,-50%) scale(1)}
 }
 
-/* BACK TO THE LIST */
-
-.back-to-list{
-    position:relative;
-    z-index:5;
-
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-
-    margin:15px 0 0 20px;
-    padding:8px 14px;
-
-    background:#292929;
-    border:1px solid #454545;
-    border-left:3px solid #00e676;
-    border-radius:14px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,.35);
-
-    text-decoration:none;
-    color:#eeeeee;
-
-    font-family:'Montserrat',sans-serif;
-    font-size:.75rem;
-    font-weight:700;
-    letter-spacing:.3px;
-
-    opacity:1;
-    transition:all .2s ease;
-    cursor:pointer;
-}
-
-.back-to-list:hover{
-    background:#333;
-    border-color:#555;
-    border-left-color:#00ff88;
-    color:#00e676;
-    transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(0,230,118,.12);
-}
-
-.back-arrow{
-    color:#00e676;
-    font-size:1rem;
-    font-weight:800;
-    transition:transform .2s ease;
-}
-
-.back-to-list:hover .back-arrow{
-    transform:translateX(-3px);
-}
-
 /* SIDE IMAGES */
 
 .barra-sinistra,
@@ -149,7 +97,7 @@ main{
     align-items:center;
     justify-content:center;
     gap:12px;
-    width:min(900px,88%);
+    width:min(1250px,96%);
     margin:0 auto 25px;
     flex-wrap:wrap;
     position:relative;
@@ -184,6 +132,28 @@ main{
     background:rgba(42,42,42,.99);
     border-color:#555;
     border-left-color:#ff5555;
+}
+
+/* BACK TO THE LIST - STESSO STILE WHO? */
+
+.back-link{
+    border-left-color:#00e676;
+}
+
+.back-link:hover{
+    border-left-color:#00ff88;
+    color:#00e676;
+}
+
+.back-link .back-arrow{
+    color:#00e676;
+    font-size:.95rem;
+    font-weight:800;
+    transition:.25s ease;
+}
+
+.back-link:hover .back-arrow{
+    transform:translateX(-3px);
 }
 
 .badge-link img{
@@ -567,39 +537,34 @@ footer{
     .classifica,
     #adminPanel,
     header,
-    .navigation-badges,
     footer{
         width:95%;
     }
 
-    .back-to-list{
-        margin:10px 0 0 10px;
-        padding:7px 11px;
-        font-size:.68rem;
-    }
-
     main{padding-top:20px}
 
-    .navigation-badges{gap:8px}
+    .navigation-badges{
+        width:95%;
+        gap:8px;
+        margin-bottom:25px;
+    }
 
     .badge-link{
         padding:6px 12px;
         font-size:.68rem;
     }
 
+    .badge-link img{
+        width:20px;
+        height:20px;
+    }
+
     .livello{padding:18px}
 }
-
 </style>
 </head>
 
 <body>
-
-<!-- BACK TO THE LIST -->
-<a href="./index.html" class="back-to-list">
-    <span class="back-arrow">←</span>
-    <span>Back to the list</span>
-</a>
 
 <div class="barra-sinistra" aria-hidden="true"></div>
 <div class="barra-destra" aria-hidden="true"></div>
@@ -618,6 +583,12 @@ footer{
 <main>
 
 <nav class="navigation-badges">
+
+    <!-- BACK TO THE LIST: PRIMO ELEMENTO DELLA NAVIGAZIONE -->
+    <a href="./index.html" class="badge-link back-link">
+        <span class="back-arrow">←</span>
+        <span>Back to the list</span>
+    </a>
 
     <div class="dropdown-container">
         <a class="badge-link">
