@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -35,30 +35,29 @@
         /* BACK TO THE LIST */
 
         .back-to-list {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 15px 0 0 18px;
-            padding: 9px 18px;
-            background: rgba(32, 32, 32, .97);
+            gap: 9px;
+            width: fit-content;
+            margin: 0 0 22px 18px;
+            padding: 8px 15px;
+            background: #252525;
             border: 1px solid #3b3b3b;
             border-left: 3px solid #00e676;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .18);
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
             text-decoration: none;
             color: #f5f5f5;
-            font-size: .8rem;
+            font-size: .76rem;
             font-weight: 700;
-            letter-spacing: .5px;
+            letter-spacing: .4px;
             transition: .22s ease;
             cursor: pointer;
-            position: relative;
-            z-index: 10;
         }
 
         .back-to-list:hover {
             transform: translateY(-2px);
-            background: #2a2a2a;
+            background: #303030;
             border-color: #555;
             border-left-color: #00ff88;
             color: #00e676;
@@ -66,10 +65,10 @@
         }
 
         .back-arrow {
-            font-size: .95rem;
-            font-weight: 800;
             color: #00e676;
-            transition: .25s ease;
+            font-size: 1rem;
+            font-weight: 800;
+            transition: transform .25s ease;
         }
 
         .back-to-list:hover .back-arrow {
@@ -99,7 +98,7 @@
             position: relative;
             z-index: 1;
             min-height: 100vh;
-            padding: 20px 0 90px;
+            padding: 15px 0 90px;
         }
 
         /* NAVBAR */
@@ -1024,12 +1023,12 @@
             }
 
             .back-to-list {
-                margin: 10px 0 0 10px;
-                padding: 6px 12px;
+                margin: 0 0 18px 10px;
+                padding: 7px 12px;
                 font-size: .68rem;
             }
 
-            main { padding-top: 20px; }
+            main { padding-top: 15px; }
 
             .navigation-badges {
                 gap: 8px;
@@ -1077,15 +1076,15 @@
 
 <body>
 
-    <a href="./index.html" class="back-to-list">
-        <span class="back-arrow">←</span>
-        <span>Back to the list</span>
-    </a>
-
     <div class="barra-sinistra" aria-hidden="true"></div>
     <div class="barra-destra" aria-hidden="true"></div>
 
     <main>
+
+        <a href="./index.html" class="back-to-list">
+            <span class="back-arrow">←</span>
+            <span>Back to the list</span>
+        </a>
 
         <nav class="navigation-badges">
 
@@ -2038,4 +2037,3 @@
 
 </body>
 </html>
-```
