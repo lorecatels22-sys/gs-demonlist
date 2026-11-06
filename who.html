@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -39,8 +38,6 @@
             position: relative;
         }
 
-        /* SFONDO LATERALE */
-
         .barra-sinistra,
         .barra-destra {
             position: absolute;
@@ -66,8 +63,6 @@
             min-height: 100vh;
             padding: 35px 0 90px;
         }
-
-        /* NAVIGATION - IDENTICA A WHO.HTML */
 
         .navigation-badges {
             display: flex;
@@ -113,8 +108,6 @@
             border-left-color: #ff5555;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
-
-        /* BACK TO LIST - COME WHO.HTML */
 
         .back-link {
             border-left-color: #00e676;
@@ -259,8 +252,6 @@
             transform: scale(1.05);
         }
 
-        /* HEADER */
-
         header {
             text-align: center;
             padding: 0 15px;
@@ -299,8 +290,6 @@
             box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
             animation: allarga 0.9s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both, respiro 3s 1.6s ease-in-out infinite;
         }
-
-        /* CONTENUTO */
 
         .contenuto {
             position: relative;
@@ -384,8 +373,6 @@
             font-size: 0.85rem;
             line-height: 1.7;
         }
-
-        /* FORM */
 
         form {
             display: flex;
@@ -632,8 +619,6 @@
             color: #ff7a7a;
         }
 
-        /* PARTICELLE */
-
         .particella {
             position: fixed;
             width: 8px;
@@ -643,8 +628,6 @@
             z-index: 1000;
             animation: esplodi 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
         }
-
-        /* NOTIFICHE */
 
         .notifiche {
             position: fixed;
@@ -673,8 +656,6 @@
         }
 
         .notifica b { color: #fff; }
-
-        /* BACHECA */
 
         .stato-live {
             display: inline-flex;
@@ -881,8 +862,6 @@
             padding: 25px 10px 35px;
         }
 
-        /* ANIMAZIONI */
-
         @keyframes scendi {
             from { opacity: 0; transform: translateY(-14px); }
             to { opacity: 1; transform: none; }
@@ -1051,8 +1030,6 @@
     <div class="barra-destra" aria-hidden="true"></div>
 
     <main>
-
-        <!-- NAVIGATION IDENTICA A WHO.HTML -->
 
         <nav class="navigation-badges">
 
@@ -1247,8 +1224,6 @@
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-        /* ---------------- CONFIGURAZIONE FIREBASE ---------------- */
-
         const firebaseConfig = {
             apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
             authDomain: "gs-demonlist.firebaseapp.com",
@@ -1260,8 +1235,6 @@
 
         const configurato = firebaseConfig.projectId !== "INCOLLA_QUI";
 
-
-        /* ---------------- CONFIGURAZIONI GENERALI ---------------- */
 
         const ETICHETTE = {
             domanda: "❓ Question",
@@ -1275,8 +1248,6 @@
             "(prefers-reduced-motion: reduce)"
         ).matches;
 
-
-        /* ---------------- ELEMENTI HTML ---------------- */
 
         const bacheca = document.getElementById("bacheca");
         const filtri = document.getElementById("filtri");
@@ -1293,8 +1264,6 @@
         const notifiche = document.getElementById("notifiche");
 
 
-        /* ---------------- VARIABILI ---------------- */
-
         let messaggi = [];
         let filtroAttivo = "all";
         let idNoti = null;
@@ -1308,8 +1277,6 @@
             annuncio: 0
         };
 
-
-        /* ---------------- TITOLO LETTERA PER LETTERA ---------------- */
 
         (function () {
 
@@ -1338,8 +1305,6 @@
         })();
 
 
-        /* ---------------- LUCE CHE SEGUE IL MOUSE ---------------- */
-
         document.querySelectorAll(".scheda").forEach(el => {
 
             el.addEventListener("pointermove", e => {
@@ -1361,8 +1326,6 @@
         });
 
 
-        /* ---------------- EFFETTO ONDA SUL PULSANTE ---------------- */
-
         bottone.addEventListener("click", e => {
 
             if (riduci) return;
@@ -1382,8 +1345,6 @@
 
         });
 
-
-        /* ---------------- UTILITA' ---------------- */
 
         function mostraEsito(tipo, testo) {
 
@@ -1544,8 +1505,6 @@
         }
 
 
-        /* ---------------- BACHECA ---------------- */
-
         function aggiornaContatori() {
 
             const n = {
@@ -1692,8 +1651,6 @@
         }
 
 
-        /* ---------------- FILTRI ---------------- */
-
         filtri.addEventListener("click", e => {
 
             const b = e.target.closest("button[data-filtro]");
@@ -1717,8 +1674,6 @@
 
         });
 
-
-        /* ---------------- CONTATORE CARATTERI ---------------- */
 
         campoMsg.addEventListener("input", () => {
 
@@ -1750,16 +1705,12 @@
         }
 
 
-        /* ---------------- AGGIORNAMENTO TEMPI ---------------- */
-
         setInterval(() => {
 
             if (messaggi.length) disegnaBacheca();
 
         }, 30000);
 
-
-        /* ---------------- FIREBASE ---------------- */
 
         if (!configurato) {
 
@@ -1782,8 +1733,6 @@
 
             const colonna = collection(db, "community");
 
-
-            /* CARICAMENTO MESSAGGI */
 
             const q = query(
                 colonna,
@@ -1856,8 +1805,6 @@
             );
 
 
-            /* INVIO MESSAGGI */
-
             form.addEventListener("submit", async e => {
 
                 e.preventDefault();
@@ -1885,8 +1832,6 @@
                 }
 
 
-                /* COOLDOWN */
-
                 let ultimo = 0;
 
                 try {
@@ -1913,8 +1858,6 @@
 
                 }
 
-
-                /* ANIMAZIONE INVIO */
 
                 bottone.disabled = true;
 
