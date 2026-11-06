@@ -76,79 +76,10 @@ header{text-align:center;width:min(900px,88%);margin:0 auto;animation:fadeUp .7s
 .btn-yes{background:#00e676;color:#000;border:0} .btn-no{background:transparent;color:#888;border:1px solid #3a3a3a}
 footer{width:min(900px,88%);margin:40px auto 0;text-align:center;color:#666;font-size:.75rem;letter-spacing:1px;padding:25px 10px}
 @media(max-width:700px){.barra-sinistra,.barra-destra{width:22vw;opacity:.45} .classifica,#adminPanel,header,.navigation-badges,footer{width:95%}}
-/* BACK TO THE LIST */
-
-.back-to-list {
-    position: fixed;
-    top: 125px;
-    left: max(20px, calc((100vw - 1100px) / 2));
-    z-index: 99999;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 11px;
-
-    padding: 10px 17px 10px 11px;
-
-    color: #f5f5f5;
-    background: linear-gradient(135deg, #292929, #1c1c1c);
-
-    border: 1px solid #414141;
-    border-left: 3px solid #e54848;
-    border-radius: 50px;
-
-    font-family: 'Montserrat', sans-serif;
-    font-size: .72rem;
-    font-weight: 800;
-    letter-spacing: .8px;
-    text-decoration: none;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,.3);
-
-    transition: all .25s ease;
-}
-
-.back-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 29px;
-    height: 29px;
-
-    color: white;
-    background: #e54848;
-    border-radius: 50%;
-
-    font-size: 17px;
-    transition: .25s ease;
-}
-
-.back-to-list:hover {
-    transform: translateX(5px);
-    background: #303030;
-    border-color: #e54848;
-    box-shadow: 0 5px 25px rgba(229,72,72,.2);
-}
-
-.back-to-list:hover .back-arrow {
-    background: #ff6262;
-    transform: translateX(-3px);
-}
-
-@media (max-width: 700px) {
-    .back-to-list {
-        top: 115px;
-        left: 12px;
-        padding: 7px 12px 7px 8px;
-        font-size: .62rem;
-    }
-
-    .back-arrow {
-        width: 25px;
-        height: 25px;
-    }
-}
+<a href="./index.html" class="back-to-list">
+    <span class="back-arrow">←</span>
+    <span>BACK TO THE LIST</span>
+</a>
 </style>
 </head>
 <body>
