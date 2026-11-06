@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e1e1e">
-    <title>G_S demon list</title>
-<link rel="icon" type="image/png" href="./gs-logo.png?v=3">
+
+    <title>Who? - G_S demon list</title>
+
+    <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -55,6 +59,8 @@
             min-height: 100vh;
             padding: 35px 0 90px;
         }
+
+        /* NAVIGATION */
 
         .navigation-badges {
             display: flex;
@@ -176,6 +182,8 @@
             border: 1px solid #555;
         }
 
+        /* HEADER */
+
         header {
             text-align: center;
             padding: 0 15px;
@@ -206,6 +214,22 @@
             background: #e54848;
             box-shadow: 0 0 14px rgba(229,72,72,.45);
         }
+
+        /* INTRO */
+
+        .intro {
+            width: min(900px,88%);
+            margin: 30px auto 0;
+            text-align: center;
+        }
+
+        .intro p {
+            color: #aaa;
+            font-size: .82rem;
+            line-height: 1.8;
+        }
+
+        /* PLAYER CARDS */
 
         .giocatori {
             position: relative;
@@ -244,6 +268,12 @@
             font-weight: 800;
             overflow-wrap: anywhere;
             text-align: center;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .giocatore-nome:hover {
+            color: #ff6666;
         }
 
         .giocatore-punti {
@@ -262,145 +292,84 @@
             letter-spacing: 2px;
         }
 
-        .classifica,
+        .giocatore-divider {
+            width: 80%;
+            height: 1px;
+            background: #3b3b3b;
+            margin: 12px 0 7px;
+        }
+
+        .stat-riga {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+        .stat-valore {
+            color: #eee;
+            font-size: .7rem;
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .stat-hardest {
+            color: #ff6666;
+            max-width: 120px;
+            overflow-wrap: anywhere;
+        }
+
+        .progress-container {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        .progress-info span {
+            color: #999;
+            font-size: .62rem;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 7px;
+            overflow: hidden;
+            background: #151515;
+            border: 1px solid #383838;
+            border-radius: 20px;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #00e676;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0,230,118,.4);
+            transition: width .6s ease;
+        }
+
+        /* SECTION */
+
         .sezione-extra {
             position: relative;
             z-index: 2;
             width: min(900px,88%);
-            margin: 30px auto 0;
-        }
-
-        .classifica {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .livello {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            min-height: 112px;
-            padding: 16px 22px;
-            background: rgba(32,32,32,.97);
-            border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343;
-            border-radius: 10px;
-            box-shadow: 0 5px 18px rgba(0,0,0,.18);
-            transition: .22s ease;
-        }
-
-        .livello:hover {
-            transform: translateY(-3px);
-            background: #2a2a2a;
-            border-color: #555;
-            border-left-color: #ff5555;
-            box-shadow: 0 9px 26px rgba(0,0,0,.3);
-        }
-
-        .posizione {
-            color: #e85a5a;
-            font-size: 1rem;
-            font-weight: 800;
-            min-width: 48px;
-            letter-spacing: -.5px;
-        }
-
-        .livello img {
-            display: block;
-            flex-shrink: 0;
-            width: 120px;
-            height: 76px;
-            object-fit: cover;
-            border-radius: 7px;
-            background: #1e1e1e;
-            border: 1px solid #454545;
-        }
-
-        .info-livello {
-            flex: 0 1 190px;
-            min-width: 0;
-        }
-
-        .info-livello h2 {
-            color: #f5f5f5;
-            font-size: 1.05rem;
-            font-weight: 800;
-            margin-bottom: 7px;
-            overflow-wrap: anywhere;
-        }
-
-        .info-livello p {
-            color: #999;
-            font-size: .8rem;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-
-        .progressi {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 10px;
-            margin-left: 12px;
-            margin-right: auto;
-            flex-shrink: 0;
-            padding: 10px 14px;
-            background: rgba(0,230,118,.045);
-            border: 1px solid rgba(0,230,118,.13);
-            border-radius: 9px;
-            box-shadow: 0 0 12px rgba(0,230,118,.10);
-        }
-
-        .progressi p {
-            color: #00e676;
-            font-size: .8rem;
-            font-weight: 700;
-            white-space: nowrap;
-            text-shadow: 0 0 8px rgba(0,230,118,.35);
-        }
-
-        .progressi a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .progressi a:hover {
-            color: #7dffb8;
-            text-decoration: underline;
-        }
-
-        .dati-destra {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 8px;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-
-        .punti {
-            color: #ff5252;
-            font-size: .85rem;
-            font-weight: 800;
-            white-space: nowrap;
-            text-align: right;
-        }
-
-        .difficolta {
-            color: #ff6666;
-            font-size: .7rem;
-            font-weight: 700;
-            text-align: right;
-            line-height: 1.6;
-            letter-spacing: .7px;
-            white-space: nowrap;
-        }
-
-        .sezione-extra {
-            margin-top: 45px;
+            margin: 35px auto 0;
             padding: 25px;
             background: rgba(32,32,32,.97);
             border: 1px solid #3b3b3b;
@@ -419,238 +388,60 @@
             color: #999;
             font-size: .8rem;
             line-height: 1.7;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .campo {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .campo label {
-            color: #bbb;
-            font-size: .72rem;
-            font-weight: 700;
-        }
-
-        .campo input,
-        .campo select {
-            width: 100%;
-            padding: 12px 13px;
-            color: #fff;
-            background: #171717;
-            border: 1px solid #444;
-            border-radius: 7px;
-            outline: none;
-            font-family: inherit;
-            font-size: .82rem;
-            transition: border-color .2s ease;
-        }
-
-        .campo input:focus,
-        .campo select:focus {
-            border-color: #e85a5a;
-        }
-
-        .campo select option {
-            background: #202020;
-        }
-
-        .campo-full {
-            grid-column: 1 / -1;
-        }
-
-        .pulsante {
-            padding: 12px 18px;
-            border: 1px solid #b93636;
-            border-radius: 7px;
-            background: #d94343;
-            color: #fff;
-            font-family: inherit;
-            font-size: .78rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: .2s ease;
-        }
-
-        .pulsante:hover {
-            background: #f05252;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(229,72,72,.2);
-        }
-
-        .pulsante:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .pulsante-verde {
-            background: #087d49;
-            border-color: #00a85e;
-        }
-
-        .pulsante-verde:hover {
-            background: #09985a;
-        }
-
-        .messaggio {
-            margin-top: 14px;
-            font-size: .78rem;
-            line-height: 1.6;
-            color: #aaa;
-        }
-
-        .messaggio.successo { color: #00e676; }
-        .messaggio.errore { color: #ff6666; }
-
-        .admin-login,
-        .admin-contenuto {
-            margin-top: 18px;
-        }
-
-        .admin-separatore {
-            height: 1px;
-            background: #3b3b3b;
-            margin: 22px 0;
-        }
-
-        .admin-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .richiesta {
-            padding: 15px;
-            margin-top: 12px;
+        .regola {
+            padding: 13px 15px;
+            margin-top: 10px;
             background: #191919;
             border: 1px solid #3b3b3b;
             border-left: 3px solid #e85a5a;
             border-radius: 8px;
         }
 
-        .richiesta-info {
-            color: #ddd;
-            font-size: .8rem;
-            line-height: 1.8;
-            overflow-wrap: anywhere;
-        }
-
-        .richiesta-info strong {
-            color: #fff;
-        }
-
-        .richiesta-azioni {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        .pulsante-rifiuta {
-            background: #333;
-            border-color: #555;
-        }
-
-        .pulsante-rifiuta:hover {
-            background: #484848;
-        }
-
-        .vuoto {
-            color: #888;
-            font-size: .8rem;
-            padding: 15px 0;
-        }
-
-        .admin-stato {
-            color: #00e676;
-            font-size: .75rem;
-            font-weight: 700;
-        }
-
-        .notifica-admin {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 16px;
-            border: 1px solid #633333;
-            border-radius: 8px;
-            background: #2a1919;
-            color: white;
-            font-family: inherit;
-            font-size: .8rem;
+        .regola h3 {
+            color: #f5f5f5;
+            font-size: .82rem;
             font-weight: 800;
-            cursor: pointer;
-            transition: .2s ease;
+            margin-bottom: 5px;
         }
 
-        .notifica-admin:hover {
-            background: #3a2020;
-            border-color: #e85a5a;
-        }
-
-        .notifica-count {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 23px;
-            height: 23px;
-            padding: 0 6px;
-            border-radius: 20px;
-            background: #e53939;
-            color: white;
-            font-size: .72rem;
-            font-weight: 800;
-        }
-
-        .extra-card {
-            padding: 15px;
-            margin-top: 12px;
-            background: #191919;
-            border: 1px solid #3b3b3b;
-            border-left: 3px solid #00b96b;
-            border-radius: 8px;
-        }
-
-        .extra-card h3 {
-            font-size: .95rem;
-            margin-bottom: 7px;
-        }
-
-        .extra-card p {
-            color: #aaa;
+        .regola p {
+            color: #999;
             font-size: .75rem;
             line-height: 1.7;
         }
 
-        .extra-card a {
-            color: #8dffbd;
+        /* FIREBASE STATUS */
+
+        .firebase-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 22px;
+            color: #888;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        .extra-card .extra-progress {
-            color: #00e676;
-            font-weight: 800;
+        .firebase-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #888;
         }
 
-        .extra-label {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 5px 9px;
-            background: rgba(0,230,118,.08);
-            border: 1px solid rgba(0,230,118,.2);
-            border-radius: 5px;
-            color: #00e676;
-            font-size: .62rem;
-            font-weight: 800;
+        .firebase-dot.online {
+            background: #00e676;
+            box-shadow: 0 0 9px rgba(0,230,118,.7);
+        }
+
+        .firebase-dot.error {
+            background: #ff5252;
+            box-shadow: 0 0 9px rgba(255,82,82,.6);
         }
 
         footer {
@@ -662,6 +453,8 @@
             letter-spacing: 1px;
             padding: 25px 10px 35px;
         }
+
+        /* MOBILE */
 
         @media (max-width: 700px) {
             .barra-sinistra,
@@ -700,107 +493,70 @@
             .giocatore-punti { font-size: 1.3rem; }
             .giocatore-label { font-size: .48rem; letter-spacing: 1px; }
 
-            .classifica {
+            .giocatore-divider {
+                margin: 9px 0 5px;
+            }
+
+            .stat-riga {
+                gap: 4px;
+            }
+
+            .stat-label { font-size: .52rem; }
+            .stat-valore { font-size: .55rem; }
+
+            .progress-info span { font-size: .49rem; }
+            .progress-track { height: 5px; }
+
+            .intro {
                 width: 95%;
                 margin-top: 22px;
-                gap: 11px;
             }
 
-            .livello {
-                gap: 9px;
-                min-height: 90px;
-                padding: 11px 9px;
-            }
-
-            .posizione {
-                min-width: 34px;
-                font-size: .76rem;
-            }
-
-            .livello img {
-                width: 66px;
-                height: 53px;
-            }
-
-            .info-livello { flex: 1 1 auto; }
-            .info-livello h2 { font-size: .78rem; }
-            .info-livello p { font-size: .67rem; }
-
-            .progressi {
-                margin-left: 0;
-                padding: 7px 8px;
-                gap: 5px;
-            }
-
-            .progressi p { font-size: .59rem; }
-            .dati-destra { gap: 5px; }
-
-            .punti {
-                font-size: .59rem;
-                white-space: normal;
-                max-width: 85px;
-            }
-
-            .difficolta {
-                font-size: .5rem;
-                letter-spacing: 0;
-                white-space: normal;
-                max-width: 85px;
-            }
+            .intro p { font-size: .72rem; }
 
             .sezione-extra {
                 width: 95%;
                 padding: 18px;
-                margin-top: 30px;
+                margin-top: 28px;
             }
-
-            .form-grid { grid-template-columns: 1fr; }
-            .campo-full { grid-column: auto; }
         }
 
         @media (max-width: 420px) {
             .giocatore-nome { font-size: .6rem; }
             .giocatore-punti { font-size: 1.05rem; }
 
-            .livello {
-                gap: 7px;
-                padding: 10px 6px;
-            }
+            .stat-label { font-size: .47rem; }
+            .stat-valore { font-size: .49rem; }
 
-            .posizione {
-                min-width: 29px;
-                font-size: .68rem;
+            .stat-hardest {
+                max-width: 65px;
             }
-
-            .livello img {
-                width: 55px;
-                height: 47px;
-            }
-
-            .info-livello h2 { font-size: .7rem; }
-            .progressi { padding: 6px; }
-            .progressi p { font-size: .52rem; }
-            .punti { font-size: .52rem; max-width: 75px; }
-            .difficolta { font-size: .46rem; }
         }
     </style>
 </head>
 
 <body>
+
 <div class="barra-sinistra" aria-hidden="true"></div>
 <div class="barra-destra" aria-hidden="true"></div>
 
 <main>
+
+    <!-- NAVIGATION -->
+
     <nav class="navigation-badges">
+
         <div class="dropdown-container">
             <a class="badge-link">
                 <img src="players.png" alt="Players">
                 <span>Players</span>
                 <span class="arrow">&gt;</span>
             </a>
+
             <div class="dropdown-menu">
                 <div class="dropdown-content">
                     <a href="who.html" class="dropdown-item">❓ Who?</a>
+
                     <a href="leaderboard.html" class="dropdown-item">
                         <img src="lb.png" alt="Leaderboard">
                         <span>Leaderboard</span>
@@ -815,20 +571,25 @@
                 <span>Games</span>
                 <span class="arrow">&gt;</span>
             </a>
+
             <div class="dropdown-menu">
                 <div class="dropdown-content">
+
                     <a href="horse.html" class="dropdown-item">
                         <img src="horse.png" alt="H.O.R.S.E.">
                         <span>H.O.R.S.E.</span>
                     </a>
+
                     <a href="thedemonwheel.html" class="dropdown-item">
                         <img src="tdw.png" alt="The Demon Wheel">
                         <span>The Demon Wheel</span>
                     </a>
+
                     <a href="roulette.html" class="dropdown-item">
                         <img src="roulette.png" alt="Roulette">
                         <span>Roulette</span>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -842,235 +603,194 @@
             <span>🌐</span>
             <span>Community</span>
         </a>
+
     </nav>
 
+    <!-- HEADER -->
+
     <header>
-        <h1 class="testo-illuminato">G_S demon list</h1>
-        <p class="sottotitolo">Home of the gooners' demonlist</p>
+        <h1 class="testo-illuminato">Who?</h1>
+
+        <p class="sottotitolo">
+            The people behind the Gooners' Demonlist
+        </p>
+
         <div class="linea-titolo"></div>
     </header>
 
-    <section class="giocatori" id="leaderboard">
-        <div class="giocatore-card">
-            <span class="giocatore-nome">Pothersouls</span>
-            <span class="giocatore-punti" id="points-Pothersouls">0</span>
-            <span class="giocatore-label">POINTS</span>
-        </div>
-        <div class="giocatore-card">
-            <span class="giocatore-nome">Dadefff</span>
-            <span class="giocatore-punti" id="points-Dadefff">0</span>
-            <span class="giocatore-label">POINTS</span>
-        </div>
-        <div class="giocatore-card">
-            <span class="giocatore-nome">Leopelliz</span>
-            <span class="giocatore-punti" id="points-Leopelliz">0</span>
-            <span class="giocatore-label">POINTS</span>
-        </div>
-    </section>
-
-    <section class="classifica" id="classifica"></section>
-
-    <section class="sezione-extra" id="extra-levels-section">
-        <h2>EXTRA LEVELS</h2>
-        <p class="descrizione-extra">
-            Levels completed by players that are not currently included in the main list.
-        </p>
-        <div id="extra-levels-list">
-            <p class="vuoto">Loading extra levels...</p>
-        </div>
-    </section>
-
-    <section class="sezione-extra" id="submit-section">
-        <h2>SUBMIT YOUR PROGRESS</h2>
-        <p class="descrizione-extra">
-            Submit your progress on a level from the main list. Your submission will be reviewed by an administrator.
+    <section class="intro">
+        <p>
+            Meet the players behind the G_S demon list.
+            Here you can find their statistics, achievements and overall progress.
         </p>
 
-        <form id="submission-form">
-            <div class="form-grid">
-                <div class="campo">
-                    <label for="playerName">Player</label>
-                    <select id="playerName" required>
-                        <option value="">Select player</option>
-                        <option value="Pothersouls">Pothersouls</option>
-                        <option value="Dadefff">Dadefff</option>
-                        <option value="Leopelliz">Leopelliz</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="levelId">Level</label>
-                    <select id="levelId" required>
-                        <option value="">Select level</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="progress">Progress (%)</label>
-                    <input type="number" id="progress" min="1" max="100" required placeholder="Example: 85">
-                </div>
-
-                <div class="campo campo-full">
-                    <button type="submit" class="pulsante">SUBMIT PROGRESS</button>
-                </div>
-            </div>
-            <p id="submission-message" class="messaggio"></p>
-        </form>
+        <div class="firebase-status">
+            <span class="firebase-dot" id="firebase-dot"></span>
+            <span id="firebase-status-text">CONNECTING TO FIREBASE...</span>
+        </div>
     </section>
 
-    <section class="sezione-extra" id="extra-submit-section">
-        <h2>PROPOSE AN EXTRA LEVEL</h2>
+    <!-- PLAYER CARDS -->
+
+    <section class="giocatori">
+
+        <article class="giocatore-card">
+
+            <a href="pothersouls.html" class="giocatore-nome">
+                Pothersouls
+            </a>
+
+            <span class="giocatore-punti" id="Pothersouls-points">0</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+
+            <div class="giocatore-divider"></div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Levels beaten</span>
+                <span class="stat-valore" id="Pothersouls-beaten">0</span>
+            </div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Hardest</span>
+                <span class="stat-valore stat-hardest" id="Pothersouls-hardest">None</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>OVERALL PROGRESS</span>
+                    <span id="Pothersouls-progress-text">0%</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="Pothersouls-progress"></div>
+                </div>
+            </div>
+
+        </article>
+
+        <article class="giocatore-card">
+
+            <a href="dadefff.html" class="giocatore-nome">
+                Dadefff
+            </a>
+
+            <span class="giocatore-punti" id="Dadefff-points">0</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+
+            <div class="giocatore-divider"></div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Levels beaten</span>
+                <span class="stat-valore" id="Dadefff-beaten">0</span>
+            </div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Hardest</span>
+                <span class="stat-valore stat-hardest" id="Dadefff-hardest">None</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>OVERALL PROGRESS</span>
+                    <span id="Dadefff-progress-text">0%</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="Dadefff-progress"></div>
+                </div>
+            </div>
+
+        </article>
+
+        <article class="giocatore-card">
+
+            <a href="leopelliz.html" class="giocatore-nome">
+                Leopelliz
+            </a>
+
+            <span class="giocatore-punti" id="Leopelliz-points">0</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+
+            <div class="giocatore-divider"></div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Levels beaten</span>
+                <span class="stat-valore" id="Leopelliz-beaten">0</span>
+            </div>
+
+            <div class="stat-riga">
+                <span class="stat-label">Hardest</span>
+                <span class="stat-valore stat-hardest" id="Leopelliz-hardest">None</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>OVERALL PROGRESS</span>
+                    <span id="Leopelliz-progress-text">0%</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="Leopelliz-progress"></div>
+                </div>
+            </div>
+
+        </article>
+
+    </section>
+
+    <!-- POINTS SYSTEM -->
+
+    <section class="sezione-extra">
+
+        <h2>HOW DOES THE POINT SYSTEM WORK?</h2>
+
         <p class="descrizione-extra">
-            Have you beaten a level that is not on the main list? Submit it here.
-            The administrator can approve it as an extra level or add it to the main list.
+            The G_S demon list uses a points system to rank completed levels.
+            Each level has its own point value.
         </p>
 
-        <form id="extra-submission-form">
-            <div class="form-grid">
-                <div class="campo">
-                    <label for="extra-player-name">Player</label>
-                    <select id="extra-player-name" required>
-                        <option value="">Select player</option>
-                        <option value="Pothersouls">Pothersouls</option>
-                        <option value="Dadefff">Dadefff</option>
-                        <option value="Leopelliz">Leopelliz</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="extra-level-name">Level name</label>
-                    <input type="text" id="extra-level-name" maxlength="100" required placeholder="Level name">
-                </div>
-
-                <div class="campo">
-                    <label for="extra-creator">Creator</label>
-                    <input type="text" id="extra-creator" maxlength="100" required placeholder="Creator name">
-                </div>
-
-                <div class="campo">
-                    <label for="extra-difficulty">Difficulty</label>
-                    <select id="extra-difficulty" required>
-                        <option value="">Select difficulty</option>
-                        <option value="EASY DEMON">Easy Demon</option>
-                        <option value="MEDIUM DEMON">Medium Demon</option>
-                        <option value="HARD DEMON">Hard Demon</option>
-                        <option value="INSANE DEMON">Insane Demon</option>
-                        <option value="EXTREME DEMON">Extreme Demon</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="extra-progress">Progress (%)</label>
-                    <input type="number" id="extra-progress" min="1" max="100" required placeholder="100">
-                </div>
-
-                <div class="campo">
-                    <label for="extra-video">Video link (optional)</label>
-                    <input type="url" id="extra-video" placeholder="https://youtube.com/...">
-                </div>
-
-                <div class="campo campo-full">
-                    <button type="submit" class="pulsante">PROPOSE LEVEL</button>
-                </div>
-            </div>
-            <p id="extra-submission-message" class="messaggio"></p>
-        </form>
-    </section>
-
-    <section class="sezione-extra" id="admin-section">
-        <h2>ADMIN PANEL</h2>
-        <p class="descrizione-extra">Administrator access only.</p>
-
-        <div class="admin-login" id="admin-login">
-            <form id="login-form">
-                <div class="form-grid">
-                    <div class="campo">
-                        <label for="admin-email">Email</label>
-                        <input type="email" id="admin-email" required placeholder="Admin email">
-                    </div>
-                    <div class="campo">
-                        <label for="admin-password">Password</label>
-                        <input type="password" id="admin-password" required placeholder="Password">
-                    </div>
-                    <div class="campo campo-full">
-                        <button type="submit" class="pulsante">LOGIN</button>
-                    </div>
-                </div>
-            </form>
-            <p id="login-message" class="messaggio"></p>
-        </div>
-
-        <div class="admin-contenuto" id="admin-content" style="display:none;">
-            <p class="admin-stato">● Logged in as administrator</p>
-
-            <div class="admin-toolbar">
-                <button type="button" class="pulsante pulsante-verde" id="import-initial-progress">
-                    IMPORT INITIAL PROGRESS
-                </button>
-                <button type="button" class="pulsante pulsante-rifiuta" id="logout-button">
-                    LOGOUT
-                </button>
-            </div>
-
-            <button type="button" class="notifica-admin" id="extra-notification-button">
-                🔔 Extra level proposals
-                <span class="notifica-count" id="extra-notification-count">0</span>
-            </button>
-
-            <div class="admin-separatore"></div>
-
-            <h3>EXTRA LEVEL PROPOSALS</h3>
-            <p class="descrizione-extra">
-                Review proposals. You can approve them as extra levels, add them to the main list,
-                replace an existing main-list level, or reject them.
+        <div class="regola">
+            <h3>01 — COMPLETION</h3>
+            <p>
+                Points are awarded only when a player reaches 100% on a level.
+                Partial progress does not count towards the total score.
             </p>
-            <div id="extra-pending-list">
-                <p class="vuoto">No pending proposals.</p>
-            </div>
-
-            <div class="admin-separatore"></div>
-
-            <h3>PENDING PROGRESS SUBMISSIONS</h3>
-            <div id="pending-list">
-                <p class="vuoto">Loading...</p>
-            </div>
-
-            <div class="admin-separatore"></div>
-
-            <h3>APPROVED RECORDS</h3>
-            <div id="approved-list">
-                <p class="vuoto">Loading...</p>
-            </div>
         </div>
+
+        <div class="regola">
+            <h3>02 — LEVEL VALUES</h3>
+            <p>
+                Every level has a specific point value.
+                More difficult levels generally award more points.
+            </p>
+        </div>
+
+        <div class="regola">
+            <h3>03 — LIVE STATISTICS</h3>
+            <p>
+                Player statistics are automatically updated whenever an approved
+                record changes in the G_S demon list database.
+            </p>
+        </div>
+
     </section>
+
 </main>
 
 <footer>G_S DEMON LIST</footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+<!-- FIREBASE -->
 
-    import {
-        getAuth,
-        signInWithEmailAndPassword,
-        signOut,
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
     import {
         getFirestore,
         collection,
-        addDoc,
-        doc,
-        getDocs,
-        onSnapshot,
-        writeBatch,
-        serverTimestamp,
-        query,
-        orderBy,
-        setDoc,
-        deleteDoc
+        onSnapshot
     } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
 
     const firebaseConfig = {
         apiKey: "AIzaSyBLKY1OEO2A-5eJObCjJMeKCasSLf8WmrU",
@@ -1083,36 +803,41 @@
         measurementId: "G-1V7VX6QRHZ"
     };
 
-    const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const players = ["Pothersouls", "Dadefff", "Leopelliz"];
+
+    const players = [
+        "Pothersouls",
+        "Dadefff",
+        "Leopelliz"
+    ];
+
 
     const baseLevels = [
-        { id: "001", name: "Bloodbath", creator: "Riot", image: "bloodbath.png", difficulty: "EXTREME DEMON", points: 250 },
-        { id: "002", name: "Future Funk II", creator: "JonathanGD", image: "futurefunk2.png", difficulty: "INSANE DEMON", points: 235 },
-        { id: "003", name: "Magma Bound", creator: "ScorchVx", image: "magmabound.png", difficulty: "INSANE DEMON", points: 220 },
-        { id: "004", name: "CraZy II", creator: "DavJT", image: "crazyii.png", difficulty: "INSANE DEMON", points: 205 },
-        { id: "005", name: "Sonic Wave Universe", creator: "LazerBlitz", image: "swu.png", difficulty: "INSANE DEMON", points: 190 },
-        { id: "006", name: "Death Note", creator: "Ruf", image: "deathnote.png", difficulty: "INSANE DEMON", points: 175 },
-        { id: "007", name: "Stalemate", creator: "Nox", image: "stalemate.png", difficulty: "INSANE DEMON", points: 160 },
-        { id: "008", name: "Jawbreaker", creator: "ZenthicAlpha", image: "jawbreaker.png", difficulty: "HARD DEMON", points: 145 },
-        { id: "009", name: "Future Funk", creator: "JonathanGD", image: "futurefunk.png", difficulty: "HARD DEMON", points: 130 },
-        { id: "010", name: "CraZy", creator: "DavJT", image: "crazy.png", difficulty: "HARD DEMON", points: 115 },
-        { id: "011", name: "Megalovania", creator: "AirSwipe", image: "megalovania.png", difficulty: "HARD DEMON", points: 100 },
-        { id: "012", name: "Nine Circles", creator: "Zobros", image: "ninecircles.png", difficulty: "HARD DEMON", points: 90 },
-        { id: "013", name: "Troll Madness", creator: "FunnyGame", image: "trollmadness.png", difficulty: "HARD DEMON", points: 80 },
-        { id: "014", name: "HeLL", creator: "Serponge", image: "hell.png", difficulty: "MEDIUM DEMON", points: 70 },
-        { id: "015", name: "Phobros", creator: "FunnyGame & More", image: "phobros.png", difficulty: "MEDIUM DEMON", points: 60 },
-        { id: "016", name: "Cycles v2 s", creator: "TheRealMiLk", image: "cyclesv2s.png", difficulty: "MEDIUM DEMON", points: 50 },
-        { id: "017", name: "Sakupen Egg", creator: "EugenBro & Endevour", image: "sakupenegg.png", difficulty: "MEDIUM DEMON", points: 40 },
-        { id: "018", name: "Mechanical Showdown", creator: "TNTScrew", image: "mechanicalshowdown.png", difficulty: "MEDIUM DEMON", points: 30 },
-        { id: "019", name: "Skeletal Shenanigans", creator: "TheRealMiLk", image: "ss.png", difficulty: "MEDIUM DEMON", points: 20 },
-        { id: "020", name: "VeritY", creator: "Serponge", image: "verity.png", difficulty: "MEDIUM DEMON", points: 15 }
+        { id: "001", name: "Bloodbath", points: 250 },
+        { id: "002", name: "Future Funk II", points: 235 },
+        { id: "003", name: "Magma Bound", points: 220 },
+        { id: "004", name: "CraZy II", points: 205 },
+        { id: "005", name: "Sonic Wave Universe", points: 190 },
+        { id: "006", name: "Death Note", points: 175 },
+        { id: "007", name: "Stalemate", points: 160 },
+        { id: "008", name: "Jawbreaker", points: 145 },
+        { id: "009", name: "Future Funk", points: 130 },
+        { id: "010", name: "CraZy", points: 115 },
+        { id: "011", name: "Megalovania", points: 100 },
+        { id: "012", name: "Nine Circles", points: 90 },
+        { id: "013", name: "Troll Madness", points: 80 },
+        { id: "014", name: "HeLL", points: 70 },
+        { id: "015", name: "Phobros", points: 60 },
+        { id: "016", name: "Cycles v2 s", points: 50 },
+        { id: "017", name: "Sakupen Egg", points: 40 },
+        { id: "018", name: "Mechanical Showdown", points: 30 },
+        { id: "019", name: "Skeletal Shenanigans", points: 20 },
+        { id: "020", name: "VeritY", points: 15 }
     ];
+
 
     const initialProgress = {
         Pothersouls: {
@@ -1122,956 +847,274 @@
             "004": 100,
             "005": 100
         },
+
         Dadefff: {
             "001": 14,
             "002": 55,
             "005": 98
         },
+
         Leopelliz: {}
     };
 
+
     let levels = [...baseLevels];
     let records = {};
-    let recordsLoaded = false;
     let hasAnyRecords = false;
-    let isAdmin = false;
 
-    let pendingUnsubscribe = null;
-    let extraPendingUnsubscribe = null;
 
-    let extraPending = [];
-    let extraLevels = [];
+    const dot = document.getElementById("firebase-dot");
+    const statusText = document.getElementById("firebase-status-text");
 
-    const classifica = document.getElementById("classifica");
-    const levelSelect = document.getElementById("levelId");
 
-    function setMessage(elementId, message, type = "") {
-        const element = document.getElementById(elementId);
-        if (!element) return;
+    function setFirebaseStatus(status, message) {
 
-        element.textContent = message;
-        element.className = "messaggio " + type;
+        dot.className = "firebase-dot";
+
+        if (status === "online") {
+            dot.classList.add("online");
+        }
+
+        if (status === "error") {
+            dot.classList.add("error");
+        }
+
+        statusText.textContent = message;
     }
 
-    function createElement(tag, className, text) {
-        const element = document.createElement(tag);
-
-        if (className) element.className = className;
-        if (text !== undefined) element.textContent = text;
-
-        return element;
-    }
 
     function getProgress(player, levelId) {
-        if (records[player] && records[player][levelId] !== undefined) {
+
+        if (
+            records[player] &&
+            records[player][levelId] !== undefined
+        ) {
             return records[player][levelId];
         }
 
-        if (!hasAnyRecords && initialProgress[player] && initialProgress[player][levelId] !== undefined) {
+        if (
+            !hasAnyRecords &&
+            initialProgress[player] &&
+            initialProgress[player][levelId] !== undefined
+        ) {
             return initialProgress[player][levelId];
         }
 
         return null;
     }
 
-    function populateLevelSelect() {
-        const currentValue = levelSelect.value;
 
-        levelSelect.replaceChildren();
+    function calculatePlayerStats(player) {
 
-        const placeholder = document.createElement("option");
-        placeholder.value = "";
-        placeholder.textContent = "Select level";
-        levelSelect.appendChild(placeholder);
+        let totalPoints = 0;
+        let beatenLevels = 0;
+        let hardest = null;
+
+        let totalPossiblePoints = 0;
 
         levels.forEach(level => {
-            const option = document.createElement("option");
-            option.value = level.id;
-            option.textContent = `${level.id} - ${level.name}`;
-            levelSelect.appendChild(option);
-        });
 
-        if (levels.some(level => level.id === currentValue)) {
-            levelSelect.value = currentValue;
-        }
-    }
+            const points = Number(level.points) || 0;
+            totalPossiblePoints += points;
 
-    function renderLevels() {
-        classifica.replaceChildren();
+            const progress = getProgress(player, level.id);
 
-        levels.forEach((level, index) => {
-            const card = createElement("article", "livello");
+            if (progress === 100) {
 
-            const position = createElement("span", "posizione", `#${index + 1}`);
-            const image = document.createElement("img");
-            image.src = level.image || "placeholder.png";
-            image.alt = level.name;
-            image.loading = "lazy";
+                totalPoints += points;
+                beatenLevels++;
 
-            const info = createElement("div", "info-livello");
-            info.appendChild(createElement("h2", "", level.name));
-            info.appendChild(createElement("p", "", `by ${level.creator || "Unknown"}`));
-
-            const progressBox = createElement("div", "progressi");
-
-            players.forEach(player => {
-                const progress = getProgress(player, level.id);
-
-                if (progress !== null) {
-                    progressBox.appendChild(
-                        createElement("p", "", `${player}: ${progress}%`)
-                    );
+                if (!hardest) {
+                    hardest = level;
                 }
-            });
-
-            if (!progressBox.children.length) {
-                progressBox.appendChild(createElement("p", "", "No records yet"));
             }
 
-            const right = createElement("div", "dati-destra");
-            right.appendChild(
-                createElement("span", "punti", `+${level.points} pts`)
-            );
-            right.appendChild(
-                createElement("span", "difficolta", level.difficulty || "DEMON")
-            );
-
-            card.append(position, image, info, progressBox, right);
-            classifica.appendChild(card);
         });
 
-        populateLevelSelect();
-        updateLeaderboard();
-    }
 
-    function updateLeaderboard() {
-        const totals = {
-            Pothersouls: 0,
-            Dadefff: 0,
-            Leopelliz: 0
+        const overallProgress = totalPossiblePoints > 0
+            ? (totalPoints / totalPossiblePoints) * 100
+            : 0;
+
+
+        return {
+            totalPoints,
+            beatenLevels,
+            hardest,
+            overallProgress
         };
 
-        players.forEach(player => {
-            levels.forEach(level => {
-                const progress = getProgress(player, level.id);
-
-                if (progress === 100) {
-                    totals[player] += Number(level.points) || 0;
-                }
-            });
-        });
-
-        players.forEach(player => {
-            const element = document.getElementById(`points-${player}`);
-            if (element) element.textContent = totals[player];
-        });
     }
+
+
+    function updatePlayer(player) {
+
+        const stats = calculatePlayerStats(player);
+
+
+        const pointsElement = document.getElementById(`${player}-points`);
+        const beatenElement = document.getElementById(`${player}-beaten`);
+        const hardestElement = document.getElementById(`${player}-hardest`);
+        const progressTextElement = document.getElementById(`${player}-progress-text`);
+        const progressElement = document.getElementById(`${player}-progress`);
+
+
+        if (pointsElement) {
+            pointsElement.textContent = stats.totalPoints.toLocaleString("en-US");
+        }
+
+        if (beatenElement) {
+            beatenElement.textContent = `${stats.beatenLevels} / ${levels.length}`;
+        }
+
+        if (hardestElement) {
+            hardestElement.textContent = stats.hardest
+                ? stats.hardest.name
+                : "None";
+        }
+
+        if (progressTextElement) {
+            progressTextElement.textContent = `${stats.overallProgress.toFixed(1)}%`;
+        }
+
+        if (progressElement) {
+            progressElement.style.width = `${stats.overallProgress}%`;
+        }
+
+    }
+
+
+    function updateAllPlayers() {
+
+        players.forEach(player => {
+            updatePlayer(player);
+        });
+
+    }
+
 
     function listenToRecords() {
-        onSnapshot(collection(db, "records"), snapshot => {
-            records = {};
-            hasAnyRecords = !snapshot.empty;
 
-            snapshot.forEach(documentSnapshot => {
-                const data = documentSnapshot.data();
+        onSnapshot(
+            collection(db, "records"),
 
-                if (!records[data.playerName]) {
-                    records[data.playerName] = {};
-                }
+            snapshot => {
 
-                records[data.playerName][data.levelId] = Number(data.progress);
-            });
+                records = {};
+                hasAnyRecords = !snapshot.empty;
 
-            recordsLoaded = true;
-            renderLevels();
-            renderApprovedRecords();
-        }, error => {
-            console.error("Records listener error:", error);
-        });
+
+                snapshot.forEach(documentSnapshot => {
+
+                    const data = documentSnapshot.data();
+
+                    if (!players.includes(data.playerName)) {
+                        return;
+                    }
+
+                    const progress = Number(data.progress);
+
+                    if (!Number.isFinite(progress)) {
+                        return;
+                    }
+
+                    if (!records[data.playerName]) {
+                        records[data.playerName] = {};
+                    }
+
+                    records[data.playerName][data.levelId] = Math.max(
+                        0,
+                        Math.min(100, progress)
+                    );
+
+                });
+
+
+                setFirebaseStatus("online", "CONNECTED TO FIREBASE");
+
+                updateAllPlayers();
+
+            },
+
+            error => {
+
+                console.error("Firebase records error:", error);
+
+                setFirebaseStatus("error", "FIREBASE CONNECTION ERROR");
+
+            }
+        );
+
     }
+
 
     function listenToLevels() {
-        onSnapshot(collection(db, "levels"), snapshot => {
-            const overrides = {};
 
-            snapshot.forEach(documentSnapshot => {
-                overrides[documentSnapshot.id] = {
-                    ...documentSnapshot.data(),
-                    id: documentSnapshot.id
-                };
-            });
+        onSnapshot(
+            collection(db, "levels"),
 
-            levels = baseLevels.map(level => ({
-                ...level,
-                ...(overrides[level.id] || {})
-            }));
+            snapshot => {
 
-            Object.values(overrides).forEach(level => {
-                if (!baseLevels.some(base => base.id === level.id)) {
-                    levels.push(level);
-                }
-            });
+                const overrides = {};
 
-            levels.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+                snapshot.forEach(documentSnapshot => {
 
-            renderLevels();
-        }, error => {
-            console.error("Levels listener error:", error);
-        });
-    }
+                    overrides[documentSnapshot.id] = {
+                        ...documentSnapshot.data(),
+                        id: documentSnapshot.id
+                    };
 
-    function listenToExtraLevels() {
-        onSnapshot(collection(db, "extra_levels"), snapshot => {
-            extraLevels = [];
-
-            snapshot.forEach(documentSnapshot => {
-                extraLevels.push({
-                    id: documentSnapshot.id,
-                    ...documentSnapshot.data()
                 });
-            });
 
-            renderExtraLevels();
-        }, error => {
-            console.error("Extra levels listener error:", error);
-        });
-    }
 
-    function renderExtraLevels() {
-        const container = document.getElementById("extra-levels-list");
-        container.replaceChildren();
+                levels = baseLevels.map(level => ({
+                    ...level,
+                    ...(overrides[level.id] || {})
+                }));
 
-        const publicExtras = extraLevels.filter(level => level.inMainList !== true);
 
-        if (!publicExtras.length) {
-            container.appendChild(
-                createElement("p", "vuoto", "No extra levels have been approved yet.")
-            );
-            return;
-        }
+                Object.values(overrides).forEach(level => {
 
-        publicExtras.sort((a, b) => {
-            const timeA = a.approvedAt?.seconds || 0;
-            const timeB = b.approvedAt?.seconds || 0;
-            return timeB - timeA;
-        });
-
-        publicExtras.forEach(level => {
-            const card = createElement("div", "extra-card");
-            card.appendChild(createElement("h3", "", level.levelName || "Unnamed level"));
-
-            card.appendChild(createElement(
-                "p",
-                "",
-                `Creator: ${level.creator || "Unknown"}`
-            ));
-
-            card.appendChild(createElement(
-                "p",
-                "",
-                `Player: ${level.playerName || "Unknown"}`
-            ));
-
-            card.appendChild(createElement(
-                "p",
-                "",
-                `Difficulty: ${level.difficulty || "Unknown"}`
-            ));
-
-            card.appendChild(createElement(
-                "p",
-                "extra-progress",
-                `Progress: ${level.progress || 0}%`
-            ));
-
-            if (level.videoUrl) {
-                const safeUrl = getSafeUrl(level.videoUrl);
-
-                if (safeUrl) {
-                    const link = document.createElement("a");
-                    link.href = safeUrl;
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                    link.textContent = "Watch completion video";
-                    card.appendChild(link);
-                }
-            }
-
-            card.appendChild(createElement("span", "extra-label", "APPROVED EXTRA LEVEL"));
-            container.appendChild(card);
-        });
-    }
-
-    function getSafeUrl(value) {
-        if (!value) return null;
-
-        try {
-            const url = new URL(value);
-
-            if (url.protocol !== "https:" && url.protocol !== "http:") {
-                return null;
-            }
-
-            return url.href;
-        } catch {
-            return null;
-        }
-    }
-
-    document.getElementById("submission-form").addEventListener("submit", async event => {
-        event.preventDefault();
-
-        const playerName = document.getElementById("playerName").value;
-        const levelId = document.getElementById("levelId").value;
-        const progress = Number(document.getElementById("progress").value);
-
-        if (!playerName || !levelId || !Number.isFinite(progress) || progress < 1 || progress > 100) {
-            setMessage("submission-message", "Please check all fields.", "errore");
-            return;
-        }
-
-        try {
-            await addDoc(collection(db, "submissions"), {
-                playerName,
-                levelId,
-                progress,
-                status: "pending",
-                createdAt: serverTimestamp()
-            });
-
-            event.target.reset();
-            setMessage("submission-message", "Submission sent! Waiting for admin approval.", "successo");
-        } catch (error) {
-            console.error(error);
-            setMessage("submission-message", "Error sending submission. Please try again.", "errore");
-        }
-    });
-
-    document.getElementById("extra-submission-form").addEventListener("submit", async event => {
-        event.preventDefault();
-
-        const playerName = document.getElementById("extra-player-name").value;
-        const levelName = document.getElementById("extra-level-name").value.trim();
-        const creator = document.getElementById("extra-creator").value.trim();
-        const difficulty = document.getElementById("extra-difficulty").value;
-        const progress = Number(document.getElementById("extra-progress").value);
-        const videoUrl = document.getElementById("extra-video").value.trim();
-
-        if (!playerName || !levelName || !creator || !difficulty || !Number.isFinite(progress) || progress < 1 || progress > 100) {
-            setMessage("extra-submission-message", "Please check all fields.", "errore");
-            return;
-        }
-
-        if (videoUrl && !getSafeUrl(videoUrl)) {
-            setMessage("extra-submission-message", "Please enter a valid http or https video link.", "errore");
-            return;
-        }
-
-        try {
-            await addDoc(collection(db, "extra_submissions"), {
-                playerName,
-                levelName,
-                creator,
-                difficulty,
-                progress,
-                videoUrl,
-                status: "pending",
-                createdAt: serverTimestamp()
-            });
-
-            event.target.reset();
-
-            setMessage(
-                "extra-submission-message",
-                "Level proposal sent! The administrator will review it.",
-                "successo"
-            );
-        } catch (error) {
-            console.error(error);
-            setMessage("extra-submission-message", "Error sending proposal. Please try again.", "errore");
-        }
-    });
-
-    document.getElementById("login-form").addEventListener("submit", async event => {
-        event.preventDefault();
-
-        const email = document.getElementById("admin-email").value;
-        const password = document.getElementById("admin-password").value;
-
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-        } catch (error) {
-            console.error(error);
-            setMessage("login-message", "Login failed. Check your credentials.", "errore");
-        }
-    });
-
-    document.getElementById("logout-button").addEventListener("click", async () => {
-        await signOut(auth);
-    });
-
-    onAuthStateChanged(auth, user => {
-        if (user && user.uid === ADMIN_UID) {
-            isAdmin = true;
-
-            document.getElementById("admin-login").style.display = "none";
-            document.getElementById("admin-content").style.display = "block";
-
-            startAdminListeners();
-        } else {
-            isAdmin = false;
-
-            document.getElementById("admin-login").style.display = "block";
-            document.getElementById("admin-content").style.display = "none";
-
-            stopAdminListeners();
-        }
-    });
-
-    function startAdminListeners() {
-        stopAdminListeners();
-
-        const pendingQuery = query(
-            collection(db, "submissions"),
-            orderBy("createdAt", "desc")
-        );
-
-        pendingUnsubscribe = onSnapshot(pendingQuery, snapshot => {
-            renderPending(snapshot.docs.map(item => ({
-                id: item.id,
-                ...item.data()
-            })));
-        }, error => {
-            console.error("Pending submissions error:", error);
-        });
-
-        const extraQuery = query(
-            collection(db, "extra_submissions"),
-            orderBy("createdAt", "desc")
-        );
-
-        extraPendingUnsubscribe = onSnapshot(extraQuery, snapshot => {
-            extraPending = snapshot.docs
-                .map(item => ({
-                    id: item.id,
-                    ...item.data()
-                }))
-                .filter(item => item.status === "pending");
-
-            renderExtraPending();
-            updateExtraNotification();
-        }, error => {
-            console.error("Extra submissions error:", error);
-        });
-
-        renderApprovedRecords();
-    }
-
-    function stopAdminListeners() {
-        if (pendingUnsubscribe) {
-            pendingUnsubscribe();
-            pendingUnsubscribe = null;
-        }
-
-        if (extraPendingUnsubscribe) {
-            extraPendingUnsubscribe();
-            extraPendingUnsubscribe = null;
-        }
-    }
-
-    function updateExtraNotification() {
-        document.getElementById("extra-notification-count").textContent = extraPending.length;
-    }
-
-    document.getElementById("extra-notification-button").addEventListener("click", () => {
-        document.getElementById("extra-pending-list").scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-    });
-
-    function renderExtraPending() {
-        const container = document.getElementById("extra-pending-list");
-        container.replaceChildren();
-
-        if (!extraPending.length) {
-            container.appendChild(
-                createElement("p", "vuoto", "No pending extra level proposals.")
-            );
-            return;
-        }
-
-        extraPending.forEach(proposal => {
-            const card = createElement("div", "richiesta");
-
-            const info = createElement("div", "richiesta-info");
-
-            const details = [
-                ["Player", proposal.playerName],
-                ["Level", proposal.levelName],
-                ["Creator", proposal.creator],
-                ["Difficulty", proposal.difficulty],
-                ["Progress", `${proposal.progress}%`]
-            ];
-
-            details.forEach(([label, value]) => {
-                const line = document.createElement("div");
-                const strong = document.createElement("strong");
-                strong.textContent = `${label}: `;
-                line.append(strong, document.createTextNode(value ?? "Unknown"));
-                info.appendChild(line);
-            });
-
-            if (proposal.videoUrl) {
-                const safeUrl = getSafeUrl(proposal.videoUrl);
-
-                if (safeUrl) {
-                    const line = document.createElement("div");
-                    const link = document.createElement("a");
-                    link.href = safeUrl;
-                    link.target = "_blank";
-                    link.rel = "noopener noreferrer";
-                    link.textContent = "Open video";
-                    line.appendChild(link);
-                    info.appendChild(line);
-                }
-            }
-
-            const actions = createElement("div", "richiesta-azioni");
-
-            const approveExtra = createElement("button", "pulsante pulsante-verde", "APPROVE AS EXTRA");
-            approveExtra.type = "button";
-            approveExtra.addEventListener("click", () => approveExtraProposal(proposal));
-
-            const addMain = createElement("button", "pulsante", "ADD TO MAIN LIST");
-            addMain.type = "button";
-            addMain.addEventListener("click", () => addProposalToMain(proposal));
-
-            const replaceMain = createElement("button", "pulsante", "REPLACE MAIN LEVEL");
-            replaceMain.type = "button";
-            replaceMain.addEventListener("click", () => replaceMainLevel(proposal));
-
-            const reject = createElement("button", "pulsante pulsante-rifiuta", "REJECT");
-            reject.type = "button";
-            reject.addEventListener("click", () => rejectExtraProposal(proposal));
-
-            actions.append(approveExtra, addMain, replaceMain, reject);
-            card.append(info, actions);
-            container.appendChild(card);
-        });
-    }
-
-    async function approveExtraProposal(proposal) {
-        if (!isAdmin) return;
-
-        const batch = writeBatch(db);
-
-        const extraRef = doc(collection(db, "extra_levels"));
-        const pendingRef = doc(db, "extra_submissions", proposal.id);
-
-        batch.set(extraRef, {
-            playerName: proposal.playerName,
-            levelName: proposal.levelName,
-            creator: proposal.creator,
-            difficulty: proposal.difficulty,
-            progress: proposal.progress,
-            videoUrl: proposal.videoUrl || "",
-            inMainList: false,
-            createdAt: proposal.createdAt || serverTimestamp(),
-            approvedAt: serverTimestamp()
-        });
-
-        batch.delete(pendingRef);
-
-        try {
-            await batch.commit();
-        } catch (error) {
-            console.error(error);
-            alert("Could not approve this proposal. Check Firestore permissions.");
-        }
-    }
-
-    function getNextLevelId() {
-        const numericIds = levels
-            .map(level => Number(level.id))
-            .filter(Number.isFinite);
-
-        const next = Math.max(0, ...numericIds) + 1;
-        return String(next).padStart(3, "0");
-    }
-
-    async function addProposalToMain(proposal) {
-        if (!isAdmin) return;
-
-        const newId = getNextLevelId();
-        const defaultPoints = Math.max(1, (Number(levels[levels.length - 1]?.points) || 15) - 5);
-
-        const pointsInput = prompt(
-            `Points for ${proposal.levelName}:`,
-            String(defaultPoints)
-        );
-
-        if (pointsInput === null) return;
-
-        const points = Number(pointsInput);
-
-        if (!Number.isFinite(points) || points <= 0) {
-            alert("Please enter a valid positive points value.");
-            return;
-        }
-
-        const batch = writeBatch(db);
-
-        const levelRef = doc(db, "levels", newId);
-        const extraRef = doc(collection(db, "extra_levels"));
-        const pendingRef = doc(db, "extra_submissions", proposal.id);
-
-        batch.set(levelRef, {
-            id: newId,
-            name: proposal.levelName,
-            creator: proposal.creator,
-            difficulty: proposal.difficulty,
-            image: "placeholder.png",
-            points,
-            updatedAt: serverTimestamp()
-        });
-
-        batch.set(extraRef, {
-            playerName: proposal.playerName,
-            levelName: proposal.levelName,
-            creator: proposal.creator,
-            difficulty: proposal.difficulty,
-            progress: proposal.progress,
-            videoUrl: proposal.videoUrl || "",
-            inMainList: true,
-            mainLevelId: newId,
-            createdAt: proposal.createdAt || serverTimestamp(),
-            approvedAt: serverTimestamp()
-        });
-
-        batch.delete(pendingRef);
-
-        try {
-            await batch.commit();
-            alert(`Level added to the main list as #${newId}.`);
-        } catch (error) {
-            console.error(error);
-            alert("Could not add the level. Check Firestore permissions.");
-        }
-    }
-
-    async function replaceMainLevel(proposal) {
-        if (!isAdmin) return;
-
-        const choices = levels
-            .map(level => `${level.id} - ${level.name} (${level.points} pts)`)
-            .join("\n");
-
-        const selectedId = prompt(
-            `Enter the ID of the level to replace:\n\n${choices}`
-        );
-
-        if (selectedId === null) return;
-
-        const target = levels.find(level => level.id === selectedId.trim());
-
-        if (!target) {
-            alert("Level ID not found.");
-            return;
-        }
-
-        const confirmed = confirm(
-            `Replace "${target.name}" with "${proposal.levelName}"?\n\nThe existing ID (${target.id}) and points (${target.points}) will be preserved.`
-        );
-
-        if (!confirmed) return;
-
-        const batch = writeBatch(db);
-
-        const levelRef = doc(db, "levels", target.id);
-        const extraRef = doc(collection(db, "extra_levels"));
-        const pendingRef = doc(db, "extra_submissions", proposal.id);
-
-        batch.set(levelRef, {
-            id: target.id,
-            name: proposal.levelName,
-            creator: proposal.creator,
-            difficulty: proposal.difficulty,
-            image: "placeholder.png",
-            points: target.points,
-            updatedAt: serverTimestamp()
-        });
-
-        batch.set(extraRef, {
-            playerName: proposal.playerName,
-            levelName: proposal.levelName,
-            creator: proposal.creator,
-            difficulty: proposal.difficulty,
-            progress: proposal.progress,
-            videoUrl: proposal.videoUrl || "",
-            inMainList: true,
-            mainLevelId: target.id,
-            createdAt: proposal.createdAt || serverTimestamp(),
-            approvedAt: serverTimestamp()
-        });
-
-        batch.delete(pendingRef);
-
-        try {
-            await batch.commit();
-            alert(`Level #${target.id} has been replaced. Its points and progress records remain attached to that position.`);
-        } catch (error) {
-            console.error(error);
-            alert("Could not replace the level. Check Firestore permissions.");
-        }
-    }
-
-    async function rejectExtraProposal(proposal) {
-        if (!isAdmin) return;
-
-        if (!confirm(`Reject the proposal for "${proposal.levelName}"?`)) return;
-
-        try {
-            await deleteDoc(doc(db, "extra_submissions", proposal.id));
-        } catch (error) {
-            console.error(error);
-            alert("Could not reject this proposal.");
-        }
-    }
-
-    function renderPending(submissions) {
-        const container = document.getElementById("pending-list");
-        container.replaceChildren();
-
-        if (!submissions.length) {
-            container.appendChild(createElement("p", "vuoto", "No pending progress submissions."));
-            return;
-        }
-
-        submissions.forEach(submission => {
-            const card = createElement("div", "richiesta");
-            const info = createElement("div", "richiesta-info");
-
-            const level = levels.find(item => item.id === submission.levelId);
-
-            info.appendChild(createElement(
-                "p",
-                "",
-                `${submission.playerName} — ${level?.name || submission.levelId} — ${submission.progress}%`
-            ));
-
-            const actions = createElement("div", "richiesta-azioni");
-
-            const approve = createElement("button", "pulsante pulsante-verde", "APPROVE");
-            approve.type = "button";
-            approve.addEventListener("click", () => approveProgressSubmission(submission));
-
-            const reject = createElement("button", "pulsante pulsante-rifiuta", "REJECT");
-            reject.type = "button";
-            reject.addEventListener("click", () => rejectProgressSubmission(submission));
-
-            actions.append(approve, reject);
-            card.append(info, actions);
-            container.appendChild(card);
-        });
-    }
-
-    async function approveProgressSubmission(submission) {
-        if (!isAdmin) return;
-
-        const batch = writeBatch(db);
-
-        const recordId = `${submission.playerName}_${submission.levelId}`;
-        const recordRef = doc(db, "records", recordId);
-        const submissionRef = doc(db, "submissions", submission.id);
-
-        batch.set(recordRef, {
-            playerName: submission.playerName,
-            levelId: submission.levelId,
-            progress: submission.progress,
-            updatedAt: serverTimestamp()
-        });
-
-        batch.delete(submissionRef);
-
-        try {
-            await batch.commit();
-        } catch (error) {
-            console.error(error);
-            alert("Could not approve submission.");
-        }
-    }
-
-    async function rejectProgressSubmission(submission) {
-        if (!isAdmin) return;
-
-        try {
-            await deleteDoc(doc(db, "submissions", submission.id));
-        } catch (error) {
-            console.error(error);
-            alert("Could not reject submission.");
-        }
-    }
-
-    function renderApprovedRecords() {
-        const container = document.getElementById("approved-list");
-        if (!container) return;
-
-        container.replaceChildren();
-
-        if (!recordsLoaded) {
-            container.appendChild(createElement("p", "vuoto", "Loading records..."));
-            return;
-        }
-
-        const approved = [];
-
-        players.forEach(player => {
-            Object.entries(records[player] || {}).forEach(([levelId, progress]) => {
-                approved.push({
-                    playerName: player,
-                    levelId,
-                    progress
-                });
-            });
-        });
-
-        if (!approved.length) {
-            container.appendChild(createElement("p", "vuoto", "No approved records yet."));
-            return;
-        }
-
-        approved.sort((a, b) => {
-            const levelCompare = a.levelId.localeCompare(b.levelId, undefined, { numeric: true });
-            return levelCompare || a.playerName.localeCompare(b.playerName);
-        });
-
-        approved.forEach(record => {
-            const card = createElement("div", "richiesta");
-            const level = levels.find(item => item.id === record.levelId);
-
-            card.appendChild(createElement(
-                "div",
-                "richiesta-info",
-                `${record.playerName} — ${level?.name || record.levelId} — ${record.progress}%`
-            ));
-
-            const actions = createElement("div", "richiesta-azioni");
-
-            const edit = createElement("button", "pulsante", "EDIT PROGRESS");
-            edit.type = "button";
-            edit.addEventListener("click", () => editRecord(record));
-
-            const remove = createElement("button", "pulsante pulsante-rifiuta", "DELETE");
-            remove.type = "button";
-            remove.addEventListener("click", () => deleteRecord(record));
-
-            actions.append(edit, remove);
-            card.appendChild(actions);
-            container.appendChild(card);
-        });
-    }
-
-    async function editRecord(record) {
-        if (!isAdmin) return;
-
-        const newProgress = prompt(
-            `New progress for ${record.playerName}:`,
-            String(record.progress)
-        );
-
-        if (newProgress === null) return;
-
-        const progress = Number(newProgress);
-
-        if (!Number.isFinite(progress) || progress < 0 || progress > 100) {
-            alert("Enter a valid progress between 0 and 100.");
-            return;
-        }
-
-        const recordId = `${record.playerName}_${record.levelId}`;
-
-        try {
-            await setDoc(doc(db, "records", recordId), {
-                playerName: record.playerName,
-                levelId: record.levelId,
-                progress,
-                updatedAt: serverTimestamp()
-            });
-
-        } catch (error) {
-            console.error(error);
-            alert("Could not update record.");
-        }
-    }
-
-    async function deleteRecord(record) {
-        if (!isAdmin) return;
-
-        if (!confirm(`Delete ${record.playerName}'s record for level ${record.levelId}?`)) {
-            return;
-        }
-
-        const recordId = `${record.playerName}_${record.levelId}`;
-
-        try {
-            await deleteDoc(doc(db, "records", recordId));
-        } catch (error) {
-            console.error(error);
-            alert("Could not delete record.");
-        }
-    }
-
-    document.getElementById("import-initial-progress").addEventListener("click", async () => {
-        if (!isAdmin) return;
-
-        if (!confirm("Import initial progress? Existing records will not be overwritten.")) {
-            return;
-        }
-
-        try {
-            const snapshot = await getDocs(collection(db, "records"));
-            const existing = new Set();
-
-            snapshot.forEach(item => {
-                const data = item.data();
-                existing.add(`${data.playerName}_${data.levelId}`);
-            });
-
-            const batch = writeBatch(db);
-            let count = 0;
-
-            players.forEach(player => {
-                Object.entries(initialProgress[player] || {}).forEach(([levelId, progress]) => {
-                    const recordId = `${player}_${levelId}`;
-
-                    if (!existing.has(recordId)) {
-                        batch.set(doc(db, "records", recordId), {
-                            playerName: player,
-                            levelId,
-                            progress,
-                            updatedAt: serverTimestamp()
-                        });
-
-                        count++;
+                    if (!baseLevels.some(base => base.id === level.id)) {
+                        levels.push(level);
                     }
+
                 });
-            });
 
-            if (count > 0) {
-                await batch.commit();
+
+                levels.sort((a, b) =>
+                    a.id.localeCompare(
+                        b.id,
+                        undefined,
+                        { numeric: true }
+                    )
+                );
+
+
+                updateAllPlayers();
+
+            },
+
+            error => {
+
+                console.error("Firebase levels error:", error);
+
+                setFirebaseStatus("error", "ERROR LOADING LEVELS");
+
             }
+        );
 
-            alert(`Import completed. ${count} new records imported.`);
-        } catch (error) {
-            console.error(error);
-            alert("Import failed. Check Firestore permissions.");
-        }
-    });
+    }
+
+
+    // INITIALIZE
+
+    updateAllPlayers();
 
     listenToRecords();
     listenToLevels();
-    listenToExtraLevels();
+
 </script>
+
 </body>
 </html>
