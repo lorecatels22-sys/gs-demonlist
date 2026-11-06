@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -6,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e1e1e">
 
-    <title>Who? - G_S demon list</title>
+    <title>G_S demon list</title>
 
-    <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -34,6 +32,8 @@
             position: relative;
         }
 
+        /* SFONDO LATERALE */
+
         .barra-sinistra,
         .barra-destra {
             position: absolute;
@@ -45,13 +45,15 @@
             background-repeat: repeat-y;
             background-size: 100% auto;
             background-position: top center;
-            opacity: .75;
+            opacity: 0.75;
             pointer-events: none;
             z-index: 0;
         }
 
         .barra-sinistra { left: 0; }
         .barra-destra { right: 0; transform: scaleX(-1); }
+
+        /* CONTENUTO */
 
         main {
             position: relative;
@@ -60,7 +62,7 @@
             padding: 35px 0 90px;
         }
 
-        /* NAVIGATION */
+        /* NAVIGAZIONE */
 
         .navigation-badges {
             display: flex;
@@ -84,7 +86,7 @@
             align-items: center;
             gap: 10px;
             padding: 9px 18px;
-            background: rgba(32,32,32,.97);
+            background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
             border-left: 3px solid #e85a5a;
             border-radius: 20px;
@@ -100,9 +102,10 @@
 
         .badge-link:hover {
             transform: translateY(-2px);
-            background: #2a2a2a;
+            background: rgba(42,42,42,.99);
             border-color: #555;
             border-left-color: #ff5555;
+            box-shadow: 0 6px 16px rgba(0,0,0,.3);
         }
 
         .badge-link img {
@@ -112,6 +115,12 @@
             border-radius: 5px;
             border: 1px solid #555;
             background: #252525;
+            transition: .2s ease;
+        }
+
+        .badge-link:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
         }
 
         .arrow {
@@ -119,6 +128,7 @@
             font-weight: 800;
             color: #999;
             transition: .25s ease;
+            display: inline-block;
         }
 
         .dropdown-container:hover .arrow {
@@ -137,7 +147,8 @@
             visibility: hidden;
             pointer-events: none;
             transform: translateX(-50%) translateY(-12px) scale(.96);
-            transition: .25s ease;
+            transform-origin: top center;
+            transition: opacity .25s ease, transform .3s ease, visibility 0s linear .3s;
         }
 
         .dropdown-container:hover .dropdown-menu {
@@ -145,6 +156,7 @@
             visibility: visible;
             pointer-events: auto;
             transform: translateX(-50%) translateY(0) scale(1);
+            transition: opacity .25s ease, transform .3s ease, visibility 0s;
         }
 
         .dropdown-content {
@@ -166,7 +178,27 @@
             text-decoration: none;
             font-size: .78rem;
             font-weight: 700;
-            transition: .2s ease;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: background .2s ease, color .2s ease, opacity .2s ease, transform .2s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1;
+            transform: translateX(0);
+            transition: background .2s ease, color .2s ease, opacity .3s ease, transform .3s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(1) {
+            transition-delay: 0s,0s,.06s,.06s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(2) {
+            transition-delay: 0s,0s,.12s,.12s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(3) {
+            transition-delay: 0s,0s,.18s,.18s;
         }
 
         .dropdown-item:hover {
@@ -180,9 +212,28 @@
             object-fit: cover;
             border-radius: 4px;
             border: 1px solid #555;
+            background: #252525;
+            transition: .2s ease;
         }
 
-        /* HEADER */
+        .dropdown-item:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: .85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+        }
+
+        /* TESTATA */
 
         header {
             text-align: center;
@@ -215,21 +266,7 @@
             box-shadow: 0 0 14px rgba(229,72,72,.45);
         }
 
-        /* INTRO */
-
-        .intro {
-            width: min(900px,88%);
-            margin: 30px auto 0;
-            text-align: center;
-        }
-
-        .intro p {
-            color: #aaa;
-            font-size: .82rem;
-            line-height: 1.8;
-        }
-
-        /* PLAYER CARDS */
+        /* GIOCATORI */
 
         .giocatori {
             position: relative;
@@ -252,14 +289,16 @@
             border-top: 3px solid #d94343;
             border-radius: 10px;
             box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            text-decoration: none;
             transition: .22s ease;
         }
 
         .giocatore-card:hover {
             transform: translateY(-3px);
-            background: #2a2a2a;
+            background: rgba(42,42,42,.99);
             border-color: #555;
             border-top-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
         }
 
         .giocatore-nome {
@@ -268,12 +307,6 @@
             font-weight: 800;
             overflow-wrap: anywhere;
             text-align: center;
-            text-decoration: none;
-            transition: .2s ease;
-        }
-
-        .giocatore-nome:hover {
-            color: #ff6666;
         }
 
         .giocatore-punti {
@@ -292,84 +325,166 @@
             letter-spacing: 2px;
         }
 
-        .giocatore-divider {
-            width: 80%;
-            height: 1px;
-            background: #3b3b3b;
-            margin: 12px 0 7px;
+        .giocatore-card:hover .giocatore-punti {
+            text-shadow: 0 0 20px rgba(0,230,118,.6);
         }
 
-        .stat-riga {
+        /* CLASSIFICA */
+
+        .classifica {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 30px auto 0;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .livello {
+            position: relative;
+            display: flex;
             align-items: center;
-            width: 100%;
-            gap: 8px;
-            padding: 4px 0;
+            gap: 18px;
+            min-height: 112px;
+            padding: 16px 22px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            transition: .22s ease;
         }
 
-        .stat-label {
-            color: #999;
-            font-size: .68rem;
-            font-weight: 600;
+        .livello:hover {
+            transform: translateY(-3px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
         }
 
-        .stat-valore {
-            color: #eee;
-            font-size: .7rem;
+        .posizione {
+            color: #e85a5a;
+            font-size: 1rem;
             font-weight: 800;
-            text-align: right;
+            min-width: 48px;
+            letter-spacing: -.5px;
         }
 
-        .stat-hardest {
-            color: #ff6666;
-            max-width: 120px;
+        .livello img {
+            display: block;
+            flex-shrink: 0;
+            width: 120px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 7px;
+            background: #1e1e1e;
+            border: 1px solid #454545;
+            transition: filter .22s ease;
+        }
+
+        .livello:hover img {
+            filter: brightness(1.12);
+        }
+
+        .info-livello {
+            flex: 0 1 190px;
+            min-width: 0;
+        }
+
+        .info-livello h2 {
+            color: #f5f5f5;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 7px;
             overflow-wrap: anywhere;
         }
 
-        .progress-container {
-            width: 100%;
-            margin-top: 12px;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 7px;
-        }
-
-        .progress-info span {
+        .info-livello p {
             color: #999;
-            font-size: .62rem;
+            font-size: .8rem;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .progressi {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            margin-left: 12px;
+            margin-right: auto;
+            flex-shrink: 0;
+            padding: 10px 14px;
+            background: rgba(0,230,118,.045);
+            border: 1px solid rgba(0,230,118,.13);
+            border-radius: 9px;
+            box-shadow: 0 0 12px rgba(0,230,118,.10), 0 0 25px rgba(0,230,118,.05);
+            transition: .25s ease;
+        }
+
+        .progressi:hover {
+            background: rgba(0,230,118,.08);
+            border-color: rgba(0,230,118,.3);
+            box-shadow: 0 0 15px rgba(0,230,118,.18), 0 0 30px rgba(0,230,118,.08);
+        }
+
+        .progressi p {
+            color: #00e676;
+            font-size: .8rem;
             font-weight: 700;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(0,230,118,.35);
         }
 
-        .progress-track {
-            width: 100%;
-            height: 7px;
-            overflow: hidden;
-            background: #151515;
-            border: 1px solid #383838;
-            border-radius: 20px;
+        .progressi a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: .2s ease;
         }
 
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #00e676;
-            border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0,230,118,.4);
-            transition: width .6s ease;
+        .progressi a:hover {
+            color: #7dffb8;
+            border-bottom-color: rgba(125,255,184,.7);
         }
 
-        /* SECTION */
+        .dati-destra {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .punti {
+            color: #ff5252;
+            font-size: .85rem;
+            font-weight: 800;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .difficolta {
+            color: #ff6666;
+            font-size: .7rem;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.6;
+            letter-spacing: .7px;
+            white-space: nowrap;
+        }
+
+        /* SEZIONI FIREBASE */
 
         .sezione-extra {
             position: relative;
             z-index: 2;
             width: min(900px,88%);
-            margin: 35px auto 0;
+            margin: 45px auto 0;
             padding: 25px;
             background: rgba(32,32,32,.97);
             border: 1px solid #3b3b3b;
@@ -388,61 +503,167 @@
             color: #999;
             font-size: .8rem;
             line-height: 1.7;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
-        .regola {
-            padding: 13px 15px;
-            margin-top: 10px;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .campo label {
+            color: #bbb;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .campo input,
+        .campo select {
+            width: 100%;
+            padding: 12px 13px;
+            color: #fff;
+            background: #171717;
+            border: 1px solid #444;
+            border-radius: 7px;
+            outline: none;
+            font-family: inherit;
+            font-size: .82rem;
+            transition: border-color .2s ease;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: #e85a5a;
+        }
+
+        .campo select option {
+            background: #202020;
+        }
+
+        .campo-full {
+            grid-column: 1 / -1;
+        }
+
+        .pulsante {
+            padding: 12px 18px;
+            border: 1px solid #b93636;
+            border-radius: 7px;
+            background: #d94343;
+            color: #fff;
+            font-family: inherit;
+            font-size: .78rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .pulsante:hover {
+            background: #f05252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229,72,72,.2);
+        }
+
+        .pulsante:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pulsante-verde {
+            background: #087d49;
+            border-color: #00a85e;
+        }
+
+        .pulsante-verde:hover {
+            background: #09985a;
+        }
+
+        .messaggio {
+            margin-top: 14px;
+            font-size: .78rem;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .messaggio.successo { color: #00e676; }
+        .messaggio.errore { color: #ff6666; }
+
+        /* ADMIN */
+
+        .admin-login,
+        .admin-contenuto {
+            margin-top: 18px;
+        }
+
+        .admin-separatore {
+            height: 1px;
+            background: #3b3b3b;
+            margin: 22px 0;
+        }
+
+        .admin-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .richiesta {
+            padding: 15px;
+            margin-top: 12px;
             background: #191919;
             border: 1px solid #3b3b3b;
             border-left: 3px solid #e85a5a;
             border-radius: 8px;
         }
 
-        .regola h3 {
-            color: #f5f5f5;
-            font-size: .82rem;
-            font-weight: 800;
-            margin-bottom: 5px;
+        .richiesta-info {
+            color: #ddd;
+            font-size: .8rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
         }
 
-        .regola p {
-            color: #999;
-            font-size: .75rem;
-            line-height: 1.7;
+        .richiesta-info strong {
+            color: #fff;
         }
 
-        /* FIREBASE STATUS */
-
-        .firebase-status {
+        .richiesta-azioni {
             display: flex;
-            justify-content: center;
-            align-items: center;
             gap: 8px;
-            margin-top: 22px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pulsante-rifiuta {
+            background: #333;
+            border-color: #555;
+        }
+
+        .pulsante-rifiuta:hover {
+            background: #484848;
+        }
+
+        .vuoto {
             color: #888;
-            font-size: .65rem;
+            font-size: .8rem;
+            padding: 15px 0;
+        }
+
+        .admin-stato {
+            color: #00e676;
+            font-size: .75rem;
             font-weight: 700;
-            letter-spacing: 1px;
         }
 
-        .firebase-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #888;
-        }
-
-        .firebase-dot.online {
-            background: #00e676;
-            box-shadow: 0 0 9px rgba(0,230,118,.7);
-        }
-
-        .firebase-dot.error {
-            background: #ff5252;
-            box-shadow: 0 0 9px rgba(255,82,82,.6);
-        }
+        /* FOOTER */
 
         footer {
             position: relative;
@@ -454,7 +675,7 @@
             padding: 25px 10px 35px;
         }
 
-        /* MOBILE */
+        /* RESPONSIVE */
 
         @media (max-width: 700px) {
             .barra-sinistra,
@@ -493,44 +714,88 @@
             .giocatore-punti { font-size: 1.3rem; }
             .giocatore-label { font-size: .48rem; letter-spacing: 1px; }
 
-            .giocatore-divider {
-                margin: 9px 0 5px;
-            }
-
-            .stat-riga {
-                gap: 4px;
-            }
-
-            .stat-label { font-size: .52rem; }
-            .stat-valore { font-size: .55rem; }
-
-            .progress-info span { font-size: .49rem; }
-            .progress-track { height: 5px; }
-
-            .intro {
+            .classifica {
                 width: 95%;
                 margin-top: 22px;
+                gap: 11px;
             }
 
-            .intro p { font-size: .72rem; }
+            .livello {
+                gap: 9px;
+                min-height: 90px;
+                padding: 11px 9px;
+            }
+
+            .posizione {
+                min-width: 34px;
+                font-size: .76rem;
+            }
+
+            .livello img {
+                width: 66px;
+                height: 53px;
+            }
+
+            .info-livello { flex: 1 1 auto; }
+            .info-livello h2 { font-size: .78rem; }
+            .info-livello p { font-size: .67rem; }
+
+            .progressi {
+                margin-left: 0;
+                padding: 7px 8px;
+                gap: 5px;
+            }
+
+            .progressi p { font-size: .59rem; }
+            .dati-destra { gap: 5px; }
+
+            .punti {
+                font-size: .59rem;
+                white-space: normal;
+                max-width: 85px;
+            }
+
+            .difficolta {
+                font-size: .5rem;
+                letter-spacing: 0;
+                white-space: normal;
+                max-width: 85px;
+            }
 
             .sezione-extra {
                 width: 95%;
                 padding: 18px;
-                margin-top: 28px;
+                margin-top: 30px;
             }
+
+            .form-grid { grid-template-columns: 1fr; }
+            .campo-full { grid-column: auto; }
         }
 
         @media (max-width: 420px) {
             .giocatore-nome { font-size: .6rem; }
             .giocatore-punti { font-size: 1.05rem; }
 
-            .stat-label { font-size: .47rem; }
-            .stat-valore { font-size: .49rem; }
-
-            .stat-hardest {
-                max-width: 65px;
+            .livello {
+                gap: 7px;
+                padding: 10px 6px;
             }
+
+            .posizione {
+                min-width: 29px;
+                font-size: .68rem;
+            }
+
+            .livello img {
+                width: 55px;
+                height: 47px;
+            }
+
+            .info-livello h2 { font-size: .7rem; }
+            .progressi { padding: 6px; }
+            .progressi p { font-size: .52rem; }
+            .punti { font-size: .52rem; max-width: 75px; }
+            .difficolta { font-size: .46rem; }
         }
     </style>
 </head>
@@ -542,8 +807,7 @@
 
 <main>
 
-    <!-- NAVIGATION -->
-
+    <!-- NAVIGAZIONE ORIGINALE -->
     <nav class="navigation-badges">
 
         <div class="dropdown-container">
@@ -552,11 +816,11 @@
                 <span>Players</span>
                 <span class="arrow">&gt;</span>
             </a>
-
             <div class="dropdown-menu">
                 <div class="dropdown-content">
-                    <a href="who.html" class="dropdown-item">❓ Who?</a>
-
+                    <a href="who.html" class="dropdown-item">
+                        <span>❓ Who?</span>
+                    </a>
                     <a href="leaderboard.html" class="dropdown-item">
                         <img src="lb.png" alt="Leaderboard">
                         <span>Leaderboard</span>
@@ -571,226 +835,478 @@
                 <span>Games</span>
                 <span class="arrow">&gt;</span>
             </a>
-
             <div class="dropdown-menu">
                 <div class="dropdown-content">
-
                     <a href="horse.html" class="dropdown-item">
                         <img src="horse.png" alt="H.O.R.S.E.">
                         <span>H.O.R.S.E.</span>
                     </a>
-
                     <a href="thedemonwheel.html" class="dropdown-item">
                         <img src="tdw.png" alt="The Demon Wheel">
                         <span>The Demon Wheel</span>
                     </a>
-
                     <a href="roulette.html" class="dropdown-item">
                         <img src="roulette.png" alt="Roulette">
                         <span>Roulette</span>
                     </a>
-
                 </div>
             </div>
         </div>
 
         <a href="announcements.html" class="badge-link">
-            <span>📢</span>
+            <img src="announcements.png" alt="Announcements">
             <span>Announcements</span>
         </a>
 
         <a href="community.html" class="badge-link">
-            <span>🌐</span>
+            <span class="badge-emoji">💬</span>
             <span>Community</span>
         </a>
 
     </nav>
 
-    <!-- HEADER -->
-
     <header>
-        <h1 class="testo-illuminato">Who?</h1>
-
-        <p class="sottotitolo">
-            The people behind the Gooners' Demonlist
-        </p>
-
+        <h1 class="testo-illuminato">G_S demon list</h1>
+        <p class="sottotitolo">Home of the gooners' demonlist</p>
         <div class="linea-titolo"></div>
     </header>
 
-    <section class="intro">
-        <p>
-            Meet the players behind the G_S demon list.
-            Here you can find their statistics, achievements and overall progress.
-        </p>
-
-        <div class="firebase-status">
-            <span class="firebase-dot" id="firebase-dot"></span>
-            <span id="firebase-status-text">CONNECTING TO FIREBASE...</span>
-        </div>
-    </section>
-
-    <!-- PLAYER CARDS -->
-
+    <!-- PUNTI GIOCATORI -->
     <section class="giocatori">
 
-        <article class="giocatore-card">
-
-            <a href="pothersouls.html" class="giocatore-nome">
-                Pothersouls
-            </a>
-
-            <span class="giocatore-punti" id="Pothersouls-points">0</span>
+        <a href="pothersouls.html" class="giocatore-card">
+            <span class="giocatore-nome">Pothersouls</span>
+            <span class="giocatore-punti" id="total-Pothersouls">--</span>
             <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
 
-            <div class="giocatore-divider"></div>
+        <a href="dadefff.html" class="giocatore-card">
+            <span class="giocatore-nome">Dadefff</span>
+            <span class="giocatore-punti" id="total-Dadefff">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
 
-            <div class="stat-riga">
-                <span class="stat-label">Levels beaten</span>
-                <span class="stat-valore" id="Pothersouls-beaten">0</span>
+        <a href="leopelliz.html" class="giocatore-card">
+            <span class="giocatore-nome">Leopelliz</span>
+            <span class="giocatore-punti" id="total-Leopelliz">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
+
+    </section>
+
+    <!-- CLASSIFICA: TUTTI I 20 LIVELLI -->
+    <section class="classifica" id="classifica">
+
+        <article class="livello">
+            <span class="posizione">#001</span>
+            <img src="bloodbath.png" alt="Bloodbath">
+            <div class="info-livello"><h2>Bloodbath</h2><p>By Riot</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 14%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
             </div>
-
-            <div class="stat-riga">
-                <span class="stat-label">Hardest</span>
-                <span class="stat-valore stat-hardest" id="Pothersouls-hardest">None</span>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-info">
-                    <span>OVERALL PROGRESS</span>
-                    <span id="Pothersouls-progress-text">0%</span>
-                </div>
-
-                <div class="progress-track">
-                    <div class="progress-fill" id="Pothersouls-progress"></div>
-                </div>
-            </div>
-
+            <div class="dati-destra"><span class="punti">+250 pts (100%)</span><span class="difficolta">EXTREME DEMON</span></div>
         </article>
 
-        <article class="giocatore-card">
-
-            <a href="dadefff.html" class="giocatore-nome">
-                Dadefff
-            </a>
-
-            <span class="giocatore-punti" id="Dadefff-points">0</span>
-            <span class="giocatore-label">TOTAL POINTS</span>
-
-            <div class="giocatore-divider"></div>
-
-            <div class="stat-riga">
-                <span class="stat-label">Levels beaten</span>
-                <span class="stat-valore" id="Dadefff-beaten">0</span>
+        <article class="livello">
+            <span class="posizione">#002</span>
+            <img src="futurefunk2.png" alt="Future Funk II">
+            <div class="info-livello"><h2>Future Funk II</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 55%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
             </div>
-
-            <div class="stat-riga">
-                <span class="stat-label">Hardest</span>
-                <span class="stat-valore stat-hardest" id="Dadefff-hardest">None</span>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-info">
-                    <span>OVERALL PROGRESS</span>
-                    <span id="Dadefff-progress-text">0%</span>
-                </div>
-
-                <div class="progress-track">
-                    <div class="progress-fill" id="Dadefff-progress"></div>
-                </div>
-            </div>
-
+            <div class="dati-destra"><span class="punti">+235 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
         </article>
 
-        <article class="giocatore-card">
-
-            <a href="leopelliz.html" class="giocatore-nome">
-                Leopelliz
-            </a>
-
-            <span class="giocatore-punti" id="Leopelliz-points">0</span>
-            <span class="giocatore-label">TOTAL POINTS</span>
-
-            <div class="giocatore-divider"></div>
-
-            <div class="stat-riga">
-                <span class="stat-label">Levels beaten</span>
-                <span class="stat-valore" id="Leopelliz-beaten">0</span>
+        <article class="livello">
+            <span class="posizione">#003</span>
+            <img src="magmabound.png" alt="Magma Bound">
+            <div class="info-livello"><h2>Magma Bound</h2><p>By ScorchVx</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
             </div>
+            <div class="dati-destra"><span class="punti">+220 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
 
-            <div class="stat-riga">
-                <span class="stat-label">Hardest</span>
-                <span class="stat-valore stat-hardest" id="Leopelliz-hardest">None</span>
+        <article class="livello">
+            <span class="posizione">#004</span>
+            <img src="crazyii.png" alt="CraZy II">
+            <div class="info-livello"><h2>CraZy II</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
             </div>
+            <div class="dati-destra"><span class="punti">+205 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
 
-            <div class="progress-container">
-                <div class="progress-info">
-                    <span>OVERALL PROGRESS</span>
-                    <span id="Leopelliz-progress-text">0%</span>
-                </div>
-
-                <div class="progress-track">
-                    <div class="progress-fill" id="Leopelliz-progress"></div>
-                </div>
+        <article class="livello">
+            <span class="posizione">#005</span>
+            <img src="swu.png" alt="Sonic Wave Universe">
+            <div class="info-livello"><h2>Sonic Wave Universe</h2><p>By LazerBlitz</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 98%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
             </div>
+            <div class="dati-destra"><span class="punti">+190 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
 
+        <article class="livello">
+            <span class="posizione">#006</span>
+            <img src="deathnote.png" alt="Death Note">
+            <div class="info-livello"><h2>Death Note</h2><p>By Ruf</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+175 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#007</span>
+            <img src="stalemate.png" alt="Stalemate">
+            <div class="info-livello"><h2>Stalemate</h2><p>By Nox</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+160 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#008</span>
+            <img src="jawbreaker.png" alt="Jawbreaker">
+            <div class="info-livello"><h2>Jawbreaker</h2><p>By ZenthicAlpha</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+145 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#009</span>
+            <img src="futurefunk.png" alt="Future Funk">
+            <div class="info-livello"><h2>Future Funk</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+130 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#010</span>
+            <img src="crazy.png" alt="CraZy">
+            <div class="info-livello"><h2>CraZy</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+115 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#011</span>
+            <img src="megalovania.png" alt="Megalovania">
+            <div class="info-livello"><h2>Megalovania</h2><p>By AirSwipe</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+100 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#012</span>
+            <img src="ninecircles.png" alt="Nine Circles">
+            <div class="info-livello"><h2>Nine Circles</h2><p>By Zobros</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+90 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#013</span>
+            <img src="trollmadness.png" alt="Troll Madness">
+            <div class="info-livello"><h2>Troll Madness</h2><p>By FunnyGame</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+80 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#014</span>
+            <img src="hell.png" alt="HeLL">
+            <div class="info-livello"><h2>HeLL</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+70 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#015</span>
+            <img src="phobros.png" alt="Phobros">
+            <div class="info-livello"><h2>Phobros</h2><p>By FunnyGame &amp; More</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+60 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#016</span>
+            <img src="cyclesv2s.png" alt="Cycles v2 s">
+            <div class="info-livello"><h2>Cycles v2 s</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+50 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#017</span>
+            <img src="sakupenegg.png" alt="Sakupen Egg">
+            <div class="info-livello"><h2>Sakupen Egg</h2><p>By EugenBro &amp; Endevour</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+40 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#018</span>
+            <img src="mechanicalshowdown.png" alt="Mechanical Showdown">
+            <div class="info-livello"><h2>Mechanical Showdown</h2><p>By TNTScrew</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+30 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#019</span>
+            <img src="ss.png" alt="Skeletal Shenanigans">
+            <div class="info-livello"><h2>Skeletal Shenanigans</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+20 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#020</span>
+            <img src="verity.png" alt="VeritY">
+            <div class="info-livello"><h2>VeritY</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+15 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
         </article>
 
     </section>
 
-    <!-- POINTS SYSTEM -->
+    <!-- INVIO PROGRESSI -->
+    <section class="sezione-extra" id="invia-progressi">
 
-    <section class="sezione-extra">
-
-        <h2>HOW DOES THE POINT SYSTEM WORK?</h2>
-
+        <h2>Submit a progress</h2>
         <p class="descrizione-extra">
-            The G_S demon list uses a points system to rank completed levels.
-            Each level has its own point value.
+            Hai migliorato il tuo completamento di un livello? Invia qui il tuo nuovo record.
+            La richiesta verrà controllata da un amministratore prima di essere pubblicata.
         </p>
 
-        <div class="regola">
-            <h3>01 — COMPLETION</h3>
-            <p>
-                Points are awarded only when a player reaches 100% on a level.
-                Partial progress does not count towards the total score.
-            </p>
+        <form id="submission-form">
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label for="playerName">Player</label>
+                    <select id="playerName" required>
+                        <option value="">Select player</option>
+                        <option value="Pothersouls">Pothersouls</option>
+                        <option value="Dadefff">Dadefff</option>
+                        <option value="Leopelliz">Leopelliz</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="levelId">Level</label>
+                    <select id="levelId" required>
+                        <option value="">Select level</option>
+                        <option value="001">#001 - Bloodbath</option>
+                        <option value="002">#002 - Future Funk II</option>
+                        <option value="003">#003 - Magma Bound</option>
+                        <option value="004">#004 - CraZy II</option>
+                        <option value="005">#005 - Sonic Wave Universe</option>
+                        <option value="006">#006 - Death Note</option>
+                        <option value="007">#007 - Stalemate</option>
+                        <option value="008">#008 - Jawbreaker</option>
+                        <option value="009">#009 - Future Funk</option>
+                        <option value="010">#010 - CraZy</option>
+                        <option value="011">#011 - Megalovania</option>
+                        <option value="012">#012 - Nine Circles</option>
+                        <option value="013">#013 - Troll Madness</option>
+                        <option value="014">#014 - HeLL</option>
+                        <option value="015">#015 - Phobros</option>
+                        <option value="016">#016 - Cycles v2 s</option>
+                        <option value="017">#017 - Sakupen Egg</option>
+                        <option value="018">#018 - Mechanical Showdown</option>
+                        <option value="019">#019 - Skeletal Shenanigans</option>
+                        <option value="020">#020 - VeritY</option>
+                    </select>
+                </div>
+
+                <div class="campo campo-full">
+                    <label for="progress">Progress (%)</label>
+                    <input id="progress" type="number" min="0" max="100" step="1" placeholder="Example: 85" required>
+                </div>
+
+                <div class="campo campo-full">
+                    <button class="pulsante" id="submit-button" type="submit">
+                        SEND SUBMISSION
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+        <p class="messaggio" id="submission-message" aria-live="polite"></p>
+
+    </section>
+
+    <!-- PANNELLO AMMINISTRATORE -->
+    <section class="sezione-extra" id="admin-panel">
+
+        <h2>Admin panel</h2>
+        <p class="descrizione-extra">
+            Area riservata agli amministratori della G_S demon list.
+        </p>
+
+        <div id="admin-login" class="admin-login">
+
+            <form id="admin-login-form">
+                <div class="form-grid">
+
+                    <div class="campo">
+                        <label for="admin-email">Email</label>
+                        <input id="admin-email" type="email" placeholder="Admin email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="admin-password">Password</label>
+                        <input id="admin-password" type="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <button class="pulsante" id="login-button" type="submit">
+                            ADMIN LOGIN
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <p class="messaggio" id="login-message" aria-live="polite"></p>
         </div>
 
-        <div class="regola">
-            <h3>02 — LEVEL VALUES</h3>
-            <p>
-                Every level has a specific point value.
-                More difficult levels generally award more points.
-            </p>
-        </div>
+        <div id="admin-content" class="admin-contenuto" hidden>
 
-        <div class="regola">
-            <h3>03 — LIVE STATISTICS</h3>
-            <p>
-                Player statistics are automatically updated whenever an approved
-                record changes in the G_S demon list database.
-            </p>
+            <p class="admin-stato">● Admin authenticated</p>
+
+            <div class="admin-toolbar">
+                <button class="pulsante pulsante-verde" id="import-button" type="button">
+                    IMPORT INITIAL PROGRESS
+                </button>
+
+                <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
+                    LOGOUT
+                </button>
+            </div>
+
+            <p class="messaggio" id="import-message"></p>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Pending submissions</h2>
+            <div id="pending-list">
+                <p class="vuoto">Loading submissions...</p>
+            </div>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Approved records</h2>
+            <div id="approved-list">
+                <p class="vuoto">Loading records...</p>
+            </div>
+
         </div>
 
     </section>
 
 </main>
 
-<footer>G_S DEMON LIST</footer>
-
-<!-- FIREBASE -->
+<footer>G_S demon list</footer>
 
 <script type="module">
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
     import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+
+    import {
         getFirestore,
         collection,
-        onSnapshot
+        addDoc,
+        doc,
+        getDocs,
+        onSnapshot,
+        writeBatch,
+        serverTimestamp,
+        query,
+        orderBy
     } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
+
+    // --------------------------------------------------
+    // FIREBASE CONFIGURATION
+    // --------------------------------------------------
 
     const firebaseConfig = {
         apiKey: "AIzaSyBLKY1OEO2A-5eJObCjJMeKCasSLf8WmrU",
@@ -803,19 +1319,18 @@
         measurementId: "G-1V7VX6QRHZ"
     };
 
+    const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getFirestore(app);
 
 
-    const players = [
-        "Pothersouls",
-        "Dadefff",
-        "Leopelliz"
-    ];
+    // --------------------------------------------------
+    // LIVELLI E PUNTEGGI
+    // --------------------------------------------------
 
-
-    const baseLevels = [
+    const levels = [
         { id: "001", name: "Bloodbath", points: 250 },
         { id: "002", name: "Future Funk II", points: 235 },
         { id: "003", name: "Magma Bound", points: 220 },
@@ -838,281 +1353,731 @@
         { id: "020", name: "VeritY", points: 15 }
     ];
 
+    const players = ["Pothersouls", "Dadefff", "Leopelliz"];
 
-    const initialProgress = {
-        Pothersouls: {
-            "001": 100,
-            "002": 100,
-            "003": 100,
-            "004": 100,
-            "005": 100
-        },
+    const initialProgress = [
+        { playerName: "Pothersouls", levelId: "001", progress: 100 },
+        { playerName: "Pothersouls", levelId: "002", progress: 100 },
+        { playerName: "Pothersouls", levelId: "003", progress: 100 },
+        { playerName: "Pothersouls", levelId: "004", progress: 100 },
+        { playerName: "Pothersouls", levelId: "005", progress: 100 },
+        { playerName: "Dadefff", levelId: "001", progress: 14 },
+        { playerName: "Dadefff", levelId: "002", progress: 55 },
+        { playerName: "Dadefff", levelId: "005", progress: 98 }
+    ];
 
-        Dadefff: {
-            "001": 14,
-            "002": 55,
-            "005": 98
-        },
-
-        Leopelliz: {}
-    };
-
-
-    let levels = [...baseLevels];
     let records = {};
-    let hasAnyRecords = false;
+    let recordsLoaded = false;
+    let isAdmin = false;
+    let pendingUnsubscribe = null;
+    let recordsUnsubscribe = null;
 
 
-    const dot = document.getElementById("firebase-dot");
-    const statusText = document.getElementById("firebase-status-text");
+    // --------------------------------------------------
+    // ELEMENTI HTML
+    // --------------------------------------------------
+
+    const submissionForm = document.getElementById("submission-form");
+    const submissionMessage = document.getElementById("submission-message");
+    const submitButton = document.getElementById("submit-button");
+
+    const adminLogin = document.getElementById("admin-login");
+    const adminContent = document.getElementById("admin-content");
+
+    const loginForm = document.getElementById("admin-login-form");
+    const loginMessage = document.getElementById("login-message");
+    const loginButton = document.getElementById("login-button");
+
+    const pendingList = document.getElementById("pending-list");
+    const approvedList = document.getElementById("approved-list");
+
+    const importButton = document.getElementById("import-button");
+    const importMessage = document.getElementById("import-message");
 
 
-    function setFirebaseStatus(status, message) {
+    // --------------------------------------------------
+    // FUNZIONI UTILI
+    // --------------------------------------------------
 
-        dot.className = "firebase-dot";
-
-        if (status === "online") {
-            dot.classList.add("online");
-        }
-
-        if (status === "error") {
-            dot.classList.add("error");
-        }
-
-        statusText.textContent = message;
+    function showMessage(element, message, type = "") {
+        element.textContent = message;
+        element.className = "messaggio " + type;
     }
 
+    function getRecordKey(playerName, levelId) {
+        return `${playerName}_${levelId}`;
+    }
 
-    function getProgress(player, levelId) {
+    function formatPoints(value) {
+        return Number(value).toFixed(2).replace(/\.00$/, "");
+    }
 
-        if (
-            records[player] &&
-            records[player][levelId] !== undefined
-        ) {
-            return records[player][levelId];
+    function getProgress(playerName, levelId) {
+        const key = getRecordKey(playerName, levelId);
+
+        if (records[key] !== undefined) {
+            return records[key].progress;
         }
 
-        if (
-            !hasAnyRecords &&
-            initialProgress[player] &&
-            initialProgress[player][levelId] !== undefined
-        ) {
-            return initialProgress[player][levelId];
+        // I dati originali rimangono visibili finché il database è vuoto.
+        if (Object.keys(records).length === 0) {
+            const original = initialProgress.find(item =>
+                item.playerName === playerName && item.levelId === levelId
+            );
+
+            return original ? original.progress : null;
         }
 
         return null;
     }
 
 
-    function calculatePlayerStats(player) {
+    // --------------------------------------------------
+    // AGGIORNAMENTO DELLA CLASSIFICA
+    // --------------------------------------------------
 
-        let totalPoints = 0;
-        let beatenLevels = 0;
-        let hardest = null;
+    function updateLeaderboard() {
 
-        let totalPossiblePoints = 0;
+        const levelCards = document.querySelectorAll(".livello");
 
-        levels.forEach(level => {
+        levelCards.forEach((card, index) => {
 
-            const points = Number(level.points) || 0;
-            totalPossiblePoints += points;
+            const level = levels[index];
+            if (!level) return;
 
-            const progress = getProgress(player, level.id);
+            const progressRows = card.querySelectorAll(".progressi p");
 
-            if (progress === 100) {
+            progressRows.forEach(row => {
 
-                totalPoints += points;
-                beatenLevels++;
+                const playerLink = row.querySelector("a");
+                if (!playerLink) return;
 
-                if (!hardest) {
-                    hardest = level;
+                const playerName = playerLink.textContent.trim();
+                const progress = getProgress(playerName, level.id);
+
+                // Aggiorna solo il testo dopo il link.
+                const value = progress === null ? "--" : `${progress}%`;
+
+                row.lastChild.textContent = `: ${value}`;
+            });
+        });
+
+        // Calcolo punti totali proporzionali.
+        players.forEach(playerName => {
+
+            let total = 0;
+
+            levels.forEach(level => {
+
+                const progress = getProgress(playerName, level.id);
+
+                if (progress !== null) {
+                    total += level.points * (progress / 100);
                 }
+
+            });
+
+            const totalElement = document.getElementById(`total-${playerName}`);
+
+            if (totalElement) {
+                totalElement.textContent = formatPoints(total);
             }
 
         });
-
-
-        const overallProgress = totalPossiblePoints > 0
-            ? (totalPoints / totalPossiblePoints) * 100
-            : 0;
-
-
-        return {
-            totalPoints,
-            beatenLevels,
-            hardest,
-            overallProgress
-        };
-
     }
 
 
-    function updatePlayer(player) {
-
-        const stats = calculatePlayerStats(player);
-
-
-        const pointsElement = document.getElementById(`${player}-points`);
-        const beatenElement = document.getElementById(`${player}-beaten`);
-        const hardestElement = document.getElementById(`${player}-hardest`);
-        const progressTextElement = document.getElementById(`${player}-progress-text`);
-        const progressElement = document.getElementById(`${player}-progress`);
-
-
-        if (pointsElement) {
-            pointsElement.textContent = stats.totalPoints.toLocaleString("en-US");
-        }
-
-        if (beatenElement) {
-            beatenElement.textContent = `${stats.beatenLevels} / ${levels.length}`;
-        }
-
-        if (hardestElement) {
-            hardestElement.textContent = stats.hardest
-                ? stats.hardest.name
-                : "None";
-        }
-
-        if (progressTextElement) {
-            progressTextElement.textContent = `${stats.overallProgress.toFixed(1)}%`;
-        }
-
-        if (progressElement) {
-            progressElement.style.width = `${stats.overallProgress}%`;
-        }
-
-    }
-
-
-    function updateAllPlayers() {
-
-        players.forEach(player => {
-            updatePlayer(player);
-        });
-
-    }
-
+    // --------------------------------------------------
+    // ASCOLTO RECORD FIRESTORE
+    // --------------------------------------------------
 
     function listenToRecords() {
 
-        onSnapshot(
+        if (recordsUnsubscribe) {
+            recordsUnsubscribe();
+        }
+
+        recordsUnsubscribe = onSnapshot(
             collection(db, "records"),
 
             snapshot => {
 
                 records = {};
-                hasAnyRecords = !snapshot.empty;
-
 
                 snapshot.forEach(documentSnapshot => {
 
                     const data = documentSnapshot.data();
 
-                    if (!players.includes(data.playerName)) {
-                        return;
+                    if (
+                        data.playerName &&
+                        data.levelId &&
+                        typeof data.progress === "number"
+                    ) {
+                        records[getRecordKey(data.playerName, data.levelId)] = data;
                     }
-
-                    const progress = Number(data.progress);
-
-                    if (!Number.isFinite(progress)) {
-                        return;
-                    }
-
-                    if (!records[data.playerName]) {
-                        records[data.playerName] = {};
-                    }
-
-                    records[data.playerName][data.levelId] = Math.max(
-                        0,
-                        Math.min(100, progress)
-                    );
 
                 });
 
+                recordsLoaded = true;
+                updateLeaderboard();
 
-                setFirebaseStatus("online", "CONNECTED TO FIREBASE");
-
-                updateAllPlayers();
+                if (isAdmin) {
+                    renderApprovedRecords();
+                }
 
             },
 
             error => {
-
-                console.error("Firebase records error:", error);
-
-                setFirebaseStatus("error", "FIREBASE CONNECTION ERROR");
-
+                console.error("Errore caricamento records:", error);
             }
         );
-
     }
 
 
-    function listenToLevels() {
+    // --------------------------------------------------
+    // INVIO PROGRESSI
+    // --------------------------------------------------
 
-        onSnapshot(
-            collection(db, "levels"),
+    submissionForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const playerName = document.getElementById("playerName").value;
+        const levelId = document.getElementById("levelId").value;
+        const progress = Number(document.getElementById("progress").value);
+
+        if (!players.includes(playerName)) {
+            showMessage(submissionMessage, "Seleziona un giocatore valido.", "errore");
+            return;
+        }
+
+        if (!levels.some(level => level.id === levelId)) {
+            showMessage(submissionMessage, "Seleziona un livello valido.", "errore");
+            return;
+        }
+
+        if (!Number.isInteger(progress) || progress < 0 || progress > 100) {
+            showMessage(submissionMessage, "Inserisci una percentuale da 0 a 100.", "errore");
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "SENDING...";
+
+        try {
+
+            await addDoc(collection(db, "submissions"), {
+                playerName,
+                levelId,
+                progress,
+                status: "pending",
+                createdAt: serverTimestamp()
+            });
+
+            submissionForm.reset();
+
+            showMessage(
+                submissionMessage,
+                "Richiesta inviata! Verrà controllata da un amministratore.",
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                submissionMessage,
+                "Errore durante l'invio. Riprova più tardi.",
+                "errore"
+            );
+
+        } finally {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "SEND SUBMISSION";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // LOGIN ADMIN
+    // --------------------------------------------------
+
+    loginForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const email = document.getElementById("admin-email").value.trim();
+        const password = document.getElementById("admin-password").value;
+
+        loginButton.disabled = true;
+        loginButton.textContent = "LOGGING IN...";
+
+        try {
+
+            await signInWithEmailAndPassword(auth, email, password);
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                loginMessage,
+                "Login non riuscito. Controlla email e password.",
+                "errore"
+            );
+
+        } finally {
+
+            loginButton.disabled = false;
+            loginButton.textContent = "ADMIN LOGIN";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // CONTROLLO AUTENTICAZIONE
+    // --------------------------------------------------
+
+    onAuthStateChanged(auth, async user => {
+
+        if (user && user.uid === ADMIN_UID) {
+
+            isAdmin = true;
+
+            adminLogin.hidden = true;
+            adminContent.hidden = false;
+
+            startAdminListeners();
+
+        } else {
+
+            isAdmin = false;
+
+            adminLogin.hidden = false;
+            adminContent.hidden = true;
+
+            if (pendingUnsubscribe) {
+                pendingUnsubscribe();
+                pendingUnsubscribe = null;
+            }
+
+            if (user) {
+                await signOut(auth);
+                showMessage(loginMessage, "Questo account non è autorizzato come admin.", "errore");
+            }
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // LISTENER RICHIESTE IN ATTESA
+    // --------------------------------------------------
+
+    function startAdminListeners() {
+
+        if (pendingUnsubscribe) {
+            pendingUnsubscribe();
+        }
+
+        const pendingQuery = query(
+            collection(db, "submissions"),
+            orderBy("createdAt", "desc")
+        );
+
+        pendingUnsubscribe = onSnapshot(
+            pendingQuery,
 
             snapshot => {
 
-                const overrides = {};
+                pendingList.innerHTML = "";
+
+                if (snapshot.empty) {
+                    pendingList.innerHTML = '<p class="vuoto">Nessuna richiesta in attesa.</p>';
+                    return;
+                }
 
                 snapshot.forEach(documentSnapshot => {
 
-                    overrides[documentSnapshot.id] = {
-                        ...documentSnapshot.data(),
-                        id: documentSnapshot.id
-                    };
+                    const data = documentSnapshot.data();
+                    const requestId = documentSnapshot.id;
+
+                    const level = levels.find(item => item.id === data.levelId);
+
+                    const card = document.createElement("div");
+                    card.className = "richiesta";
+
+                    const info = document.createElement("div");
+                    info.className = "richiesta-info";
+
+                    const playerLine = document.createElement("div");
+                    playerLine.innerHTML = "<strong>Player:</strong> ";
+
+                    const playerText = document.createTextNode(data.playerName || "Unknown");
+                    playerLine.appendChild(playerText);
+
+                    const levelLine = document.createElement("div");
+                    levelLine.innerHTML = "<strong>Level:</strong> ";
+
+                    const levelText = document.createTextNode(
+                        level ? `${level.id} - ${level.name}` : (data.levelId || "Unknown")
+                    );
+                    levelLine.appendChild(levelText);
+
+                    const progressLine = document.createElement("div");
+                    progressLine.innerHTML = "<strong>Progress:</strong> ";
+
+                    const progressText = document.createTextNode(`${data.progress}%`);
+                    progressLine.appendChild(progressText);
+
+                    info.append(playerLine, levelLine, progressLine);
+
+                    const actions = document.createElement("div");
+                    actions.className = "richiesta-azioni";
+
+                    const approveButton = document.createElement("button");
+                    approveButton.className = "pulsante pulsante-verde";
+                    approveButton.textContent = "APPROVE";
+                    approveButton.addEventListener("click", () => approveSubmission(requestId, data));
+
+                    const rejectButton = document.createElement("button");
+                    rejectButton.className = "pulsante pulsante-rifiuta";
+                    rejectButton.textContent = "REJECT";
+                    rejectButton.addEventListener("click", () => rejectSubmission(requestId));
+
+                    actions.append(approveButton, rejectButton);
+                    card.append(info, actions);
+                    pendingList.appendChild(card);
 
                 });
-
-
-                levels = baseLevels.map(level => ({
-                    ...level,
-                    ...(overrides[level.id] || {})
-                }));
-
-
-                Object.values(overrides).forEach(level => {
-
-                    if (!baseLevels.some(base => base.id === level.id)) {
-                        levels.push(level);
-                    }
-
-                });
-
-
-                levels.sort((a, b) =>
-                    a.id.localeCompare(
-                        b.id,
-                        undefined,
-                        { numeric: true }
-                    )
-                );
-
-
-                updateAllPlayers();
 
             },
 
             error => {
-
-                console.error("Firebase levels error:", error);
-
-                setFirebaseStatus("error", "ERROR LOADING LEVELS");
-
+                console.error(error);
+                pendingList.innerHTML = '<p class="messaggio errore">Errore nel caricamento delle richieste.</p>';
             }
         );
 
     }
 
 
-    // INITIALIZE
+    // --------------------------------------------------
+    // APPROVAZIONE RICHIESTA
+    // --------------------------------------------------
 
-    updateAllPlayers();
+    async function approveSubmission(requestId, data) {
+
+        if (!isAdmin) return;
+
+        if (
+            !players.includes(data.playerName) ||
+            !levels.some(level => level.id === data.levelId) ||
+            typeof data.progress !== "number" ||
+            data.progress < 0 ||
+            data.progress > 100
+        ) {
+            alert("Questa richiesta contiene dati non validi.");
+            return;
+        }
+
+        const confirmApproval = confirm(
+            `Confermi il record di ${data.playerName} al ${data.progress}%?`
+        );
+
+        if (!confirmApproval) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            const recordId = getRecordKey(data.playerName, data.levelId);
+
+            const recordRef = doc(db, "records", recordId);
+            const submissionRef = doc(db, "submissions", requestId);
+
+            batch.set(recordRef, {
+                playerName: data.playerName,
+                levelId: data.levelId,
+                progress: data.progress,
+                updatedAt: serverTimestamp()
+            });
+
+            batch.delete(submissionRef);
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante l'approvazione del record.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // RIFIUTO RICHIESTA
+    // --------------------------------------------------
+
+    async function rejectSubmission(requestId) {
+
+        if (!isAdmin) return;
+
+        if (!confirm("Vuoi rifiutare questa richiesta?")) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            batch.delete(doc(db, "submissions", requestId));
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante il rifiuto della richiesta.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // VISUALIZZAZIONE RECORD APPROVATI
+    // --------------------------------------------------
+
+    function renderApprovedRecords() {
+
+        if (!isAdmin) return;
+
+        approvedList.innerHTML = "";
+
+        const entries = Object.entries(records);
+
+        if (entries.length === 0) {
+            approvedList.innerHTML = '<p class="vuoto">Nessun record approvato nel database.</p>';
+            return;
+        }
+
+        entries.sort((a, b) => {
+            return a[1].levelId.localeCompare(b[1].levelId);
+        });
+
+        entries.forEach(([key, data]) => {
+
+            const level = levels.find(item => item.id === data.levelId);
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const playerLine = document.createElement("div");
+            playerLine.innerHTML = "<strong>Player:</strong> ";
+            playerLine.appendChild(document.createTextNode(data.playerName));
+
+            const levelLine = document.createElement("div");
+            levelLine.innerHTML = "<strong>Level:</strong> ";
+            levelLine.appendChild(document.createTextNode(
+                level ? `${level.id} - ${level.name}` : data.levelId
+            ));
+
+            const progressLine = document.createElement("div");
+            progressLine.innerHTML = "<strong>Progress:</strong> ";
+            progressLine.appendChild(document.createTextNode(`${data.progress}%`));
+
+            info.append(playerLine, levelLine, progressLine);
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const editButton = document.createElement("button");
+            editButton.className = "pulsante";
+            editButton.textContent = "EDIT PROGRESS";
+
+            editButton.addEventListener("click", async () => {
+
+                const newValue = prompt(
+                    `Nuova percentuale per ${data.playerName} - ${level?.name || data.levelId}:`,
+                    data.progress
+                );
+
+                if (newValue === null) return;
+
+                const newProgress = Number(newValue);
+
+                if (!Number.isInteger(newProgress) || newProgress < 0 || newProgress > 100) {
+                    alert("Inserisci un numero intero tra 0 e 100.");
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+
+                    batch.set(doc(db, "records", key), {
+                        playerName: data.playerName,
+                        levelId: data.levelId,
+                        progress: newProgress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante la modifica.");
+
+                }
+
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "pulsante pulsante-rifiuta";
+            deleteButton.textContent = "DELETE RECORD";
+
+            deleteButton.addEventListener("click", async () => {
+
+                if (!confirm(`Eliminare il record di ${data.playerName} su ${level?.name || data.levelId}?`)) {
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+                    batch.delete(doc(db, "records", key));
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante l'eliminazione.");
+
+                }
+
+            });
+
+            actions.append(editButton, deleteButton);
+            card.append(info, actions);
+            approvedList.appendChild(card);
+
+        });
+
+    }
+
+
+    // --------------------------------------------------
+    // IMPORTAZIONE PROGRESSI INIZIALI
+    // --------------------------------------------------
+
+    importButton.addEventListener("click", async () => {
+
+        if (!isAdmin) return;
+
+        if (!confirm(
+            "Vuoi importare i progressi iniziali? I record già presenti non verranno sovrascritti."
+        )) {
+            return;
+        }
+
+        importButton.disabled = true;
+        importButton.textContent = "IMPORTING...";
+
+        try {
+
+            const snapshot = await getDocs(collection(db, "records"));
+
+            const existingIds = new Set(
+                snapshot.docs.map(documentSnapshot => documentSnapshot.id)
+            );
+
+            const batch = writeBatch(db);
+            let imported = 0;
+
+            initialProgress.forEach(item => {
+
+                const recordId = getRecordKey(item.playerName, item.levelId);
+
+                if (!existingIds.has(recordId)) {
+
+                    batch.set(doc(db, "records", recordId), {
+                        playerName: item.playerName,
+                        levelId: item.levelId,
+                        progress: item.progress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    imported++;
+
+                }
+
+            });
+
+            if (imported > 0) {
+                await batch.commit();
+            }
+
+            showMessage(
+                importMessage,
+                imported === 0
+                    ? "I progressi iniziali risultano già importati."
+                    : `Importazione completata: ${imported} record aggiunti.`,
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                importMessage,
+                "Errore durante l'importazione. Controlla le regole Firestore.",
+                "errore"
+            );
+
+        } finally {
+
+            importButton.disabled = false;
+            importButton.textContent = "IMPORT INITIAL PROGRESS";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // LOGOUT
+    // --------------------------------------------------
+
+    document.getElementById("logout-button").addEventListener("click", async () => {
+
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error(error);
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // AVVIO
+    // --------------------------------------------------
 
     listenToRecords();
-    listenToLevels();
+    updateLeaderboard();
 
 </script>
 
