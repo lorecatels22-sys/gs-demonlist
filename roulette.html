@@ -414,6 +414,7 @@
             font-size: 0.7rem;
             position: relative;
             z-index: 1;
+            flex-shrink: 0;
         }
 
         .mode-card.active .mode-check {
@@ -683,6 +684,30 @@
         .api-status.error { color: #ff6262; }
         .api-status.ok { color: #00e676; }
 
+        .checkpoint-message {
+            width: 100%;
+            max-width: 520px;
+            padding: 18px;
+            border: 1px solid rgba(0,230,118,0.35);
+            border-radius: 12px;
+            background: rgba(0,230,118,0.07);
+            text-align: center;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .checkpoint-message strong {
+            display: block;
+            color: #00e676;
+            font-size: 1.05rem;
+            margin-bottom: 7px;
+        }
+
+        .checkpoint-message span {
+            color: #aaa;
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
         /* HISTORY */
 
         .history {
@@ -793,8 +818,12 @@
         }
 
         @media (max-width: 390px) {
-            .mode-selector { grid-template-columns: 1fr; }
-            .mode-card { padding: 12px 15px; }
+            .mode-selector { grid-template-columns: 1fr 1fr; }
+            .mode-card { padding: 10px 7px; gap: 6px; }
+            .mode-text strong { font-size: 0.68rem; }
+            .mode-text span { font-size: 0.52rem; }
+            .mode-icon { width: 29px; height: 29px; font-size: 0.9rem; }
+            .mode-check { width: 15px; height: 15px; }
         }
     </style>
 </head>
@@ -862,7 +891,6 @@
             <div class="linea-titolo"></div>
         </header>
 
-        <!-- LE DUE MODALITÀ SONO AFFIANCATE -->
         <section class="mode-selector">
             <button class="mode-card active" id="normalModeBtn" onclick="switchMode('normal')">
                 <span class="mode-icon">🎲</span>
@@ -896,7 +924,6 @@
                 </ul>
             </article>
 
-            <!-- AREDL SETTINGS -->
             <article class="scheda" id="aredlSettingsCard" style="display:none;">
                 <h2>AREDL Settings</h2>
 
@@ -904,8 +931,8 @@
                     <div class="aredl-settings visible">
                         <div class="setting-block">
                             <div class="setting-heading">
-                                <label for="aredlPercentage">TARGET PERCENTAGE</label>
-                                <span class="setting-value" id="percentageValue">50%</span>
+                                <label for="aredlPercentage">FIRST CHECKPOINT</label>
+                                <span class="setting-value" id="percentageValue">45%</span>
                             </div>
 
                             <input
@@ -914,7 +941,7 @@
                                 min="1"
                                 max="100"
                                 step="1"
-                                value="50"
+                                value="45"
                                 oninput="updatePercentageLabel()"
                             >
 
@@ -924,7 +951,8 @@
                             </div>
 
                             <p class="setting-note">
-                                Choose the percentage you want to reach on every selected AREDL level.
+                                Choosing 45%, for example, means completing levels from 1% to 45%.
+                                After that, you can finish the run or continue.
                             </p>
                         </div>
 
@@ -946,12 +974,12 @@
                             >
 
                             <p class="setting-note">
-                                Choose how many levels you can skip during the run.
+                                Choose how many levels you can skip during the entire run.
                             </p>
                         </div>
 
                         <div class="api-status" id="aredlStatus">
-                            AREDL levels will be loaded when you start the mode.
+                            AREDL levels will be loaded when you select this mode.
                         </div>
                     </div>
                 </div>
@@ -1005,7 +1033,7 @@
 
     <script>
         /* =====================================================
-           NORMAL WHEEL - ORIGINAL LEVELS AND GAMEPLAY
+           LEVELS
         ===================================================== */
 
         const LEVELS = [
@@ -1046,6 +1074,11 @@
         let aredlLoaded = false;
         let aredlLoading = false;
 
+        // AREDL: percentuale scelta dall'utente e avanzamento attuale.
+        let aredlCheckpoint = 45;
+        let aredlCurrentPct = 1;
+        let waitingForDecision = false;
+
         function randomLevel() {
             return LEVELS[Math.floor(Math.random() * LEVELS.length)];
         }
@@ -1060,17 +1093,15 @@
         ===================================================== */
 
         function switchMode(mode) {
+            if (currentMode === mode) return;
+
             if (runActive) {
                 const confirmSwitch = confirm("Switching mode will end your current run. Continue?");
                 if (!confirmSwitch) return;
             }
 
             currentMode = mode;
-            runActive = false;
-            round = 0;
-            targetPct = 0;
-            currentLevel = null;
-            history = [];
+            resetRunData();
 
             if (mode === "normal") {
                 skips = 2;
@@ -1101,20 +1132,23 @@
                 document.getElementById("normalModeBtn").classList.remove("active");
 
                 document.getElementById("pageSubtitle").textContent =
-                    "AREDL levels • Custom percentage • Custom skips";
+                    "AREDL levels • 1% to your target • Custom skips";
 
                 document.getElementById("instructionsTitle").textContent = "AREDL Wheel Rules";
 
                 document.getElementById("instructionsList").innerHTML = `
                     <li>Levels are selected exclusively from the <strong>AREDL</strong>.</li>
-                    <li>You choose your target percentage from <strong>1% to 100%</strong>.</li>
-                    <li>You can decide how many <strong>skips</strong> you want before starting.</li>
-                    <li>Every new round selects a random AREDL level.</li>
-                    <li>Reach your target percentage to win the run.</li>
+                    <li>The run starts at <strong>1%</strong> and increases by <strong>1%</strong> every round.</li>
+                    <li>Your chosen percentage is the <strong>first checkpoint</strong>.</li>
+                    <li>At the checkpoint, choose <strong>FINISH RUN</strong> or <strong>CONTINUE</strong>.</li>
+                    <li>After continuing, you can make the same choice after every completed level.</li>
+                    <li>You choose the number of <strong>skips</strong> before starting.</li>
                 `;
 
                 document.getElementById("aredlSettingsCard").style.display = "block";
                 document.getElementById("runTitle").textContent = "AREDL Run";
+
+                loadAredlLevels();
             }
 
             updateUI();
@@ -1122,10 +1156,17 @@
             setActions(`
                 <button class="btn btn-primary" onclick="startRun()">START RUN</button>
             `);
+        }
 
-            if (mode === "aredl") {
-                loadAredlLevels();
-            }
+        function resetRunData() {
+            runActive = false;
+            waitingForDecision = false;
+            round = 0;
+            targetPct = 0;
+            currentLevel = null;
+            history = [];
+            aredlCurrentPct = 1;
+            aredlCheckpoint = getAredlPercentage();
         }
 
         /* =====================================================
@@ -1150,7 +1191,13 @@
 
                 const data = await response.json();
 
-                let levels = Array.isArray(data) ? data : (data.levels || data.data || []);
+                let levels = Array.isArray(data)
+                    ? data
+                    : (data.levels || data.data || data.results || []);
+
+                if (!Array.isArray(levels)) {
+                    throw new Error("Unexpected API response.");
+                }
 
                 aredlLevels = levels
                     .filter(level => level && level.name)
@@ -1158,7 +1205,7 @@
                         name: level.name,
                         position: level.position ?? level.rank ?? null,
                         id: level.id ?? null,
-                        img: level.thumbnail || level.image || null
+                        img: level.thumbnail || level.image || level.cover || null
                     }));
 
                 if (!aredlLevels.length) {
@@ -1208,11 +1255,17 @@
 
             if (Number.isNaN(value)) value = 0;
 
-            return Math.max(0, Math.min(100, value));
+            value = Math.max(0, Math.min(100, value));
+            input.value = value;
+
+            return value;
         }
 
         function getAredlPercentage() {
-            return parseInt(document.getElementById("aredlPercentage").value, 10) || 1;
+            const input = document.getElementById("aredlPercentage");
+            let value = parseInt(input.value, 10) || 1;
+
+            return Math.max(1, Math.min(100, value));
         }
 
         /* =====================================================
@@ -1256,7 +1309,7 @@
             }
 
             const box = document.getElementById("challengeBox");
-            box.classList.toggle("done", targetPct >= 100);
+            box.classList.toggle("done", currentMode === "aredl" && targetPct >= aredlCheckpoint);
 
             const hist = document.getElementById("history");
 
@@ -1265,7 +1318,7 @@
             } else {
                 hist.innerHTML = history.map(h => `
                     <div class="history-item ${h.result}">
-                        ${h.img ? `<img src="${h.img}" alt="${h.level}" onerror="this.style.display='none'">` : ""}
+                        ${h.img ? `<img src="${escapeHTML(h.img)}" alt="${escapeHTML(h.level)}" onerror="this.style.display='none'">` : ""}
                         <span class="round">R${h.round}</span>
                         <span class="lvl">${escapeHTML(h.level)}</span>
                         ${h.rank ? `<span class="rank">#${Number(h.rank).toLocaleString()}</span>` : ""}
@@ -1294,6 +1347,8 @@
         ===================================================== */
 
         async function startRun() {
+            if (runActive) return;
+
             if (currentMode === "aredl") {
                 if (!aredlLoaded) {
                     await loadAredlLevels();
@@ -1309,7 +1364,9 @@
                 if (!aredlLevels.length) return;
 
                 skips = getAredlSkipSetting();
-                targetPct = getAredlPercentage();
+                aredlCheckpoint = getAredlPercentage();
+                aredlCurrentPct = 1;
+                targetPct = 0;
 
             } else {
                 skips = 2;
@@ -1317,6 +1374,7 @@
             }
 
             runActive = true;
+            waitingForDecision = false;
             round = 0;
             history = [];
 
@@ -1328,22 +1386,29 @@
         ===================================================== */
 
         function nextRound() {
+            if (!runActive) return;
+
+            waitingForDecision = false;
             round++;
 
             if (currentMode === "normal") {
                 targetPct = Math.min(targetPct + 5, 100);
                 currentLevel = randomLevel();
+
             } else {
+                targetPct = aredlCurrentPct;
                 currentLevel = randomAredlLevel();
 
                 if (!currentLevel) {
                     runActive = false;
+
                     setActions(`
                         <div style="color:#ff5555;font-weight:800;margin-bottom:10px;">
                             Could not select an AREDL level.
                         </div>
                         <button class="btn btn-primary" onclick="startRun()">TRY AGAIN</button>
                     `);
+
                     return;
                 }
             }
@@ -1375,52 +1440,136 @@
         }
 
         function success() {
-            if (!runActive || !currentLevel) return;
+            if (!runActive || !currentLevel || waitingForDecision) return;
 
             addHistory("success");
 
-            if (currentMode === "normal" && targetPct >= 100) {
+            if (currentMode === "normal") {
+                if (targetPct >= 100) {
+                    finishRun(true);
+                    return;
+                }
+
+                nextRound();
+                return;
+            }
+
+            // AREDL: ogni livello completato fa avanzare di 1%.
+            if (targetPct >= 100) {
                 finishRun(true);
                 return;
             }
 
-            if (currentMode === "aredl") {
+            // Prima del checkpoint scelto, si procede automaticamente.
+            // Dal checkpoint in poi, si chiede ogni volta se continuare.
+            if (targetPct >= aredlCheckpoint) {
+                showCheckpointDecision();
+                return;
+            }
+
+            aredlCurrentPct++;
+            nextRound();
+        }
+
+        function showCheckpointDecision() {
+            waitingForDecision = true;
+            updateUI();
+
+            setActions(`
+                <div class="checkpoint-message">
+                    <strong>✓ ${targetPct}% COMPLETED!</strong>
+                    <span>
+                        You completed this level. Do you want to finish your run
+                        or continue to the next percentage?
+                    </span>
+                </div>
+
+                <button class="btn btn-primary" onclick="finishAredlRun()">
+                    FINISH RUN
+                </button>
+
+                <button class="btn btn-success" onclick="continueAredlRun()">
+                    CONTINUE →
+                </button>
+            `);
+        }
+
+        function finishAredlRun() {
+            if (!runActive || !waitingForDecision) return;
+
+            waitingForDecision = false;
+            finishRun(true, true);
+        }
+
+        function continueAredlRun() {
+            if (!runActive || !waitingForDecision) return;
+
+            waitingForDecision = false;
+
+            if (targetPct >= 100) {
                 finishRun(true);
                 return;
             }
 
+            aredlCurrentPct = targetPct + 1;
             nextRound();
         }
 
         function useSkip() {
-            if (!runActive || skips <= 0 || !currentLevel) return;
+            if (!runActive || skips <= 0 || !currentLevel || waitingForDecision) return;
 
             skips--;
             addHistory("skip");
+
+            if (currentMode === "aredl") {
+                if (targetPct >= 100) {
+                    finishRun(false);
+                    return;
+                }
+
+                aredlCurrentPct = targetPct + 1;
+            }
+
             nextRound();
         }
 
         function fail() {
-            if (!runActive || !currentLevel) return;
+            if (!runActive || !currentLevel || waitingForDecision) return;
 
             addHistory("fail");
             finishRun(false);
         }
 
-        function finishRun(won) {
+        /* =====================================================
+           FINISH RUN
+        ===================================================== */
+
+        function finishRun(won, voluntary = false) {
             runActive = false;
+            waitingForDecision = false;
             updateUI();
 
             if (won) {
+                let message;
+
+                if (currentMode === "aredl" && voluntary) {
+                    message = `🏁 RUN FINISHED AT ${targetPct}%!`;
+                } else if (currentMode === "aredl") {
+                    message = "🎉 YOU COMPLETED 100%!";
+                } else {
+                    message = "🎉 YOU WON THE RUN!";
+                }
+
                 setActions(`
-                    <div style="color:#00e676;font-weight:800;font-size:1.1rem;margin-bottom:10px;">
-                        🎉 ${currentMode === "aredl" ? "CHALLENGE COMPLETED!" : "YOU WON THE RUN!"}
+                    <div style="color:#00e676;font-weight:800;font-size:1.1rem;margin-bottom:10px;text-align:center;">
+                        ${message}
                     </div>
                     <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
                 `);
+
             } else {
                 setActions(`
-                    <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;">
+                    <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;text-align:center;">
                         💀 RUN OVER
                     </div>
                     <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
@@ -1430,6 +1579,8 @@
 
         /* INITIAL STATE */
 
+        updatePercentageLabel();
+        updateSkipLabel();
         updateUI();
     </script>
 </body>
