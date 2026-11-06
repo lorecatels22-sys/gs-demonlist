@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roulette - G_S demon list</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background: #1e1e1e; scroll-behavior: smooth; }
+
+        html {
+            background: #1e1e1e;
+            scroll-behavior: smooth;
+        }
+
         body {
             min-height: 100vh;
             background: #1e1e1e;
@@ -18,127 +25,404 @@
             overflow-x: hidden;
             position: relative;
         }
+
         .barra-sinistra, .barra-destra {
-            position: absolute; top: 0; bottom: 0; width: 30vw; min-height: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30vw;
+            min-height: 100%;
             background-image: url("./miguel.png");
-            background-repeat: repeat-y; background-size: 100% auto; background-position: top center;
-            opacity: 0.75; pointer-events: none; z-index: 0;
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+            background-position: top center;
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: 0;
         }
+
         .barra-sinistra { left: 0; }
         .barra-destra { right: 0; transform: scaleX(-1); }
-        main { position: relative; z-index: 1; min-height: 100vh; padding: 35px 0 90px; }
-        .navigation-badges {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: min(900px, 88%); margin: 0 auto 25px; flex-wrap: wrap; position: relative; z-index: 10;
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 0 90px;
         }
-        .dropdown-container { position: relative; display: inline-block; }
+
+        .navigation-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: min(900px, 88%);
+            margin: 0 auto 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .badge-link {
-            display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px;
-            background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b; border-left: 3px solid #e85a5a;
-            border-radius: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-            text-decoration: none; color: #f5f5f5; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: 0.22s ease;
             cursor: pointer;
         }
+
         .badge-link:hover {
-            transform: translateY(-2px); background: rgba(42, 42, 42, 0.99); border-color: #555;
-            border-left-color: #ff5555; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            background: rgba(42, 42, 42, 0.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
+
         .badge-link img {
-            width: 24px; height: 24px; object-fit: cover; border-radius: 5px; border: 1px solid #555;
-            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: 0.2s ease;
         }
-        .badge-link:hover img { filter: brightness(1.2); transform: scale(1.05); }
-        .torna-indietro { position: absolute; top: 35px; left: 24px; z-index: 20; }
+
+        .badge-link:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .torna-indietro {
+            position: absolute;
+            top: 35px;
+            left: 24px;
+            z-index: 20;
+        }
+
         .arrow {
-            font-size: 0.75rem; font-weight: 800; color: #999;
-            transition: transform 0.25s ease, color 0.25s ease; display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #999;
+            transition: 0.25s ease;
+            display: inline-block;
         }
-        .dropdown-container:hover .arrow { transform: rotate(90deg); color: #ff5555; }
+
+        .dropdown-container:hover .arrow {
+            transform: rotate(90deg);
+            color: #ff5555;
+        }
+
         .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; padding-top: 10px; min-width: 175px; z-index: 100;
-            opacity: 0; visibility: hidden; pointer-events: none;
-            transform: translateX(-50%) translateY(-12px) scale(0.96); transform-origin: top center;
-            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            padding-top: 10px;
+            min-width: 175px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(0.96);
+            transform-origin: top center;
+            transition: opacity 0.25s ease, transform 0.3s ease, visibility 0s linear 0.3s;
         }
+
         .dropdown-container:hover .dropdown-menu {
-            opacity: 1; visibility: visible; pointer-events: auto;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
             transform: translateX(-50%) translateY(0) scale(1);
-            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
+            transition: opacity 0.25s ease, transform 0.3s ease, visibility 0s linear 0s;
         }
+
         .dropdown-content {
-            background: rgba(28, 28, 28, 0.98); border: 1px solid #3b3b3b; border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); padding: 8px 0; display: flex; flex-direction: column;
+            background: rgba(28, 28, 28, 0.98);
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
         }
+
         .dropdown-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #f5f5f5;
-            text-decoration: none; font-size: 0.78rem; font-weight: 700;
-            opacity: 0; transform: translateX(-12px);
-            transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: 0.2s ease;
         }
+
         .dropdown-container:hover .dropdown-item {
-            opacity: 1; transform: translateX(0);
-            transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+            opacity: 1;
+            transform: translateX(0);
         }
-        .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
-        .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
-        .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
-        .dropdown-item:hover { background: rgba(229, 72, 72, 0.15); color: #ff5555; }
+
+        .dropdown-item:hover {
+            background: rgba(229, 72, 72, 0.15);
+            color: #ff5555;
+        }
+
         .dropdown-item img {
-            width: 22px; height: 22px; object-fit: cover; border-radius: 4px; border: 1px solid #555;
-            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #252525;
         }
-        .dropdown-item:hover img { filter: brightness(1.2); transform: scale(1.05); }
-        header { text-align: center; padding: 0 15px; }
+
+        header {
+            text-align: center;
+            padding: 0 15px;
+        }
+
         .testo-illuminato {
-            color: #fff; font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800;
-            letter-spacing: -1.5px; text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
+            color: #fff;
+            font-size: clamp(2.1rem, 5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
             animation: titleGlow 3s ease-in-out infinite alternate;
         }
+
         @keyframes titleGlow {
             from { text-shadow: 0 0 25px rgba(255, 255, 255, 0.13); }
             to { text-shadow: 0 0 35px rgba(229, 72, 72, 0.35); }
         }
+
         .sottotitolo {
-            margin-top: 14px; color: #999; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-            font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
+            margin-top: 14px;
+            color: #999;
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            line-height: 1.8;
         }
+
         .linea-titolo {
-            width: 75px; height: 3px; margin: 22px auto 0; border-radius: 10px;
-            background: #e54848; box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
+            width: 75px;
+            height: 3px;
+            margin: 22px auto 0;
+            border-radius: 10px;
+            background: #e54848;
+            box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
             animation: linePulse 2s ease-in-out infinite;
         }
+
         @keyframes linePulse {
             0%, 100% { width: 75px; opacity: 1; }
             50% { width: 95px; opacity: 0.8; }
         }
+
         .contenuto {
-            position: relative; z-index: 2; width: min(900px, 88%); margin: 40px auto 0;
-            display: flex; flex-direction: column; gap: 14px;
+            position: relative;
+            z-index: 2;
+            width: min(900px, 88%);
+            margin: 40px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
+
         .scheda {
-            padding: 24px 26px; background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343; border-radius: 10px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            padding: 24px 26px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
             animation: fadeUp 0.5s ease both;
         }
-        .scheda:nth-child(1) { animation-delay: 0.05s; }
-        .scheda:nth-child(2) { animation-delay: 0.12s; }
-        .scheda:nth-child(3) { animation-delay: 0.19s; }
+
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .scheda h2 { color: #f5f5f5; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
-        .scheda p { color: #999; font-size: 0.85rem; line-height: 1.7; margin-bottom: 10px; }
-        .scheda ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+
+        .scheda h2 {
+            color: #f5f5f5;
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .scheda p {
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .scheda ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
         .scheda li {
-            color: #999; font-size: 0.85rem; line-height: 1.6; padding-left: 18px; position: relative;
+            color: #999;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding-left: 18px;
+            position: relative;
         }
+
         .scheda li::before {
-            content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px;
-            border-radius: 50%; background: #e54848; box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #e54848;
+            box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
         }
+
         .scheda li strong { color: #f5f5f5; }
+
+        /* MODE SELECTOR */
+
+        .mode-selector {
+            width: min(900px, 88%);
+            margin: 35px auto 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mode-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 19px 22px;
+            background: rgba(30, 30, 30, 0.96);
+            border: 1px solid #3b3b3b;
+            border-radius: 13px;
+            color: #aaa;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: 0.25s ease;
+            overflow: hidden;
+        }
+
+        .mode-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, rgba(229,72,72,0.10), transparent 70%);
+            opacity: 0;
+            transition: 0.25s ease;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-3px);
+            border-color: #666;
+            background: #252525;
+        }
+
+        .mode-card.active {
+            border-color: #e54848;
+            background: linear-gradient(135deg, rgba(229,72,72,0.17), rgba(30,30,30,0.97));
+            box-shadow: 0 0 22px rgba(229,72,72,0.13), inset 0 0 15px rgba(229,72,72,0.04);
+            color: #fff;
+        }
+
+        .mode-card.active::before { opacity: 1; }
+
+        .mode-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: #292929;
+            border: 1px solid #444;
+            font-size: 1.35rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-card.active .mode-icon {
+            background: rgba(229,72,72,0.18);
+            border-color: rgba(229,72,72,0.5);
+        }
+
+        .mode-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-text strong {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .mode-text span {
+            font-size: 0.68rem;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .mode-check {
+            margin-left: auto;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 0.7rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mode-card.active .mode-check {
+            background: #e54848;
+            border-color: #e54848;
+            color: white;
+        }
+
+        /* GAME */
 
         .game-area {
             display: flex;
@@ -147,6 +431,7 @@
             gap: 22px;
             padding: 10px 0;
         }
+
         .stats-row {
             display: flex;
             gap: 16px;
@@ -154,6 +439,7 @@
             justify-content: center;
             width: 100%;
         }
+
         .stat-box {
             background: rgba(25, 25, 25, 0.9);
             border: 1px solid #3a3a3a;
@@ -162,11 +448,13 @@
             text-align: center;
             min-width: 110px;
         }
+
         .stat-box .value {
             font-size: 1.6rem;
             font-weight: 800;
             color: #fff;
         }
+
         .stat-box .label {
             font-size: 0.65rem;
             font-weight: 700;
@@ -174,6 +462,7 @@
             color: #888;
             margin-top: 4px;
         }
+
         .stat-box.highlight .value { color: #e54848; }
         .stat-box.skips .value { color: #ffc107; }
 
@@ -187,6 +476,7 @@
             text-align: center;
             animation: fadeUp 0.4s ease;
         }
+
         .current-challenge .level-img {
             width: 120px;
             height: 72px;
@@ -197,12 +487,21 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.4);
             background: #252525;
         }
+
         .current-challenge .level-name {
             font-size: 1.5rem;
             font-weight: 800;
             color: #fff;
             margin-bottom: 8px;
         }
+
+        .current-challenge .level-rank {
+            color: #aaa;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
         .current-challenge .target-pct {
             font-size: 2.8rem;
             font-weight: 800;
@@ -210,6 +509,7 @@
             text-shadow: 0 0 25px rgba(229, 72, 72, 0.4);
             line-height: 1.1;
         }
+
         .current-challenge .target-label {
             font-size: 0.7rem;
             font-weight: 700;
@@ -217,11 +517,16 @@
             color: #999;
             margin-top: 6px;
         }
+
         .current-challenge.done {
             border-color: rgba(0, 230, 118, 0.4);
             background: rgba(0, 230, 118, 0.08);
         }
-        .current-challenge.done .target-pct { color: #00e676; text-shadow: 0 0 25px rgba(0,230,118,0.4); }
+
+        .current-challenge.done .target-pct {
+            color: #00e676;
+            text-shadow: 0 0 25px rgba(0,230,118,0.4);
+        }
 
         .actions {
             display: flex;
@@ -229,35 +534,156 @@
             flex-wrap: wrap;
             justify-content: center;
         }
+
         .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 12px 24px; border: none; border-radius: 20px; font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem; font-weight: 700; cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
         }
+
         .btn:hover { transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
+
         .btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             transform: none !important;
         }
+
         .btn-primary {
-            background: #e54848; color: #fff; box-shadow: 0 4px 12px rgba(229, 72, 72, 0.3);
+            background: #e54848;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(229, 72, 72, 0.3);
         }
-        .btn-primary:hover:not(:disabled) { background: #ff5555; box-shadow: 0 6px 16px rgba(229, 72, 72, 0.4); }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #ff5555;
+            box-shadow: 0 6px 16px rgba(229, 72, 72, 0.4);
+        }
+
         .btn-success {
-            background: rgba(0, 230, 118, 0.15); color: #00e676; border: 1px solid rgba(0, 230, 118, 0.4);
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.4);
         }
+
         .btn-success:hover:not(:disabled) { background: rgba(0, 230, 118, 0.3); }
+
         .btn-warning {
-            background: rgba(255, 193, 7, 0.12); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.35);
+            background: rgba(255, 193, 7, 0.12);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.35);
         }
+
         .btn-warning:hover:not(:disabled) { background: rgba(255, 193, 7, 0.25); }
+
         .btn-danger {
-            background: rgba(229, 72, 72, 0.15); color: #ff5555; border: 1px solid #e54848;
+            background: rgba(229, 72, 72, 0.15);
+            color: #ff5555;
+            border: 1px solid #e54848;
         }
-        .btn-danger:hover:not(:disabled) { background: #e54848; color: #fff; }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #e54848;
+            color: #fff;
+        }
+
+        /* AREDL SETTINGS */
+
+        .aredl-settings {
+            display: none;
+            width: 100%;
+            max-width: 520px;
+            padding: 20px;
+            border: 1px solid rgba(229,72,72,0.25);
+            border-radius: 13px;
+            background: rgba(20,20,20,0.75);
+            gap: 18px;
+        }
+
+        .aredl-settings.visible { display: flex; flex-direction: column; }
+
+        .setting-block {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .setting-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-heading label {
+            color: #ddd;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .setting-value {
+            color: #ff6262;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #e54848;
+            cursor: pointer;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .number-input {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #444;
+            border-radius: 9px;
+            outline: none;
+            background: #191919;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .number-input:focus { border-color: #e54848; }
+
+        .setting-note {
+            color: #777;
+            font-size: 0.68rem;
+            line-height: 1.6;
+        }
+
+        .api-status {
+            color: #888;
+            font-size: 0.72rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .api-status.error { color: #ff6262; }
+        .api-status.ok { color: #00e676; }
+
+        /* HISTORY */
 
         .history {
             display: flex;
@@ -266,8 +692,10 @@
             max-height: 280px;
             overflow-y: auto;
         }
+
         .history::-webkit-scrollbar { width: 5px; }
         .history::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+
         .history-item {
             display: flex;
             align-items: center;
@@ -278,6 +706,7 @@
             border-radius: 8px;
             font-size: 0.82rem;
         }
+
         .history-item img {
             width: 42px;
             height: 26px;
@@ -287,705 +716,58 @@
             flex-shrink: 0;
             background: #252525;
         }
+
         .history-item .round { color: #888; font-weight: 700; min-width: 40px; }
         .history-item .lvl { color: #f0f0f0; font-weight: 600; flex: 1; }
-        .history-item .pct { font-weight: 800; }
+        .history-item .pct { font-weight: 800; white-space: nowrap; }
         .history-item.success .pct { color: #00e676; }
         .history-item.skip .pct { color: #ffc107; }
         .history-item.fail .pct { color: #ff5555; }
-        .vuoto { text-align: center; color: #666; font-size: 0.85rem; padding: 20px; }
 
-        footer {
-            position: relative; z-index: 2; text-align: center; color: #666;
-            font-size: 0.75rem; letter-spacing: 1px; padding: 25px 10px 35px;
-        }
-        @media (max-width: 900px) {
-            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
-        }
-        @media (max-width: 700px) {
-            .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
-            main { padding-top: 30px; }
-            .torna-indietro { margin: 0 0 12px 10px; }
-            .navigation-badges { gap: 8px; margin-bottom: 20px; }
-            .badge-link { padding: 6px 12px; font-size: 0.68rem; }
-            .testo-illuminato { letter-spacing: -0.8px; }
-            .sottotitolo { letter-spacing: 1px; }
-            .contenuto { width: 95%; margin-top: 28px; }
-            .scheda { padding: 16px 14px; }
-        }
-.badge-emoji {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    font-size: 0.85rem;
-    border-radius: 5px;
-    border: 1px solid #555;
-    background: #252525;
-}
-    </style>
-</head>
-<body>
-    <div class="barra-sinistra" aria-hidden="true"></div>
-    <div class="barra-destra" aria-hidden="true"></div>
-    <main>
-        <a href="index.html" class="badge-link torna-indietro">
-            <span>&lt; Back to the list</span>
-        </a>
-        <nav class="navigation-badges">
-            <div class="dropdown-container">
-                <a class="badge-link">
-                    <img src="players.png" alt="Players">
-                    <span>Players</span>
-                    <span class="arrow">&gt;</span>
-                </a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
-                        <a href="leaderboard.html" class="dropdown-item">
-                            <img src="lb.png" alt="Leaderboard"><span>Leaderboard</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <a class="badge-link">
-                    <img src="games.png" alt="Games">
-                    <span>Games</span>
-                    <span class="arrow">&gt;</span>
-                </a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-content">
-                        <a href="horse.html" class="dropdown-item">
-                            <img src="horse.png" alt="H.O.R.S.E."><span>H.O.R.S.E.</span>
-                        </a>
-                        <a href="thedemonwheel.html" class="dropdown-item">
-                            <img src="tdw.png" alt="The Demon Wheel"><span>The Demon Wheel</span>
-                        </a>
-                        <a href="roulette.html" class="dropdown-item">
-                            <img src="roulette.png" alt="Roulette"><span>Roulette</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <a href="announcements.html" class="badge-link">
-                <img src="announcements.png" alt="Announcements"><span>Announcements</span>
-            </a>
-<a href="community.html" class="badge-link">
-    <span class="badge-emoji" aria-hidden="true">💬</span>
-    <span>Community</span>
-</a>s
-        </nav>
-        <header>
-            <h1 class="testo-illuminato">Roulette</h1>
-            <p class="sottotitolo">+5% every round • Random level • 2 skips</p>
-            <div class="linea-titolo"></div>
-        </header>
-
-        <section class="contenuto">
-            <article class="scheda">
-                <h2>How it works</h2>
-                <ul>
-                    <li>Every round the target percentage increases by <strong>+5%</strong>.</li>
-                    <li>The level is always <strong>random</strong>.</li>
-                    <li>You have only <strong>2 skips</strong> for the entire run.</li>
-                    <li>Fail a percentage with no skips left → run ends.</li>
-                    <li>Reach 100% to win the run.</li>
-                </ul>
-            </article>
-
-            <article class="scheda">
-                <h2>Current Run</h2>
-                <div class="game-area">
-                    <div class="stats-row">
-                        <div class="stat-box">
-                            <div class="value" id="roundNum">0</div>
-                            <div class="label">ROUND</div>
-                        </div>
-                        <div class="stat-box highlight">
-                            <div class="value" id="currentPct">0%</div>
-                            <div class="label">TARGET</div>
-                        </div>
-                        <div class="stat-box skips">
-                            <div class="value" id="skipsLeft">2</div>
-                            <div class="label">SKIPS LEFT</div>
-                        </div>
-                    </div>
-
-                    <div class="current-challenge" id="challengeBox">
-                        <img class="level-img" id="levelImg" src="" alt="" style="display:none;">
-                        <div class="level-name" id="levelName">—</div>
-                        <div class="target-pct" id="targetDisplay">—</div>
-                        <div class="target-label">GET THIS %</div>
-                    </div>
-
-                    <div class="actions" id="actions">
-                        <button class="btn btn-primary" id="startBtn" onclick="startRun()">START RUN</button>
-                    </div>
-                </div>
-            </article>
-
-            <article class="scheda">
-                <h2>History</h2>
-                <div class="history" id="history">
-                    <div class="vuoto">No rounds yet.</div>
-                </div>
-            </article>
-        </section>
-    </main>
-    <footer>G_S demon list</footer>
-
-    <script>
-        const LEVELS = [
-            { name: "Bloodbath", img: "bloodbath.png" },
-            { name: "Future Funk II", img: "futurefunk2.png" },
-            { name: "Magma Bound", img: "magmabound.png" },
-            { name: "CraZy II", img: "crazyii.png" },
-            { name: "Sonic Wave Universe", img: "swu.png" },
-            { name: "Death Note", img: "deathnote.png" },
-            { name: "Stalemate", img: "stalemate.png" },
-            { name: "Jawbreaker", img: "jawbreaker.png" },
-            { name: "Future Funk", img: "futurefunk.png" },
-            { name: "CraZy", img: "crazy.png" },
-            { name: "Megalovania", img: "megalovania.png" },
-            { name: "Nine Circles", img: "ninecircles.png" },
-            { name: "Troll Madness", img: "trollmadness.png" },
-            { name: "HeLL", img: "hell.png" },
-            { name: "Phobros", img: "phobros.png" },
-            { name: "Cycles v2 s", img: "cyclesv2s.png" },
-            { name: "Sakupen Egg", img: "sakupenegg.png" },
-            { name: "Mechanical Showdown", img: "mechanicalshowdown.png" },
-            { name: "Skeletal Shenanigans", img: "ss.png" },
-            { name: "VeritY", img: "verity.png" }
-        ];
-
-        let runActive = false;
-        let round = 0;
-        let targetPct = 0;
-        let skips = 2;
-        let currentLevel = null;
-        let history = [];
-
-        function randomLevel() {
-            return LEVELS[Math.floor(Math.random() * LEVELS.length)];
-        }
-
-        function updateUI() {
-            document.getElementById("roundNum").textContent = round;
-            document.getElementById("currentPct").textContent = targetPct + "%";
-            document.getElementById("skipsLeft").textContent = skips;
-
-            const nameEl = document.getElementById("levelName");
-            const imgEl = document.getElementById("levelImg");
-            const targetEl = document.getElementById("targetDisplay");
-
-            if (currentLevel) {
-                nameEl.textContent = currentLevel.name;
-                imgEl.src = currentLevel.img;
-                imgEl.alt = currentLevel.name;
-                imgEl.style.display = "inline-block";
-                targetEl.textContent = targetPct + "%";
-            } else {
-                nameEl.textContent = "—";
-                imgEl.style.display = "none";
-                targetEl.textContent = "—";
-            }
-
-            const box = document.getElementById("challengeBox");
-            box.classList.toggle("done", targetPct >= 100);
-
-            const hist = document.getElementById("history");
-            if (history.length === 0) {
-                hist.innerHTML = '<div class="vuoto">No rounds yet.</div>';
-            } else {
-                hist.innerHTML = history.map(h => `
-                    <div class="history-item ${h.result}">
-                        <img src="${h.img}" alt="${h.level}" onerror="this.style.display='none'">
-                        <span class="round">R${h.round}</span>
-                        <span class="lvl">${h.level}</span>
-                        <span class="pct">${h.pct}% • ${h.result.toUpperCase()}</span>
-                    </div>
-                `).join("");
-            }
-        }
-
-        function setActions(html) {
-            document.getElementById("actions").innerHTML = html;
-        }
-
-        function startRun() {
-            runActive = true;
-            round = 0;
-            targetPct = 0;
-            skips = 2;
-            history = [];
-            nextRound();
-        }
-
-        function nextRound() {
-            round++;
-            targetPct = Math.min(targetPct + 5, 100);
-            currentLevel = randomLevel();
-            updateUI();
-
-            setActions(`
-                <button class="btn btn-success" onclick="success()">I GOT IT</button>
-                <button class="btn btn-warning" onclick="useSkip()" ${skips <= 0 ? "disabled" : ""}>SKIP (${skips} left)</button>
-                <button class="btn btn-danger" onclick="fail()">FAILED</button>
-            `);
-        }
-
-        function success() {
-            history.unshift({
-                round: round,
-                level: currentLevel.name,
-                img: currentLevel.img,
-                pct: targetPct,
-                result: "success"
-            });
-
-            if (targetPct >= 100) {
-                updateUI();
-                setActions(`
-                    <div style="color:#00e676;font-weight:800;font-size:1.1rem;margin-bottom:10px;">🎉 YOU WON THE RUN!</div>
-                    <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
-                `);
-                runActive = false;
-                return;
-            }
-
-            nextRound();
-        }
-
-        function useSkip() {
-            if (skips <= 0) return;
-            skips--;
-            history.unshift({
-                round: round,
-                level: currentLevel.name,
-                img: currentLevel.img,
-                pct: targetPct,
-                result: "skip"
-            });
-            nextRound();
-        }
-
-        function fail() {
-            history.unshift({
-                round: round,
-                level: currentLevel.name,
-                img: currentLevel.img,
-                pct: targetPct,
-                result: "fail"
-            });
-            updateUI();
-            setActions(`
-                <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;">💀 RUN OVER</div>
-                <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
-            `);
-            runActive = false;
-        }
-
-        updateUI();
-    </script>
-</body>
-</html> 
-\end{analysis} 
-Ho mantenuto la modalità normale con le sue regole originali. La modalità AREDL è separata: usa i livelli caricati dall'API AREDL, permette di impostare il target dall'1% al 100% e scegliere gli skip prima di iniziare.<CodeBlock language="html" editable>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette - G_S demon list</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background: #1e1e1e; scroll-behavior: smooth; }
-        body {
-            min-height: 100vh;
-            background: #1e1e1e;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            position: relative;
-        }
-        .barra-sinistra, .barra-destra {
-            position: absolute; top: 0; bottom: 0; width: 30vw; min-height: 100%;
-            background-image: url("./miguel.png");
-            background-repeat: repeat-y; background-size: 100% auto; background-position: top center;
-            opacity: 0.75; pointer-events: none; z-index: 0;
-        }
-        .barra-sinistra { left: 0; }
-        .barra-destra { right: 0; transform: scaleX(-1); }
-        main { position: relative; z-index: 1; min-height: 100vh; padding: 35px 0 90px; }
-
-        .navigation-badges {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: min(900px, 88%); margin: 0 auto 25px; flex-wrap: wrap; position: relative; z-index: 10;
-        }
-        .dropdown-container { position: relative; display: inline-block; }
-        .badge-link {
-            display: inline-flex; align-items: center; gap: 10px; padding: 9px 18px;
-            background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b; border-left: 3px solid #e85a5a;
-            border-radius: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-            text-decoration: none; color: #f5f5f5; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
-            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
-            cursor: pointer;
-        }
-        .badge-link:hover {
-            transform: translateY(-2px); background: rgba(42, 42, 42, 0.99); border-color: #555;
-            border-left-color: #ff5555; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-        }
-        .badge-link img {
-            width: 24px; height: 24px; object-fit: cover; border-radius: 5px; border: 1px solid #555;
-            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
-        }
-        .badge-link:hover img { filter: brightness(1.2); transform: scale(1.05); }
-        .torna-indietro { position: absolute; top: 35px; left: 24px; z-index: 20; }
-        .arrow {
-            font-size: 0.75rem; font-weight: 800; color: #999;
-            transition: transform 0.25s ease, color 0.25s ease; display: inline-block;
-        }
-        .dropdown-container:hover .arrow { transform: rotate(90deg); color: #ff5555; }
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 50%; padding-top: 10px; min-width: 175px; z-index: 100;
-            opacity: 0; visibility: hidden; pointer-events: none;
-            transform: translateX(-50%) translateY(-12px) scale(0.96); transform-origin: top center;
-            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.3s;
-        }
-        .dropdown-container:hover .dropdown-menu {
-            opacity: 1; visibility: visible; pointer-events: auto;
-            transform: translateX(-50%) translateY(0) scale(1);
-            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0s;
-        }
-        .dropdown-content {
-            background: rgba(28, 28, 28, 0.98); border: 1px solid #3b3b3b; border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); padding: 8px 0; display: flex; flex-direction: column;
-        }
-        .dropdown-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #f5f5f5;
-            text-decoration: none; font-size: 0.78rem; font-weight: 700;
-            opacity: 0; transform: translateX(-12px);
-            transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
-        }
-        .dropdown-container:hover .dropdown-item {
-            opacity: 1; transform: translateX(0);
-            transition: background 0.2s ease, color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
-        }
-        .dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: 0s, 0s, 0.06s, 0.06s; }
-        .dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: 0s, 0s, 0.12s, 0.12s; }
-        .dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: 0s, 0s, 0.18s, 0.18s; }
-        .dropdown-item:hover { background: rgba(229, 72, 72, 0.15); color: #ff5555; }
-        .dropdown-item img {
-            width: 22px; height: 22px; object-fit: cover; border-radius: 4px; border: 1px solid #555;
-            background: #252525; transition: filter 0.2s ease, transform 0.2s ease;
-        }
-        .dropdown-item:hover img { filter: brightness(1.2); transform: scale(1.05); }
-
-        header { text-align: center; padding: 0 15px; }
-        .testo-illuminato {
-            color: #fff; font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 800;
-            letter-spacing: -1.5px; text-shadow: 0 0 25px rgba(255, 255, 255, 0.13);
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 25px rgba(255, 255, 255, 0.13); }
-            to { text-shadow: 0 0 35px rgba(229, 72, 72, 0.35); }
-        }
-        .sottotitolo {
-            margin-top: 14px; color: #999; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-            font-weight: 500; letter-spacing: 2.5px; line-height: 1.8;
-        }
-        .linea-titolo {
-            width: 75px; height: 3px; margin: 22px auto 0; border-radius: 10px;
-            background: #e54848; box-shadow: 0 0 14px rgba(229, 72, 72, 0.45);
-            animation: linePulse 2s ease-in-out infinite;
-        }
-        @keyframes linePulse {
-            0%, 100% { width: 75px; opacity: 1; }
-            50% { width: 95px; opacity: 0.8; }
-        }
-
-        .contenuto {
-            position: relative; z-index: 2; width: min(900px, 88%); margin: 40px auto 0;
-            display: flex; flex-direction: column; gap: 14px;
-        }
-        .scheda {
-            padding: 24px 26px; background: rgba(32, 32, 32, 0.97); border: 1px solid #3b3b3b;
-            border-left: 4px solid #d94343; border-radius: 10px; box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
-            animation: fadeUp 0.5s ease both;
-        }
-        .scheda:nth-child(1) { animation-delay: 0.05s; }
-        .scheda:nth-child(2) { animation-delay: 0.12s; }
-        .scheda:nth-child(3) { animation-delay: 0.19s; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .scheda h2 { color: #f5f5f5; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
-        .scheda p { color: #999; font-size: 0.85rem; line-height: 1.7; margin-bottom: 10px; }
-        .scheda ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-        .scheda li {
-            color: #999; font-size: 0.85rem; line-height: 1.6; padding-left: 18px; position: relative;
-        }
-        .scheda li::before {
-            content: ""; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px;
-            border-radius: 50%; background: #e54848; box-shadow: 0 0 8px rgba(229, 72, 72, 0.5);
-        }
-        .scheda li strong { color: #f5f5f5; }
-
-        .mode-switch {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 0 auto 20px;
-        }
-        .mode-btn {
-            min-width: 170px;
-            padding: 13px 22px;
-            border-radius: 22px;
-            border: 1px solid #444;
-            background: #252525;
+        .history-item .rank {
             color: #aaa;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-        .mode-btn:hover { transform: translateY(-2px); border-color: #777; color: #fff; }
-        .mode-btn.active {
-            color: #fff;
-            background: rgba(229, 72, 72, 0.18);
-            border-color: #e54848;
-            box-shadow: 0 0 18px rgba(229, 72, 72, 0.15);
-        }
-        .mode-btn.aredl.active {
-            background: rgba(0, 190, 255, 0.13);
-            border-color: #00bfff;
-            box-shadow: 0 0 18px rgba(0, 190, 255, 0.15);
+            font-size: 0.7rem;
+            font-weight: 700;
         }
 
-        .config-panel {
-            display: none;
-            width: 100%;
-            max-width: 620px;
+        .vuoto {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
             padding: 20px;
-            border: 1px solid rgba(0, 191, 255, 0.3);
-            border-radius: 14px;
-            background: rgba(0, 160, 220, 0.055);
-            gap: 18px;
         }
-        .config-panel.visible { display: grid; }
-        .config-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .config-label {
-            color: #ddd;
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-        .config-value {
-            color: #00bfff;
-            font-size: 1.15rem;
-            font-weight: 800;
-            min-width: 55px;
-            text-align: right;
-        }
-        .config-panel input[type="range"] {
-            width: 100%;
-            accent-color: #00bfff;
-            cursor: pointer;
-        }
-        .config-panel select {
-            min-width: 100px;
-            padding: 9px 13px;
-            color: #fff;
-            background: #252525;
-            border: 1px solid #444;
-            border-radius: 9px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            outline: none;
-        }
-        .config-note {
-            color: #777;
-            font-size: 0.72rem;
-            line-height: 1.6;
-        }
-        .aredl-status {
-            color: #00bfff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .game-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 22px;
-            padding: 10px 0;
-        }
-        .stats-row {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-        }
-        .stat-box {
-            background: rgba(25, 25, 25, 0.9);
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            padding: 14px 22px;
-            text-align: center;
-            min-width: 110px;
-        }
-        .stat-box .value { font-size: 1.6rem; font-weight: 800; color: #fff; }
-        .stat-box .label {
-            font-size: 0.65rem; font-weight: 700; letter-spacing: 1px;
-            color: #888; margin-top: 4px;
-        }
-        .stat-box.highlight .value { color: #e54848; }
-        .stat-box.skips .value { color: #ffc107; }
-        .aredl-stats .stat-box.highlight .value { color: #00bfff; }
-
-        .current-challenge {
-            width: 100%;
-            max-width: 420px;
-            background: rgba(229, 72, 72, 0.08);
-            border: 1px solid rgba(229, 72, 72, 0.3);
-            border-radius: 14px;
-            padding: 28px 24px;
-            text-align: center;
-            animation: fadeUp 0.4s ease;
-        }
-        .current-challenge.aredl-challenge {
-            background: rgba(0, 160, 220, 0.07);
-            border-color: rgba(0, 191, 255, 0.35);
-        }
-        .current-challenge .level-img {
-            width: 120px; height: 72px; object-fit: cover; border-radius: 10px;
-            border: 2px solid #555; margin-bottom: 14px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4); background: #252525;
-        }
-        .current-challenge .level-name {
-            font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px;
-        }
-        .current-challenge .target-pct {
-            font-size: 2.8rem; font-weight: 800; color: #e54848;
-            text-shadow: 0 0 25px rgba(229, 72, 72, 0.4); line-height: 1.1;
-        }
-        .current-challenge.aredl-challenge .target-pct {
-            color: #00bfff;
-            text-shadow: 0 0 25px rgba(0, 191, 255, 0.35);
-        }
-        .current-challenge .target-label {
-            font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
-            color: #999; margin-top: 6px;
-        }
-        .current-challenge .level-rank {
-            display: none;
-            margin-top: 12px;
-            color: #00bfff;
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-        .current-challenge.done {
-            border-color: rgba(0, 230, 118, 0.4);
-            background: rgba(0, 230, 118, 0.08);
-        }
-        .current-challenge.done .target-pct {
-            color: #00e676;
-            text-shadow: 0 0 25px rgba(0,230,118,0.4);
-        }
-
-        .actions {
-            display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-        }
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 12px 24px; border: none; border-radius: 20px;
-            font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700;
-            cursor: pointer; transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-        }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-        .btn-primary {
-            background: #e54848; color: #fff;
-            box-shadow: 0 4px 12px rgba(229, 72, 72, 0.3);
-        }
-        .btn-primary:hover:not(:disabled) {
-            background: #ff5555; box-shadow: 0 6px 16px rgba(229, 72, 72, 0.4);
-        }
-        .btn-aredl {
-            background: #008fbd; color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
-        }
-        .btn-aredl:hover:not(:disabled) { background: #00aee8; }
-        .btn-success {
-            background: rgba(0, 230, 118, 0.15); color: #00e676;
-            border: 1px solid rgba(0, 230, 118, 0.4);
-        }
-        .btn-success:hover:not(:disabled) { background: rgba(0, 230, 118, 0.3); }
-        .btn-warning {
-            background: rgba(255, 193, 7, 0.12); color: #ffc107;
-            border: 1px solid rgba(255, 193, 7, 0.35);
-        }
-        .btn-warning:hover:not(:disabled) { background: rgba(255, 193, 7, 0.25); }
-        .btn-danger {
-            background: rgba(229, 72, 72, 0.15); color: #ff5555; border: 1px solid #e54848;
-        }
-        .btn-danger:hover:not(:disabled) { background: #e54848; color: #fff; }
-
-        .history {
-            display: flex; flex-direction: column; gap: 8px;
-            max-height: 280px; overflow-y: auto;
-        }
-        .history::-webkit-scrollbar { width: 5px; }
-        .history::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
-        .history-item {
-            display: flex; align-items: center; gap: 12px; padding: 10px 14px;
-            background: rgba(25,25,25,0.9); border: 1px solid #333;
-            border-radius: 8px; font-size: 0.82rem;
-        }
-        .history-item img {
-            width: 42px; height: 26px; object-fit: cover; border-radius: 4px;
-            border: 1px solid #444; flex-shrink: 0; background: #252525;
-        }
-        .history-item .round { color: #888; font-weight: 700; min-width: 40px; }
-        .history-item .lvl { color: #f0f0f0; font-weight: 600; flex: 1; }
-        .history-item .pct { font-weight: 800; }
-        .history-item.success .pct { color: #00e676; }
-        .history-item.skip .pct { color: #ffc107; }
-        .history-item.fail .pct { color: #ff5555; }
-        .vuoto { text-align: center; color: #666; font-size: 0.85rem; padding: 20px; }
 
         footer {
-            position: relative; z-index: 2; text-align: center; color: #666;
-            font-size: 0.75rem; letter-spacing: 1px; padding: 25px 10px 35px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #666;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 25px 10px 35px;
         }
+
         .badge-emoji {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 24px; height: 24px; font-size: 0.85rem;
-            border-radius: 5px; border: 1px solid #555; background: #252525;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
         }
 
         @media (max-width: 900px) {
-            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
+            .torna-indietro {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 0 0 14px 14px;
+            }
         }
+
         @media (max-width: 700px) {
             .barra-sinistra, .barra-destra { width: 22vw; opacity: 0.45; }
             main { padding-top: 30px; }
@@ -996,8 +778,23 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
             .sottotitolo { letter-spacing: 1px; }
             .contenuto { width: 95%; margin-top: 28px; }
             .scheda { padding: 16px 14px; }
-            .mode-btn { min-width: 145px; padding: 11px 15px; }
-            .config-panel { padding: 15px; }
+            .mode-selector { width: 95%; gap: 9px; }
+            .mode-card { padding: 13px 10px; gap: 9px; }
+            .mode-icon { width: 34px; height: 34px; font-size: 1rem; }
+            .mode-text strong { font-size: 0.75rem; }
+            .mode-text span { font-size: 0.58rem; }
+            .mode-check { width: 17px; height: 17px; }
+            .stat-box { min-width: 90px; padding: 12px 15px; }
+            .stat-box .value { font-size: 1.35rem; }
+            .current-challenge { padding: 22px 15px; }
+            .current-challenge .level-name { font-size: 1.2rem; }
+            .current-challenge .target-pct { font-size: 2.3rem; }
+            .history-item { gap: 7px; padding: 9px; font-size: 0.7rem; }
+        }
+
+        @media (max-width: 390px) {
+            .mode-selector { grid-template-columns: 1fr; }
+            .mode-card { padding: 12px 15px; }
         }
     </style>
 </head>
@@ -1065,55 +862,31 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
             <div class="linea-titolo"></div>
         </header>
 
+        <!-- LE DUE MODALITÀ SONO AFFIANCATE -->
+        <section class="mode-selector">
+            <button class="mode-card active" id="normalModeBtn" onclick="switchMode('normal')">
+                <span class="mode-icon">🎲</span>
+                <span class="mode-text">
+                    <strong>Normal Wheel</strong>
+                    <span>Your personal demon list</span>
+                </span>
+                <span class="mode-check">✓</span>
+            </button>
+
+            <button class="mode-card" id="aredlModeBtn" onclick="switchMode('aredl')">
+                <span class="mode-icon">🏆</span>
+                <span class="mode-text">
+                    <strong>AREDL Wheel</strong>
+                    <span>Levels from the AREDL</span>
+                </span>
+                <span class="mode-check">✓</span>
+            </button>
+        </section>
+
         <section class="contenuto">
 
-            <article class="scheda">
-                <h2>Choose your roulette</h2>
-                <div class="mode-switch">
-                    <button class="mode-btn active" id="normalModeBtn" onclick="switchMode('normal')">
-                        NORMAL WHEEL
-                    </button>
-                    <button class="mode-btn aredl" id="aredlModeBtn" onclick="switchMode('aredl')">
-                        AREDL WHEEL
-                    </button>
-                </div>
-
-                <div class="config-panel" id="aredlConfig">
-                    <div class="config-row">
-                        <span class="config-label">Target percentage</span>
-                        <span class="config-value" id="percentageValue">1%</span>
-                    </div>
-                    <input type="range" id="percentageSlider" min="1" max="100" step="1" value="1"
-                           oninput="updatePercentageLabel()">
-
-                    <div class="config-row">
-                        <span class="config-label">Number of skips</span>
-                        <select id="skipSelector">
-                            <option value="0">0 skips</option>
-                            <option value="1">1 skip</option>
-                            <option value="2" selected>2 skips</option>
-                            <option value="3">3 skips</option>
-                            <option value="4">4 skips</option>
-                            <option value="5">5 skips</option>
-                            <option value="6">6 skips</option>
-                            <option value="7">7 skips</option>
-                            <option value="8">8 skips</option>
-                            <option value="9">9 skips</option>
-                            <option value="10">10 skips</option>
-                            <option value="15">15 skips</option>
-                            <option value="20">20 skips</option>
-                        </select>
-                    </div>
-                    <p class="config-note">
-                        Choose the percentage you want to achieve and how many skips you want for the run.
-                        The selected percentage stays the same for every AREDL level.
-                    </p>
-                    <div class="aredl-status" id="aredlStatus">AREDL levels will be loaded when you start.</div>
-                </div>
-            </article>
-
             <article class="scheda" id="instructionsCard">
-                <h2>How it works</h2>
+                <h2 id="instructionsTitle">How it works</h2>
                 <ul id="instructionsList">
                     <li>Every round the target percentage increases by <strong>+5%</strong>.</li>
                     <li>The level is always <strong>random</strong>.</li>
@@ -1123,19 +896,82 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
                 </ul>
             </article>
 
-            <article class="scheda">
-                <h2>Current Run</h2>
-                <div class="game-area">
+            <!-- AREDL SETTINGS -->
+            <article class="scheda" id="aredlSettingsCard" style="display:none;">
+                <h2>AREDL Settings</h2>
 
-                    <div class="stats-row" id="statsRow">
+                <div class="game-area">
+                    <div class="aredl-settings visible">
+                        <div class="setting-block">
+                            <div class="setting-heading">
+                                <label for="aredlPercentage">TARGET PERCENTAGE</label>
+                                <span class="setting-value" id="percentageValue">50%</span>
+                            </div>
+
+                            <input
+                                type="range"
+                                id="aredlPercentage"
+                                min="1"
+                                max="100"
+                                step="1"
+                                value="50"
+                                oninput="updatePercentageLabel()"
+                            >
+
+                            <div class="range-labels">
+                                <span>1%</span>
+                                <span>100%</span>
+                            </div>
+
+                            <p class="setting-note">
+                                Choose the percentage you want to reach on every selected AREDL level.
+                            </p>
+                        </div>
+
+                        <div class="setting-block">
+                            <div class="setting-heading">
+                                <label for="aredlSkips">NUMBER OF SKIPS</label>
+                                <span class="setting-value" id="skipSettingValue">2</span>
+                            </div>
+
+                            <input
+                                class="number-input"
+                                type="number"
+                                id="aredlSkips"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value="2"
+                                oninput="updateSkipLabel()"
+                            >
+
+                            <p class="setting-note">
+                                Choose how many levels you can skip during the run.
+                            </p>
+                        </div>
+
+                        <div class="api-status" id="aredlStatus">
+                            AREDL levels will be loaded when you start the mode.
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="scheda">
+                <h2 id="runTitle">Current Run</h2>
+
+                <div class="game-area">
+                    <div class="stats-row">
                         <div class="stat-box">
                             <div class="value" id="roundNum">0</div>
                             <div class="label">ROUND</div>
                         </div>
+
                         <div class="stat-box highlight">
                             <div class="value" id="currentPct">0%</div>
                             <div class="label">TARGET</div>
                         </div>
+
                         <div class="stat-box skips">
                             <div class="value" id="skipsLeft">2</div>
                             <div class="label">SKIPS LEFT</div>
@@ -1145,9 +981,9 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
                     <div class="current-challenge" id="challengeBox">
                         <img class="level-img" id="levelImg" src="" alt="" style="display:none;">
                         <div class="level-name" id="levelName">—</div>
+                        <div class="level-rank" id="levelRank" style="display:none;"></div>
                         <div class="target-pct" id="targetDisplay">—</div>
                         <div class="target-label">GET THIS %</div>
-                        <div class="level-rank" id="levelRank"></div>
                     </div>
 
                     <div class="actions" id="actions">
@@ -1168,9 +1004,9 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
     <footer>G_S demon list</footer>
 
     <script>
-        /* -------------------------------------------------------
-           NORMAL WHEEL - ORIGINAL LEVELS AND ORIGINAL BEHAVIOUR
-        ------------------------------------------------------- */
+        /* =====================================================
+           NORMAL WHEEL - ORIGINAL LEVELS AND GAMEPLAY
+        ===================================================== */
 
         const LEVELS = [
             { name: "Bloodbath", img: "bloodbath.png" },
@@ -1195,6 +1031,10 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
             { name: "VeritY", img: "verity.png" }
         ];
 
+        const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
+
+        let currentMode = "normal";
+
         let runActive = false;
         let round = 0;
         let targetPct = 0;
@@ -1202,94 +1042,182 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
         let currentLevel = null;
         let history = [];
 
-        /* -------------------------------------------------------
-           AREDL WHEEL
-        ------------------------------------------------------- */
-
-        const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
-
-        let currentMode = "normal";
         let aredlLevels = [];
         let aredlLoaded = false;
         let aredlLoading = false;
-        let aredlRound = 0;
-        let aredlTarget = 1;
-        let aredlSkips = 2;
-        let aredlCurrentLevel = null;
-        let aredlHistory = [];
-        let aredlRunActive = false;
+
+        function randomLevel() {
+            return LEVELS[Math.floor(Math.random() * LEVELS.length)];
+        }
+
+        function randomAredlLevel() {
+            if (!aredlLevels.length) return null;
+            return aredlLevels[Math.floor(Math.random() * aredlLevels.length)];
+        }
+
+        /* =====================================================
+           MODE SWITCHING
+        ===================================================== */
 
         function switchMode(mode) {
-            if (runActive || aredlRunActive) {
-                const confirmSwitch = confirm("Switching mode will end the current run. Continue?");
+            if (runActive) {
+                const confirmSwitch = confirm("Switching mode will end your current run. Continue?");
                 if (!confirmSwitch) return;
             }
 
             currentMode = mode;
             runActive = false;
-            aredlRunActive = false;
-
-            document.getElementById("normalModeBtn").classList.toggle("active", mode === "normal");
-            document.getElementById("aredlModeBtn").classList.toggle("active", mode === "aredl");
-            document.getElementById("aredlConfig").classList.toggle("visible", mode === "aredl");
-
-            const subtitle = document.getElementById("pageSubtitle");
-            const instructions = document.getElementById("instructionsList");
-            const challenge = document.getElementById("challengeBox");
-            const stats = document.getElementById("statsRow");
+            round = 0;
+            targetPct = 0;
+            currentLevel = null;
+            history = [];
 
             if (mode === "normal") {
-                subtitle.textContent = "+5% every round • Random level • 2 skips";
-                instructions.innerHTML = `
+                skips = 2;
+
+                document.getElementById("normalModeBtn").classList.add("active");
+                document.getElementById("aredlModeBtn").classList.remove("active");
+
+                document.getElementById("pageSubtitle").textContent =
+                    "+5% every round • Random level • 2 skips";
+
+                document.getElementById("instructionsTitle").textContent = "How it works";
+
+                document.getElementById("instructionsList").innerHTML = `
                     <li>Every round the target percentage increases by <strong>+5%</strong>.</li>
                     <li>The level is always <strong>random</strong>.</li>
                     <li>You have only <strong>2 skips</strong> for the entire run.</li>
                     <li>Fail a percentage with no skips left → run ends.</li>
                     <li>Reach 100% to win the run.</li>
                 `;
-                challenge.classList.remove("aredl-challenge");
-                stats.classList.remove("aredl-stats");
-                resetDisplay();
-                setActions('<button class="btn btn-primary" onclick="startRun()">START RUN</button>');
+
+                document.getElementById("aredlSettingsCard").style.display = "none";
+                document.getElementById("runTitle").textContent = "Current Run";
+
             } else {
-                subtitle.textContent = "AREDL levels • Custom percentage • Custom skips";
-                instructions.innerHTML = `
-                    <li>Levels are selected exclusively from the <strong>AREDL list</strong>.</li>
-                    <li>Choose your target percentage from <strong>1% to 100%</strong>.</li>
-                    <li>Choose how many <strong>skips</strong> you want before starting.</li>
-                    <li>The selected percentage remains the same throughout the run.</li>
-                    <li>Fail without having skips left → run ends.</li>
+                skips = getAredlSkipSetting();
+
+                document.getElementById("aredlModeBtn").classList.add("active");
+                document.getElementById("normalModeBtn").classList.remove("active");
+
+                document.getElementById("pageSubtitle").textContent =
+                    "AREDL levels • Custom percentage • Custom skips";
+
+                document.getElementById("instructionsTitle").textContent = "AREDL Wheel Rules";
+
+                document.getElementById("instructionsList").innerHTML = `
+                    <li>Levels are selected exclusively from the <strong>AREDL</strong>.</li>
+                    <li>You choose your target percentage from <strong>1% to 100%</strong>.</li>
+                    <li>You can decide how many <strong>skips</strong> you want before starting.</li>
+                    <li>Every new round selects a random AREDL level.</li>
+                    <li>Reach your target percentage to win the run.</li>
                 `;
-                challenge.classList.add("aredl-challenge");
-                stats.classList.add("aredl-stats");
-                resetDisplay();
-                setActions('<button class="btn btn-aredl" onclick="startAredlRun()">START AREDL RUN</button>');
-                renderAredlHistory();
+
+                document.getElementById("aredlSettingsCard").style.display = "block";
+                document.getElementById("runTitle").textContent = "AREDL Run";
+            }
+
+            updateUI();
+
+            setActions(`
+                <button class="btn btn-primary" onclick="startRun()">START RUN</button>
+            `);
+
+            if (mode === "aredl") {
+                loadAredlLevels();
             }
         }
 
+        /* =====================================================
+           AREDL API
+        ===================================================== */
+
+        async function loadAredlLevels() {
+            if (aredlLoaded || aredlLoading) return;
+
+            aredlLoading = true;
+
+            const status = document.getElementById("aredlStatus");
+            status.className = "api-status";
+            status.textContent = "Loading AREDL levels...";
+
+            try {
+                const response = await fetch(AREDL_API);
+
+                if (!response.ok) {
+                    throw new Error("API response: " + response.status);
+                }
+
+                const data = await response.json();
+
+                let levels = Array.isArray(data) ? data : (data.levels || data.data || []);
+
+                aredlLevels = levels
+                    .filter(level => level && level.name)
+                    .map(level => ({
+                        name: level.name,
+                        position: level.position ?? level.rank ?? null,
+                        id: level.id ?? null,
+                        img: level.thumbnail || level.image || null
+                    }));
+
+                if (!aredlLevels.length) {
+                    throw new Error("No levels found in the API response.");
+                }
+
+                aredlLoaded = true;
+
+                status.className = "api-status ok";
+                status.textContent = aredlLevels.length.toLocaleString() +
+                    " AREDL levels loaded successfully.";
+
+            } catch (error) {
+                console.error("AREDL loading error:", error);
+
+                status.className = "api-status error";
+                status.textContent =
+                    "Could not load AREDL levels. Check your connection and try again.";
+
+            } finally {
+                aredlLoading = false;
+            }
+        }
+
+        /* =====================================================
+           AREDL SETTINGS
+        ===================================================== */
+
         function updatePercentageLabel() {
-            document.getElementById("percentageValue").textContent =
-                document.getElementById("percentageSlider").value + "%";
+            const value = document.getElementById("aredlPercentage").value;
+            document.getElementById("percentageValue").textContent = value + "%";
         }
 
-        function resetDisplay() {
-            document.getElementById("roundNum").textContent = "0";
-            document.getElementById("currentPct").textContent = "0%";
-            document.getElementById("skipsLeft").textContent = currentMode === "normal" ? "2" : "0";
-            document.getElementById("levelName").textContent = "—";
-            document.getElementById("targetDisplay").textContent = "—";
-            document.getElementById("levelImg").style.display = "none";
-            document.getElementById("levelRank").style.display = "none";
-            document.getElementById("challengeBox").classList.remove("done");
-            document.getElementById("history").innerHTML = '<div class="vuoto">No rounds yet.</div>';
+        function updateSkipLabel() {
+            const input = document.getElementById("aredlSkips");
+            let value = parseInt(input.value, 10);
+
+            if (Number.isNaN(value)) value = 0;
+            value = Math.max(0, Math.min(100, value));
+
+            document.getElementById("skipSettingValue").textContent = value;
         }
 
-        function randomLevel() {
-            return LEVELS[Math.floor(Math.random() * LEVELS.length)];
+        function getAredlSkipSetting() {
+            const input = document.getElementById("aredlSkips");
+            let value = parseInt(input.value, 10);
+
+            if (Number.isNaN(value)) value = 0;
+
+            return Math.max(0, Math.min(100, value));
         }
 
-        /* ORIGINAL NORMAL WHEEL UI */
+        function getAredlPercentage() {
+            return parseInt(document.getElementById("aredlPercentage").value, 10) || 1;
+        }
+
+        /* =====================================================
+           USER INTERFACE
+        ===================================================== */
 
         function updateUI() {
             document.getElementById("roundNum").textContent = round;
@@ -1298,85 +1226,166 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
 
             const nameEl = document.getElementById("levelName");
             const imgEl = document.getElementById("levelImg");
+            const rankEl = document.getElementById("levelRank");
             const targetEl = document.getElementById("targetDisplay");
 
             if (currentLevel) {
                 nameEl.textContent = currentLevel.name;
-                imgEl.src = currentLevel.img;
-                imgEl.alt = currentLevel.name;
-                imgEl.style.display = "inline-block";
+
+                if (currentLevel.img) {
+                    imgEl.src = currentLevel.img;
+                    imgEl.alt = currentLevel.name;
+                    imgEl.style.display = "inline-block";
+                } else {
+                    imgEl.style.display = "none";
+                }
+
+                if (currentMode === "aredl" && currentLevel.position !== null) {
+                    rankEl.textContent = "AREDL #" + Number(currentLevel.position).toLocaleString();
+                    rankEl.style.display = "block";
+                } else {
+                    rankEl.style.display = "none";
+                }
+
                 targetEl.textContent = targetPct + "%";
             } else {
                 nameEl.textContent = "—";
                 imgEl.style.display = "none";
+                rankEl.style.display = "none";
                 targetEl.textContent = "—";
             }
-
-            document.getElementById("levelRank").style.display = "none";
 
             const box = document.getElementById("challengeBox");
             box.classList.toggle("done", targetPct >= 100);
 
             const hist = document.getElementById("history");
+
             if (history.length === 0) {
                 hist.innerHTML = '<div class="vuoto">No rounds yet.</div>';
             } else {
                 hist.innerHTML = history.map(h => `
                     <div class="history-item ${h.result}">
-                        <img src="${h.img}" alt="${h.level}" onerror="this.style.display='none'">
+                        ${h.img ? `<img src="${h.img}" alt="${h.level}" onerror="this.style.display='none'">` : ""}
                         <span class="round">R${h.round}</span>
-                        <span class="lvl">${h.level}</span>
+                        <span class="lvl">${escapeHTML(h.level)}</span>
+                        ${h.rank ? `<span class="rank">#${Number(h.rank).toLocaleString()}</span>` : ""}
                         <span class="pct">${h.pct}% • ${h.result.toUpperCase()}</span>
                     </div>
                 `).join("");
             }
         }
 
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[char]);
+        }
+
         function setActions(html) {
             document.getElementById("actions").innerHTML = html;
         }
 
-        /* ORIGINAL NORMAL WHEEL FUNCTIONS */
+        /* =====================================================
+           START RUN
+        ===================================================== */
 
-        function startRun() {
-            currentMode = "normal";
+        async function startRun() {
+            if (currentMode === "aredl") {
+                if (!aredlLoaded) {
+                    await loadAredlLevels();
+
+                    if (!aredlLoaded) {
+                        setActions(`
+                            <button class="btn btn-primary" onclick="startRun()">TRY AGAIN</button>
+                        `);
+                        return;
+                    }
+                }
+
+                if (!aredlLevels.length) return;
+
+                skips = getAredlSkipSetting();
+                targetPct = getAredlPercentage();
+
+            } else {
+                skips = 2;
+                targetPct = 0;
+            }
+
             runActive = true;
             round = 0;
-            targetPct = 0;
-            skips = 2;
             history = [];
+
             nextRound();
         }
 
+        /* =====================================================
+           NEXT ROUND
+        ===================================================== */
+
         function nextRound() {
             round++;
-            targetPct = Math.min(targetPct + 5, 100);
-            currentLevel = randomLevel();
+
+            if (currentMode === "normal") {
+                targetPct = Math.min(targetPct + 5, 100);
+                currentLevel = randomLevel();
+            } else {
+                currentLevel = randomAredlLevel();
+
+                if (!currentLevel) {
+                    runActive = false;
+                    setActions(`
+                        <div style="color:#ff5555;font-weight:800;margin-bottom:10px;">
+                            Could not select an AREDL level.
+                        </div>
+                        <button class="btn btn-primary" onclick="startRun()">TRY AGAIN</button>
+                    `);
+                    return;
+                }
+            }
+
             updateUI();
 
             setActions(`
                 <button class="btn btn-success" onclick="success()">I GOT IT</button>
-                <button class="btn btn-warning" onclick="useSkip()" ${skips <= 0 ? "disabled" : ""}>SKIP (${skips} left)</button>
+                <button class="btn btn-warning" onclick="useSkip()" ${skips <= 0 ? "disabled" : ""}>
+                    SKIP (${skips} left)
+                </button>
                 <button class="btn btn-danger" onclick="fail()">FAILED</button>
             `);
         }
 
-        function success() {
+        /* =====================================================
+           ROUND RESULTS
+        ===================================================== */
+
+        function addHistory(result) {
             history.unshift({
                 round: round,
                 level: currentLevel.name,
-                img: currentLevel.img,
+                img: currentLevel.img || "",
+                rank: currentMode === "aredl" ? currentLevel.position : null,
                 pct: targetPct,
-                result: "success"
+                result: result
             });
+        }
 
-            if (targetPct >= 100) {
-                updateUI();
-                setActions(`
-                    <div style="color:#00e676;font-weight:800;font-size:1.1rem;margin-bottom:10px;">🎉 YOU WON THE RUN!</div>
-                    <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
-                `);
-                runActive = false;
+        function success() {
+            if (!runActive || !currentLevel) return;
+
+            addHistory("success");
+
+            if (currentMode === "normal" && targetPct >= 100) {
+                finishRun(true);
+                return;
+            }
+
+            if (currentMode === "aredl") {
+                finishRun(true);
                 return;
             }
 
@@ -1384,286 +1393,44 @@ Ho mantenuto la modalità normale con le sue regole originali. La modalità ARED
         }
 
         function useSkip() {
-            if (skips <= 0) return;
+            if (!runActive || skips <= 0 || !currentLevel) return;
+
             skips--;
-            history.unshift({
-                round: round,
-                level: currentLevel.name,
-                img: currentLevel.img,
-                pct: targetPct,
-                result: "skip"
-            });
+            addHistory("skip");
             nextRound();
         }
 
         function fail() {
-            history.unshift({
-                round: round,
-                level: currentLevel.name,
-                img: currentLevel.img,
-                pct: targetPct,
-                result: "fail"
-            });
-            updateUI();
-            setActions(`
-                <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;">💀 RUN OVER</div>
-                <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
-            `);
+            if (!runActive || !currentLevel) return;
+
+            addHistory("fail");
+            finishRun(false);
+        }
+
+        function finishRun(won) {
             runActive = false;
-        }
+            updateUI();
 
-        /* -------------------------------------------------------
-           AREDL DATA LOADING
-        ------------------------------------------------------- */
-
-        async function loadAredlLevels() {
-            if (aredlLoaded) return aredlLevels;
-            if (aredlLoading) {
-                while (aredlLoading) {
-                    await new Promise(resolve => setTimeout(resolve, 150));
-                }
-                return aredlLevels;
-            }
-
-            aredlLoading = true;
-            const status = document.getElementById("aredlStatus");
-            status.textContent = "Loading AREDL levels...";
-
-            try {
-                const response = await fetch(AREDL_API, {
-                    method: "GET",
-                    headers: { "Accept": "application/json" }
-                });
-
-                if (!response.ok) {
-                    throw new Error("AREDL API returned HTTP " + response.status);
-                }
-
-                const data = await response.json();
-
-                let levels = [];
-                if (Array.isArray(data)) {
-                    levels = data;
-                } else if (Array.isArray(data.data)) {
-                    levels = data.data;
-                } else if (Array.isArray(data.levels)) {
-                    levels = data.levels;
-                } else if (Array.isArray(data.results)) {
-                    levels = data.results;
-                }
-
-                aredlLevels = levels
-                    .filter(level => level && level.name)
-                    .map(level => ({
-                        name: level.name,
-                        rank: level.position ?? level.rank ?? level.list_position ?? null,
-                        id: level.id ?? level.level_id ?? null,
-                        img: level.thumbnail_url || level.thumbnail || level.image_url || level.image || ""
-                    }));
-
-                if (!aredlLevels.length) {
-                    throw new Error("No levels were found in the API response.");
-                }
-
-                aredlLoaded = true;
-                status.textContent = aredlLevels.length + " AREDL levels loaded successfully.";
-                return aredlLevels;
-
-            } catch (error) {
-                console.error("AREDL loading error:", error);
-                status.textContent = "Could not load AREDL levels. Check your connection and try again.";
-                throw error;
-            } finally {
-                aredlLoading = false;
-            }
-        }
-
-        function randomAredlLevel() {
-            if (!aredlLevels.length) return null;
-            return aredlLevels[Math.floor(Math.random() * aredlLevels.length)];
-        }
-
-        /* -------------------------------------------------------
-           AREDL RUN
-        ------------------------------------------------------- */
-
-        async function startAredlRun() {
-            if (currentMode !== "aredl") return;
-
-            const startButton = document.querySelector("#actions button");
-            if (startButton) startButton.disabled = true;
-
-            try {
-                await loadAredlLevels();
-            } catch (error) {
-                setActions(`
-                    <button class="btn btn-aredl" onclick="startAredlRun()">TRY AGAIN</button>
-                `);
-                return;
-            }
-
-            aredlRunActive = true;
-            aredlRound = 0;
-            aredlTarget = Number(document.getElementById("percentageSlider").value);
-            aredlSkips = Number(document.getElementById("skipSelector").value);
-            aredlHistory = [];
-
-            nextAredlRound();
-        }
-
-        function updateAredlUI() {
-            document.getElementById("roundNum").textContent = aredlRound;
-            document.getElementById("currentPct").textContent = aredlTarget + "%";
-            document.getElementById("skipsLeft").textContent = aredlSkips;
-
-            const nameEl = document.getElementById("levelName");
-            const imgEl = document.getElementById("levelImg");
-            const targetEl = document.getElementById("targetDisplay");
-            const rankEl = document.getElementById("levelRank");
-
-            if (aredlCurrentLevel) {
-                nameEl.textContent = aredlCurrentLevel.name;
-                targetEl.textContent = aredlTarget + "%";
-
-                if (aredlCurrentLevel.img) {
-                    imgEl.src = aredlCurrentLevel.img;
-                    imgEl.alt = aredlCurrentLevel.name;
-                    imgEl.style.display = "inline-block";
-                    imgEl.onerror = function() { this.style.display = "none"; };
-                } else {
-                    imgEl.style.display = "none";
-                }
-
-                if (aredlCurrentLevel.rank !== null && aredlCurrentLevel.rank !== undefined) {
-                    rankEl.textContent = "AREDL #" + aredlCurrentLevel.rank;
-                    rankEl.style.display = "block";
-                } else {
-                    rankEl.style.display = "none";
-                }
-            } else {
-                nameEl.textContent = "—";
-                imgEl.style.display = "none";
-                targetEl.textContent = "—";
-                rankEl.style.display = "none";
-            }
-
-            document.getElementById("challengeBox").classList.remove("done");
-            renderAredlHistory();
-        }
-
-        function renderAredlHistory() {
-            const hist = document.getElementById("history");
-
-            if (!aredlHistory.length) {
-                hist.innerHTML = '<div class="vuoto">No rounds yet.</div>';
-                return;
-            }
-
-            hist.innerHTML = aredlHistory.map(item => `
-                <div class="history-item ${item.result}">
-                    ${item.img
-                        ? `<img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.level)}" onerror="this.style.display='none'">`
-                        : ""}
-                    <span class="round">R${item.round}</span>
-                    <span class="lvl">
-                        ${escapeHtml(item.level)}
-                        ${item.rank !== null && item.rank !== undefined ? `<span style="color:#00bfff;"> · #${item.rank}</span>` : ""}
-                    </span>
-                    <span class="pct">${item.pct}% • ${item.result.toUpperCase()}</span>
-                </div>
-            `).join("");
-        }
-
-        function escapeHtml(value) {
-            return String(value).replace(/[&<>"']/g, character => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#039;"
-            })[character]);
-        }
-
-        function nextAredlRound() {
-            if (!aredlRunActive) return;
-
-            aredlRound++;
-            aredlCurrentLevel = randomAredlLevel();
-
-            if (!aredlCurrentLevel) {
-                aredlRunActive = false;
-                setActions('<div style="color:#ff5555;font-weight:800;">No AREDL levels available.</div>');
-                return;
-            }
-
-            updateAredlUI();
-
-            setActions(`
-                <button class="btn btn-success" onclick="aredlSuccess()">I GOT IT</button>
-                <button class="btn btn-warning" onclick="aredlUseSkip()" ${aredlSkips <= 0 ? "disabled" : ""}>SKIP (${aredlSkips} left)</button>
-                <button class="btn btn-danger" onclick="aredlFail()">FAILED</button>
-            `);
-        }
-
-        function addAredlHistory(result) {
-            aredlHistory.unshift({
-                round: aredlRound,
-                level: aredlCurrentLevel.name,
-                img: aredlCurrentLevel.img,
-                rank: aredlCurrentLevel.rank,
-                pct: aredlTarget,
-                result: result
-            });
-        }
-
-        function aredlSuccess() {
-            if (!aredlRunActive || !aredlCurrentLevel) return;
-
-            addAredlHistory("success");
-
-            if (aredlTarget >= 100) {
-                updateAredlUI();
-                aredlRunActive = false;
-
+            if (won) {
                 setActions(`
                     <div style="color:#00e676;font-weight:800;font-size:1.1rem;margin-bottom:10px;">
-                        🎉 YOU WON THE AREDL RUN!
+                        🎉 ${currentMode === "aredl" ? "CHALLENGE COMPLETED!" : "YOU WON THE RUN!"}
                     </div>
-                    <button class="btn btn-aredl" onclick="startAredlRun()">NEW AREDL RUN</button>
+                    <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
                 `);
-                return;
+            } else {
+                setActions(`
+                    <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;">
+                        💀 RUN OVER
+                    </div>
+                    <button class="btn btn-primary" onclick="startRun()">NEW RUN</button>
+                `);
             }
-
-            nextAredlRound();
         }
 
-        function aredlUseSkip() {
-            if (!aredlRunActive || aredlSkips <= 0) return;
-
-            aredlSkips--;
-            addAredlHistory("skip");
-            nextAredlRound();
-        }
-
-        function aredlFail() {
-            if (!aredlRunActive || !aredlCurrentLevel) return;
-
-            addAredlHistory("fail");
-            updateAredlUI();
-            aredlRunActive = false;
-
-            setActions(`
-                <div style="color:#ff5555;font-weight:800;font-size:1.1rem;margin-bottom:10px;">
-                    💀 AREDL RUN OVER
-                </div>
-                <button class="btn btn-aredl" onclick="startAredlRun()">NEW AREDL RUN</button>
-            `);
-        }
-
-        /* INITIALIZATION */
+        /* INITIAL STATE */
 
         updateUI();
     </script>
 </body>
 </html>
-</CodeBlock>
