@@ -677,6 +677,30 @@ footer { animation: foot 5s ease-in-out infinite; }
 }
 .regola:hover::before, .sezione-extra:hover::before, .badge-link:hover::before, .dropdown-item:hover::before { opacity: 1; }
 
+/* ---------- SFONDO: bordo interno sfumato ---------- */
+.barra-sinistra, .barra-destra {
+    -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+}
+
+/* ---------- BACK TO THE LIST (verde, a sinistra) ---------- */
+@keyframes nudge-l { 50% { translate: -4px 0; } }
+.badge-link.badge-back {
+    position: absolute; top: 35px; left: 28px; z-index: 11;
+    border-left-color: #00e676;
+    animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards;
+}
+.badge-link.badge-back:hover { border-left-color: #69f0ae; box-shadow: 0 6px 18px rgba(0,230,118,.3); }
+.badge-link.badge-back::before {
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.2), transparent 70%);
+}
+.back-arrow { display: inline-block; color: #00e676; font-size: .95rem; font-weight: 800; animation: nudge-l 1.6s ease-in-out infinite; }
+.badge-back:hover .back-arrow { animation: none; transform: translateX(-5px); transition: transform .25s ease; }
+.badge-back:hover { color: #69f0ae; }
+@media (max-width: 1400px) {
+    .badge-link.badge-back { position: relative; top: auto; left: auto; display: flex; width: fit-content; margin: 0 auto 14px; }
+}
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -701,6 +725,11 @@ footer { animation: foot 5s ease-in-out infinite; }
 <div class="barra-destra" aria-hidden="true"></div>
 
 <main>
+
+    <a href="index.html" class="badge-link badge-back">
+        <span class="back-arrow">&larr;</span>
+        <span>Back to the list</span>
+    </a>
 
     <!-- NAVIGATION -->
 
