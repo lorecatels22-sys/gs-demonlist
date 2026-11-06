@@ -86,10 +86,93 @@ footer{width:min(900px,88%);margin:40px auto 0;text-align:center;color:#666;font
     border-radius: 5px;
     border: 1px solid #555;
     background: #252525;
-}s
+}s/* BACK TO THE LIST */
+
+.back-to-list {
+    position: fixed;
+    top: 22px;
+    left: 22px;
+    z-index: 1000;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 11px 17px;
+
+    color: #f5f5f5;
+    background: rgba(25, 25, 25, .92);
+
+    border: 1px solid #454545;
+    border-left: 3px solid #e54848;
+    border-radius: 12px;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .4px;
+
+    text-decoration: none;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.3);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition: all .25s ease;
+}
+
+.back-to-list .back-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    color: #ff6262;
+    background: rgba(229,72,72,.13);
+
+    border-radius: 7px;
+
+    font-size: 1.1rem;
+
+    transition: all .25s ease;
+}
+
+.back-to-list:hover {
+    transform: translateX(4px);
+    background: #292929;
+    border-color: #e54848;
+    box-shadow: 0 5px 22px rgba(229,72,72,.18);
+}
+
+.back-to-list:hover .back-arrow {
+    color: white;
+    background: #e54848;
+    transform: translateX(-3px);
+}
+
+@media (max-width: 600px) {
+    .back-to-list {
+        top: 12px;
+        left: 12px;
+        padding: 8px 11px;
+        font-size: .68rem;
+    }
+
+    .back-to-list .back-arrow {
+        width: 22px;
+        height: 22px;
+    }
+}
 </style>
 </head>
 <body>
+    <a href="./index.html" class="back-to-list">
+    <span class="back-arrow">←</span>
+    <span>BACK TO THE LIST</span>
+</a>
 <div class="barra-sinistra"></div><div class="barra-destra"></div>
 <div id="notifOverlay"></div>
 <div id="notifPopup"><h3>🔔 Attivare le notifiche?</h3><p>Vuoi ricevere una notifica di Windows per ogni nuovo announcement?</p><div class="notif-actions"><button class="btn-no" id="notifNo">Non ora</button><button class="btn-yes" id="notifYes">Sì, attiva</button></div></div>
