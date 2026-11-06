@@ -67,24 +67,25 @@
             padding: 35px 0 90px;
         }
 
-        /* NAVIGATION - STRUTTURA COME WHO.HTML */
+        /* NAVIGATION - DISPOSIZIONE COME NELLO SCREENSHOT */
 
         .navigation-top {
             position: relative;
-            width: 100%;
+            width: calc(100% - 200px);
+            max-width: 1336px;
             min-height: 55px;
+            margin: 15px auto 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 25px;
         }
 
         .navigation-badges {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            width: min(900px, 88%);
+            gap: 14px;
+            width: 100%;
             margin: 0 auto;
             flex-wrap: wrap;
             position: relative;
@@ -101,19 +102,20 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 9px 18px;
+            padding: 10px 20px;
             background: rgba(32, 32, 32, 0.97);
             border: 1px solid #3b3b3b;
             border-left: 3px solid #e85a5a;
-            border-radius: 20px;
+            border-radius: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
             text-decoration: none;
             color: #f5f5f5;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .badge-link:hover {
@@ -128,16 +130,21 @@
 
         .back-link {
             position: absolute;
-            left: max(18px, calc((100% - 1100px) / 2));
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
-            border-left-color: #00e676;
+            padding: 13px 21px;
+            border-left: 1px solid #3b3b3b;
             z-index: 20;
+            font-size: 0.9rem;
+            border-radius: 28px;
+            background: rgba(32, 32, 32, 0.97);
         }
 
         .back-link:hover {
-            border-left-color: #00ff88;
-            color: #00e676;
+            border-left-color: #555;
+            color: #fff;
+            transform: translateY(calc(-50% - 2px));
         }
 
         .badge-link.attivo {
@@ -146,8 +153,8 @@
         }
 
         .badge-link img {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             object-fit: cover;
             border-radius: 5px;
             border: 1px solid #555;
@@ -164,9 +171,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 24px;
-            height: 24px;
-            font-size: 0.85rem;
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
             border-radius: 5px;
             border: 1px solid #555;
             background: #252525;
@@ -177,7 +184,7 @@
         }
 
         .arrow {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 800;
             color: #999;
             transition: transform 0.25s ease, color 0.25s ease;
@@ -1007,6 +1014,25 @@
             to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
         }
 
+        @media (max-width: 1100px) {
+            .navigation-top {
+                width: calc(100% - 40px);
+            }
+
+            .navigation-badges {
+                gap: 9px;
+            }
+
+            .badge-link {
+                padding: 9px 14px;
+                font-size: 0.82rem;
+            }
+
+            .back-link {
+                padding: 11px 16px;
+            }
+        }
+
         @media (max-width: 700px) {
             .barra-sinistra,
             .barra-destra {
@@ -1017,24 +1043,32 @@
             main { padding-top: 30px; }
 
             .navigation-top {
+                width: calc(100% - 20px);
                 min-height: 48px;
-                margin-bottom: 20px;
+                margin: 10px auto 25px;
             }
 
             .back-link {
-                left: 10px;
-                padding: 6px 11px;
+                left: 0;
+                padding: 7px 11px;
                 font-size: 0.67rem;
             }
 
             .navigation-badges {
                 gap: 8px;
-                width: 88%;
+                width: 100%;
             }
 
             .badge-link {
                 padding: 6px 12px;
                 font-size: 0.68rem;
+                gap: 7px;
+            }
+
+            .badge-link img,
+            .badge-emoji {
+                width: 23px;
+                height: 23px;
             }
 
             .testo-illuminato { letter-spacing: -0.8px; }
@@ -1069,7 +1103,7 @@
 
             .back-link {
                 top: 0;
-                left: 10px;
+                left: 0;
                 transform: none;
             }
 
@@ -1099,7 +1133,7 @@
 
     <main>
 
-        <!-- NAVIGATION IDENTICA A WHO.HTML -->
+        <!-- NAVIGATION -->
 
         <div class="navigation-top">
 
