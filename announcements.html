@@ -79,45 +79,76 @@ footer{width:min(900px,88%);margin:40px auto 0;text-align:center;color:#666;font
 /* BACK TO THE LIST */
 
 .back-to-list {
-    position: fixed !important;
-    top: 125px !important;
-    left: 20px !important;
-    z-index: 99999 !important;
+    position: fixed;
+    top: 125px;
+    left: max(20px, calc((100vw - 1100px) / 2));
+    z-index: 99999;
 
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
 
-    width: max-content;
-    padding: 11px 17px !important;
+    padding: 10px 17px 10px 11px;
 
-    color: #ffffff !important;
-    background: #202020 !important;
+    color: #f5f5f5;
+    background: linear-gradient(135deg, #292929, #1c1c1c);
 
-    border: 1px solid #444 !important;
-    border-left: 3px solid #e54848 !important;
-    border-radius: 12px !important;
+    border: 1px solid #414141;
+    border-left: 3px solid #e54848;
+    border-radius: 50px;
 
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    text-decoration: none !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-decoration: none;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,.4) !important;
-    transition: .25s ease !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,.3);
+
+    transition: all .25s ease;
+}
+
+.back-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 29px;
+    height: 29px;
+
+    color: white;
+    background: #e54848;
+    border-radius: 50%;
+
+    font-size: 17px;
+    transition: .25s ease;
 }
 
 .back-to-list:hover {
     transform: translateX(5px);
-    border-color: #e54848 !important;
-    box-shadow: 0 5px 22px rgba(229,72,72,.25) !important;
+    background: #303030;
+    border-color: #e54848;
+    box-shadow: 0 5px 25px rgba(229,72,72,.2);
 }
 
-.back-arrow {
-    color: #ff6262 !important;
-    font-size: 19px !important;
+.back-to-list:hover .back-arrow {
+    background: #ff6262;
+    transform: translateX(-3px);
 }
+
+@media (max-width: 700px) {
+    .back-to-list {
+        top: 115px;
+        left: 12px;
+        padding: 7px 12px 7px 8px;
+        font-size: .62rem;
     }
+
+    .back-arrow {
+        width: 25px;
+        height: 25px;
+    }
+}
 </style>
 </head>
 <body>
