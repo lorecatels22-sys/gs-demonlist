@@ -43,6 +43,9 @@
             opacity: .72;
             pointer-events: none;
             z-index: 0;
+            -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+                    mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+            animation: bar-breathe 7s ease-in-out infinite alternate;
         }
         .barra-sinistra { left: 0; }
         .barra-destra { right: 0; transform: scaleX(-1); }
@@ -72,8 +75,15 @@
             position: relative;
             z-index: 30;
         }
+        .navigation-badges > * { animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards; }
+        .navigation-badges > :nth-child(1) { animation-delay: .08s; }
+        .navigation-badges > :nth-child(2) { animation-delay: .19s; }
+        .navigation-badges > :nth-child(3) { animation-delay: .30s; }
+        .navigation-badges > :nth-child(4) { animation-delay: .41s; }
 
         .badge-link {
+            position: relative;
+            overflow: hidden;
             display: inline-flex;
             align-items: center;
             gap: 9px;
@@ -91,8 +101,21 @@
             cursor: pointer;
             transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
         }
+        .badge-link::after {
+            content: "";
+            position: absolute;
+            top: -40%;
+            left: -65%;
+            width: 42%;
+            height: 180%;
+            transform: rotate(24deg);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent);
+            transition: left .55s ease;
+            pointer-events: none;
+        }
+        .badge-link:hover::after { left: 130%; }
         .badge-link:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.025);
             background: #292929;
             border-color: #555;
             border-left-color: var(--red-light);
@@ -161,7 +184,7 @@
         .dropdown-item:hover { color: var(--red-light); background: rgba(229,72,72,.13); }
         .dropdown-item img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; }
 
-        header { text-align: center; padding: 0 15px; }
+        header { text-align: center; padding: 0 15px; animation: sali .75s .18s both; }
         .testo-illuminato {
             color: #fff;
             font-size: clamp(2.1rem, 5vw, 3.5rem);
@@ -173,6 +196,12 @@
         @keyframes titleGlow {
             from { text-shadow: 0 0 22px rgba(255,255,255,.12); }
             to { text-shadow: 0 0 34px rgba(229,72,72,.38); }
+        }
+        .testo-illuminato .title-letter {
+            display: inline-block;
+            opacity: 0;
+            animation: lettera .65s cubic-bezier(.2,.8,.2,1) forwards, onda 4.8s ease-in-out infinite;
+            animation-delay: var(--letter-delay), calc(1.2s + var(--wave-delay));
         }
         .sottotitolo {
             margin-top: 12px;
@@ -196,6 +225,7 @@
             0%, 100% { width: 78px; opacity: 1; }
             50% { width: 100px; opacity: .8; }
         }
+        .linea-titolo { animation: allarga .75s .45s both, linePulse 2.4s 1.25s ease-in-out infinite; }
 
         .contenuto {
             position: relative;
@@ -207,17 +237,22 @@
             margin: 40px auto 0;
         }
         .scheda {
+            position: relative;
             padding: 24px 26px;
             background: var(--panel);
             border: 1px solid var(--border);
             border-left: 4px solid #d94343;
             border-radius: 12px;
             box-shadow: 0 7px 22px rgba(0,0,0,.2);
-            animation: fadeUp .5s ease both;
+            animation: sali .7s cubic-bezier(.2,.8,.2,1) both;
             backdrop-filter: blur(5px);
+            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
         }
-        .scheda:nth-child(2) { animation-delay: .08s; }
-        .scheda:nth-child(3) { animation-delay: .16s; }
+        .scheda:nth-child(1) { animation-delay: .18s; }
+        .scheda:nth-child(2) { animation-delay: .30s; }
+        .scheda:nth-child(3) { animation-delay: .42s; }
+        .scheda:nth-child(4) { animation-delay: .54s; }
+        .scheda:hover { transform: translateY(-3px); border-color: #555; box-shadow: 0 12px 28px rgba(0,0,0,.28), 0 0 18px rgba(229,72,72,.06); }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
@@ -248,6 +283,11 @@
             aspect-ratio: 1;
             margin: 8px 0 3px;
             filter: drop-shadow(0 12px 25px rgba(0,0,0,.35));
+            animation: wheel-arrive .9s .45s cubic-bezier(.2,.8,.2,1) both;
+        }
+        @keyframes wheel-arrive {
+            from { opacity: 0; transform: scale(.82) rotate(-8deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
         }
         .wheel-pointer {
             position: absolute;
@@ -344,6 +384,8 @@
         .form-note { color: #777; font-size: .68rem; line-height: 1.5; }
 
         .btn {
+            position: relative;
+            overflow: hidden;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -357,8 +399,21 @@
             cursor: pointer;
             transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
         }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(0); }
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -80%;
+            width: 45%;
+            height: 200%;
+            transform: rotate(25deg);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+            transition: left .55s ease;
+            pointer-events: none;
+        }
+        .btn:hover::after { left: 140%; }
+        .btn:hover { transform: translateY(-3px) scale(1.015); }
+        .btn:active { transform: translateY(0) scale(.97); }
         .btn-primary {
             color: #fff;
             background: var(--red);
@@ -418,9 +473,10 @@
             background: rgba(25,25,25,.9);
             border: 1px solid #393939;
             border-radius: 9px;
-            transition: background .2s ease, border-color .2s ease, transform .2s ease;
+            transition: background .22s ease, border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+            animation: entra .42s both;
         }
-        .level-item:hover { background: #252525; border-color: #555; transform: translateX(2px); }
+        .level-item:hover { background: #252525; border-color: #666; transform: translateX(4px); box-shadow: 0 5px 15px rgba(0,0,0,.22); }
         .level-color {
             width: 30px;
             height: 30px;
@@ -472,7 +528,20 @@
         .aredl-searchbar input:focus { border-color: var(--red-light); box-shadow: 0 0 0 3px rgba(232,90,90,.13); }
         .aredl-status { min-height: 17px; color: #888; font-size: .7rem; line-height: 1.5; }
         .aredl-results { display: flex; flex-direction: column; gap: 7px; max-height: 350px; overflow-y: auto; }
-        .aredl-result { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #191919; border: 1px solid #383838; border-radius: 9px; }
+        .aredl-result {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #191919;
+            border: 1px solid #383838;
+            border-radius: 9px;
+            opacity: 0;
+            animation: entra .42s cubic-bezier(.2,.8,.2,1) forwards;
+            animation-delay: var(--row-delay, 0ms);
+            transition: transform .22s ease, border-color .22s ease, background .22s ease, box-shadow .22s ease;
+        }
+        .aredl-result:hover { transform: translateX(4px); border-color: #666; background: #222; box-shadow: 0 5px 14px rgba(0,0,0,.2); }
         .aredl-result-info { flex: 1; min-width: 0; }
         .aredl-result-name { color: #f2f2f2; font-size: .8rem; font-weight: 800; overflow-wrap: anywhere; }
         .aredl-result-rank { margin-top: 4px; color: #aaa; font-size: .65rem; font-weight: 700; }
@@ -490,6 +559,21 @@
             font-size: .7rem;
             letter-spacing: 1.5px;
         }
+
+        /* ANIMAZIONI IN STILE WHO? */
+        @keyframes scendi { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+        @keyframes sali { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+        @keyframes entra { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+        @keyframes lettera { from { opacity: 0; transform: translateY(-28px) rotate(-8deg); } to { opacity: 1; transform: none; } }
+        @keyframes onda {
+            0%, 70%, 100% { transform: translateY(0); color: #fff; }
+            80% { transform: translateY(-5px); color: #ffb0b0; }
+            90% { transform: translateY(0); color: #fff; }
+        }
+        @keyframes allarga { from { width: 0; opacity: 0; } to { width: 78px; opacity: 1; } }
+        @keyframes drop-in { from { opacity: 0; transform: translateY(-18px) scale(.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes bar-breathe { from { opacity: .48; } to { opacity: .76; } }
+        @keyframes respiro { 0%,100% { box-shadow: 0 0 10px rgba(229,72,72,.25); } 50% { box-shadow: 0 0 22px rgba(229,72,72,.52); } }
 
         @media (max-width: 900px) {
             .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
@@ -1173,72 +1257,153 @@
 
         spinBtn.addEventListener("click", spinWheel);
 
-        // AREDL integration: fetch the public list once, then search locally.
+        // AREDL integration: load the official public API, cache the result and search locally.
+        // The API returns a flat array of level objects; some clients/proxies may wrap it in data/levels.
         const AREDL_API = "https://api.aredl.net/v2/api/levels?exclude_pending=true&exclude_removed=true";
-        const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v1";
-        const AREDL_CACHE_TTL = 12 * 60 * 60 * 1000;
+        const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v2";
+        const AREDL_CACHE_TTL = 60 * 60 * 1000;
         let aredlLevels = [];
         let aredlLoaded = false;
+        let aredlLoading = false;
+        let aredlLastCache = null;
 
         function normalizeAredlLevel(item) {
-            const level = item && item.level ? { ...item.level, ...item } : item;
-            if (!level || typeof level.name !== "string") return null;
-            const status = String(level.status || "MainList");
+            if (!item || typeof item !== "object") return null;
+            // Supports both the current flattened response and older nested level objects.
+            const level = item.level && typeof item.level === "object"
+                ? { ...item.level, ...item }
+                : item;
+            const name = typeof level.name === "string" ? level.name.trim() : "";
+            if (!name) return null;
+
+            const rawStatus = String(level.status || "").trim();
+            const status = rawStatus || (level.position != null ? "MainList" : "Legacy");
             if (["Pending", "Removed"].includes(status)) return null;
-            const position = Number.isInteger(level.position) && level.position > 0 ? level.position : null;
-            return {
-                id: level.id ?? level.level_id ?? `${level.name}-${position ?? "legacy"}`,
-                name: level.name.trim(),
-                rank: position,
-                status
-            };
+
+            const rawPosition = level.position ?? level.rank ?? null;
+            const parsedPosition = rawPosition === null || rawPosition === "" ? null : Number(rawPosition);
+            const position = Number.isFinite(parsedPosition) && parsedPosition > 0
+                ? Math.floor(parsedPosition)
+                : null;
+
+            const id = level.id ?? level.level_id ?? level.levelId ?? `${name.toLowerCase()}-${position ?? "legacy"}`;
+            return { id: String(id), name, rank: position, status };
         }
 
-        function setAredlStatus(message, isError = false) {
+        function extractAredlArray(payload) {
+            if (Array.isArray(payload)) return payload;
+            if (!payload || typeof payload !== "object") return [];
+            const candidates = [payload.levels, payload.data, payload.results, payload.items];
+            for (const candidate of candidates) {
+                if (Array.isArray(candidate)) return candidate;
+                if (candidate && typeof candidate === "object") {
+                    if (Array.isArray(candidate.levels)) return candidate.levels;
+                    if (Array.isArray(candidate.data)) return candidate.data;
+                }
+            }
+            return [];
+        }
+
+        function setAredlStatus(message, state = "normal") {
             const status = document.getElementById("aredlStatus");
             status.textContent = message;
-            status.style.color = isError ? "#ff8585" : "#888";
+            status.style.color = state === "error" ? "#ff8585" : state === "loading" ? "#d6ad35" : state === "success" ? "#00d982" : "#888";
+        }
+
+        function readAredlCache() {
+            try {
+                const cached = JSON.parse(localStorage.getItem(AREDL_CACHE_KEY) || "null");
+                if (cached && Array.isArray(cached.levels)) return cached;
+            } catch (_) {}
+            // Migrate the previous cache key used by the earlier version of this page.
+            try {
+                const old = JSON.parse(localStorage.getItem("gs_aredl_levels_cache_v1") || "null");
+                if (old && Array.isArray(old.levels)) return old;
+            } catch (_) {}
+            return null;
         }
 
         async function loadAredl(force = false) {
-            const status = document.getElementById("aredlStatus");
-            if (!force) {
-                try {
-                    const cached = JSON.parse(localStorage.getItem(AREDL_CACHE_KEY) || "null");
-                    if (cached && Date.now() - cached.savedAt < AREDL_CACHE_TTL && Array.isArray(cached.levels)) {
-                        aredlLevels = cached.levels;
-                        aredlLoaded = true;
-                        setAredlStatus(`Loaded ${aredlLevels.length.toLocaleString()} AREDL levels · cached data`);
-                        renderAredlResults();
-                        return;
-                    }
-                } catch (_) { /* Ignore invalid cache and fetch fresh data. */ }
+            if (aredlLoading) return;
+            const refreshButton = document.getElementById("reloadAredl");
+            const cached = readAredlCache();
+            aredlLastCache = cached;
+
+            if (!force && cached && Array.isArray(cached.levels) && Date.now() - Number(cached.savedAt || 0) < AREDL_CACHE_TTL) {
+                aredlLevels = cached.levels.map(normalizeAredlLevel).filter(Boolean);
+                aredlLoaded = aredlLevels.length > 0;
+                if (aredlLoaded) {
+                    setAredlStatus(`Connected · ${aredlLevels.length.toLocaleString()} AREDL levels loaded from cache`, "success");
+                    renderAredlResults();
+                    // Refresh quietly in the background so the next visit has fresh data.
+                    loadAredl(true);
+                    return;
+                }
             }
 
-            setAredlStatus("Connecting to the AREDL database...");
-            status.style.color = "#d6ad35";
-            try {
-                const response = await fetch(AREDL_API, { headers: { "Accept": "application/json" } });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                const rawLevels = Array.isArray(data) ? data : (Array.isArray(data.levels) ? data.levels : (Array.isArray(data.data) ? data.data : []));
-                if (!rawLevels.length) throw new Error("The API returned an empty or unexpected response.");
+            aredlLoading = true;
+            if (refreshButton) { refreshButton.disabled = true; refreshButton.textContent = "⟳ Loading..."; }
+            setAredlStatus("Connecting to the official AREDL database...", "loading");
 
-                aredlLevels = rawLevels.map(normalizeAredlLevel).filter(Boolean);
-                aredlLevels.sort((a, b) => {
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 18000);
+                let response;
+                try {
+                    response = await fetch(AREDL_API, {
+                        method: "GET",
+                        headers: { "Accept": "application/json" },
+                        cache: "no-store",
+                        signal: controller.signal
+                    });
+                } finally {
+                    clearTimeout(timeout);
+                }
+                if (!response.ok) throw new Error(`AREDL returned HTTP ${response.status}`);
+
+                const payload = await response.json();
+                const rawLevels = extractAredlArray(payload);
+                const normalized = rawLevels.map(normalizeAredlLevel).filter(Boolean);
+                if (!normalized.length) throw new Error("AREDL returned no usable levels. The API response format may have changed.");
+
+                // Deduplicate by API ID, then order Main List levels by position and Legacy alphabetically.
+                const unique = new Map();
+                normalized.forEach(level => unique.set(String(level.id), level));
+                aredlLevels = [...unique.values()].sort((a, b) => {
                     if (a.rank !== null && b.rank !== null) return a.rank - b.rank;
                     if (a.rank !== null) return -1;
                     if (b.rank !== null) return 1;
                     return a.name.localeCompare(b.name);
                 });
                 aredlLoaded = true;
-                try { localStorage.setItem(AREDL_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), levels: aredlLevels })); } catch (_) {}
-                setAredlStatus(`Connected · ${aredlLevels.length.toLocaleString()} AREDL levels available (Main List + Legacy)`);
+
+                const cacheValue = { savedAt: Date.now(), levels: aredlLevels };
+                try {
+                    localStorage.setItem(AREDL_CACHE_KEY, JSON.stringify(cacheValue));
+                    localStorage.setItem("gs_aredl_levels_cache_v1", JSON.stringify(cacheValue));
+                } catch (_) {}
+
+                setAredlStatus(`Connected · ${aredlLevels.length.toLocaleString()} AREDL levels available`, "success");
                 renderAredlResults();
             } catch (error) {
                 console.error("AREDL loading error:", error);
-                setAredlStatus("Could not load AREDL. Check your connection or open this page through a local server (for example VS Code Live Server).", true);
-                document.getElementById("aredlResults").innerHTML = '<div class="vuoto">AREDL data is temporarily unavailable. Your wheel still works normally.</div>';
+                const fallback = cached && Array.isArray(cached.levels)
+                    ? cached.levels.map(normalizeAredlLevel).filter(Boolean)
+                    : [];
+                if (fallback.length) {
+                    aredlLevels = fallback;
+                    aredlLoaded = true;
+                    setAredlStatus(`AREDL is temporarily unreachable · showing ${aredlLevels.length.toLocaleString()} saved levels`, "loading");
+                    renderAredlResults();
+                } else {
+                    aredlLoaded = false;
+                    setAredlStatus("Could not connect to AREDL. Try Refresh in a moment; the wheel itself still works.", "error");
+                    const results = document.getElementById("aredlResults");
+                    results.innerHTML = '<div class="vuoto">AREDL could not be reached right now. Check your connection and press Refresh to try again.</div>';
+                }
+            } finally {
+                aredlLoading = false;
+                if (refreshButton) { refreshButton.disabled = false; refreshButton.textContent = "↻ Refresh"; }
             }
         }
 
@@ -1266,8 +1431,10 @@
                 const empty = document.createElement("div"); empty.className = "vuoto"; empty.textContent = "No AREDL level found."; container.appendChild(empty); return;
             }
 
-            matches.forEach(level => {
-                const row = document.createElement("div"); row.className = "aredl-result";
+            matches.forEach((level, index) => {
+                const row = document.createElement("div");
+                row.className = "aredl-result";
+                row.style.setProperty("--row-delay", `${Math.min(index, 12) * 38}ms`);
                 const info = document.createElement("div"); info.className = "aredl-result-info";
                 const name = document.createElement("div"); name.className = "aredl-result-name"; name.textContent = level.name;
                 const rank = document.createElement("div"); rank.className = "aredl-result-rank";
@@ -1293,7 +1460,24 @@
         document.getElementById("aredlSearch").addEventListener("input", renderAredlResults);
         document.getElementById("reloadAredl").addEventListener("click", () => loadAredl(true));
 
+        function animatePageTitle() {
+            const title = document.querySelector(".testo-illuminato");
+            if (!title || title.dataset.animated === "true") return;
+            const text = title.textContent;
+            title.textContent = "";
+            [...text].forEach((character, index) => {
+                const span = document.createElement("span");
+                span.className = "title-letter";
+                span.textContent = character === " " ? "\u00a0" : character;
+                span.style.setProperty("--letter-delay", `${index * 55}ms`);
+                span.style.setProperty("--wave-delay", `${index * 95}ms`);
+                title.appendChild(span);
+            });
+            title.dataset.animated = "true";
+        }
+
         function init() {
+            animatePageTitle();
             initListSelect();
             levels = loadLevels();
             renderLevels();
