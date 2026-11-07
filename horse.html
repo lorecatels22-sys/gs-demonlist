@@ -519,20 +519,22 @@
 
         .badge-back:hover { color: #69f0ae; }
 
-        /* Back a sinistra e navigazione centrata nella stessa riga */
+        /* NAVBAR: tutti i pulsanti formano un unico gruppo centrato */
         .navigation-badges {
-            width: calc(100% - 56px);
+            width: min(1100px, 95%);
             max-width: none;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-        }
-
-        .nav-center {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             flex-wrap: wrap;
+            margin: 0 auto 25px;
+        }
+
+        /* I pulsanti interni diventano elementi diretti del gruppo:
+           Back to the list resta così subito accanto a Players. */
+        .nav-center {
+            display: contents;
         }
 
         .navigation-badges > .nav-center { animation: none; }
@@ -546,21 +548,22 @@
         .nav-center > :nth-child(3) { animation-delay: 0.34s; }
         .nav-center > :nth-child(4) { animation-delay: 0.46s; }
 
+        .badge-link.badge-back {
+            justify-self: auto;
+            flex-shrink: 0;
+            margin: 0;
+        }
+
         @media (max-width: 700px) {
             .navigation-badges {
-                width: calc(100% - 24px);
-                grid-template-columns: 1fr;
-                justify-items: center;
-                gap: 10px;
-            }
-
-            .badge-link.badge-back {
-                justify-self: start;
+                width: 95%;
+                gap: 8px;
+                justify-content: center;
+                margin-bottom: 20px;
             }
 
             .nav-center {
-                justify-content: center;
-                gap: 8px;
+                display: contents;
             }
         }
 
