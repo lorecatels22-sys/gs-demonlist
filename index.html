@@ -941,6 +941,19 @@ footer { animation: foot 5s ease-in-out infinite; }
             mask-image: linear-gradient(to right, #000 35%, transparent 100%);
 }
 
+
+/* ---------- MOSTRA / NASCONDI PASSWORD ---------- */
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 78px; }
+.mostra-password {
+    position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+    padding: 5px 10px; border: 1px solid #444; border-radius: 5px; background: #222; color: #bbb;
+    font-family: inherit; font-size: .62rem; font-weight: 800; letter-spacing: 1px; cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+}
+.mostra-password:hover { color: #00e676; border-color: rgba(0,230,118,.5); background: #1b2a22; }
+.mostra-password[aria-pressed="true"] { color: #00e676; border-color: rgba(0,230,118,.5); }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -1436,7 +1449,10 @@ footer { animation: foot 5s ease-in-out infinite; }
 
                     <div class="campo">
                         <label for="admin-password">Password</label>
-                        <input id="admin-password" type="password" placeholder="Password" required>
+                        <div class="password-wrap">
+                            <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password" required>
+                            <button type="button" class="mostra-password" id="toggle-password" aria-label="Show password" aria-pressed="false">SHOW</button>
+                        </div>
                     </div>
 
                     <div class="campo campo-full">
@@ -1656,6 +1672,22 @@ footer { animation: foot 5s ease-in-out infinite; }
 })();
 
 
+</script>
+
+<script>
+(() => {
+    const input = document.getElementById('admin-password');
+    const btn = document.getElementById('toggle-password');
+    if (!input || !btn) return;
+    btn.addEventListener('click', () => {
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.textContent = show ? 'HIDE' : 'SHOW';
+        btn.setAttribute('aria-pressed', String(show));
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        input.focus();
+    });
+})();
 </script>
 
 <script type="module">
