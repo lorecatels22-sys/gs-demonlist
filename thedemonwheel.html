@@ -1,2301 +1,1308 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1e1e1e">
-<title>The Demon Wheel - G_S demon list</title>
-    <link rel="icon" type="image/png" href="./gs-logo.png?v=3">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<style>
-:root {
-    --bg:#1e1e1e;
-    --panel:rgba(32,32,32,.97);
-    --border:#3b3b3b;
-    --red:#e54848;
-    --red-light:#ff6262;
-    --green:#00e676;
-}
-
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html {
-    min-height:100%;
-    background:var(--bg);
-    scroll-behavior:smooth;
-}
-
-body {
-    min-height:100vh;
-    position:relative;
-    overflow-x:hidden;
-    background:var(--bg);
-    color:white;
-    font-family:"Montserrat",sans-serif;
-}
-
-.barra-sinistra,.barra-destra {
-    position:absolute;
-    top:0;
-    bottom:0;
-    width:30vw;
-    min-height:100%;
-    background:url("./miguel.png") top center / 100% auto repeat-y;
-    opacity:.72;
-    pointer-events:none;
-    z-index:0;
-}
-
-.barra-sinistra {left:0}
-.barra-destra {right:0;transform:scaleX(-1)}
-
-main {
-    position:relative;
-    z-index:1;
-    min-height:100vh;
-    padding:35px 0 70px;
-}
-
-/* NAVIGATION */
-
-.torna-indietro {
-    position:absolute;
-    top:35px;
-    left:24px;
-    z-index:20;
-}
-
-.navigation-badges {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:12px;
-    width:min(900px,88%);
-    margin:0 auto 28px;
-    position:relative;
-    z-index:30;
-}
-
-.badge-link {
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-    padding:9px 17px;
-    color:#f5f5f5;
-    background:rgba(32,32,32,.97);
-    border:1px solid var(--border);
-    border-left:3px solid var(--red);
-    border-radius:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    text-decoration:none;
-    font-size:.78rem;
-    font-weight:700;
-    letter-spacing:.3px;
-    cursor:pointer;
-    transition:.2s ease;
-}
-
-.badge-link:hover {
-    transform:translateY(-2px);
-    background:#292929;
-    border-color:#555;
-    border-left-color:var(--red-light);
-    box-shadow:0 7px 18px rgba(0,0,0,.3);
-}
-
-.badge-link img,.badge-emoji {
-    width:24px;
-    height:24px;
-    flex:0 0 24px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    object-fit:cover;
-    border-radius:5px;
-    border:1px solid #555;
-    background:#252525;
-    font-size:.85rem;
-}
-
-.arrow {color:#999;transition:.2s}
-.dropdown-container {position:relative}
-
-.dropdown-menu {
-    position:absolute;
-    top:100%;
-    left:50%;
-    min-width:180px;
-    padding-top:10px;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    transform:translate(-50%,-8px);
-    transition:.2s ease;
-}
-
-.dropdown-container:hover .dropdown-menu,
-.dropdown-container:focus-within .dropdown-menu {
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-    transform:translate(-50%,0);
-}
-
-.dropdown-container:hover .arrow,
-.dropdown-container:focus-within .arrow {
-    transform:rotate(90deg);
-    color:var(--red-light);
-}
-
-.dropdown-content {
-    display:flex;
-    flex-direction:column;
-    padding:7px 0;
-    overflow:hidden;
-    background:rgba(28,28,28,.99);
-    border:1px solid var(--border);
-    border-radius:11px;
-    box-shadow:0 10px 28px rgba(0,0,0,.45);
-}
-
-.dropdown-item {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 14px;
-    color:#eee;
-    text-decoration:none;
-    font-size:.76rem;
-    font-weight:700;
-    transition:.2s;
-}
-
-.dropdown-item:hover {
-    color:var(--red-light);
-    background:rgba(229,72,72,.13);
-}
-
-.dropdown-item img {
-    width:22px;
-    height:22px;
-    object-fit:cover;
-    border-radius:4px;
-}
-
-/* HEADER */
-
-header {
-    text-align:center;
-    padding:0 15px;
-}
-
-.testo-illuminato {
-    color:white;
-    font-size:clamp(2.1rem,5vw,3.5rem);
-    font-weight:900;
-    letter-spacing:-1.7px;
-    text-shadow:0 0 25px rgba(255,255,255,.13);
-    animation:titleGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes titleGlow {
-    from {text-shadow:0 0 22px rgba(255,255,255,.12)}
-    to {text-shadow:0 0 34px rgba(229,72,72,.38)}
-}
-
-.sottotitolo {
-    margin-top:12px;
-    color:#999;
-    font-size:clamp(.74rem,1.5vw,.92rem);
-    font-weight:600;
-    letter-spacing:2.5px;
-    line-height:1.8;
-    text-transform:uppercase;
-}
-
-.linea-titolo {
-    width:78px;
-    height:3px;
-    margin:21px auto 0;
-    border-radius:10px;
-    background:var(--red);
-    box-shadow:0 0 15px rgba(229,72,72,.5);
-}
-
-/* CONTENT */
-
-.contenuto {
-    position:relative;
-    z-index:2;
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    width:min(900px,88%);
-    margin:40px auto 0;
-}
-
-.scheda {
-    padding:24px 26px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-left:4px solid #d94343;
-    border-radius:12px;
-    box-shadow:0 7px 22px rgba(0,0,0,.2);
-    backdrop-filter:blur(5px);
-    animation:fadeUp .5s ease both;
-}
-
-.scheda h2 {
-    margin-bottom:8px;
-    color:#f5f5f5;
-    font-size:1.08rem;
-    font-weight:800;
-}
-
-.scheda-intro {
-    margin-bottom:16px;
-    color:#888;
-    font-size:.78rem;
-    line-height:1.7;
-}
-
-@keyframes fadeUp {
-    from {opacity:0;transform:translateY(16px)}
-    to {opacity:1;transform:translateY(0)}
-}
-
-/* WHEEL */
-
-.wheel-wrapper {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:22px;
-    padding:25px 0 15px;
-}
-
-.wheel-container {
-    position:relative;
-    width:min(650px,85vw);
-    aspect-ratio:1;
-    margin:20px 0;
-    filter:drop-shadow(0 18px 35px rgba(0,0,0,.65));
-}
-
-.wheel-container::before {
-    content:"";
-    position:absolute;
-    inset:-30px;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(229,72,72,.2),transparent 70%);
-    filter:blur(20px);
-    pointer-events:none;
-}
-
-.wheel-pointer {
-    position:absolute;
-    top:-24px;
-    left:50%;
-    z-index:10;
-    width:42px;
-    height:55px;
-    transform:translateX(-50%);
-    background:linear-gradient(90deg,#a92121,#ff7777,#b52c2c);
-    clip-path:polygon(50% 100%,0 0,100% 0);
-    filter:drop-shadow(0 5px 7px rgba(0,0,0,.8));
-}
-
-canvas#wheelCanvas {
-    display:block;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    transform:rotate(0deg);
-    box-shadow:
-        0 0 0 5px #111,
-        0 0 0 9px #777,
-        0 0 0 12px #292929,
-        0 0 35px rgba(229,72,72,.28);
-}
-
-canvas#wheelCanvas.spinning {
-    box-shadow:
-        0 0 0 5px #111,
-        0 0 0 9px #ff5555,
-        0 0 0 12px #292929,
-        0 0 55px rgba(229,72,72,.7);
-}
-
-.spin-btn {
-    min-width:210px;
-    padding:15px 38px;
-    font-size:.95rem;
-    letter-spacing:2px;
-    border-radius:30px;
-    box-shadow:0 5px 20px rgba(229,72,72,.35);
-}
-
-.spin-btn:hover {
-    transform:translateY(-3px) scale(1.04);
-}
-
-.spin-btn:disabled {
-    opacity:.55;
-    cursor:not-allowed;
-    transform:none!important;
-}
-
-.wheel-hint {
-    color:#888;
-    font-size:.72rem;
-    text-align:center;
-}
-
-/* RESULT */
-
-.result-box {
-    display:none;
-    width:min(450px,100%);
-    margin-top:2px;
-    padding:17px 22px;
-    text-align:center;
-    background:linear-gradient(135deg,rgba(0,230,118,.10),rgba(0,230,118,.035));
-    border:1px solid rgba(0,230,118,.28);
-    border-radius:12px;
-}
-
-.result-box.show {
-    display:block;
-    animation:resultPop .45s cubic-bezier(.34,1.56,.64,1);
-}
-
-@keyframes resultPop {
-    from {opacity:0;transform:scale(.82)}
-    to {opacity:1;transform:scale(1)}
-}
-
-.result-label {
-    color:#8caa99;
-    font-size:.65rem;
-    font-weight:800;
-    letter-spacing:2px;
-}
-
-.result-name {
-    margin-top:5px;
-    color:var(--green);
-    font-size:clamp(1.15rem,4vw,1.5rem);
-    font-weight:900;
-    overflow-wrap:anywhere;
-    text-shadow:0 0 16px rgba(0,230,118,.3);
-}
-
-.result-rank {
-    margin-top:7px;
-    color:#ffbd65;
-    font-size:.85rem;
-    font-weight:800;
-}
-
-/* FORM */
-
-.form-sfida {
-    display:flex;
-    flex-direction:column;
-    gap:13px;
-}
-
-.form-riga {
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-.form-gruppo {
-    display:flex;
-    flex:1;
-    min-width:150px;
-    flex-direction:column;
-    gap:7px;
-}
-
-.form-gruppo label {
-    color:#999;
-    font-size:.67rem;
-    font-weight:800;
-    letter-spacing:1px;
-}
-
-.form-gruppo input,
-.form-gruppo select {
-    width:100%;
-    min-height:42px;
-    padding:10px 12px;
-    color:#f5f5f5;
-    background:rgba(20,20,20,.9);
-    border:1px solid #444;
-    border-radius:8px;
-    outline:none;
-    font-family:inherit;
-    font-size:.82rem;
-    transition:.2s;
-}
-
-.form-gruppo input:focus,
-.form-gruppo select:focus {
-    border-color:var(--red-light);
-    box-shadow:0 0 0 3px rgba(232,90,90,.13);
-}
-
-.form-gruppo select {cursor:pointer}
-.form-gruppo select option {background:#222;color:white}
-
-.form-note {
-    color:#777;
-    font-size:.68rem;
-    line-height:1.6;
-}
-
-#aredlSearchGroup[hidden],
-#listSelectGroup[hidden],
-#customNameGroup[hidden] {
-    display:none;
-}
-
-#aredlResults {
-    height:190px;
-    padding:6px;
-    background:#171717;
-    border:1px solid #444;
-    border-radius:9px;
-    overflow-y:auto;
-}
-
-#aredlResults option {
-    padding:9px;
-    margin:2px;
-    border-radius:5px;
-    background:#222;
-    color:#eee;
-}
-
-#aredlResults option:checked {
-    background:#873535;
-    color:white;
-}
-
-#aredlSearchGroup {
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.aredl-status {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:#888;
-    font-size:.7rem;
-    line-height:1.6;
-}
-
-.aredl-status::before {
-    content:"";
-    width:7px;
-    height:7px;
-    flex:0 0 7px;
-    border-radius:50%;
-    background:#888;
-}
-
-.aredl-status.online::before {
-    background:#00e676;
-    box-shadow:0 0 8px #00e676;
-}
-
-.aredl-status.error::before {
-    background:#ff5555;
-}
-
-.search-count {
-    color:#ffbd65;
-    font-size:.68rem;
-    font-weight:700;
-}
-
-/* BUTTONS */
-
-.btn {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:10px 18px;
-    border:0;
-    border-radius:20px;
-    font-family:inherit;
-    font-size:.78rem;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.btn:hover {transform:translateY(-2px)}
-.btn:active {transform:translateY(0)}
-
-.btn-primary {
-    color:white;
-    background:var(--red);
-    box-shadow:0 4px 13px rgba(229,72,72,.28);
-}
-
-.btn-primary:hover {
-    background:#ff5555;
-    box-shadow:0 6px 17px rgba(229,72,72,.4);
-}
-
-.btn-secondary {
-    color:#ccc;
-    background:#333;
-    border:1px solid #555;
-}
-
-.btn-secondary:hover {color:white;background:#444}
-
-.btn-danger {
-    padding:6px 11px;
-    color:#ff6969;
-    background:rgba(229,72,72,.12);
-    border:1px solid rgba(229,72,72,.55);
-    font-size:.68rem;
-}
-
-.btn-danger:hover {color:white;background:var(--red)}
-
-/* LEVEL LIST */
-
-.levels-heading {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:14px;
-}
-
-.levels-heading h2 {margin:0}
-
-#levelCount {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-width:27px;
-    height:25px;
-    margin-left:5px;
-    padding:0 8px;
-    color:#ff8585;
-    background:rgba(229,72,72,.13);
-    border:1px solid rgba(229,72,72,.25);
-    border-radius:20px;
-    font-size:.7rem;
-}
-
-.levels-list {
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    max-height:340px;
-    overflow-y:auto;
-    padding:2px 5px 2px 0;
-}
-
-.levels-list::-webkit-scrollbar {width:6px}
-.levels-list::-webkit-scrollbar-track {background:#292929;border-radius:5px}
-.levels-list::-webkit-scrollbar-thumb {background:#555;border-radius:5px}
-
-.level-item {
-    display:flex;
-    align-items:center;
-    gap:11px;
-    min-width:0;
-    padding:10px 12px;
-    background:rgba(25,25,25,.9);
-    border:1px solid #393939;
-    border-radius:9px;
-    transition:.2s;
-}
-
-.level-item:hover {
-    background:#252525;
-    border-color:#555;
-    transform:translateX(2px);
-}
-
-.level-color {
-    width:30px;
-    height:30px;
-    flex:0 0 30px;
-    border:1px solid rgba(255,255,255,.18);
-    border-radius:7px;
-}
-
-.level-img {
-    width:44px;
-    height:29px;
-    flex:0 0 44px;
-    object-fit:cover;
-    border:1px solid #444;
-    border-radius:5px;
-    background:#292929;
-}
-
-.level-name {
-    flex:1;
-    min-width:0;
-    overflow:hidden;
-    color:#f0f0f0;
-    font-size:.82rem;
-    font-weight:700;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.level-badge {
-    flex:0 0 auto;
-    padding:3px 8px;
-    color:#ff7777;
-    background:rgba(229,72,72,.13);
-    border:1px solid rgba(229,72,72,.28);
-    border-radius:12px;
-    font-size:.58rem;
-    font-weight:800;
-    letter-spacing:.5px;
-}
-
-.level-badge.custom {
-    color:#aaa;
-    background:rgba(120,120,120,.12);
-    border-color:#555;
-}
-
-.level-badge.aredl {
-    color:#ffbd65;
-    background:rgba(255,170,60,.12);
-    border-color:rgba(255,170,60,.35);
-}
-
-.vuoto {
-    padding:24px 10px;
-    color:#707070;
-    text-align:center;
-    font-size:.8rem;
-}
-
-.status-message {
-    min-height:16px;
-    color:#ff8585;
-    font-size:.7rem;
-}
-
-/* FOOTER */
-
-footer {
-    position:relative;
-    z-index:2;
-    padding:25px 10px 35px;
-    color:#666;
-    text-align:center;
-    font-size:.7rem;
-    letter-spacing:1.5px;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px) {
-    .torna-indietro {
-        position:relative;
-        top:auto;
-        left:auto;
-        margin:0 0 14px 14px;
-    }
-}
-
-@media(max-width:700px) {
-    .barra-sinistra,.barra-destra {
-        width:22vw;
-        opacity:.42;
-    }
-
-    main {padding-top:25px}
-    .torna-indietro {margin:0 0 12px 10px}
-
-    .navigation-badges {
-        gap:7px;
-        width:96%;
-        margin-bottom:22px;
-    }
-
-    .badge-link {
-        gap:7px;
-        padding:7px 10px;
-        font-size:.66rem;
-    }
-
-    .badge-link img,.badge-emoji {
-        width:21px;
-        height:21px;
-        flex-basis:21px;
-    }
-
-    .testo-illuminato {letter-spacing:-.8px}
-    .sottotitolo {letter-spacing:1.3px}
-
-    .contenuto {
-        width:94%;
-        margin-top:28px;
-    }
-
-    .scheda {padding:18px 15px}
-    .form-riga {flex-direction:column}
-
-    .level-item {gap:8px;padding:9px}
-    .level-name {font-size:.74rem}
-    .level-badge {font-size:.52rem;padding:3px 6px}
-    .btn-danger {padding:6px 8px}
-
-    .wheel-container {width:min(650px,82vw)}
-}
-
-@media(max-width:400px) {
-    .wheel-container {width:78vw}
-    .scheda {padding:16px 11px}
-}
-
-@media(prefers-reduced-motion:reduce) {
-    *,*::before,*::after {
-        scroll-behavior:auto!important;
-        animation-duration:.01ms!important;
-        animation-iteration-count:1!important;
-        transition-duration:.01ms!important;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e1e1e">
+    <title>The Demon Wheel - G_S demon list</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --panel: rgba(32, 32, 32, .97);
+            --panel-soft: #191919;
+            --border: #3b3b3b;
+            --red: #e54848;
+            --red-light: #ff6262;
+            --muted: #999;
+            --green: #00e676;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { min-height: 100%; background: var(--bg); scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            background: var(--bg);
+            color: #fff;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .barra-sinistra, .barra-destra {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30vw;
+            min-height: 100%;
+            background: url("./miguel.png") top center / 100% auto repeat-y;
+            opacity: .72;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 0 70px;
+        }
+
+        .torna-indietro {
+            position: absolute;
+            top: 35px;
+            left: 24px;
+            z-index: 20;
+        }
+
+        .navigation-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: min(900px, 88%);
+            margin: 0 auto 28px;
+            position: relative;
+            z-index: 30;
+        }
+
+        .badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 17px;
+            color: #f5f5f5;
+            background: rgba(32, 32, 32, .97);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--red);
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.18);
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .3px;
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+        }
+        .badge-link:hover {
+            transform: translateY(-2px);
+            background: #292929;
+            border-color: #555;
+            border-left-color: var(--red-light);
+            box-shadow: 0 7px 18px rgba(0,0,0,.3);
+        }
+        .badge-link img, .badge-emoji {
+            width: 24px;
+            height: 24px;
+            flex: 0 0 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+            font-size: .85rem;
+        }
+        .arrow { color: #999; transition: transform .2s ease, color .2s ease; }
+        .dropdown-container { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            min-width: 180px;
+            padding-top: 10px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translate(-50%, -8px);
+            transition: opacity .2s ease, transform .2s ease, visibility .2s;
+        }
+        .dropdown-container:hover .dropdown-menu,
+        .dropdown-container:focus-within .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+        .dropdown-container:hover .arrow,
+        .dropdown-container:focus-within .arrow {
+            transform: rotate(90deg);
+            color: var(--red-light);
+        }
+        .dropdown-content {
+            display: flex;
+            flex-direction: column;
+            padding: 7px 0;
+            overflow: hidden;
+            background: rgba(28,28,28,.99);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            box-shadow: 0 10px 28px rgba(0,0,0,.45);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: #eee;
+            text-decoration: none;
+            font-size: .76rem;
+            font-weight: 700;
+            transition: background .2s ease, color .2s ease;
+        }
+        .dropdown-item:hover { color: var(--red-light); background: rgba(229,72,72,.13); }
+        .dropdown-item img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; }
+
+        header { text-align: center; padding: 0 15px; }
+        .testo-illuminato {
+            color: #fff;
+            font-size: clamp(2.1rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -1.7px;
+            text-shadow: 0 0 25px rgba(255,255,255,.13);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 22px rgba(255,255,255,.12); }
+            to { text-shadow: 0 0 34px rgba(229,72,72,.38); }
+        }
+        .sottotitolo {
+            margin-top: 12px;
+            color: #999;
+            font-size: clamp(.74rem, 1.5vw, .92rem);
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            line-height: 1.8;
+            text-transform: uppercase;
+        }
+        .linea-titolo {
+            width: 78px;
+            height: 3px;
+            margin: 21px auto 0;
+            border-radius: 10px;
+            background: var(--red);
+            box-shadow: 0 0 15px rgba(229,72,72,.5);
+            animation: linePulse 2s ease-in-out infinite;
+        }
+        @keyframes linePulse {
+            0%, 100% { width: 78px; opacity: 1; }
+            50% { width: 100px; opacity: .8; }
+        }
+
+        .contenuto {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: min(900px, 88%);
+            margin: 40px auto 0;
+        }
+        .scheda {
+            padding: 24px 26px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-left: 4px solid #d94343;
+            border-radius: 12px;
+            box-shadow: 0 7px 22px rgba(0,0,0,.2);
+            animation: fadeUp .5s ease both;
+            backdrop-filter: blur(5px);
+        }
+        .scheda:nth-child(2) { animation-delay: .08s; }
+        .scheda:nth-child(3) { animation-delay: .16s; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scheda h2 {
+            margin-bottom: 8px;
+            color: #f5f5f5;
+            font-size: 1.08rem;
+            font-weight: 800;
+        }
+        .scheda-intro {
+            margin-bottom: 16px;
+            color: #888;
+            font-size: .78rem;
+            line-height: 1.7;
+        }
+
+        .wheel-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 19px;
+            padding: 12px 0 8px;
+        }
+        .wheel-container {
+            position: relative;
+            width: min(390px, 78vw);
+            aspect-ratio: 1;
+            margin: 8px 0 3px;
+            filter: drop-shadow(0 12px 25px rgba(0,0,0,.35));
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            z-index: 5;
+            width: 0;
+            height: 0;
+            transform: translateX(-50%);
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 31px solid var(--red-light);
+            filter: drop-shadow(0 3px 5px rgba(229,72,72,.65));
+        }
+        canvas#wheelCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform: rotate(0deg);
+            box-shadow: 0 0 0 5px #292929, 0 0 0 8px #555, 0 0 28px rgba(229,72,72,.25);
+            transition: box-shadow .3s ease;
+        }
+        canvas#wheelCanvas.spinning {
+            box-shadow: 0 0 0 5px #292929, 0 0 0 8px var(--red), 0 0 42px rgba(229,72,72,.55);
+        }
+        .spin-btn {
+            min-width: 190px;
+            padding: 14px 38px;
+            font-size: .95rem;
+            letter-spacing: 1.5px;
+        }
+        .spin-btn:disabled { opacity: .55; cursor: not-allowed; transform: none !important; }
+        .wheel-hint { color: #777; font-size: .7rem; text-align: center; }
+
+        .result-box {
+            display: none;
+            width: min(420px, 100%);
+            margin-top: 2px;
+            padding: 17px 22px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0,230,118,.10), rgba(0,230,118,.035));
+            border: 1px solid rgba(0,230,118,.28);
+            border-radius: 12px;
+        }
+        .result-box.show { display: block; animation: resultPop .45s cubic-bezier(.34,1.56,.64,1); }
+        @keyframes resultPop {
+            from { opacity: 0; transform: scale(.82); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .result-box .result-label {
+            color: #8caa99;
+            font-size: .65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        .result-box .result-name {
+            margin-top: 5px;
+            color: var(--green);
+            font-size: clamp(1.15rem, 4vw, 1.5rem);
+            font-weight: 900;
+            text-shadow: 0 0 16px rgba(0,230,118,.3);
+            overflow-wrap: anywhere;
+        }
+
+        .form-sfida { display: flex; flex-direction: column; gap: 13px; }
+        .form-riga { display: flex; gap: 12px; flex-wrap: wrap; }
+        .form-gruppo { display: flex; flex: 1; min-width: 150px; flex-direction: column; gap: 7px; }
+        .form-gruppo label {
+            color: #999;
+            font-size: .67rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .form-gruppo input, .form-gruppo select {
+            width: 100%;
+            min-height: 42px;
+            padding: 10px 12px;
+            color: #f5f5f5;
+            background: rgba(20,20,20,.9);
+            border: 1px solid #444;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: .82rem;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        .form-gruppo input:focus, .form-gruppo select:focus {
+            border-color: var(--red-light);
+            box-shadow: 0 0 0 3px rgba(232,90,90,.13);
+        }
+        .form-gruppo select { cursor: pointer; }
+        .form-gruppo select option { background: #222; color: #fff; }
+        .form-note { color: #777; font-size: .68rem; line-height: 1.5; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border: 0;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: .78rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:active { transform: translateY(0); }
+        .btn-primary {
+            color: #fff;
+            background: var(--red);
+            box-shadow: 0 4px 13px rgba(229,72,72,.28);
+        }
+        .btn-primary:hover { background: #ff5555; box-shadow: 0 6px 17px rgba(229,72,72,.4); }
+        .btn-secondary { color: #ccc; background: #333; border: 1px solid #555; }
+        .btn-secondary:hover { color: #fff; background: #444; }
+        .btn-danger {
+            padding: 6px 11px;
+            color: #ff6969;
+            background: rgba(229,72,72,.12);
+            border: 1px solid rgba(229,72,72,.55);
+            font-size: .68rem;
+        }
+        .btn-danger:hover { color: #fff; background: var(--red); }
+
+        .levels-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .levels-heading h2 { margin: 0; }
+        #levelCount {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 27px;
+            height: 25px;
+            margin-left: 5px;
+            padding: 0 8px;
+            color: #ff8585;
+            background: rgba(229,72,72,.13);
+            border: 1px solid rgba(229,72,72,.25);
+            border-radius: 20px;
+            font-size: .7rem;
+        }
+        .levels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 340px;
+            overflow-y: auto;
+            padding: 2px 5px 2px 0;
+        }
+        .levels-list::-webkit-scrollbar { width: 6px; }
+        .levels-list::-webkit-scrollbar-track { background: #292929; border-radius: 5px; }
+        .levels-list::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
+        .level-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 0;
+            padding: 10px 12px;
+            background: rgba(25,25,25,.9);
+            border: 1px solid #393939;
+            border-radius: 9px;
+            transition: background .2s ease, border-color .2s ease, transform .2s ease;
+        }
+        .level-item:hover { background: #252525; border-color: #555; transform: translateX(2px); }
+        .level-color {
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 7px;
+        }
+        .level-img {
+            width: 44px;
+            height: 29px;
+            flex: 0 0 44px;
+            object-fit: cover;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #292929;
+        }
+        .level-name {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            color: #f0f0f0;
+            font-size: .82rem;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .level-badge {
+            flex: 0 0 auto;
+            padding: 3px 8px;
+            color: #ff7777;
+            background: rgba(229,72,72,.13);
+            border: 1px solid rgba(229,72,72,.28);
+            border-radius: 12px;
+            font-size: .58rem;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+        .level-badge.custom { color: #aaa; background: rgba(120,120,120,.12); border-color: #555; }
+        .vuoto { padding: 24px 10px; color: #707070; text-align: center; font-size: .8rem; }
+        .status-message { min-height: 16px; color: #ff8585; font-size: .7rem; }
+
+        .aredl-search { display: flex; flex-direction: column; gap: 12px; }
+        .aredl-searchbar { display: flex; gap: 10px; }
+        .aredl-searchbar input {
+            flex: 1; min-width: 0; min-height: 43px; padding: 10px 13px;
+            color: #fff; background: rgba(20,20,20,.9); border: 1px solid #444;
+            border-radius: 8px; outline: none; font: inherit; font-size: .82rem;
+        }
+        .aredl-searchbar input:focus { border-color: var(--red-light); box-shadow: 0 0 0 3px rgba(232,90,90,.13); }
+        .aredl-status { min-height: 17px; color: #888; font-size: .7rem; line-height: 1.5; }
+        .aredl-results { display: flex; flex-direction: column; gap: 7px; max-height: 350px; overflow-y: auto; }
+        .aredl-result { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #191919; border: 1px solid #383838; border-radius: 9px; }
+        .aredl-result-info { flex: 1; min-width: 0; }
+        .aredl-result-name { color: #f2f2f2; font-size: .8rem; font-weight: 800; overflow-wrap: anywhere; }
+        .aredl-result-rank { margin-top: 4px; color: #aaa; font-size: .65rem; font-weight: 700; }
+        .aredl-tag { flex: 0 0 auto; padding: 4px 8px; color: #ff8585; background: rgba(229,72,72,.12); border: 1px solid rgba(229,72,72,.28); border-radius: 12px; font-size: .58rem; font-weight: 900; }
+        .aredl-tag.legacy { color: #c6a7ff; background: rgba(150,110,220,.12); border-color: rgba(150,110,220,.3); }
+        .level-meta { display: block; margin-top: 4px; color: #aaa; font-size: .62rem; font-weight: 700; }
+        @media (max-width: 700px) { .aredl-searchbar { flex-direction: column; } .aredl-result { flex-wrap: wrap; } }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            padding: 25px 10px 35px;
+            color: #666;
+            text-align: center;
+            font-size: .7rem;
+            letter-spacing: 1.5px;
+        }
+
+        @media (max-width: 900px) {
+            .torna-indietro { position: relative; top: auto; left: auto; margin: 0 0 14px 14px; }
+        }
+        @media (max-width: 700px) {
+            .barra-sinistra, .barra-destra { width: 22vw; opacity: .42; }
+            main { padding-top: 25px; }
+            .torna-indietro { margin: 0 0 12px 10px; }
+            .navigation-badges { gap: 7px; width: 96%; margin-bottom: 22px; }
+            .badge-link { gap: 7px; padding: 7px 10px; font-size: .66rem; }
+            .badge-link img, .badge-emoji { width: 21px; height: 21px; flex-basis: 21px; }
+            .testo-illuminato { letter-spacing: -.8px; }
+            .sottotitolo { letter-spacing: 1.3px; }
+            .contenuto { width: 94%; margin-top: 28px; }
+            .scheda { padding: 18px 15px; }
+            .form-riga { flex-direction: column; }
+            .level-item { gap: 8px; padding: 9px; }
+            .level-name { font-size: .74rem; }
+            .level-badge { font-size: .52rem; padding: 3px 6px; }
+            .btn-danger { padding: 6px 8px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="barra-sinistra" aria-hidden="true"></div>
+    <div class="barra-destra" aria-hidden="true"></div>
 
-<div class="barra-sinistra" aria-hidden="true"></div>
-<div class="barra-destra" aria-hidden="true"></div>
-
-<main>
-
-<a href="index.html" class="badge-link torna-indietro">
-    <span>&lt; Back to the list</span>
-</a>
-
-<nav class="navigation-badges" aria-label="Main navigation">
-
-    <div class="dropdown-container">
-        <a class="badge-link" href="#" aria-label="Players menu">
-            <img src="players.png" alt="">
-            <span>Players</span>
-            <span class="arrow">&gt;</span>
+    <main>
+        <a href="index.html" class="badge-link torna-indietro">
+            <span>&lt; Back to the list</span>
         </a>
 
-        <div class="dropdown-menu">
-            <div class="dropdown-content">
-                <a href="who.html" class="dropdown-item">
-                    <span>❓ Who?</span>
+        <nav class="navigation-badges" aria-label="Main navigation">
+            <div class="dropdown-container">
+                <a class="badge-link" href="#" aria-label="Players menu">
+                    <img src="players.png" alt="">
+                    <span>Players</span><span class="arrow">&gt;</span>
                 </a>
-                <a href="leaderboard.html" class="dropdown-item">
-                    <img src="lb.png" alt="">
-                    <span>Leaderboard</span>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="who.html" class="dropdown-item"><span>❓ Who?</span></a>
+                        <a href="leaderboard.html" class="dropdown-item">
+                            <img src="lb.png" alt=""><span>Leaderboard</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-container">
+                <a class="badge-link" href="#" aria-label="Games menu">
+                    <img src="games.png" alt="">
+                    <span>Games</span><span class="arrow">&gt;</span>
                 </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="dropdown-container">
-        <a class="badge-link" href="#" aria-label="Games menu">
-            <img src="games.png" alt="">
-            <span>Games</span>
-            <span class="arrow">&gt;</span>
-        </a>
-
-        <div class="dropdown-menu">
-            <div class="dropdown-content">
-                <a href="horse.html" class="dropdown-item">
-                    <img src="horse.png" alt="">
-                    <span>H.O.R.S.E.</span>
-                </a>
-                <a href="thedemonwheel.html" class="dropdown-item">
-                    <img src="tdw.png" alt="">
-                    <span>The Demon Wheel</span>
-                </a>
-                <a href="roulette.html" class="dropdown-item">
-                    <img src="roulette.png" alt="">
-                    <span>Roulette</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <a href="announcements.html" class="badge-link">
-        <img src="announcements.png" alt="">
-        <span>Announcements</span>
-    </a>
-
-    <a href="community.html" class="badge-link">
-        <span class="badge-emoji" aria-hidden="true">💬</span>
-        <span>Community</span>
-    </a>
-
-</nav>
-
-<header>
-    <h1 class="testo-illuminato">The Demon Wheel</h1>
-    <p class="sottotitolo">Spin the wheel of fate</p>
-    <div class="linea-titolo"></div>
-</header>
-
-<section class="contenuto">
-
-    <!-- WHEEL -->
-
-    <article class="scheda">
-        <h2>Spin the Wheel</h2>
-        <p class="scheda-intro">
-            Add your levels to the wheel and let fate choose your next challenge.
-        </p>
-
-        <div class="wheel-wrapper">
-
-            <div class="wheel-container">
-                <div class="wheel-pointer" aria-hidden="true"></div>
-                <canvas id="wheelCanvas" width="1000" height="1000"
-                    aria-label="Random level wheel"></canvas>
-            </div>
-
-            <button class="btn btn-primary spin-btn" id="spinBtn" type="button">
-                ✦ &nbsp; SPIN THE WHEEL
-            </button>
-
-            <p class="wheel-hint" id="wheelHint">
-                Add at least one level to start spinning.
-            </p>
-
-            <div class="result-box" id="resultBox" aria-live="polite">
-                <div class="result-label">THE WHEEL HAS CHOSEN</div>
-                <div class="result-name" id="resultName">—</div>
-                <div class="result-rank" id="resultRank"></div>
-            </div>
-
-        </div>
-    </article>
-
-    <!-- ADD LEVEL -->
-
-    <article class="scheda">
-        <h2>Add Level to Wheel</h2>
-        <p class="scheda-intro">
-            Choose a level from the G_S list, search the AREDL database or add your own custom level.
-        </p>
-
-        <form class="form-sfida" id="addForm">
-
-            <div class="form-riga">
-
-                <div class="form-gruppo">
-                    <label for="levelType">LEVEL SOURCE</label>
-                    <select id="levelType">
-                        <option value="list">G_S Demon List</option>
-                        <option value="aredl">AREDL</option>
-                        <option value="custom">Custom Level</option>
-                    </select>
+                <div class="dropdown-menu">
+                    <div class="dropdown-content">
+                        <a href="horse.html" class="dropdown-item">
+                            <img src="horse.png" alt=""><span>H.O.R.S.E.</span>
+                        </a>
+                        <a href="thedemonwheel.html" class="dropdown-item">
+                            <img src="tdw.png" alt=""><span>The Demon Wheel</span>
+                        </a>
+                        <a href="roulette.html" class="dropdown-item">
+                            <img src="roulette.png" alt=""><span>Roulette</span>
+                        </a>
+                    </div>
                 </div>
-
-                <div class="form-gruppo" id="listSelectGroup">
-                    <label for="listLevel">G_S LEVEL</label>
-                    <select id="listLevel"></select>
-                </div>
-
-                <div class="form-gruppo" id="customNameGroup" hidden>
-                    <label for="customName">CUSTOM LEVEL NAME</label>
-                    <input type="text" id="customName"
-                        maxlength="40"
-                        placeholder="e.g. Acheron"
-                        autocomplete="off">
-                </div>
-
             </div>
 
-            <!-- AREDL SEARCH -->
+            <a href="announcements.html" class="badge-link">
+                <img src="announcements.png" alt=""><span>Announcements</span>
+            </a>
+            <a href="community.html" class="badge-link">
+                <span class="badge-emoji" aria-hidden="true">💬</span><span>Community</span>
+            </a>
+        </nav>
 
-            <div id="aredlSearchGroup" hidden>
+        <header>
+            <h1 class="testo-illuminato">The Demon Wheel</h1>
+            <p class="sottotitolo">Spin the wheel of fate</p>
+            <div class="linea-titolo"></div>
+        </header>
 
-                <div class="form-gruppo">
-                    <label for="aredlSearch">SEARCH AREDL LEVEL</label>
-                    <input
-                        type="search"
-                        id="aredlSearch"
-                        placeholder="Type a level name..."
-                        autocomplete="off">
+        <section class="contenuto">
+            <article class="scheda">
+                <h2>Spin the Wheel</h2>
+                <p class="scheda-intro">Add your levels to the wheel and let fate choose your next challenge.</p>
+
+                <div class="wheel-wrapper">
+                    <div class="wheel-container">
+                        <div class="wheel-pointer" aria-hidden="true"></div>
+                        <canvas id="wheelCanvas" width="700" height="700" aria-label="Random level wheel"></canvas>
+                    </div>
+
+                    <button class="btn btn-primary spin-btn" id="spinBtn" type="button">✦ &nbsp; SPIN THE WHEEL</button>
+                    <p class="wheel-hint" id="wheelHint">Add at least one level to start spinning.</p>
+
+                    <div class="result-box" id="resultBox" aria-live="polite">
+                        <div class="result-label">THE WHEEL HAS CHOSEN</div>
+                        <div class="result-name" id="resultName">—</div>
+                    </div>
                 </div>
+            </article>
 
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px">
-                    <label style="color:#999;font-size:.67rem;font-weight:800;letter-spacing:1px">
-                        SEARCH RESULTS
-                    </label>
-                    <span class="search-count" id="searchCount"></span>
+            <article class="scheda">
+                <h2>Add Level to Wheel</h2>
+                <p class="scheda-intro">Choose a level from the G_S list or add your own custom level.</p>
+
+                <form class="form-sfida" id="addForm">
+                    <div class="form-riga">
+                        <div class="form-gruppo">
+                            <label for="levelType">TYPE</label>
+                            <select id="levelType">
+                                <option value="list">From the List</option>
+                                <option value="custom">Custom Level</option>
+                            </select>
+                        </div>
+
+                        <div class="form-gruppo" id="listSelectGroup">
+                            <label for="listLevel">LEVEL FROM LIST</label>
+                            <select id="listLevel"></select>
+                        </div>
+
+                        <div class="form-gruppo" id="customNameGroup" hidden>
+                            <label for="customName">CUSTOM LEVEL NAME</label>
+                            <input type="text" id="customName" maxlength="40" placeholder="e.g. Acheron" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="status-message" id="formMessage" role="status"></div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">＋ Add to Wheel</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="scheda">
+                <h2>Search the AREDL</h2>
+                <p class="scheda-intro">Search the AREDL database and add any level to your wheel. Levels are shown with their current rank; Legacy levels have no current position.</p>
+                <div class="aredl-search">
+                    <div class="aredl-searchbar">
+                        <input id="aredlSearch" type="search" placeholder="Search a level by name or rank..." autocomplete="off">
+                        <button class="btn btn-secondary" id="reloadAredl" type="button">↻ Refresh</button>
+                    </div>
+                    <div class="aredl-status" id="aredlStatus" role="status">AREDL database not loaded yet.</div>
+                    <div class="aredl-results" id="aredlResults">
+                        <div class="vuoto">Type a level name to search the AREDL.</div>
+                    </div>
                 </div>
+            </article>
 
-                <select id="aredlResults" size="7" aria-label="AREDL search results">
-                    <option value="">Loading AREDL...</option>
-                </select>
+            <article class="scheda">
+                <div class="levels-heading">
+                    <h2>Levels on the Wheel <span id="levelCount">0</span></h2>
+                    <button class="btn btn-secondary btn-small" id="clearBtn" type="button">Clear all</button>
+                </div>
+                <div class="levels-list" id="levelsList">
+                    <div class="vuoto">No levels yet. Add some above!</div>
+                </div>
+            </article>
+        </section>
+    </main>
 
-                <p class="aredl-status" id="aredlStatus">
-                    AREDL database has not been loaded yet.
-                </p>
+    <footer>G_S DEMON LIST</footer>
 
-                <p class="form-note">
-                    Select a level to see its position in the AREDL ranking.
-                </p>
+    <script>
+        "use strict";
 
-            </div>
+        const LIST_LEVELS = [
+            { name: "Bloodbath", img: "bloodbath.png" },
+            { name: "Future Funk II", img: "futurefunk2.png" },
+            { name: "Magma Bound", img: "magmabound.png" },
+            { name: "CraZy II", img: "crazyii.png" },
+            { name: "Sonic Wave Universe", img: "swu.png" },
+            { name: "Death Note", img: "deathnote.png" },
+            { name: "Stalemate", img: "stalemate.png" },
+            { name: "Jawbreaker", img: "jawbreaker.png" },
+            { name: "Future Funk", img: "futurefunk.png" },
+            { name: "CraZy", img: "crazy.png" },
+            { name: "Megalovania", img: "megalovania.png" },
+            { name: "Nine Circles", img: "ninecircles.png" },
+            { name: "Troll Madness", img: "trollmadness.png" },
+            { name: "HeLL", img: "hell.png" },
+            { name: "Phobros", img: "phobros.png" },
+            { name: "Cycles v2 s", img: "cyclesv2s.png" },
+            { name: "Sakupen Egg", img: "sakupenegg.png" },
+            { name: "Mechanical Showdown", img: "mechanicalshowdown.png" },
+            { name: "Skeletal Shenanigans", img: "ss.png" },
+            { name: "VeritY", img: "verity.png" }
+        ];
 
-            <div class="status-message" id="formMessage" role="status"></div>
+        const COLORS = [
+            "#e54848", "#ff6b6b", "#ee5a24", "#f39c12", "#d6ad35",
+            "#2ecc71", "#1abc9c", "#3498db", "#7660bd", "#c44c8b",
+            "#00a6a6", "#6c5ce7", "#bd6b9c", "#d17055", "#00a878"
+        ];
 
-            <div>
-                <button type="submit" class="btn btn-primary">
-                    ＋ Add to Wheel
-                </button>
-            </div>
+        const STORAGE_KEY = "gs_demon_wheel_v1";
+        const canvas = document.getElementById("wheelCanvas");
+        const ctx = canvas.getContext("2d");
+        const spinBtn = document.getElementById("spinBtn");
+        const resultBox = document.getElementById("resultBox");
+        const resultName = document.getElementById("resultName");
+        const levelsList = document.getElementById("levelsList");
+        const wheelImageCache = new Map();
 
-        </form>
-    </article>
+        let levels = [];
+        let isSpinning = false;
+        let currentRotation = 0;
 
-    <!-- LEVEL LIST -->
+        function randomColor() {
+            return COLORS[Math.floor(Math.random() * COLORS.length)];
+        }
 
-    <article class="scheda">
-        <div class="levels-heading">
-            <h2>Levels on the Wheel <span id="levelCount">0</span></h2>
-            <button class="btn btn-secondary" id="clearBtn" type="button">
-                Clear all
-            </button>
-        </div>
+        function saveLevels() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(levels));
+            } catch (error) {
+                showFormMessage("Could not save levels in this browser.");
+            }
+        }
 
-        <div class="levels-list" id="levelsList">
-            <div class="vuoto">No levels yet. Add some above!</div>
-        </div>
-    </article>
+        function loadLevels() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+                if (!Array.isArray(saved)) return [];
 
-</section>
-</main>
+                return saved
+                    .filter(item => item && typeof item.name === "string" && item.name.trim())
+                    .map(item => {
+                        const known = LIST_LEVELS.find(level => level.name === item.name);
+                        const isList = Boolean(known && item.isList);
+                        const isAredl = item.isAredl === true;
+                        return {
+                            name: item.name.trim().slice(0, 80),
+                            img: isList ? known.img : null,
+                            color: isList ? null : (COLORS.includes(item.color) ? item.color : randomColor()),
+                            isList: isList && !isAredl,
+                            isAredl,
+                            aredlId: isAredl ? item.aredlId ?? null : null,
+                            rank: isAredl && Number.isInteger(item.rank) ? item.rank : null,
+                            status: isAredl ? (item.status || "Legacy") : null
+                        };
+                    });
+            } catch (error) {
+                return [];
+            }
+        }
 
-<footer>G_S DEMON LIST</footer>
+        function showFormMessage(message, success = false) {
+            const element = document.getElementById("formMessage");
+            element.textContent = message;
+            element.style.color = success ? "#00d982" : "#ff8585";
+        }
 
-<script>
-"use strict";
+        function initListSelect() {
+            const select = document.getElementById("listLevel");
+            LIST_LEVELS.forEach(level => {
+                const option = document.createElement("option");
+                option.value = level.name;
+                option.textContent = level.name;
+                select.appendChild(option);
+            });
+        }
 
-/* =========================================
-   CONFIGURATION
-========================================= */
+        function addLevel(level) {
+            const duplicate = levels.some(existing =>
+                (level.isAredl && level.aredlId != null && String(existing.aredlId) === String(level.aredlId)) ||
+                existing.name.toLowerCase() === level.name.toLowerCase()
+            );
+            if (duplicate) {
+                showFormMessage("This level is already on the wheel.");
+                return false;
+            }
+            levels.push(level);
+            saveLevels();
+            renderLevels();
+            drawWheel();
+            resultBox.classList.remove("show");
+            updateSpinState();
+            return true;
+        }
 
-const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
+        document.getElementById("levelType").addEventListener("change", event => {
+            const custom = event.target.value === "custom";
+            document.getElementById("listSelectGroup").hidden = custom;
+            document.getElementById("customNameGroup").hidden = !custom;
+            showFormMessage("");
+        });
 
-const STORAGE_KEY = "gs_demon_wheel_v1";
+        document.getElementById("addForm").addEventListener("submit", event => {
+            event.preventDefault();
+            if (isSpinning) return;
 
-const LIST_LEVELS = [
-    {name:"Bloodbath",img:"bloodbath.png"},
-    {name:"Future Funk II",img:"futurefunk2.png"},
-    {name:"Magma Bound",img:"magmabound.png"},
-    {name:"CraZy II",img:"crazyii.png"},
-    {name:"Sonic Wave Universe",img:"swu.png"},
-    {name:"Death Note",img:"deathnote.png"},
-    {name:"Stalemate",img:"stalemate.png"},
-    {name:"Jawbreaker",img:"jawbreaker.png"},
-    {name:"Future Funk",img:"futurefunk.png"},
-    {name:"CraZy",img:"crazy.png"},
-    {name:"Megalovania",img:"megalovania.png"},
-    {name:"Nine Circles",img:"ninecircles.png"},
-    {name:"Troll Madness",img:"trollmadness.png"},
-    {name:"HeLL",img:"hell.png"},
-    {name:"Phobros",img:"phobros.png"},
-    {name:"Cycles v2 s",img:"cyclesv2s.png"},
-    {name:"Sakupen Egg",img:"sakupenegg.png"},
-    {name:"Mechanical Showdown",img:"mechanicalshowdown.png"},
-    {name:"Skeletal Shenanigans",img:"ss.png"},
-    {name:"VeritY",img:"verity.png"}
-];
+            const type = document.getElementById("levelType").value;
 
-const COLORS = [
-    "#e54848","#f07878","#ed713d","#f2a52e",
-    "#d8b84c","#42a875","#25a6a0","#3988c7",
-    "#7562bd","#bd5a91","#159d9d","#7864d6",
-    "#bd739c","#c87559","#269b75"
-];
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const canvas = document.getElementById("wheelCanvas");
-const ctx = canvas.getContext("2d");
-
-const spinBtn = document.getElementById("spinBtn");
-const resultBox = document.getElementById("resultBox");
-const resultName = document.getElementById("resultName");
-const resultRank = document.getElementById("resultRank");
-const levelsList = document.getElementById("levelsList");
-
-const wheelImageCache = new Map();
-
-let levels = [];
-
-let aredlLevels = [];
-let aredlLoaded = false;
-let aredlLoading = false;
-
-let isSpinning = false;
-let currentRotation = 0;
-let searchTimer = null;
-
-/* =========================================
-   HELPERS
-========================================= */
-
-function randomColor() {
-    return COLORS[Math.floor(Math.random()*COLORS.length)];
-}
-
-function hexToRgb(hex) {
-    const value = hex.replace("#","");
-    return {
-        r:parseInt(value.substring(0,2),16),
-        g:parseInt(value.substring(2,4),16),
-        b:parseInt(value.substring(4,6),16)
-    };
-}
-
-function shadeColor(hex,amount) {
-    const c = hexToRgb(hex);
-    const r = Math.max(0,Math.min(255,c.r+amount));
-    const g = Math.max(0,Math.min(255,c.g+amount));
-    const b = Math.max(0,Math.min(255,c.b+amount));
-
-    return `rgb(${r},${g},${b})`;
-}
-
-function roundedRect(context,x,y,w,h,r) {
-    context.beginPath();
-    context.roundRect(x,y,w,h,r);
-}
-
-function showFormMessage(message,success=false) {
-    const element = document.getElementById("formMessage");
-
-    element.textContent = message;
-    element.style.color = success ? "#00d982" : "#ff8585";
-}
-
-function normalizeText(value) {
-    return String(value || "").trim().toLowerCase();
-}
-
-/* =========================================
-   STORAGE
-========================================= */
-
-function saveLevels() {
-    try {
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(levels));
-    } catch(error) {
-        showFormMessage("Could not save levels in this browser.");
-    }
-}
-
-function loadLevels() {
-    try {
-        const saved = JSON.parse(
-            localStorage.getItem(STORAGE_KEY) || "[]"
-        );
-
-        if (!Array.isArray(saved)) return [];
-
-        return saved
-            .filter(item =>
-                item &&
-                typeof item.name === "string" &&
-                item.name.trim()
-            )
-            .map(item => {
-
-                const source = item.source ||
-                    (item.isList ? "list" : "custom");
-
-                if (source === "aredl") {
-                    return {
-                        name:item.name.trim().slice(0,40),
-                        img:null,
-                        color:COLORS.includes(item.color)
-                            ? item.color : randomColor(),
-                        isList:false,
-                        source:"aredl",
-                        rank:Number.isInteger(item.rank)
-                            ? item.rank : null,
-                        id:item.id || null
-                    };
+            if (type === "list") {
+                const name = document.getElementById("listLevel").value;
+                if (levels.some(level => level.name === name)) {
+                    showFormMessage("This level is already on the wheel.");
+                    return;
                 }
 
-                const known = LIST_LEVELS.find(
-                    level => level.name === item.name
-                );
+                const found = LIST_LEVELS.find(level => level.name === name);
+                if (!found) return;
 
-                const isList = Boolean(known && item.isList);
+                addLevel({ name: found.name, img: found.img, color: null, isList: true });
+            } else {
+                const input = document.getElementById("customName");
+                const name = input.value.trim();
 
-                return {
-                    name:item.name.trim().slice(0,40),
-                    img:isList ? known.img : null,
-                    color:isList ? null :
-                        (COLORS.includes(item.color)
-                            ? item.color : randomColor()),
-                    isList,
-                    source:isList ? "list" : "custom",
-                    rank:null,
-                    id:null
-                };
-            });
+                if (!name) {
+                    showFormMessage("Please enter a level name.");
+                    input.focus();
+                    return;
+                }
+                if (levels.some(level => level.name.toLowerCase() === name.toLowerCase())) {
+                    showFormMessage("This level is already on the wheel.");
+                    return;
+                }
 
-    } catch(error) {
-        return [];
-    }
-}
-
-/* =========================================
-   AREDL DATABASE
-========================================= */
-
-async function loadAredl() {
-
-    if (aredlLoaded) return true;
-
-    if (aredlLoading) return false;
-
-    aredlLoading = true;
-
-    const status = document.getElementById("aredlStatus");
-    const results = document.getElementById("aredlResults");
-
-    status.textContent = "Connecting to AREDL...";
-    status.className = "aredl-status";
-
-    results.replaceChildren();
-
-    const loadingOption = document.createElement("option");
-    loadingOption.textContent = "Loading levels...";
-    loadingOption.value = "";
-    results.appendChild(loadingOption);
-
-    try {
-
-        const response = await fetch(AREDL_API, {
-            method:"GET",
-            headers:{
-                "Accept":"application/json"
+                addLevel({ name: name.slice(0, 40), img: null, color: randomColor(), isList: false });
+                input.value = "";
             }
+
+            showFormMessage("Level added to the wheel!", true);
         });
 
-        if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+        function renderLevels() {
+            levelsList.replaceChildren();
+            document.getElementById("levelCount").textContent = levels.length;
+
+            if (levels.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "vuoto";
+                empty.textContent = "No levels yet. Add some above!";
+                levelsList.appendChild(empty);
+                return;
+            }
+
+            levels.forEach((level, index) => {
+                const row = document.createElement("div");
+                row.className = "level-item";
+
+                if (level.isList && level.img) {
+                    const img = document.createElement("img");
+                    img.className = "level-img";
+                    img.src = level.img;
+                    img.alt = "";
+                    img.addEventListener("error", () => { img.hidden = true; }, { once: true });
+                    row.appendChild(img);
+                } else {
+                    const color = document.createElement("div");
+                    color.className = "level-color";
+                    color.style.backgroundColor = COLORS.includes(level.color) ? level.color : "#666";
+                    row.appendChild(color);
+                }
+
+                const name = document.createElement("span");
+                name.className = "level-name";
+                name.textContent = level.name;
+
+                const nameWrap = document.createElement("div");
+                nameWrap.style.cssText = "flex:1;min-width:0;";
+                name.style.display = "block";
+                nameWrap.appendChild(name);
+                if (level.isAredl) {
+                    const meta = document.createElement("span");
+                    meta.className = "level-meta";
+                    meta.textContent = Number.isInteger(level.rank) ? `AREDL Rank #${level.rank}` : "AREDL · LEGACY";
+                    nameWrap.appendChild(meta);
+                }
+                row.appendChild(nameWrap);
+
+                const badge = document.createElement("span");
+                badge.className = `level-badge${level.isAredl ? "" : (level.isList ? "" : " custom")}`;
+                badge.textContent = level.isAredl ? "AREDL" : (level.isList ? "LIST" : "CUSTOM");
+                row.appendChild(badge);
+
+                const remove = document.createElement("button");
+                remove.className = "btn btn-danger";
+                remove.type = "button";
+                remove.textContent = "Remove";
+                remove.setAttribute("aria-label", `Remove ${level.name}`);
+                remove.addEventListener("click", () => removeLevel(index));
+                row.appendChild(remove);
+
+                levelsList.appendChild(row);
+            });
         }
 
-        const data = await response.json();
-
-        // Support both a direct array and an object containing levels.
-        const rawLevels = Array.isArray(data)
-            ? data
-            : Array.isArray(data.levels)
-                ? data.levels
-                : Array.isArray(data.data)
-                    ? data.data
-                    : null;
-
-        if (!rawLevels) {
-            throw new Error("Unexpected API response");
-        }
-
-        aredlLevels = rawLevels
-            .filter(level =>
-                level &&
-                typeof level.name === "string" &&
-                Number.isInteger(Number(level.position)) &&
-                Number(level.position) > 0
-            )
-            .map(level => ({
-                id:level.id,
-                name:level.name.trim(),
-                rank:Number(level.position)
-            }))
-            .sort((a,b) => a.rank-b.rank);
-
-        if (aredlLevels.length === 0) {
-            throw new Error("No ranked levels received");
-        }
-
-        aredlLoaded = true;
-
-        status.textContent =
-            `${aredlLevels.length} AREDL levels loaded successfully.`;
-
-        status.className = "aredl-status online";
-
-        results.replaceChildren();
-
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "Search for a level above...";
-        results.appendChild(option);
-
-        return true;
-
-    } catch(error) {
-
-        console.error("AREDL loading error:",error);
-
-        status.textContent =
-            "Could not connect to AREDL. Check your connection and try again.";
-
-        status.className = "aredl-status error";
-
-        results.replaceChildren();
-
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "AREDL unavailable";
-        results.appendChild(option);
-
-        return false;
-
-    } finally {
-        aredlLoading = false;
-    }
-}
-
-/* =========================================
-   AREDL SEARCH
-========================================= */
-
-function searchAredl(query) {
-
-    const results = document.getElementById("aredlResults");
-    const count = document.getElementById("searchCount");
-
-    results.replaceChildren();
-
-    if (!query.trim()) {
-
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "Search for a level above...";
-
-        results.appendChild(option);
-        count.textContent = "";
-
-        return;
-    }
-
-    const normalized = normalizeText(query);
-
-    const matches = aredlLevels
-        .filter(level =>
-            normalizeText(level.name).includes(normalized)
-        )
-        .slice(0,100);
-
-    count.textContent = `${matches.length} results`;
-
-    if (matches.length === 0) {
-
-        const option = document.createElement("option");
-        option.value = "";
-        option.textContent = "No levels found.";
-
-        results.appendChild(option);
-
-        return;
-    }
-
-    matches.forEach(level => {
-
-        const option = document.createElement("option");
-
-        option.value = String(level.id);
-
-        option.textContent =
-            `#${level.rank} — ${level.name}`;
-
-        results.appendChild(option);
-
-    });
-}
-
-/* =========================================
-   FORM INITIALIZATION
-========================================= */
-
-function initListSelect() {
-
-    const select = document.getElementById("listLevel");
-
-    LIST_LEVELS.forEach(level => {
-
-        const option = document.createElement("option");
-
-        option.value = level.name;
-        option.textContent = level.name;
-
-        select.appendChild(option);
-
-    });
-}
-
-/* =========================================
-   FORM EVENTS
-========================================= */
-
-document.getElementById("levelType").addEventListener("change", async event => {
-
-    const type = event.target.value;
-
-    const isCustom = type === "custom";
-    const isAredl = type === "aredl";
-
-    document.getElementById("listSelectGroup").hidden =
-        isCustom || isAredl;
-
-    document.getElementById("customNameGroup").hidden =
-        !isCustom;
-
-    document.getElementById("aredlSearchGroup").hidden =
-        !isAredl;
-
-    showFormMessage("");
-
-    if (isAredl) {
-        await loadAredl();
-
-        if (aredlLoaded) {
-            document.getElementById("aredlSearch").focus();
-        }
-    }
-
-});
-
-document.getElementById("aredlSearch").addEventListener("input",event => {
-
-    clearTimeout(searchTimer);
-
-    const query = event.target.value;
-
-    searchTimer = setTimeout(() => {
-
-        if (!aredlLoaded) return;
-
-        searchAredl(query);
-
-    },150);
-
-});
-
-/* =========================================
-   ADD LEVEL
-========================================= */
-
-function addLevel(level) {
-
-    levels.push(level);
-
-    saveLevels();
-    renderLevels();
-    drawWheel();
-
-    resultBox.classList.remove("show");
-
-    updateSpinState();
-}
-
-document.getElementById("addForm").addEventListener("submit",event => {
-
-    event.preventDefault();
-
-    if (isSpinning) return;
-
-    const type = document.getElementById("levelType").value;
-
-    /* G_S LIST */
-
-    if (type === "list") {
-
-        const name = document.getElementById("listLevel").value;
-
-        if (levels.some(level =>
-            normalizeText(level.name) === normalizeText(name)
-        )) {
-            showFormMessage("This level is already on the wheel.");
-            return;
-        }
-
-        const found = LIST_LEVELS.find(level => level.name === name);
-
-        if (!found) return;
-
-        addLevel({
-            name:found.name,
-            img:found.img,
-            color:null,
-            isList:true,
-            source:"list",
-            rank:null,
-            id:null
-        });
-
-    }
-
-    /* AREDL */
-
-    else if (type === "aredl") {
-
-        if (!aredlLoaded) {
-            showFormMessage("AREDL database is not loaded.");
-            return;
-        }
-
-        const selectedId =
-            document.getElementById("aredlResults").value;
-
-        const found = aredlLevels.find(
-            level => String(level.id) === selectedId
-        );
-
-        if (!found) {
-            showFormMessage("Select a valid AREDL level from the results.");
-            return;
-        }
-
-        if (levels.some(level =>
-            level.source === "aredl" &&
-            (
-                (found.id && String(level.id) === String(found.id)) ||
-                level.rank === found.rank
-            )
-        )) {
-            showFormMessage("This AREDL level is already on the wheel.");
-            return;
-        }
-
-        addLevel({
-            name:found.name,
-            img:null,
-            color:randomColor(),
-            isList:false,
-            source:"aredl",
-            rank:found.rank,
-            id:found.id
-        });
-
-        document.getElementById("aredlSearch").value = "";
-        searchAredl("");
-
-    }
-
-    /* CUSTOM LEVEL */
-
-    else {
-
-        const input = document.getElementById("customName");
-        const name = input.value.trim();
-
-        if (!name) {
-            showFormMessage("Please enter a level name.");
-            input.focus();
-            return;
-        }
-
-        if (levels.some(level =>
-            normalizeText(level.name) === normalizeText(name)
-        )) {
-            showFormMessage("This level is already on the wheel.");
-            return;
-        }
-
-        addLevel({
-            name:name.slice(0,40),
-            img:null,
-            color:randomColor(),
-            isList:false,
-            source:"custom",
-            rank:null,
-            id:null
-        });
-
-        input.value = "";
-
-    }
-
-    showFormMessage("Level added to the wheel!",true);
-
-});
-
-/* =========================================
-   REMOVE LEVEL
-========================================= */
-
-function removeLevel(index) {
-
-    if (isSpinning || index<0 || index>=levels.length) return;
-
-    levels.splice(index,1);
-
-    saveLevels();
-    renderLevels();
-    drawWheel();
-
-    resultBox.classList.remove("show");
-
-    updateSpinState();
-}
-
-document.getElementById("clearBtn").addEventListener("click",() => {
-
-    if (isSpinning || levels.length===0) return;
-
-    if (!confirm("Remove every level from the wheel?")) return;
-
-    levels = [];
-
-    saveLevels();
-    renderLevels();
-    drawWheel();
-
-    resultBox.classList.remove("show");
-
-    updateSpinState();
-
-});
-
-/* =========================================
-   RENDER LEVEL LIST
-========================================= */
-
-function renderLevels() {
-
-    levelsList.replaceChildren();
-
-    document.getElementById("levelCount").textContent =
-        levels.length;
-
-    if (levels.length===0) {
-
-        const empty = document.createElement("div");
-
-        empty.className = "vuoto";
-        empty.textContent = "No levels yet. Add some above!";
-
-        levelsList.appendChild(empty);
-
-        return;
-    }
-
-    levels.forEach((level,index) => {
-
-        const row = document.createElement("div");
-        row.className = "level-item";
-
-        if (level.source === "list" && level.img) {
-
-            const img = document.createElement("img");
-
-            img.className = "level-img";
-            img.src = level.img;
-            img.alt = "";
-
-            img.addEventListener("error",() => {
-                img.hidden = true;
-            },{once:true});
-
-            row.appendChild(img);
-
-        } else {
-
-            const color = document.createElement("div");
-
-            color.className = "level-color";
-
-            color.style.backgroundColor =
-                COLORS.includes(level.color)
-                    ? level.color
-                    : "#666";
-
-            row.appendChild(color);
-
-        }
-
-        const name = document.createElement("span");
-
-        name.className = "level-name";
-        name.textContent = level.name;
-
-        row.appendChild(name);
-
-        const badge = document.createElement("span");
-
-        if (level.source === "aredl") {
-
-            badge.className = "level-badge aredl";
-            badge.textContent = `AREDL #${level.rank}`;
-
-        } else if (level.source === "list") {
-
-            badge.className = "level-badge";
-            badge.textContent = "G_S LIST";
-
-        } else {
-
-            badge.className = "level-badge custom";
-            badge.textContent = "CUSTOM";
-
-        }
-
-        row.appendChild(badge);
-
-        const remove = document.createElement("button");
-
-        remove.className = "btn btn-danger";
-        remove.type = "button";
-        remove.textContent = "Remove";
-        remove.setAttribute("aria-label",`Remove ${level.name}`);
-
-        remove.addEventListener("click",() => removeLevel(index));
-
-        row.appendChild(remove);
-
-        levelsList.appendChild(row);
-
-    });
-}
-
-/* =========================================
-   IMAGE CACHE
-========================================= */
-
-function getWheelImage(src) {
-
-    if (!src) return null;
-
-    if (!wheelImageCache.has(src)) {
-
-        const img = new Image();
-
-        img.onload = () => drawWheel();
-
-        img.onerror = () => {
-            wheelImageCache.set(src,null);
+        function removeLevel(index) {
+            if (isSpinning || index < 0 || index >= levels.length) return;
+            levels.splice(index, 1);
+            saveLevels();
+            renderLevels();
             drawWheel();
-        };
-
-        wheelImageCache.set(src,img);
-        img.src = src;
-
-    }
-
-    const image = wheelImageCache.get(src);
-
-    return image && image.complete && image.naturalWidth>0
-        ? image
-        : null;
-}
-
-/* =========================================
-   IMAGE DRAWING
-========================================= */
-
-function drawImageCover(image,x,y,w,h,radius) {
-
-    if (!image) return;
-
-    ctx.save();
-
-    roundedRect(ctx,x,y,w,h,radius);
-    ctx.clip();
-
-    const scale = Math.max(
-        w/image.naturalWidth,
-        h/image.naturalHeight
-    );
-
-    const sw = image.naturalWidth*scale;
-    const sh = image.naturalHeight*scale;
-
-    ctx.drawImage(
-        image,
-        x+(w-sw)/2,
-        y+(h-sh)/2,
-        sw,
-        sh
-    );
-
-    ctx.restore();
-
-    ctx.save();
-
-    roundedRect(ctx,x,y,w,h,radius);
-
-    ctx.strokeStyle="rgba(255,255,255,.8)";
-    ctx.lineWidth=3;
-    ctx.shadowColor="rgba(0,0,0,.8)";
-    ctx.shadowBlur=12;
-
-    ctx.stroke();
-
-    ctx.restore();
-}
-
-/* =========================================
-   OUTER WHEEL RIM
-========================================= */
-
-function drawOuterRim(center,radius) {
-
-    const rim = ctx.createRadialGradient(
-        center,center,radius-22,
-        center,center,radius+28
-    );
-
-    rim.addColorStop(0,"#080808");
-    rim.addColorStop(.28,"#777");
-    rim.addColorStop(.43,"#171717");
-    rim.addColorStop(.62,"#aaa");
-    rim.addColorStop(.8,"#292929");
-    rim.addColorStop(1,"#050505");
-
-    ctx.beginPath();
-    ctx.arc(center,center,radius+20,0,Math.PI*2);
-
-    ctx.fillStyle=rim;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(center,center,radius+17,0,Math.PI*2);
-
-    ctx.strokeStyle="#aaa";
-    ctx.lineWidth=4;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(center,center,radius+7,0,Math.PI*2);
-
-    ctx.strokeStyle="rgba(255,255,255,.24)";
-    ctx.lineWidth=2;
-    ctx.stroke();
-
-    for(let i=0;i<36;i++) {
-
-        const angle=i*Math.PI*2/36;
-
-        const x=center+Math.cos(angle)*(radius+9);
-        const y=center+Math.sin(angle)*(radius+9);
-
-        const light=ctx.createRadialGradient(
-            x-1,y-1,1,x,y,5
-        );
-
-        light.addColorStop(0,"#fff");
-        light.addColorStop(1,"#777");
-
-        ctx.beginPath();
-        ctx.arc(x,y,4,0,Math.PI*2);
-
-        ctx.fillStyle=light;
-        ctx.fill();
-
-    }
-}
-
-/* =========================================
-   CENTRAL HUB
-========================================= */
-
-function drawWheelHub(center) {
-
-    const hubRadius=68;
-
-    ctx.save();
-
-    ctx.beginPath();
-    ctx.arc(center,center,hubRadius+17,0,Math.PI*2);
-
-    ctx.fillStyle="rgba(0,0,0,.6)";
-    ctx.shadowColor="#000";
-    ctx.shadowBlur=20;
-    ctx.fill();
-
-    const metal=ctx.createLinearGradient(
-        center-hubRadius,center-hubRadius,
-        center+hubRadius,center+hubRadius
-    );
-
-    metal.addColorStop(0,"#eee");
-    metal.addColorStop(.25,"#555");
-    metal.addColorStop(.5,"#111");
-    metal.addColorStop(.75,"#aaa");
-    metal.addColorStop(1,"#333");
-
-    ctx.beginPath();
-    ctx.arc(center,center,hubRadius+10,0,Math.PI*2);
-
-    ctx.fillStyle=metal;
-    ctx.fill();
-
-    const hub=ctx.createRadialGradient(
-        center-20,center-22,3,
-        center,center,hubRadius
-    );
-
-    hub.addColorStop(0,"#666");
-    hub.addColorStop(.45,"#292929");
-    hub.addColorStop(1,"#090909");
-
-    ctx.beginPath();
-    ctx.arc(center,center,hubRadius,0,Math.PI*2);
-
-    ctx.fillStyle=hub;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(center,center,hubRadius-3,0,Math.PI*2);
-
-    ctx.strokeStyle="#e54848";
-    ctx.lineWidth=4;
-    ctx.stroke();
-
-    ctx.fillStyle="#fff";
-    ctx.font="900 31px Montserrat";
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-
-    ctx.shadowColor="rgba(229,72,72,.9)";
-    ctx.shadowBlur=15;
-
-    ctx.fillText("G_S",center,center);
-
-    ctx.restore();
-}
-
-/* =========================================
-   DRAW WHEEL
-========================================= */
-
-function drawWheel() {
-
-    const size=canvas.width;
-    const center=size/2;
-    const radius=455;
-
-    ctx.clearRect(0,0,size,size);
-
-    drawOuterRim(center,radius);
-
-    if (levels.length===0) {
-
-        const empty=ctx.createRadialGradient(
-            center,center,30,
-            center,center,radius
-        );
-
-        empty.addColorStop(0,"#333");
-        empty.addColorStop(1,"#171717");
-
-        ctx.beginPath();
-        ctx.arc(center,center,radius,0,Math.PI*2);
-
-        ctx.fillStyle=empty;
-        ctx.fill();
-
-        ctx.fillStyle="#aaa";
-        ctx.font="900 32px Montserrat";
-        ctx.textAlign="center";
-        ctx.textBaseline="middle";
-
-        ctx.fillText("ADD LEVELS",center,center);
-
-        drawWheelHub(center);
-
-        return;
-    }
-
-    const arc=Math.PI*2/levels.length;
-    const wheelRadius=radius-9;
-
-    levels.forEach((level,index) => {
-
-        const start=index*arc-Math.PI/2;
-        const end=start+arc;
-        const middle=start+arc/2;
-
-        const color=level.source==="list"
-            ? COLORS[index%COLORS.length]
-            : (COLORS.includes(level.color)
-                ? level.color : "#666");
-
-        /* SLICE BACKGROUND */
-
-        ctx.save();
-
-        ctx.beginPath();
-        ctx.moveTo(center,center);
-        ctx.arc(center,center,wheelRadius,start,end);
-        ctx.closePath();
-
-        const gradient=ctx.createRadialGradient(
-            center-35,center-35,20,
-            center,center,wheelRadius
-        );
-
-        gradient.addColorStop(0,shadeColor(color,45));
-        gradient.addColorStop(.55,color);
-        gradient.addColorStop(1,shadeColor(color,-65));
-
-        ctx.fillStyle=gradient;
-        ctx.fill();
-
-        /* LIGHT EFFECT */
-
-        ctx.save();
-        ctx.clip();
-
-        const shine=ctx.createLinearGradient(
-            center-wheelRadius,center-wheelRadius,
-            center+wheelRadius,center+wheelRadius
-        );
-
-        shine.addColorStop(0,"rgba(255,255,255,.18)");
-        shine.addColorStop(.5,"rgba(255,255,255,0)");
-        shine.addColorStop(1,"rgba(0,0,0,.22)");
-
-        ctx.fillStyle=shine;
-        ctx.fillRect(0,0,size,size);
-
-        ctx.restore();
-
-        /* DIVIDERS */
-
-        ctx.beginPath();
-        ctx.moveTo(center,center);
-
-        ctx.lineTo(
-            center+Math.cos(start)*wheelRadius,
-            center+Math.sin(start)*wheelRadius
-        );
-
-        ctx.strokeStyle="rgba(255,255,255,.55)";
-        ctx.lineWidth=3;
-        ctx.stroke();
-
-        /* CONTENT */
-
-        const count=levels.length;
-
-        const imageDistance=wheelRadius*.63;
-
-        const imageX=center+Math.cos(middle)*imageDistance;
-        const imageY=center+Math.sin(middle)*imageDistance;
-
-        const availableWidth=2*imageDistance*Math.sin(arc/2);
-
-        const imageWidth=Math.max(
-            42,
-            Math.min(190,availableWidth*.76,wheelRadius*.46)
-        );
-
-        const compact=count>8;
-
-        const finalImageWidth=compact
-            ? Math.max(38,imageWidth*.78)
-            : imageWidth;
-
-        const finalImageHeight=finalImageWidth*.59;
-
-        const image=getWheelImage(
-            level.source==="list" ? level.img : null
-        );
-
-        if (image) {
-
-            const x=imageX-finalImageWidth/2;
-            const y=imageY-finalImageHeight/2;
-
-            ctx.save();
-
-            ctx.shadowColor="rgba(0,0,0,.8)";
-            ctx.shadowBlur=18;
-            ctx.shadowOffsetY=5;
-
-            drawImageCover(
-                image,
-                x,y,
-                finalImageWidth,
-                finalImageHeight,
-                9
-            );
-
-            ctx.restore();
-
-        } else {
-
-            const badgeWidth=finalImageWidth;
-            const badgeHeight=Math.min(58,finalImageHeight);
-
-            const x=imageX-badgeWidth/2;
-            const y=imageY-badgeHeight/2;
-
-            ctx.save();
-
-            roundedRect(ctx,x,y,badgeWidth,badgeHeight,9);
-
-            ctx.fillStyle="rgba(0,0,0,.38)";
+            resultBox.classList.remove("show");
+            updateSpinState();
+        }
+
+        document.getElementById("clearBtn").addEventListener("click", () => {
+            if (isSpinning || levels.length === 0) return;
+            if (!confirm("Remove every level from the wheel?")) return;
+
+            levels = [];
+            saveLevels();
+            renderLevels();
+            drawWheel();
+            resultBox.classList.remove("show");
+            updateSpinState();
+        });
+
+        function getWheelImage(src) {
+            if (!src) return null;
+
+            if (!wheelImageCache.has(src)) {
+                const img = new Image();
+                img.onload = () => drawWheel();
+                img.onerror = () => wheelImageCache.set(src, null);
+                wheelImageCache.set(src, img);
+                img.src = src;
+            }
+
+            const image = wheelImageCache.get(src);
+            return image && image.complete && image.naturalWidth > 0 ? image : null;
+        }
+
+        function drawWheel() {
+            const size = canvas.width;
+            const center = size / 2;
+            const radius = center - 12;
+            const wheelRadius = radius - 7;
+
+            ctx.clearRect(0, 0, size, size);
+
+            // Outer metallic rim
+            const rim = ctx.createRadialGradient(center, center, wheelRadius - 8, center, center, radius + 8);
+            rim.addColorStop(0, "#252525");
+            rim.addColorStop(.72, "#777");
+            rim.addColorStop(.86, "#333");
+            rim.addColorStop(1, "#111");
+            ctx.beginPath();
+            ctx.arc(center, center, radius + 3, 0, Math.PI * 2);
+            ctx.fillStyle = rim;
             ctx.fill();
-
-            ctx.strokeStyle="rgba(255,255,255,.45)";
-            ctx.lineWidth=2;
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "#888";
             ctx.stroke();
 
-            ctx.fillStyle="#fff";
+            if (levels.length === 0) {
+                ctx.beginPath();
+                ctx.arc(center, center, wheelRadius, 0, Math.PI * 2);
+                ctx.fillStyle = "#292929";
+                ctx.fill();
+                ctx.fillStyle = "#aaa";
+                ctx.font = "900 27px Montserrat";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("ADD LEVELS", center, center);
+                drawWheelHub(center);
+                return;
+            }
 
-            ctx.font=`900 ${Math.max(10,Math.min(17,finalImageWidth*.12))}px Montserrat`;
+            const arc = (Math.PI * 2) / levels.length;
 
-            ctx.textAlign="center";
-            ctx.textBaseline="middle";
+            levels.forEach((level, index) => {
+                const start = index * arc - Math.PI / 2;
+                const end = start + arc;
+                const middle = start + arc / 2;
+                const color = level.isList
+                    ? COLORS[index % COLORS.length]
+                    : (COLORS.includes(level.color) ? level.color : "#666");
+                const image = level.isList ? getWheelImage(level.img) : null;
 
-            const shortName=level.name.length>15
-                ? level.name.slice(0,14)+"…"
-                : level.name;
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, wheelRadius, start, end);
+                ctx.closePath();
+                ctx.clip();
 
-            ctx.fillText(shortName,imageX,imageY,finalImageWidth-10);
+                // Each slice uses its own level artwork as a full background.
+                if (image) {
+                    const scale = Math.max(
+                        (wheelRadius * 2) / image.naturalWidth,
+                        (wheelRadius * 2) / image.naturalHeight
+                    );
+                    const imageWidth = image.naturalWidth * scale;
+                    const imageHeight = image.naturalHeight * scale;
+                    ctx.drawImage(image, center - imageWidth / 2, center - imageHeight / 2, imageWidth, imageHeight);
+                } else {
+                    const base = ctx.createRadialGradient(center, center, 15, center, center, wheelRadius);
+                    base.addColorStop(0, lightenColor(color, 38));
+                    base.addColorStop(.7, color);
+                    base.addColorStop(1, "#171717");
+                    ctx.fillStyle = base;
+                    ctx.fillRect(center - wheelRadius, center - wheelRadius, wheelRadius * 2, wheelRadius * 2);
+                }
 
-            ctx.restore();
+                // Contrast overlay and subtle glossy highlight
+                const shade = ctx.createLinearGradient(center - wheelRadius, center - wheelRadius, center + wheelRadius, center + wheelRadius);
+                shade.addColorStop(0, "rgba(0,0,0,.36)");
+                shade.addColorStop(.5, "rgba(0,0,0,.55)");
+                shade.addColorStop(1, "rgba(0,0,0,.72)");
+                ctx.fillStyle = shade;
+                ctx.fillRect(center - wheelRadius, center - wheelRadius, wheelRadius * 2, wheelRadius * 2);
 
+                const shine = ctx.createRadialGradient(center, center, wheelRadius * .12, center, center, wheelRadius);
+                shine.addColorStop(0, "rgba(255,255,255,.10)");
+                shine.addColorStop(.72, "rgba(255,255,255,.015)");
+                shine.addColorStop(1, "rgba(0,0,0,.24)");
+                ctx.fillStyle = shine;
+                ctx.fillRect(center - wheelRadius, center - wheelRadius, wheelRadius * 2, wheelRadius * 2);
+                ctx.restore();
+
+                // Label along the slice bisector
+                ctx.save();
+                ctx.translate(center, center);
+                ctx.rotate(middle);
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const fontSize = Math.max(10, Math.min(21, 25 - levels.length * .52));
+                ctx.font = `900 ${fontSize}px Montserrat`;
+                const maxLength = levels.length > 16 ? 10 : levels.length > 11 ? 14 : 22;
+                const label = level.name.length > maxLength
+                    ? level.name.slice(0, maxLength - 1) + "…"
+                    : level.name;
+                const labelDistance = wheelRadius * .62;
+                const textWidth = Math.max(38, wheelRadius * .66);
+
+                ctx.lineJoin = "round";
+                ctx.lineWidth = Math.max(3, fontSize * .28);
+                ctx.strokeStyle = "rgba(0,0,0,.95)";
+                ctx.strokeText(label, labelDistance, 0, textWidth);
+                ctx.shadowColor = "rgba(0,0,0,.9)";
+                ctx.shadowBlur = 9;
+                ctx.fillStyle = "#fff";
+                ctx.fillText(label, labelDistance, 0, textWidth);
+
+                if (level.isAredl) {
+                    ctx.shadowBlur = 5;
+                    ctx.font = `800 ${Math.max(8, fontSize * .66)}px Montserrat`;
+                    ctx.fillStyle = "#ffe1e1";
+                    const rankText = Number.isInteger(level.rank) ? `AREDL #${level.rank}` : "AREDL LEGACY";
+                    ctx.fillText(rankText, labelDistance, fontSize * 1.12, textWidth);
+                }
+                ctx.restore();
+
+                // Crisp slice separators
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.lineTo(center + Math.cos(start) * wheelRadius, center + Math.sin(start) * wheelRadius);
+                ctx.strokeStyle = "rgba(255,255,255,.58)";
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, wheelRadius, start, end);
+                ctx.closePath();
+                ctx.strokeStyle = "rgba(0,0,0,.68)";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            });
+
+            // Inner ring gives the hub a cleaner, more finished edge.
+            ctx.beginPath();
+            ctx.arc(center, center, 58, 0, Math.PI * 2);
+            ctx.strokeStyle = "rgba(255,255,255,.24)";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            drawWheelHub(center);
         }
 
-        /* LEVEL NAME + AREDL RANK */
+        function lightenColor(hex, amount) {
+            const value = hex.replace("#", "");
+            const number = parseInt(value, 16);
+            const r = Math.min(255, ((number >> 16) & 255) + amount);
+            const g = Math.min(255, ((number >> 8) & 255) + amount);
+            const b = Math.min(255, (number & 255) + amount);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
 
-        const labelY=imageY+finalImageHeight/2+20;
+        function drawWheelHub(center) {
+            const hubRadius = 47;
 
-        let fontSize;
+            ctx.beginPath();
+            ctx.arc(center, center, hubRadius + 8, 0, Math.PI * 2);
+            ctx.fillStyle = "#181818";
+            ctx.fill();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "#e54848";
+            ctx.stroke();
 
-        if(count<=4) fontSize=19;
-        else if(count<=6) fontSize=15;
-        else if(count<=9) fontSize=12;
-        else if(count<=13) fontSize=10;
-        else fontSize=8;
+            const hubGradient = ctx.createRadialGradient(center - 10, center - 12, 3, center, center, hubRadius);
+            hubGradient.addColorStop(0, "#444");
+            hubGradient.addColorStop(1, "#202020");
+            ctx.beginPath();
+            ctx.arc(center, center, hubRadius, 0, Math.PI * 2);
+            ctx.fillStyle = hubGradient;
+            ctx.fill();
 
-        const maxTextWidth=Math.max(
-            35,
-            Math.min(availableWidth*.9,wheelRadius*.48)
-        );
+            ctx.fillStyle = "#fff";
+            ctx.font = "900 22px Montserrat";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("G_S", center, center);
+        }
 
-        const displayName=level.source==="aredl" && level.rank
-            ? `${level.name} #${level.rank}`
-            : level.name;
+        function updateSpinState() {
+            spinBtn.disabled = isSpinning || levels.length === 0;
+            document.getElementById("wheelHint").textContent =
+                levels.length === 0
+                    ? "Add at least one level to start spinning."
+                    : `${levels.length} ${levels.length === 1 ? "level" : "levels"} on the wheel · Good luck!`;
+        }
 
-        ctx.save();
+        function spinWheel() {
+            if (isSpinning || levels.length === 0) return;
 
-        ctx.translate(imageX,labelY);
+            isSpinning = true;
+            spinBtn.disabled = true;
+            spinBtn.textContent = "⟳  SPINNING...";
+            canvas.classList.add("spinning");
+            resultBox.classList.remove("show");
 
-        ctx.font=`900 ${fontSize}px Montserrat`;
-        ctx.textAlign="center";
-        ctx.textBaseline="middle";
+            // Pick the winner first, then calculate the exact stopping angle.
+            const winnerIndex = Math.floor(Math.random() * levels.length);
+            const arcDegrees = 360 / levels.length;
+            const winnerCenter = (winnerIndex + .5) * arcDegrees - 90;
+            const desiredRotation = ((-90 - winnerCenter) % 360 + 360) % 360;
 
-        ctx.lineWidth=4;
-        ctx.strokeStyle="rgba(0,0,0,.65)";
-        ctx.lineJoin="round";
+            const currentNormalized = ((currentRotation % 360) + 360) % 360;
+            const alignment = (desiredRotation - currentNormalized + 360) % 360;
+            const extraSpins = 6 + Math.floor(Math.random() * 3);
+            const startRotation = currentRotation;
+            const endRotation = startRotation + extraSpins * 360 + alignment;
+            const duration = 4800 + Math.random() * 900;
+            const startTime = performance.now();
 
-        ctx.strokeText(displayName,0,0,maxTextWidth);
+            function easeOutQuint(t) {
+                return 1 - Math.pow(1 - t, 5);
+            }
 
-        ctx.fillStyle="#fff";
-        ctx.shadowColor="rgba(0,0,0,.9)";
-        ctx.shadowBlur=8;
-        ctx.shadowOffsetY=2;
+            function animate(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                currentRotation = startRotation + (endRotation - startRotation) * easeOutQuint(progress);
+                canvas.style.transform = `rotate(${currentRotation}deg)`;
 
-        ctx.fillText(displayName,0,0,maxTextWidth);
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                    return;
+                }
 
-        ctx.restore();
+                currentRotation = endRotation;
+                isSpinning = false;
+                canvas.classList.remove("spinning");
+                spinBtn.disabled = levels.length === 0;
+                spinBtn.textContent = "✦  SPIN AGAIN";
 
-        /* INNER EDGE */
+                const winner = levels[winnerIndex];
+                resultName.textContent = winner.isAredl
+                    ? `${winner.name} · ${Number.isInteger(winner.rank) ? `AREDL #${winner.rank}` : "LEGACY"}`
+                    : winner.name;
+                resultBox.classList.add("show");
+                updateSpinState();
+                spinBtn.textContent = "✦  SPIN AGAIN";
+            }
 
-        ctx.beginPath();
-        ctx.moveTo(center,center);
-        ctx.arc(center,center,wheelRadius,start,end);
-        ctx.closePath();
-
-        ctx.strokeStyle="rgba(255,255,255,.12)";
-        ctx.lineWidth=2;
-        ctx.stroke();
-
-        ctx.restore();
-
-    });
-
-    ctx.beginPath();
-    ctx.arc(center,center,105,0,Math.PI*2);
-
-    ctx.strokeStyle="rgba(255,255,255,.2)";
-    ctx.lineWidth=3;
-    ctx.stroke();
-
-    drawWheelHub(center);
-}
-
-/* =========================================
-   SPIN STATE
-========================================= */
-
-function updateSpinState() {
-
-    spinBtn.disabled=isSpinning || levels.length===0;
-
-    document.getElementById("wheelHint").textContent =
-        levels.length===0
-            ? "Add at least one level to start spinning."
-            : `${levels.length} ${levels.length===1?"level":"levels"} on the wheel · Good luck!`;
-
-}
-
-/* =========================================
-   SPIN ANIMATION
-========================================= */
-
-function spinWheel() {
-
-    if (isSpinning || levels.length===0) return;
-
-    isSpinning=true;
-
-    spinBtn.disabled=true;
-    spinBtn.textContent="⟳  SPINNING...";
-
-    canvas.classList.add("spinning");
-
-    resultBox.classList.remove("show");
-
-    const winnerIndex=Math.floor(Math.random()*levels.length);
-
-    const arcDegrees=360/levels.length;
-
-    const winnerCenter=(winnerIndex+.5)*arcDegrees-90;
-
-    const desiredRotation=
-        ((-90-winnerCenter)%360+360)%360;
-
-    const currentNormalized=
-        ((currentRotation%360)+360)%360;
-
-    const alignment=
-        (desiredRotation-currentNormalized+360)%360;
-
-    const extraSpins=6+Math.floor(Math.random()*3);
-
-    const startRotation=currentRotation;
-
-    const endRotation=
-        startRotation+extraSpins*360+alignment;
-
-    const duration=5000+Math.random()*900;
-
-    const startTime=performance.now();
-
-    function easeOutQuint(t) {
-        return 1-Math.pow(1-t,5);
-    }
-
-    function animate(now) {
-
-        const progress=Math.min(
-            (now-startTime)/duration,
-            1
-        );
-
-        currentRotation=
-            startRotation+
-            (endRotation-startRotation)*easeOutQuint(progress);
-
-        canvas.style.transform=
-            `rotate(${currentRotation}deg)`;
-
-        if (progress<1) {
             requestAnimationFrame(animate);
-            return;
         }
 
-        currentRotation=endRotation;
+        spinBtn.addEventListener("click", spinWheel);
 
-        isSpinning=false;
+        // AREDL integration: fetch the public list once, then search locally.
+        const AREDL_API = "https://api.aredl.net/v2/api/levels?exclude_pending=true&exclude_removed=true";
+        const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v1";
+        const AREDL_CACHE_TTL = 12 * 60 * 60 * 1000;
+        let aredlLevels = [];
+        let aredlLoaded = false;
 
-        canvas.classList.remove("spinning");
+        function normalizeAredlLevel(item) {
+            const level = item && item.level ? { ...item.level, ...item } : item;
+            if (!level || typeof level.name !== "string") return null;
+            const status = String(level.status || "MainList");
+            if (["Pending", "Removed"].includes(status)) return null;
+            const position = Number.isInteger(level.position) && level.position > 0 ? level.position : null;
+            return {
+                id: level.id ?? level.level_id ?? `${level.name}-${position ?? "legacy"}`,
+                name: level.name.trim(),
+                rank: position,
+                status
+            };
+        }
 
-        const winner=levels[winnerIndex];
+        function setAredlStatus(message, isError = false) {
+            const status = document.getElementById("aredlStatus");
+            status.textContent = message;
+            status.style.color = isError ? "#ff8585" : "#888";
+        }
 
-        resultName.textContent=winner.name;
+        async function loadAredl(force = false) {
+            const status = document.getElementById("aredlStatus");
+            if (!force) {
+                try {
+                    const cached = JSON.parse(localStorage.getItem(AREDL_CACHE_KEY) || "null");
+                    if (cached && Date.now() - cached.savedAt < AREDL_CACHE_TTL && Array.isArray(cached.levels)) {
+                        aredlLevels = cached.levels;
+                        aredlLoaded = true;
+                        setAredlStatus(`Loaded ${aredlLevels.length.toLocaleString()} AREDL levels · cached data`);
+                        renderAredlResults();
+                        return;
+                    }
+                } catch (_) { /* Ignore invalid cache and fetch fresh data. */ }
+            }
 
-        resultRank.textContent=
-            winner.source==="aredl" && winner.rank
-                ? `AREDL RANK #${winner.rank}`
-                : winner.source==="list"
-                    ? "G_S DEMON LIST"
-                    : "CUSTOM LEVEL";
+            setAredlStatus("Connecting to the AREDL database...");
+            status.style.color = "#d6ad35";
+            try {
+                const response = await fetch(AREDL_API, { headers: { "Accept": "application/json" } });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                const rawLevels = Array.isArray(data) ? data : (Array.isArray(data.levels) ? data.levels : (Array.isArray(data.data) ? data.data : []));
+                if (!rawLevels.length) throw new Error("The API returned an empty or unexpected response.");
 
-        resultBox.classList.add("show");
+                aredlLevels = rawLevels.map(normalizeAredlLevel).filter(Boolean);
+                aredlLevels.sort((a, b) => {
+                    if (a.rank !== null && b.rank !== null) return a.rank - b.rank;
+                    if (a.rank !== null) return -1;
+                    if (b.rank !== null) return 1;
+                    return a.name.localeCompare(b.name);
+                });
+                aredlLoaded = true;
+                try { localStorage.setItem(AREDL_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), levels: aredlLevels })); } catch (_) {}
+                setAredlStatus(`Connected · ${aredlLevels.length.toLocaleString()} AREDL levels available (Main List + Legacy)`);
+                renderAredlResults();
+            } catch (error) {
+                console.error("AREDL loading error:", error);
+                setAredlStatus("Could not load AREDL. Check your connection or open this page through a local server (for example VS Code Live Server).", true);
+                document.getElementById("aredlResults").innerHTML = '<div class="vuoto">AREDL data is temporarily unavailable. Your wheel still works normally.</div>';
+            }
+        }
 
-        updateSpinState();
+        function renderAredlResults() {
+            const container = document.getElementById("aredlResults");
+            const query = document.getElementById("aredlSearch").value.trim().toLowerCase();
+            container.replaceChildren();
+            if (!query) {
+                const hint = document.createElement("div");
+                hint.className = "vuoto";
+                hint.textContent = aredlLoaded ? "Type a level name or rank to search the AREDL." : "Loading AREDL levels...";
+                container.appendChild(hint);
+                return;
+            }
+            if (!aredlLoaded) {
+                const hint = document.createElement("div"); hint.className = "vuoto"; hint.textContent = "AREDL database is not loaded yet."; container.appendChild(hint); return;
+            }
 
-        spinBtn.textContent="✦  SPIN AGAIN";
+            const matches = aredlLevels.filter(level =>
+                level.name.toLowerCase().includes(query) ||
+                (level.rank !== null && String(level.rank) === query.replace(/^#/, ""))
+            ).slice(0, 25);
 
-    }
+            if (!matches.length) {
+                const empty = document.createElement("div"); empty.className = "vuoto"; empty.textContent = "No AREDL level found."; container.appendChild(empty); return;
+            }
 
-    requestAnimationFrame(animate);
-}
+            matches.forEach(level => {
+                const row = document.createElement("div"); row.className = "aredl-result";
+                const info = document.createElement("div"); info.className = "aredl-result-info";
+                const name = document.createElement("div"); name.className = "aredl-result-name"; name.textContent = level.name;
+                const rank = document.createElement("div"); rank.className = "aredl-result-rank";
+                rank.textContent = level.rank !== null ? `AREDL RANK #${level.rank}` : "AREDL LEGACY · NO CURRENT RANK";
+                info.append(name, rank);
+                const tag = document.createElement("span"); tag.className = `aredl-tag${level.rank === null ? " legacy" : ""}`;
+                tag.textContent = level.rank !== null ? `#${level.rank}` : "LEGACY";
+                const add = document.createElement("button"); add.type = "button"; add.className = "btn btn-primary"; add.textContent = "＋ Add";
+                add.disabled = isSpinning || levels.some(existing => (existing.isAredl && String(existing.aredlId) === String(level.id)) || existing.name.toLowerCase() === level.name.toLowerCase());
+                if (add.disabled) { add.textContent = "Added"; add.style.opacity = ".5"; }
+                add.addEventListener("click", () => {
+                    if (isSpinning) return;
+                    const added = addLevel({ name: level.name.slice(0, 80), img: null, color: randomColor(), isList: false, isAredl: true, aredlId: level.id, rank: level.rank, status: level.status });
+                    if (added) { showFormMessage(`${level.name} added from AREDL!`, true); renderAredlResults(); }
+                });
+                row.append(info, tag, add); container.appendChild(row);
+            });
+            if (matches.length === 25) {
+                const note = document.createElement("div"); note.className = "aredl-status"; note.textContent = "Showing the first 25 matches. Refine your search for more precise results."; container.appendChild(note);
+            }
+        }
 
-spinBtn.addEventListener("click",spinWheel);
+        document.getElementById("aredlSearch").addEventListener("input", renderAredlResults);
+        document.getElementById("reloadAredl").addEventListener("click", () => loadAredl(true));
 
-/* =========================================
-   INITIALIZATION
-========================================= */
+        function init() {
+            initListSelect();
+            levels = loadLevels();
+            renderLevels();
+            drawWheel();
+            updateSpinState();
+            loadAredl();
+        }
 
-function init() {
-
-    initListSelect();
-
-    levels=loadLevels();
-
-    renderLevels();
-
-    drawWheel();
-
-    updateSpinState();
-
-}
-
-init();
-
-</script>
-
+        init();
+    </script>
 </body>
 </html>
