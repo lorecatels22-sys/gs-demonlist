@@ -988,7 +988,9 @@ footer { animation: foot 5s ease-in-out infinite; }
 .difficolta { transition: letter-spacing .3s ease; }
 .livello:hover .difficolta { letter-spacing: 1.4px; }
 
-/* ---------- HOME: FORM E ADMIN ---------- */
+/* ---------- HOME: FORM E ADMIN (le sezioni restano intatte) ---------- */
+.sezione-extra { overflow: visible; }
+.sezione-extra::before { display: none; }
 .campo input:focus, .campo select:focus { box-shadow: 0 0 0 3px rgba(229,72,72,.18); }
 .pulsante { position: relative; overflow: hidden; }
 .pulsante::after {
@@ -1524,7 +1526,7 @@ footer { animation: foot 5s ease-in-out infinite; }
 
     /* Luce che segue il mouse solo sopra i rettangoli */
     if (fine) {
-        const sel = '.giocatore-card, .livello, .sezione-extra, .badge-link, .dropdown-item';
+        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item';
         document.addEventListener('mousemove', (e) => {
             const el = e.target.closest(sel);
             if (!el) return;
@@ -1538,7 +1540,7 @@ footer { animation: foot 5s ease-in-out infinite; }
     const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); const t = e.target; setTimeout(() => { t.style.transitionDelay = ''; }, 1000); io.unobserve(e.target); } });
     }, { threshold: 0.15 });
-    $$('.sezione-extra, .livello').forEach((el, i) => {
+    $$('.livello').forEach((el, i) => {
         if (el.getBoundingClientRect().top > innerHeight * 0.9) {
             el.classList.add('reveal');
             el.style.transitionDelay = (el.classList.contains('regola') ? (i % 3) * 0.1 : 0) + 's';
@@ -1563,7 +1565,7 @@ footer { animation: foot 5s ease-in-out infinite; }
 
     /* Ripple al click */
     document.addEventListener('click', (e) => {
-        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .pulsante');
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card');
         if (!host) return;
         const r = host.getBoundingClientRect();
         const s = document.createElement('span');
