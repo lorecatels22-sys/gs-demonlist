@@ -2035,9 +2035,21 @@ footer { animation: foot 5s ease-in-out infinite; }
 
             console.error(error);
 
+            const loginErrors = {
+                "auth/invalid-credential": "Email o password errata (oppure l'utente non esiste).",
+                "auth/wrong-password": "Password errata.",
+                "auth/user-not-found": "Nessun utente con questa email.",
+                "auth/invalid-email": "L'email non è scritta in modo valido.",
+                "auth/user-disabled": "Questo account è stato disattivato.",
+                "auth/too-many-requests": "Troppi tentativi: aspetta qualche minuto oppure reimposta la password da Firebase.",
+                "auth/unauthorized-domain": "Questo dominio non è autorizzato in Firebase (Authentication > Settings > Authorized domains).",
+                "auth/operation-not-allowed": "Il login con email e password non è attivo in Firebase (Authentication > Sign-in method).",
+                "auth/network-request-failed": "Problema di rete: riprova."
+            };
+
             showMessage(
                 loginMessage,
-                "Login non riuscito. Controlla email e password.",
+                (loginErrors[error.code] || "Login non riuscito.") + " [" + (error.code || "errore sconosciuto") + "]",
                 "errore"
             );
 
