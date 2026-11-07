@@ -548,6 +548,94 @@
         .aredl-tag { flex: 0 0 auto; padding: 4px 8px; color: #ff8585; background: rgba(229,72,72,.12); border: 1px solid rgba(229,72,72,.28); border-radius: 12px; font-size: .58rem; font-weight: 900; }
         .aredl-tag.legacy { color: #c6a7ff; background: rgba(150,110,220,.12); border-color: rgba(150,110,220,.3); }
         .level-meta { display: block; margin-top: 4px; color: #aaa; font-size: .62rem; font-weight: 700; }
+
+        /* =====================================================
+           EXTRA MOTION / PARTICLE ATMOSPHERE
+           Green + red particles behind the whole interface
+        ===================================================== */
+        .ambient-particles {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .92;
+        }
+        .ambient-glow {
+            position: fixed;
+            width: 42vw;
+            height: 42vw;
+            min-width: 260px;
+            min-height: 260px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .10;
+            pointer-events: none;
+            z-index: 0;
+            animation: glow-drift 15s ease-in-out infinite alternate;
+        }
+        .ambient-glow-red { top: 8%; left: -15%; background: #ed343f; }
+        .ambient-glow-green { right: -16%; bottom: 4%; background: #00e676; animation-delay: -7s; }
+        main { z-index: 2; }
+        .barra-sinistra, .barra-destra { z-index: 1; }
+
+        @keyframes glow-drift {
+            0% { transform: translate3d(0,0,0) scale(.88); opacity: .07; }
+            50% { transform: translate3d(5vw,3vh,0) scale(1.12); opacity: .14; }
+            100% { transform: translate3d(-2vw,7vh,0) scale(.96); opacity: .09; }
+        }
+        @keyframes red-green-border {
+            0%,100% { box-shadow: 0 0 0 1px rgba(229,72,72,.12), 0 8px 24px rgba(0,0,0,.24), 0 0 18px rgba(229,72,72,.06); }
+            50% { box-shadow: 0 0 0 1px rgba(0,230,118,.22), 0 10px 30px rgba(0,0,0,.28), 0 0 24px rgba(0,230,118,.10); }
+        }
+        @keyframes card-hover-float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        @keyframes button-energy {
+            0% { background-position: 0% 50%; filter: brightness(1); }
+            50% { background-position: 100% 50%; filter: brightness(1.13); }
+            100% { background-position: 0% 50%; filter: brightness(1); }
+        }
+        @keyframes wheel-aura {
+            0%,100% { filter: drop-shadow(0 0 12px rgba(229,72,72,.16)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0,230,118,.22)); }
+        }
+        @keyframes underline-sweep {
+            0% { transform: scaleX(.35); opacity: .45; }
+            50% { transform: scaleX(1.15); opacity: 1; }
+            100% { transform: scaleX(.35); opacity: .45; }
+        }
+        @keyframes tiny-twinkle {
+            0%,100% { opacity: .45; transform: scale(.85); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+        @keyframes status-pulse {
+            0%,100% { text-shadow: 0 0 0 rgba(0,230,118,0); }
+            50% { text-shadow: 0 0 12px rgba(0,230,118,.45); }
+        }
+        .linea-titolo { transform-origin: center; animation: underline-sweep 3.2s ease-in-out infinite; }
+        .scheda { animation: sali .75s cubic-bezier(.2,.8,.2,1) both, red-green-border 7s ease-in-out 1s infinite; }
+        .scheda:hover { animation-play-state: paused; }
+        .wheel-container { animation: wheel-aura 5.5s ease-in-out infinite; }
+        .btn-primary, .btn-danger, .badge-link { will-change: transform; }
+        .btn-primary { background-size: 220% 220%; animation: button-energy 7s ease infinite; }
+        .btn-primary:hover, .btn-danger:hover, .badge-link:hover { transform: translateY(-3px) scale(1.025); }
+        .btn-primary:active, .btn-danger:active, .badge-link:active { transform: translateY(1px) scale(.97); }
+        .result-box { transition: transform .35s cubic-bezier(.2,.9,.3,1.3), box-shadow .35s ease; }
+        .result-box:not(:empty):hover { transform: scale(1.015); }
+        .status-message, #aredlStatus { transition: color .3s ease, text-shadow .3s ease; }
+        #aredlStatus { animation: status-pulse 4s ease-in-out infinite; }
+        .dropdown-menu { transform-origin: top center; }
+        .dropdown-container:hover .dropdown-menu { animation: sali .22s ease both; }
+        .level-item { transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease; }
+        .level-item:hover { transform: translateX(5px); box-shadow: 0 0 18px rgba(0,230,118,.09); }
+        .form-gruppo input:focus, .form-gruppo select:focus, input:focus, select:focus { box-shadow: 0 0 0 3px rgba(0,230,118,.10), 0 0 18px rgba(229,72,72,.12); }
+        .scroll-reveal { opacity: 0; transform: translateY(28px) scale(.985); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.8,.2,1); }
+        .scroll-reveal.is-visible { opacity: 1; transform: none; }
+        .particle-spark { animation: tiny-twinkle 2.8s ease-in-out infinite; }
+
         @media (max-width: 700px) { .aredl-searchbar { flex-direction: column; } .aredl-result { flex-wrap: wrap; } }
 
         footer {
@@ -609,6 +697,9 @@
 <body>
     <div class="barra-sinistra" aria-hidden="true"></div>
     <div class="barra-destra" aria-hidden="true"></div>
+    <canvas id="ambientParticles" class="ambient-particles" aria-hidden="true"></canvas>
+    <div class="ambient-glow ambient-glow-red" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-glow-green" aria-hidden="true"></div>
 
     <main>
         <a href="index.html" class="badge-link torna-indietro">
@@ -1487,6 +1578,141 @@
         }
 
         init();
+    </script>
+
+    <script>
+    (() => {
+        const canvas = document.getElementById('ambientParticles');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let width = 0, height = 0, particles = [], raf = 0;
+        let mouse = { x: -1000, y: -1000 };
+        const colors = [
+            { rgb: '229,72,72', hex: '#e54848' },
+            { rgb: '0,230,118', hex: '#00e676' },
+            { rgb: '255,92,92', hex: '#ff5c68' },
+            { rgb: '75,255,160', hex: '#4bffa0' }
+        ];
+        const rand = (min, max) => Math.random() * (max - min) + min;
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.7);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const amount = Math.min(125, Math.max(48, Math.floor(width * height / 12500)));
+            particles = Array.from({ length: amount }, () => createParticle(true));
+            if (reduceMotion) drawStatic();
+        }
+
+        function createParticle(randomY = false) {
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            return {
+                x: rand(0, width), y: randomY ? rand(0, height) : height + rand(5, 50),
+                vx: rand(-.22, .22), vy: rand(-.48, -.12),
+                radius: rand(1.1, 3.1), alpha: rand(.25, .78),
+                phase: rand(0, Math.PI * 2), pulse: rand(.008, .025),
+                color: color.rgb, hex: color.hex
+            };
+        }
+
+        function drawParticle(p, time) {
+            const pulse = .72 + Math.sin(time * p.pulse + p.phase) * .28;
+            const r = p.radius * pulse;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.color},${p.alpha * pulse})`;
+            ctx.shadowBlur = r * 7;
+            ctx.shadowColor = p.hex;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawConnections() {
+            const maxDist = Math.min(145, width * .13);
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const a = particles[i], b = particles[j];
+                    const dx = a.x - b.x, dy = a.y - b.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        const opacity = (1 - dist / maxDist) * .13;
+                        const same = a.color === b.color;
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = same
+                            ? `rgba(${a.color},${opacity})`
+                            : `rgba(180,150,150,${opacity * .55})`;
+                        ctx.lineWidth = .7;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function drawStatic() {
+            ctx.clearRect(0, 0, width, height);
+            drawConnections();
+            particles.forEach((p, i) => drawParticle(p, i * 100));
+        }
+
+        function animate(time = 0) {
+            ctx.clearRect(0, 0, width, height);
+            drawConnections();
+            for (const p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.phase += p.pulse;
+                const dx = p.x - mouse.x, dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 115 && dist > 0) {
+                    const force = (115 - dist) / 115 * .012;
+                    p.x += dx * force;
+                    p.y += dy * force;
+                }
+                if (p.y < -15 || p.x < -25 || p.x > width + 25) {
+                    Object.assign(p, createParticle(false));
+                    p.x = rand(0, width);
+                }
+                drawParticle(p, time);
+            }
+            raf = requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize, { passive: true });
+        window.addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+        window.addEventListener('pointerleave', () => { mouse.x = -1000; mouse.y = -1000; }, { passive: true });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) cancelAnimationFrame(raf);
+            else if (!reduceMotion) raf = requestAnimationFrame(animate);
+        });
+
+        resize();
+        if (!reduceMotion) raf = requestAnimationFrame(animate);
+
+        // Reveal the content as it enters the viewport, without changing its functionality.
+        const revealTargets = document.querySelectorAll('.scheda, footer, .result-box, .level-item');
+        if ('IntersectionObserver' in window && !reduceMotion) {
+            revealTargets.forEach(el => el.classList.add('scroll-reveal'));
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: .08, rootMargin: '0px 0px -35px 0px' });
+            revealTargets.forEach(el => observer.observe(el));
+        }
+    })();
     </script>
 </body>
 </html>
