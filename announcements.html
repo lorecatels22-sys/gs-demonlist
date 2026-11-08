@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -561,6 +560,161 @@ footer{
 
     .livello{padding:18px}
 }
+
+/* ==================== ANIMAZIONI (stesse delle altre pagine) ==================== */
+
+@keyframes drop-in { from { opacity: 0; transform: translateY(-30px) scale(.8); } }
+@keyframes slide-card { from { opacity: 0; transform: translateX(-70px) scale(.96); } }
+@keyframes pop-up { from { opacity: 0; transform: translateY(18px) scale(.92); } }
+@keyframes fade-in2 { from { opacity: 0; } }
+@keyframes letter-in { from { opacity: 0; transform: translateY(-60px) rotate(-12deg) scale(.5); } 60% { transform: translateY(8px) rotate(3deg) scale(1.08); } }
+@keyframes sub-in { from { opacity: 0; letter-spacing: 12px; filter: blur(6px); } }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
+@keyframes nudge { 50% { translate: 3px 0; } }
+@keyframes nudge-l { 50% { translate: -4px 0; } }
+@keyframes wave { 40% { transform: translateY(-10px); color: #ff6666; } }
+@keyframes glow-title { 50% { text-shadow: 0 0 40px rgba(255,255,255,.3), 0 0 12px rgba(0,230,118,.35); } }
+@keyframes live-glow { 50% { text-shadow: 0 0 18px rgba(0,230,118,.9); } }
+@keyframes bar-breathe { from { filter: brightness(.9); } to { filter: brightness(1.3); } }
+@keyframes border-glow { 50% { box-shadow: -6px 0 22px rgba(0,230,118,.22), 0 5px 18px rgba(0,0,0,.18); } }
+@keyframes float-admin { 50% { translate: 0 -5px; } }
+@keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(1.35, 1.7); opacity: 0; } }
+@keyframes blink { 50% { opacity: .25; } }
+@keyframes foot { 50% { letter-spacing: 3px; color: #999; } }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+/* ---------- SFONDO ---------- */
+.barra-sinistra, .barra-destra {
+    -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+    animation: bar-breathe 7s ease-in-out infinite alternate;
+}
+
+/* ---------- NAV ---------- */
+.navigation-badges > * { animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards; }
+.navigation-badges > :nth-child(1) { animation-delay: .08s; }
+.navigation-badges > :nth-child(2) { animation-delay: .19s; }
+.navigation-badges > :nth-child(3) { animation-delay: .30s; }
+.navigation-badges > :nth-child(4) { animation-delay: .41s; }
+.navigation-badges > :nth-child(5) { animation-delay: .52s; }
+
+.badge-link { position: relative; overflow: hidden; white-space: nowrap; }
+.badge-link::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.badge-link:hover::after { animation: sweep .8s ease; }
+.badge-link:hover { box-shadow: 0 6px 18px rgba(229,72,72,.3); }
+.badge-link:hover img { animation: wave .5s ease; }
+.badge-link:active { transform: scale(.95); }
+.arrow { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+.dropdown-container:hover .arrow { animation: none; }
+.back-link:hover { box-shadow: 0 6px 18px rgba(0,230,118,.3); }
+.back-link .back-arrow { display: inline-block; animation: nudge-l 1.6s ease-in-out infinite; }
+.back-link:hover .back-arrow { animation: none; transform: translateX(-5px); }
+
+.dropdown-item { position: relative; }
+.dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: .05s; }
+.dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: .12s; }
+.dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: .19s; }
+.dropdown-item:hover { padding-left: 20px; }
+.dropdown-item:hover img { transform: rotate(-8deg) scale(1.15); }
+
+/* ---------- TITOLO ---------- */
+.testo-illuminato { animation: glow-title 4s ease-in-out 1.4s infinite; }
+.lettera { display: inline-block; white-space: pre; animation: letter-in .9s cubic-bezier(.2,.9,.3,1.2) backwards; animation-delay: calc(.5s + var(--i) * .08s); }
+.testo-illuminato.ready .lettera { animation: none; }
+.testo-illuminato.ready:hover .lettera { animation: wave .6s ease calc(var(--i) * .05s); }
+.sottotitolo { animation: sub-in 1.2s ease .9s backwards; }
+.linea-titolo {
+    background: linear-gradient(90deg, #e54848, #ff9a9a, #e54848); background-size: 200% 100%;
+    animation: lineGrow .7s ease 1s both, shimmer 2.5s linear 1.9s infinite;
+}
+.live { animation: pulseLive 2s ease-in-out infinite, live-glow 2s ease-in-out infinite, fadeIn 1s ease 1.3s backwards; }
+
+/* ---------- ANNUNCI ---------- */
+.livello {
+    opacity: 1; overflow: hidden;
+    animation: slide-card .8s cubic-bezier(.2,.9,.3,1.15) backwards, border-glow 4s ease-in-out 1.2s infinite;
+    transition: transform .15s ease-out, border-color .3s ease, box-shadow .3s ease;
+}
+.livello.pre { animation-play-state: paused; }
+.livello:hover { animation-play-state: running, paused; }
+.livello::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.13), transparent 70%);
+}
+.livello:hover::before { opacity: 1; }
+.livello::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 35%; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.livello:hover::after { animation: sweep .9s ease; }
+.livello > * { animation: pop-up .5s ease backwards; animation-delay: .35s; }
+.livello > :nth-child(2) { animation-delay: .45s; }
+.livello > :nth-child(3) { animation-delay: .55s; }
+.livello > :nth-child(4) { animation-delay: .65s; }
+.livello .meta::before { content: "●"; margin-right: 8px; animation: blink 2s ease-in-out infinite; }
+.livello h2 { position: relative; width: fit-content; max-width: 100%; }
+.livello h2::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: #00e676;
+    transform: scaleX(0); transform-origin: left; transition: transform .35s ease;
+}
+.livello:hover h2::after { transform: scaleX(1); }
+.livello button { transition: transform .2s ease, box-shadow .2s ease; }
+.livello button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,0,0,.25); }
+
+/* ---------- PANNELLO ADMIN ---------- */
+#adminPanel { animation: fadeUp .5s ease backwards; }
+#adminPanel button { position: relative; overflow: hidden; }
+#adminPanel button::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+#adminPanel button:hover::after { animation: sweep .8s ease; }
+#adminPanel button:active { transform: scale(.95); }
+#loggedSection:not([style*="none"]) { animation: fade-in2 .6s ease; }
+.log-item { animation: pop-up .4s ease backwards; }
+#publishStatus:not(:empty) { animation: fade-in2 .4s ease; }
+
+/* ---------- PULSANTE ADMIN ---------- */
+.admin-btn { animation: float-admin 3s ease-in-out infinite; }
+.admin-btn:hover { animation-play-state: paused; }
+.admin-btn::after {
+    content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
+    border: 1px solid rgba(229,72,72,.6); animation: ring 2.4s ease-out infinite;
+}
+
+/* ---------- POPUP NOTIFICHE ---------- */
+#notifPopup.show { animation: popIn .45s cubic-bezier(.3,1.5,.5,1); }
+.notif-actions button { transition: transform .2s ease, box-shadow .2s ease; }
+.notif-actions button:hover { transform: translateY(-2px); }
+.btn-yes:hover { box-shadow: 0 6px 18px rgba(0,230,118,.35); }
+
+footer { animation: foot 5s ease-in-out infinite; }
+
+/* ---------- EXTRA CREATI DA JS ---------- */
+.scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; pointer-events: none;
+    transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, #00e676, #7dffb8); box-shadow: 0 0 10px rgba(0,230,118,.6); }
+.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.ripple { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; pointer-events: none;
+    background: rgba(255,255,255,.35); animation: ripple .6s ease-out forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+}
+
+.badge-link::before, .dropdown-item::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.18), transparent 70%);
+}
+.badge-link:hover::before, .dropdown-item:hover::before { opacity: 1; }
+.back-link::before { background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.2), transparent 70%); }
+
 </style>
 </head>
 
@@ -726,6 +880,130 @@ footer{
 
 <button class="admin-btn" id="adminToggle">ADMIN</button>
 
+<script>
+(() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const $$ = (s) => [...document.querySelectorAll(s)];
+    if (reduce) return;
+
+    /* Titolo lettera per lettera (poi onda in hover, senza farlo sparire) */
+    const h1 = document.querySelector('.testo-illuminato');
+    if (h1) {
+        const t = h1.textContent.trim();
+        h1.setAttribute('aria-label', t);
+        h1.textContent = '';
+        [...t].forEach((c, i) => {
+            const s = document.createElement('span');
+            s.className = 'lettera';
+            s.textContent = c;
+            s.style.setProperty('--i', i);
+            s.setAttribute('aria-hidden', 'true');
+            h1.appendChild(s);
+        });
+        setTimeout(() => h1.classList.add('ready'), 500 + t.length * 80 + 1000);
+    }
+
+    /* Barra di avanzamento dello scroll */
+    const bar = Object.assign(document.createElement('div'), { className: 'scroll-bar' });
+    document.body.appendChild(bar);
+    addEventListener('scroll', () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    }, { passive: true });
+
+    /* Luce che segue il mouse solo sui rettangoli + inclinazione 3D degli annunci */
+    if (fine) {
+        const sel = '.livello, .badge-link, .dropdown-item';
+        let tilted = null;
+        document.addEventListener('mousemove', (e) => {
+            const el = e.target.closest(sel);
+            const card = e.target.closest('.livello');
+            if (tilted && tilted !== card) { tilted.style.transform = ''; tilted = null; }
+            if (!el) return;
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width;
+            const y = (e.clientY - r.top) / r.height;
+            el.style.setProperty('--mx', x * 100 + '%');
+            el.style.setProperty('--my', y * 100 + '%');
+            if (card) {
+                card.style.transform = `perspective(900px) rotateX(${(0.5 - y) * 4}deg) rotateY(${(x - 0.5) * 5}deg) translateY(-4px)`;
+                tilted = card;
+            }
+        }, { passive: true });
+    }
+
+    /* Onda al click sui badge e sulle voci dei menu */
+    document.addEventListener('click', (e) => {
+        const host = e.target.closest('.badge-link, .dropdown-item');
+        if (!host) return;
+        const r = host.getBoundingClientRect();
+        const s = document.createElement('span');
+        s.className = 'ripple';
+        s.style.left = e.clientX - r.left + 'px';
+        s.style.top = e.clientY - r.top + 'px';
+        host.style.overflow = 'hidden';
+        host.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+    });
+
+    /* Annunci sotto la piega: l'entrata parte solo quando arrivano in vista */
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.remove('pre'); io.unobserve(en.target); } });
+    }, { threshold: 0.1 });
+    const list = document.getElementById('list');
+    if (list) {
+        new MutationObserver(() => {
+            list.querySelectorAll('.livello:not([data-fx])').forEach((el) => {
+                el.dataset.fx = '1';
+                if (el.getBoundingClientRect().top > innerHeight * 0.9) { el.classList.add('pre'); io.observe(el); }
+            });
+        }).observe(list, { childList: true });
+    }
+
+    /* Particelle: braci rosse e verdi che salgono piano */
+    const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
+    document.body.prepend(cv);
+    const ctx = cv.getContext('2d');
+    let W, H, dpr;
+    const resize = () => {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        W = cv.width = innerWidth * dpr;
+        H = cv.height = innerHeight * dpr;
+    };
+    resize();
+    addEventListener('resize', resize);
+    const count = innerWidth < 700 ? 22 : 48;
+    const mk = (init) => ({
+        x: Math.random() * W,
+        y: init ? Math.random() * H : H + 10,
+        r: (Math.random() * 1.8 + 0.6) * dpr,
+        v: (Math.random() * 0.35 + 0.12) * dpr,
+        a: Math.random() * Math.PI * 2,
+        c: Math.random() < 0.75 ? '229,72,72' : '0,230,118',
+    });
+    const ps = Array.from({ length: count }, () => mk(true));
+    (function loop(t) {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of ps) {
+            p.y -= p.v;
+            p.x += Math.sin(t / 1500 + p.a) * 0.3 * dpr;
+            if (p.y < -10) Object.assign(p, mk(false));
+            const al = 0.25 + 0.25 * Math.sin(t / 700 + p.a);
+            ctx.fillStyle = `rgba(${p.c},${al})`;
+            ctx.shadowColor = `rgba(${p.c},.8)`;
+            ctx.shadowBlur = 8 * dpr;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, 6.283);
+            ctx.fill();
+        }
+        requestAnimationFrame(loop);
+    })(0);
+})();
+
+
+</script>
+
 <script type="module">
 
 import {
@@ -754,7 +1032,7 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBLKY1OEO2A-5eJObCjJMeKCasSLf8WmrU",
+    apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
     authDomain: "gs-demonlist.firebaseapp.com",
     databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "gs-demonlist",
@@ -1032,7 +1310,8 @@ document.getElementById('adminToggle').onclick = () => {
 
     const p = document.getElementById('adminPanel');
 
-    p.style.display = p.style.display === 'none'
+    // Si legge lo stile reale: all'inizio il pannello è nascosto dal CSS, non dall'attributo style.
+    p.style.display = getComputedStyle(p).display === 'none'
         ? 'block'
         : 'none';
 };
