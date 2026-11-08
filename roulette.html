@@ -1096,6 +1096,27 @@ input[type="range"]:active ~ .range-labels { color: #ff6262; }
 .history-item.skip { border-left: 3px solid #ffc107; }
 .history-item.fail { border-left: 3px solid #ff5555; }
 
+
+/* ---------- BACK TO THE LIST: sempre in alto a sinistra, nella riga dei badge ---------- */
+.navigation-badges { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+.nav-center { grid-column: 2; grid-row: 1; }
+.badge-link { white-space: nowrap; }
+.badge-link.badge-back { position: absolute; left: 0; top: 0; grid-column: auto; grid-row: auto; margin: 0; justify-self: auto; align-self: auto; }
+@media (max-width: 1150px) {
+    .navigation-badges { display: flex; flex-wrap: wrap; justify-content: center; }
+    .badge-link.badge-back { position: relative; left: auto; top: auto; }
+}
+
+/* ---------- BACK TO THE LIST: prima voce di una fila da 5 badge ---------- */
+.navigation-badges {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;
+    width: min(1150px, 94%); max-width: none; margin-left: auto; margin-right: auto;
+}
+.nav-center { display: contents; }
+.badge-link.badge-back {
+    position: relative; left: auto; top: auto; grid-column: auto; grid-row: auto;
+    justify-self: auto; align-self: auto; margin: 0;
+}
     </style>
 </head>
 
