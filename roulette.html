@@ -1056,7 +1056,10 @@ footer { animation: foot 5s ease-in-out infinite; }
 /* statistiche e sfida corrente */
 .stat-box { position: relative; overflow: hidden; transition: transform .25s ease, border-color .25s ease; }
 .stat-box:hover { transform: translateY(-3px); border-color: #666; }
-.stat-box .value, .current-challenge .level-name, .current-challenge .target-pct { display: inline-block; }
+.stat-box .value, .current-challenge .level-name, .current-challenge .target-pct { display: block; }
+.current-challenge .level-name { overflow-wrap: anywhere; }
+.current-challenge .level-img { display: block; margin-left: auto; margin-right: auto; }
+.current-challenge .level-img[style*="none"] { display: none; }
 .bump { animation: bump .45s cubic-bezier(.3,1.5,.5,1); }
 .current-challenge { animation: fadeUp .4s ease, glow-check 3.5s ease-in-out .4s infinite; }
 .current-challenge .target-pct { animation: glow-target 2.8s ease-in-out infinite; }
