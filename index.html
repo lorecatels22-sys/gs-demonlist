@@ -954,6 +954,63 @@ footer { animation: foot 5s ease-in-out infinite; }
 .mostra-password:hover { color: #00e676; border-color: rgba(0,230,118,.5); background: #1b2a22; }
 .mostra-password[aria-pressed="true"] { color: #00e676; border-color: rgba(0,230,118,.5); }
 
+
+/* ---------- AGGIUNTA LIVELLI ---------- */
+[hidden] { display: none !important; }
+.aredl-box { margin: 4px 0 14px; }
+.aredl-results { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.aredl-item {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
+    background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px;
+    color: #f5f5f5; font-family: inherit; font-size: .8rem; font-weight: 700; text-align: left; cursor: pointer;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.aredl-item:hover { background: #1b2a22; border-color: rgba(0,230,118,.5); transform: translateX(4px); }
+.aredl-rank { color: #00e676; min-width: 62px; }
+.aredl-rank.legacy { color: #c6a7ff; }
+.aredl-item:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.aredl-searchbar { display: flex; align-items: flex-end; gap: 10px; }
+.aredl-searchbar .campo { flex: 1; min-width: 0; }
+.aredl-name { flex: 1; overflow-wrap: anywhere; }
+.aredl-pts { color: #999; font-size: .68rem; white-space: nowrap; }
+.livello-thumb {
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 120px; height: 76px; border-radius: 7px; border: 1px solid #454545;
+    background: linear-gradient(135deg, #2a2a2a, #171717); color: #555; font-size: 1.8rem; font-weight: 800;
+}
+.info-livello .livello-tag { font-size: .65rem; font-weight: 800; letter-spacing: 1px; }
+.info-livello .tag-aredl { color: #7dffb8; }
+.info-livello .tag-custom { color: #ffb74d; }
+@media (max-width: 700px) { .livello-thumb { width: 66px; height: 53px; font-size: 1.2rem; } }
+@media (max-width: 420px) { .livello-thumb { width: 55px; height: 47px; } }
+
+
+/* ---------- MODIFICA LISTA (ADMIN) ---------- */
+.admin-tools { position: absolute; top: 8px; right: 8px; z-index: 5; display: none; gap: 6px; }
+body.admin-edit .admin-tools { display: flex; }
+.admin-tools button {
+    padding: 5px 10px; border: 1px solid #555; border-radius: 14px; background: rgba(20,20,20,.92); color: #ddd;
+    font-family: inherit; font-size: .6rem; font-weight: 800; letter-spacing: .5px; cursor: pointer;
+    transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.admin-tools button:hover { transform: translateY(-2px); background: #00e676; border-color: #00e676; color: #000; }
+.admin-tools button[data-act="remove"]:hover { background: #e54848; border-color: #e54848; color: #fff; }
+body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offset: -1px; }
+
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center;
+    padding: 16px; background: rgba(0,0,0,.72); backdrop-filter: blur(4px);
+}
+.modal-overlay.show { display: flex; }
+.modal {
+    width: min(620px, 100%); max-height: 92vh; overflow-y: auto; padding: 24px;
+    background: #202020; border: 1px solid #3b3b3b; border-top: 3px solid #00e676; border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6); animation: modal-in .35s cubic-bezier(.3,1.4,.5,1);
+}
+.modal h2 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+.modal-azioni { flex-direction: row; gap: 10px; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(20px) scale(.94); } }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -1476,12 +1533,112 @@ footer { animation: foot 5s ease-in-out infinite; }
                     IMPORT INITIAL PROGRESS
                 </button>
 
+                <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
+
                 <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
                     LOGOUT
                 </button>
             </div>
 
             <p class="messaggio" id="import-message"></p>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Add a level</h2>
+            <p class="descrizione-extra">
+                Cerca un livello della AREDL per nome (vedi anche il rank) oppure crea un livello custom, magari più facile.
+                In lista i livelli sono ordinati per punti.
+            </p>
+
+            <div class="admin-toolbar">
+                <button type="button" class="pulsante pulsante-verde" id="tab-aredl">AREDL LEVEL</button>
+                <button type="button" class="pulsante pulsante-rifiuta" id="tab-custom">CUSTOM LEVEL</button>
+            </div>
+
+            <div id="aredl-box" class="aredl-box">
+                <div class="aredl-searchbar">
+                    <div class="campo">
+                        <label for="aredl-query">Search on AREDL (name or rank)</label>
+                        <input id="aredl-query" type="search" placeholder="Level name or rank..." autocomplete="off">
+                    </div>
+                    <button type="button" class="pulsante pulsante-rifiuta" id="reload-aredl">↻ REFRESH</button>
+                </div>
+                <p class="messaggio" id="aredl-status" aria-live="polite"></p>
+                <div class="aredl-results" id="aredl-results"></div>
+            </div>
+
+            <form id="level-form">
+                <div class="form-grid">
+
+                    <div class="campo">
+                        <label for="level-name">Level name</label>
+                        <input id="level-name" type="text" maxlength="60" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-by">Creator / publisher</label>
+                        <input id="level-by" type="text" maxlength="40">
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-diff">Difficulty</label>
+                        <select id="level-diff">
+                            <option>EXTREME DEMON</option>
+                            <option>INSANE DEMON</option>
+                            <option>HARD DEMON</option>
+                            <option>MEDIUM DEMON</option>
+                            <option>EASY DEMON</option>
+                            <option>INSANE</option>
+                            <option>HARD</option>
+                            <option>HARDER</option>
+                            <option>NORMAL</option>
+                            <option>EASY</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-points">Points</label>
+                        <input id="level-points" type="number" min="0.01" max="1000" step="0.01" placeholder="Example: 45" required>
+                    </div>
+
+                    <div class="campo" id="rank-field">
+                        <label for="level-rank">AREDL rank</label>
+                        <input id="level-rank" type="number" min="1" step="1" placeholder="Filled by the search">
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-gdid">GD level ID (optional)</label>
+                        <input id="level-gdid" type="number" min="1" step="1">
+                    </div>
+
+                    <div class="campo campo-full">
+                        <label for="level-img">Image (https link or file name, optional)</label>
+                        <input id="level-img" type="text" maxlength="300" placeholder="https://... or name.png">
+                    </div>
+
+                    <div class="campo campo-full">
+                        <button class="pulsante pulsante-verde" id="add-level-button" type="submit">ADD LEVEL</button>
+                    </div>
+
+                </div>
+            </form>
+
+            <p class="messaggio" id="level-message" aria-live="polite"></p>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Added levels</h2>
+            <div id="added-levels-list">
+                <p class="vuoto">Loading levels...</p>
+            </div>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Hidden levels</h2>
+            <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
+            <div id="hidden-levels-list">
+                <p class="vuoto">Loading levels...</p>
+            </div>
 
             <div class="admin-separatore"></div>
 
@@ -1502,6 +1659,72 @@ footer { animation: foot 5s ease-in-out infinite; }
     </section>
 
 </main>
+
+<!-- MODIFICA LIVELLO (SOLO ADMIN) -->
+<div class="modal-overlay" id="edit-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+
+        <h2 id="edit-title">Edit level</h2>
+        <p class="descrizione-extra">
+            Cambia i dati del livello. In lista i livelli sono ordinati per punti: se cambi la posizione, i punti vengono ricalcolati.
+        </p>
+
+        <form id="edit-form">
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label for="edit-name">Level name</label>
+                    <input id="edit-name" type="text" maxlength="60" required>
+                </div>
+
+                <div class="campo">
+                    <label for="edit-by">Creator / publisher</label>
+                    <input id="edit-by" type="text" maxlength="40">
+                </div>
+
+                <div class="campo">
+                    <label for="edit-diff">Difficulty</label>
+                    <select id="edit-diff">
+                        <option>EXTREME DEMON</option>
+                        <option>INSANE DEMON</option>
+                        <option>HARD DEMON</option>
+                        <option>MEDIUM DEMON</option>
+                        <option>EASY DEMON</option>
+                        <option>INSANE</option>
+                        <option>HARD</option>
+                        <option>HARDER</option>
+                        <option>NORMAL</option>
+                        <option>EASY</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="edit-position">Position in the list</label>
+                    <input id="edit-position" type="number" min="1" step="1">
+                </div>
+
+                <div class="campo">
+                    <label for="edit-points">Points</label>
+                    <input id="edit-points" type="number" min="0.01" max="1000" step="0.01" required>
+                </div>
+
+                <div class="campo">
+                    <label for="edit-img">Image (https link or file name)</label>
+                    <input id="edit-img" type="text" maxlength="300">
+                </div>
+
+                <div class="campo campo-full modal-azioni">
+                    <button class="pulsante pulsante-verde" id="edit-save" type="submit">SAVE</button>
+                    <button class="pulsante pulsante-rifiuta" id="edit-cancel" type="button">CANCEL</button>
+                </div>
+
+            </div>
+        </form>
+
+        <p class="messaggio" id="edit-message" aria-live="polite"></p>
+
+    </div>
+</div>
 
 <footer>G_S demon list</footer>
 
@@ -1631,6 +1854,17 @@ footer { animation: foot 5s ease-in-out infinite; }
         if (!el.classList.contains('reveal')) { el.style.setProperty('--i', i); el.classList.add('enter'); }
     });
 
+    /* Livelli aggiunti dopo il caricamento (es. da Firestore): stessa entrata */
+    const seenLevels = new WeakSet($$('.livello'));
+    window.gsLevelsRendered = () => {
+        $$('.livello').forEach((el) => {
+            if (seenLevels.has(el)) return;
+            seenLevels.add(el);
+            if (el.getBoundingClientRect().top > innerHeight * 0.9) { el.classList.add('reveal'); io.observe(el); }
+            else { el.style.setProperty('--i', 0); el.classList.add('enter'); }
+        });
+    };
+
     /* Particelle: braci rosse e verdi che salgono piano */
     const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
     document.body.prepend(cv);
@@ -1741,28 +1975,32 @@ footer { animation: foot 5s ease-in-out infinite; }
     // LIVELLI E PUNTEGGI
     // --------------------------------------------------
 
-    const levels = [
-        { id: "001", name: "Bloodbath", points: 250 },
-        { id: "002", name: "Future Funk II", points: 235 },
-        { id: "003", name: "Magma Bound", points: 220 },
-        { id: "004", name: "CraZy II", points: 205 },
-        { id: "005", name: "Sonic Wave Universe", points: 190 },
-        { id: "006", name: "Death Note", points: 175 },
-        { id: "007", name: "Stalemate", points: 160 },
-        { id: "008", name: "Jawbreaker", points: 145 },
-        { id: "009", name: "Future Funk", points: 130 },
-        { id: "010", name: "CraZy", points: 115 },
-        { id: "011", name: "Megalovania", points: 100 },
-        { id: "012", name: "Nine Circles", points: 90 },
-        { id: "013", name: "Troll Madness", points: 80 },
-        { id: "014", name: "HeLL", points: 70 },
-        { id: "015", name: "Phobros", points: 60 },
-        { id: "016", name: "Cycles v2 s", points: 50 },
-        { id: "017", name: "Sakupen Egg", points: 40 },
-        { id: "018", name: "Mechanical Showdown", points: 30 },
-        { id: "019", name: "Skeletal Shenanigans", points: 20 },
-        { id: "020", name: "VeritY", points: 15 }
+    const baseLevels = [
+        { id: "001", name: "Bloodbath", points: 250, img: "bloodbath.png", by: "Riot", diff: "EXTREME DEMON" },
+        { id: "002", name: "Future Funk II", points: 235, img: "futurefunk2.png", by: "JonathanGD", diff: "INSANE DEMON" },
+        { id: "003", name: "Magma Bound", points: 220, img: "magmabound.png", by: "ScorchVx", diff: "INSANE DEMON" },
+        { id: "004", name: "CraZy II", points: 205, img: "crazyii.png", by: "DavJT", diff: "INSANE DEMON" },
+        { id: "005", name: "Sonic Wave Universe", points: 190, img: "swu.png", by: "LazerBlitz", diff: "INSANE DEMON" },
+        { id: "006", name: "Death Note", points: 175, img: "deathnote.png", by: "Ruf", diff: "INSANE DEMON" },
+        { id: "007", name: "Stalemate", points: 160, img: "stalemate.png", by: "Nox", diff: "INSANE DEMON" },
+        { id: "008", name: "Jawbreaker", points: 145, img: "jawbreaker.png", by: "ZenthicAlpha", diff: "HARD DEMON" },
+        { id: "009", name: "Future Funk", points: 130, img: "futurefunk.png", by: "JonathanGD", diff: "HARD DEMON" },
+        { id: "010", name: "CraZy", points: 115, img: "crazy.png", by: "DavJT", diff: "HARD DEMON" },
+        { id: "011", name: "Megalovania", points: 100, img: "megalovania.png", by: "AirSwipe", diff: "HARD DEMON" },
+        { id: "012", name: "Nine Circles", points: 90, img: "ninecircles.png", by: "Zobros", diff: "HARD DEMON" },
+        { id: "013", name: "Troll Madness", points: 80, img: "trollmadness.png", by: "FunnyGame", diff: "HARD DEMON" },
+        { id: "014", name: "HeLL", points: 70, img: "hell.png", by: "Serponge", diff: "MEDIUM DEMON" },
+        { id: "015", name: "Phobros", points: 60, img: "phobros.png", by: "FunnyGame & More", diff: "MEDIUM DEMON" },
+        { id: "016", name: "Cycles v2 s", points: 50, img: "cyclesv2s.png", by: "TheRealMiLk", diff: "MEDIUM DEMON" },
+        { id: "017", name: "Sakupen Egg", points: 40, img: "sakupenegg.png", by: "EugenBro & Endevour", diff: "MEDIUM DEMON" },
+        { id: "018", name: "Mechanical Showdown", points: 30, img: "mechanicalshowdown.png", by: "TNTScrew", diff: "MEDIUM DEMON" },
+        { id: "019", name: "Skeletal Shenanigans", points: 20, img: "ss.png", by: "TheRealMiLk", diff: "MEDIUM DEMON" },
+        { id: "020", name: "VeritY", points: 15, img: "verity.png", by: "Serponge", diff: "MEDIUM DEMON" }
     ];
+
+    // Livelli attuali = livelli base + livelli aggiunti/modificati su Firestore
+    let levels = baseLevels.map(level => ({ ...level }));
+    let levelOverrides = {};
 
     const players = ["Pothersouls", "Dadefff", "Leopelliz"];
 
@@ -1844,6 +2082,219 @@ footer { animation: foot 5s ease-in-out infinite; }
 
 
     // --------------------------------------------------
+    // LIVELLI DINAMICI (base + livelli aggiunti da Firestore)
+    // --------------------------------------------------
+
+    const pad = n => String(n).padStart(3, "0");
+
+    function formatLevelPoints(value) {
+        return Number(value).toFixed(2).replace(/\.?0+$/, "");
+    }
+
+    // Tutti i livelli, compresi quelli nascosti dall'admin (servono al pannello per ripristinarli).
+    let levelsAll = [];
+
+    function mergeLevels(overrides) {
+
+        const merged = baseLevels.map(base => ({
+            ...base,
+            ...(overrides[base.id] || {}),
+            id: base.id
+        }));
+
+        Object.values(overrides).forEach(item => {
+            if (!baseLevels.some(base => base.id === item.id)) {
+                merged.push(item);
+            }
+        });
+
+        merged.forEach(level => {
+            level.points = Number(level.points) || 0;
+        });
+
+        // In lista i livelli sono ordinati per punti (dal più alto).
+        merged.sort((a, b) =>
+            b.points - a.points ||
+            String(a.id).localeCompare(String(b.id), undefined, { numeric: true })
+        );
+
+        levelsAll = merged;
+
+        return merged.filter(level => !level.hidden);
+    }
+
+    function levelsSignature(list) {
+        return JSON.stringify(list.map(level => [
+            level.id, level.name, level.points, level.img || "",
+            level.by || "", level.diff || "", level.source || "", level.aredlRank || ""
+        ]));
+    }
+
+    let renderedSignature = levelsSignature(mergeLevels({}));
+
+    function makeThumbPlaceholder(name) {
+        const box = document.createElement("div");
+        box.className = "livello-thumb";
+        box.textContent = (name || "?").trim().charAt(0).toUpperCase();
+        return box;
+    }
+
+    function buildLevelCard(level, index) {
+
+        const card = document.createElement("article");
+        card.className = "livello";
+        card.dataset.levelId = level.id;
+
+        const position = document.createElement("span");
+        position.className = "posizione";
+        position.textContent = `#${pad(index + 1)}`;
+
+        let thumb;
+
+        if (level.img) {
+            thumb = document.createElement("img");
+            thumb.src = level.img;
+            thumb.alt = level.name;
+            thumb.loading = "lazy";
+            thumb.addEventListener("error", () => {
+                thumb.replaceWith(makeThumbPlaceholder(level.name));
+            });
+        } else {
+            thumb = makeThumbPlaceholder(level.name);
+        }
+
+        const info = document.createElement("div");
+        info.className = "info-livello";
+
+        const title = document.createElement("h2");
+        title.textContent = level.name;
+
+        const author = document.createElement("p");
+        author.textContent = `By ${level.by || "Unknown"}`;
+
+        info.append(title, author);
+
+        if (level.source === "aredl" || level.source === "custom") {
+            const tag = document.createElement("p");
+            tag.className = "livello-tag " + (level.source === "aredl" ? "tag-aredl" : "tag-custom");
+            tag.textContent = level.source === "aredl"
+                ? (level.aredlRank ? `AREDL #${level.aredlRank}` : "AREDL")
+                : "CUSTOM LEVEL";
+            info.appendChild(tag);
+        }
+
+        const progress = document.createElement("div");
+        progress.className = "progressi";
+
+        players.forEach(name => {
+            const row = document.createElement("p");
+            const link = document.createElement("a");
+            link.href = `${name.toLowerCase()}.html`;
+            link.textContent = name;
+            row.append(link, document.createTextNode(": --"));
+            progress.appendChild(row);
+        });
+
+        const right = document.createElement("div");
+        right.className = "dati-destra";
+
+        const points = document.createElement("span");
+        points.className = "punti";
+        points.textContent = `+${formatLevelPoints(level.points)} pts (100%)`;
+
+        const difficulty = document.createElement("span");
+        difficulty.className = "difficolta";
+        difficulty.textContent = level.diff || "";
+
+        right.append(points, difficulty);
+
+        card.append(position, thumb, info, progress, right);
+
+        return card;
+    }
+
+    function renderLevelCards() {
+
+        const container = document.getElementById("classifica");
+
+        container.replaceChildren(
+            ...levels.map((level, index) => buildLevelCard(level, index))
+        );
+
+        renderedSignature = levelsSignature(levels);
+
+        updateLeaderboard();
+        decorateAdminTools();
+
+        if (typeof window.gsLevelsRendered === "function") {
+            window.gsLevelsRendered();
+        }
+    }
+
+    function populateLevelSelect() {
+
+        const select = document.getElementById("levelId");
+        const current = select.value;
+
+        select.innerHTML = "";
+
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Select level";
+        select.appendChild(placeholder);
+
+        levels.forEach((level, index) => {
+            const option = document.createElement("option");
+            option.value = level.id;
+            option.textContent = `#${pad(index + 1)} - ${level.name}`;
+            select.appendChild(option);
+        });
+
+        select.value = current;
+    }
+
+    function listenToLevels() {
+
+        onSnapshot(
+            collection(db, "levels"),
+
+            snapshot => {
+
+                levelOverrides = {};
+
+                snapshot.forEach(documentSnapshot => {
+                    levelOverrides[documentSnapshot.id] = {
+                        ...documentSnapshot.data(),
+                        id: documentSnapshot.id
+                    };
+                });
+
+                levels = mergeLevels(levelOverrides);
+
+                if (levelsSignature(levels) !== renderedSignature) {
+                    renderLevelCards();
+                }
+
+                populateLevelSelect();
+                updateLeaderboard();
+
+                decorateAdminTools();
+
+                if (isAdmin) {
+                    renderAddedLevels();
+                    renderHiddenLevels();
+                }
+
+            },
+
+            error => {
+                console.error("Errore caricamento livelli:", error);
+            }
+        );
+    }
+
+
+    // --------------------------------------------------
     // AGGIORNAMENTO DELLA CLASSIFICA
     // --------------------------------------------------
 
@@ -1851,9 +2302,9 @@ footer { animation: foot 5s ease-in-out infinite; }
 
         const levelCards = document.querySelectorAll(".livello");
 
-        levelCards.forEach((card, index) => {
+        levelCards.forEach(card => {
 
-            const level = levels[index];
+            const level = levels.find(item => item.id === card.dataset.levelId);
             if (!level) return;
 
             const progressRows = card.querySelectorAll(".progressi p");
@@ -2077,10 +2528,15 @@ footer { animation: foot 5s ease-in-out infinite; }
             adminContent.hidden = false;
 
             startAdminListeners();
+            renderAddedLevels();
+            renderHiddenLevels();
+            decorateAdminTools();
+            setEditMode(true);
 
         } else {
 
             isAdmin = false;
+            document.body.classList.remove("admin-edit");
 
             adminLogin.hidden = false;
             adminContent.hidden = true;
@@ -2481,6 +2937,864 @@ footer { animation: foot 5s ease-in-out infinite; }
 
 
     // --------------------------------------------------
+    // AGGIUNTA NUOVI LIVELLI (AREDL O CUSTOM)
+    // --------------------------------------------------
+
+    const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v2";
+    const AREDL_CACHE_TTL = 60 * 60 * 1000;
+
+    const tabAredl = document.getElementById("tab-aredl");
+    const tabCustom = document.getElementById("tab-custom");
+    const aredlBox = document.getElementById("aredl-box");
+    const aredlQuery = document.getElementById("aredl-query");
+    const aredlStatus = document.getElementById("aredl-status");
+    const aredlResults = document.getElementById("aredl-results");
+    const reloadAredl = document.getElementById("reload-aredl");
+
+    const levelForm = document.getElementById("level-form");
+    const levelName = document.getElementById("level-name");
+    const levelBy = document.getElementById("level-by");
+    const levelDiff = document.getElementById("level-diff");
+    const levelPoints = document.getElementById("level-points");
+    const levelRank = document.getElementById("level-rank");
+    const levelGdId = document.getElementById("level-gdid");
+    const levelImg = document.getElementById("level-img");
+    const rankField = document.getElementById("rank-field");
+    const addLevelButton = document.getElementById("add-level-button");
+    const levelMessage = document.getElementById("level-message");
+    const addedLevelsList = document.getElementById("added-levels-list");
+
+    let addMode = "aredl";
+    let selectedAredl = null;
+    let aredlLevels = [];
+    let aredlLoaded = false;
+    let aredlLoading = false;
+
+    function setAddMode(mode) {
+
+        addMode = mode;
+
+        tabAredl.className = "pulsante " + (mode === "aredl" ? "pulsante-verde" : "pulsante-rifiuta");
+        tabCustom.className = "pulsante " + (mode === "custom" ? "pulsante-verde" : "pulsante-rifiuta");
+
+        aredlBox.hidden = mode !== "aredl";
+        rankField.hidden = mode !== "aredl";
+
+        if (mode === "custom") {
+            selectedAredl = null;
+            levelRank.value = "";
+        }
+    }
+
+    // Normalizza un livello della risposta AREDL (la posizione è null per i livelli Legacy).
+    function normalizeAredlLevel(item) {
+
+        if (!item || typeof item !== "object") return null;
+
+        const level = item.level && typeof item.level === "object"
+            ? { ...item.level, ...item }
+            : item;
+
+        const name = typeof level.name === "string" ? level.name.trim() : "";
+        if (!name) return null;
+
+        const rawStatus = String(level.status || "").trim();
+        const status = rawStatus || (level.legacy === true ? "Legacy" : (level.position != null ? "MainList" : "Legacy"));
+        if (["Pending", "Removed"].includes(status)) return null;
+
+        const rawPosition = level.position ?? level.rank ?? null;
+        const parsed = rawPosition === null || rawPosition === "" ? null : Number(rawPosition);
+        const rank = Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : null;
+
+        const publisherRaw = level.publisher;
+        const publisher = typeof publisherRaw === "string"
+            ? publisherRaw
+            : ((publisherRaw && (publisherRaw.global_name || publisherRaw.username || publisherRaw.name)) || "");
+
+        const gdId = Number.isInteger(level.level_id) ? level.level_id : null;
+
+        return {
+            id: String(level.id ?? gdId ?? `${name.toLowerCase()}-${rank ?? "legacy"}`),
+            name,
+            rank,
+            status,
+            gdId,
+            publisher: String(publisher || "")
+        };
+    }
+
+    function extractAredlArray(payload) {
+
+        if (Array.isArray(payload)) return payload;
+        if (!payload || typeof payload !== "object") return [];
+
+        for (const candidate of [payload.levels, payload.data, payload.results, payload.items]) {
+            if (Array.isArray(candidate)) return candidate;
+            if (candidate && typeof candidate === "object") {
+                if (Array.isArray(candidate.levels)) return candidate.levels;
+                if (Array.isArray(candidate.data)) return candidate.data;
+            }
+        }
+
+        return [];
+    }
+
+    function readAredlCache() {
+        try {
+            const cached = JSON.parse(localStorage.getItem(AREDL_CACHE_KEY) || "null");
+            if (cached && Array.isArray(cached.levels)) return cached;
+        } catch (_) {}
+        return null;
+    }
+
+    // Prova gli indirizzi AREDL uno dopo l'altro e usa il primo che risponde con livelli utilizzabili.
+    const AREDL_APIS = [
+        "https://api.aredl.net/v2/api/aredl/levels",
+        "https://api.aredl.net/api/aredl/levels",
+        "https://api.aredl.net/v2/api/levels?exclude_pending=true&exclude_removed=true"
+    ];
+
+    async function fetchAredlLevels() {
+        let lastError = null;
+
+        for (const url of AREDL_APIS) {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 12000);
+
+            try {
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: { "Accept": "application/json" },
+                    signal: controller.signal
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status} (${url})`);
+
+                const payload = await response.json();
+                const normalized = extractAredlArray(payload).map(normalizeAredlLevel).filter(Boolean);
+
+                if (!normalized.length) throw new Error(`Nessun livello utilizzabile (${url})`);
+
+                return normalized;
+
+            } catch (error) {
+                lastError = error;
+                console.warn("AREDL endpoint non utilizzabile:", url, error);
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
+        throw lastError || new Error("AREDL non raggiungibile");
+    }
+
+    async function loadAredl(force = false) {
+
+        if (aredlLoading) return;
+
+        const cached = readAredlCache();
+        const cachedLevels = cached
+            ? cached.levels.filter(level => level && typeof level.name === "string")
+            : [];
+
+        if (!force && cachedLevels.length && Date.now() - Number(cached.savedAt || 0) < AREDL_CACHE_TTL) {
+            aredlLevels = cachedLevels;
+            aredlLoaded = true;
+            showMessage(aredlStatus, `AREDL collegata: ${aredlLevels.length} livelli disponibili (da cache).`, "successo");
+            renderAredlResults();
+            return;
+        }
+
+        aredlLoading = true;
+        reloadAredl.disabled = true;
+        showMessage(aredlStatus, "Mi collego al database AREDL...", "");
+
+        try {
+
+            const normalized = await fetchAredlLevels();
+
+            const unique = new Map();
+            normalized.forEach(level => unique.set(level.id, level));
+
+            // Prima i livelli della lista principale per posizione, poi i legacy in ordine alfabetico.
+            aredlLevels = [...unique.values()].sort((a, b) => {
+                if (a.rank !== null && b.rank !== null) return a.rank - b.rank;
+                if (a.rank !== null) return -1;
+                if (b.rank !== null) return 1;
+                return a.name.localeCompare(b.name);
+            });
+
+            aredlLoaded = true;
+
+            try {
+                localStorage.setItem(AREDL_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), levels: aredlLevels }));
+            } catch (_) {}
+
+            showMessage(aredlStatus, `AREDL collegata: ${aredlLevels.length} livelli disponibili.`, "successo");
+
+        } catch (error) {
+
+            console.error("AREDL:", error);
+
+            if (cachedLevels.length) {
+                aredlLevels = cachedLevels;
+                aredlLoaded = true;
+                showMessage(aredlStatus, `AREDL non raggiungibile: uso i ${aredlLevels.length} livelli salvati.`, "errore");
+            } else {
+                aredlLoaded = false;
+                showMessage(
+                    aredlStatus,
+                    "Non riesco a collegarmi ad AREDL. Premi REFRESH tra poco, oppure compila i campi a mano qui sotto (anche il rank).",
+                    "errore"
+                );
+            }
+
+        } finally {
+
+            aredlLoading = false;
+            reloadAredl.disabled = false;
+            renderAredlResults();
+
+        }
+    }
+
+    function aredlAlreadyAdded(item) {
+        return levels.some(level =>
+            (level.aredlId && String(level.aredlId) === String(item.id)) ||
+            level.name.toLowerCase() === item.name.toLowerCase()
+        );
+    }
+
+    function renderAredlResults() {
+
+        aredlResults.innerHTML = "";
+
+        const raw = aredlQuery.value.trim().toLowerCase();
+
+        if (!raw || !aredlLoaded) return;
+
+        const query = raw.replace(/^#/, "");
+        const isNumber = /^\d+$/.test(query);
+
+        if (!isNumber && query.length < 2) return;
+
+        const matches = aredlLevels
+            .filter(level =>
+                level.name.toLowerCase().includes(query) ||
+                (level.rank !== null && String(level.rank) === query)
+            )
+            .slice(0, 25);
+
+        if (matches.length === 0) {
+            aredlResults.innerHTML = '<p class="vuoto">Nessun livello trovato su AREDL.</p>';
+            return;
+        }
+
+        matches.forEach(item => {
+
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "aredl-item";
+
+            const rank = document.createElement("span");
+            rank.className = "aredl-rank" + (item.rank === null ? " legacy" : "");
+            rank.textContent = item.rank !== null ? `#${item.rank}` : "LEGACY";
+
+            const name = document.createElement("span");
+            name.className = "aredl-name";
+            name.textContent = item.name;
+
+            button.append(rank, name);
+
+            if (aredlAlreadyAdded(item)) {
+                button.disabled = true;
+                const added = document.createElement("span");
+                added.className = "aredl-pts";
+                added.textContent = "già in lista";
+                button.appendChild(added);
+            } else {
+                button.addEventListener("click", () => selectAredl(item));
+            }
+
+            aredlResults.appendChild(button);
+        });
+
+        if (matches.length === 25) {
+            const note = document.createElement("p");
+            note.className = "vuoto";
+            note.textContent = "Primi 25 risultati: scrivi più lettere per restringere.";
+            aredlResults.appendChild(note);
+        }
+    }
+
+    function selectAredl(item) {
+
+        selectedAredl = item;
+
+        levelName.value = item.name;
+        levelBy.value = item.publisher || "";
+        levelDiff.value = "EXTREME DEMON";
+        levelRank.value = item.rank || "";
+        levelGdId.value = item.gdId || "";
+        levelImg.value = item.gdId
+            ? `https://levelthumbs.prevter.me/thumbnail/${item.gdId}/small`
+            : "";
+
+        aredlResults.innerHTML = "";
+        aredlQuery.value = item.name;
+
+        showMessage(
+            aredlStatus,
+            `Selezionato: ${item.rank ? "AREDL #" + item.rank : "AREDL legacy (senza rank)"} · ${item.name}. Scegli i punti e premi ADD LEVEL.`,
+            "successo"
+        );
+
+        levelPoints.focus();
+    }
+
+    function nextLevelId() {
+
+        const max = (levelsAll.length ? levelsAll : levels).reduce((highest, level) => {
+            const number = parseInt(level.id, 10);
+            return Number.isFinite(number) ? Math.max(highest, number) : highest;
+        }, 0);
+
+        return pad(max + 1);
+    }
+
+    tabAredl.addEventListener("click", () => setAddMode("aredl"));
+    tabCustom.addEventListener("click", () => setAddMode("custom"));
+
+    aredlQuery.addEventListener("focus", () => {
+        if (!aredlLoaded && !aredlLoading) loadAredl();
+    });
+
+    aredlQuery.addEventListener("input", () => {
+        if (!aredlLoaded && !aredlLoading) loadAredl();
+        renderAredlResults();
+    });
+
+    reloadAredl.addEventListener("click", () => loadAredl(true));
+
+    levelForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        if (!isAdmin) return;
+
+        const name = levelName.value.trim();
+        const by = levelBy.value.trim();
+        const diff = levelDiff.value;
+        const points = Math.round(Number(levelPoints.value) * 100) / 100;
+        const rank = levelRank.value.trim() === "" ? null : Number(levelRank.value);
+        const gdId = levelGdId.value.trim() === "" ? null : Number(levelGdId.value);
+        const img = levelImg.value.trim();
+
+        if (!name) {
+            showMessage(levelMessage, "Scrivi il nome del livello.", "errore");
+            return;
+        }
+
+        if (!Number.isFinite(points) || points <= 0 || points > 1000) {
+            showMessage(levelMessage, "I punti devono essere un numero tra 0,01 e 1000.", "errore");
+            return;
+        }
+
+        if (rank !== null && (!Number.isInteger(rank) || rank < 1)) {
+            showMessage(levelMessage, "Il rank AREDL deve essere un numero intero da 1 in su.", "errore");
+            return;
+        }
+
+        if (gdId !== null && (!Number.isInteger(gdId) || gdId < 1)) {
+            showMessage(levelMessage, "L'ID del livello deve essere un numero intero.", "errore");
+            return;
+        }
+
+        const imgOk = img === "" ||
+            /^https:\/\//i.test(img) ||
+            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(img);
+
+        if (!imgOk) {
+            showMessage(levelMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
+            return;
+        }
+
+        if (
+            levels.some(level => level.name.toLowerCase() === name.toLowerCase()) ||
+            (addMode === "aredl" && selectedAredl && levels.some(level => level.aredlId && String(level.aredlId) === String(selectedAredl.id)))
+        ) {
+            showMessage(levelMessage, "Esiste già un livello con questo nome.", "errore");
+            return;
+        }
+
+        const id = nextLevelId();
+
+        const data = {
+            name,
+            points,
+            by: by || "Unknown",
+            diff,
+            img,
+            source: addMode,
+            createdAt: serverTimestamp()
+        };
+
+        if (addMode === "aredl" && rank !== null) data.aredlRank = rank;
+        if (addMode === "aredl" && selectedAredl) data.aredlId = selectedAredl.id;
+        if (gdId !== null) data.gdId = gdId;
+
+        addLevelButton.disabled = true;
+        addLevelButton.textContent = "ADDING...";
+
+        try {
+
+            const batch = writeBatch(db);
+            batch.set(doc(db, "levels", id), data);
+            await batch.commit();
+
+            levelForm.reset();
+            aredlQuery.value = "";
+            aredlResults.innerHTML = "";
+            selectedAredl = null;
+            showMessage(aredlStatus, "", "");
+
+            showMessage(
+                levelMessage,
+                `Livello aggiunto con id ${id}. Compare in lista in base ai suoi punti.`,
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                levelMessage,
+                "Errore durante il salvataggio. Controlla che le regole Firestore permettano all'admin di scrivere in \"levels\".",
+                "errore"
+            );
+
+        } finally {
+
+            addLevelButton.disabled = false;
+            addLevelButton.textContent = "ADD LEVEL";
+
+        }
+
+    });
+
+    function renderAddedLevels() {
+
+        if (!isAdmin) return;
+
+        addedLevelsList.innerHTML = "";
+
+        const added = levels.filter(level => !baseLevels.some(base => base.id === level.id));
+
+        if (added.length === 0) {
+            addedLevelsList.innerHTML = '<p class="vuoto">Nessun livello aggiunto finora.</p>';
+            return;
+        }
+
+        added.forEach(level => {
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const lines = [
+                ["Level", `${level.name} (id ${level.id})`],
+                ["Type", level.source === "aredl"
+                    ? `AREDL${level.aredlRank ? " #" + level.aredlRank : ""}`
+                    : "Custom"],
+                ["Difficulty", level.diff || "-"],
+                ["Points", formatLevelPoints(level.points)]
+            ];
+
+            lines.forEach(([label, value]) => {
+                const line = document.createElement("div");
+                const strong = document.createElement("strong");
+                strong.textContent = label + ": ";
+                line.append(strong, document.createTextNode(value));
+                info.appendChild(line);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.className = "pulsante";
+            editButton.textContent = "EDIT POINTS";
+
+            editButton.addEventListener("click", async () => {
+
+                const value = prompt(`Nuovi punti per ${level.name}:`, level.points);
+
+                if (value === null) return;
+
+                const newPoints = Math.round(Number(value) * 100) / 100;
+
+                if (!Number.isFinite(newPoints) || newPoints <= 0 || newPoints > 1000) {
+                    alert("Inserisci un numero tra 0,01 e 1000.");
+                    return;
+                }
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.update(doc(db, "levels", level.id), { points: newPoints });
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante la modifica dei punti.");
+                }
+
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "pulsante pulsante-rifiuta";
+            deleteButton.textContent = "DELETE LEVEL";
+
+            deleteButton.addEventListener("click", async () => {
+
+                const related = Object.entries(records)
+                    .filter(([, record]) => record.levelId === level.id);
+
+                if (!confirm(
+                    `Eliminare "${level.name}"?\nVerranno eliminati anche ${related.length} record dei giocatori su questo livello.`
+                )) {
+                    return;
+                }
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.delete(doc(db, "levels", level.id));
+                    related.forEach(([key]) => batch.delete(doc(db, "records", key)));
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante l'eliminazione del livello.");
+                }
+
+            });
+
+            actions.append(editButton, deleteButton);
+            card.append(info, actions);
+            addedLevelsList.appendChild(card);
+        });
+    }
+
+
+    // --------------------------------------------------
+    // MODIFICA DELLA LISTA DIRETTAMENTE DAL SITO (SOLO ADMIN)
+    // --------------------------------------------------
+
+    let editMode = true;
+    let editingLevel = null;
+
+    const editModal = document.getElementById("edit-modal");
+    const editForm = document.getElementById("edit-form");
+    const editName = document.getElementById("edit-name");
+    const editBy = document.getElementById("edit-by");
+    const editDiff = document.getElementById("edit-diff");
+    const editPoints = document.getElementById("edit-points");
+    const editPosition = document.getElementById("edit-position");
+    const editImg = document.getElementById("edit-img");
+    const editMessage = document.getElementById("edit-message");
+    const editSave = document.getElementById("edit-save");
+    const hiddenLevelsList = document.getElementById("hidden-levels-list");
+
+    function setEditMode(on) {
+
+        editMode = on;
+
+        document.body.classList.toggle("admin-edit", isAdmin && editMode);
+
+        const button = document.getElementById("edit-mode-button");
+
+        if (button) {
+            button.textContent = editMode ? "EDIT MODE: ON" : "EDIT MODE: OFF";
+        }
+    }
+
+    // Aggiunge i pulsanti EDIT / REMOVE a ogni livello (si vedono solo da admin in edit mode).
+    function decorateAdminTools() {
+
+        document.querySelectorAll(".livello").forEach(card => {
+
+            if (card.querySelector(".admin-tools")) return;
+
+            const tools = document.createElement("div");
+            tools.className = "admin-tools";
+
+            [["edit", "✎ EDIT"], ["remove", "✕ REMOVE"]].forEach(([action, label]) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.dataset.act = action;
+                button.textContent = label;
+                tools.appendChild(button);
+            });
+
+            card.appendChild(tools);
+        });
+    }
+
+    document.getElementById("classifica").addEventListener("click", event => {
+
+        const button = event.target.closest(".admin-tools button");
+
+        if (!button || !isAdmin) return;
+
+        const card = button.closest(".livello");
+        const level = levels.find(item => item.id === card.dataset.levelId);
+
+        if (!level) return;
+
+        if (button.dataset.act === "edit") openEditModal(level);
+        if (button.dataset.act === "remove") removeLevelFromList(level);
+    });
+
+    document.getElementById("edit-mode-button").addEventListener("click", () => setEditMode(!editMode));
+
+    function openEditModal(level) {
+
+        editingLevel = level;
+
+        editName.value = level.name || "";
+        editBy.value = level.by || "";
+
+        if (level.diff && ![...editDiff.options].some(option => option.value === level.diff)) {
+            const extra = document.createElement("option");
+            extra.textContent = level.diff;
+            editDiff.appendChild(extra);
+        }
+
+        editDiff.value = level.diff || "EXTREME DEMON";
+        editPoints.value = level.points;
+        editImg.value = level.img || "";
+
+        editPosition.max = levels.length;
+        editPosition.value = levels.findIndex(item => item.id === level.id) + 1;
+
+        showMessage(editMessage, "", "");
+
+        editSave.disabled = false;
+        editModal.classList.add("show");
+        editName.focus();
+    }
+
+    function closeEditModal() {
+        editModal.classList.remove("show");
+        editingLevel = null;
+    }
+
+    // Punti da assegnare per mettere il livello in una certa posizione (a metà tra i vicini).
+    function pointsForPosition(position, excludeId) {
+
+        const others = levels.filter(item => item.id !== excludeId);
+        const index = Math.max(1, Math.min(others.length + 1, position));
+
+        const above = others[index - 2];
+        const below = others[index - 1];
+
+        let value;
+
+        if (above && below) value = (above.points + below.points) / 2;
+        else if (!above && below) value = below.points + 5;
+        else if (above && !below) value = above.points > 10 ? above.points - 5 : above.points / 2;
+        else value = 100;
+
+        return Math.max(0.01, Math.round(value * 100) / 100);
+    }
+
+    editPosition.addEventListener("change", () => {
+
+        if (!editingLevel) return;
+
+        const position = parseInt(editPosition.value, 10);
+
+        if (!Number.isInteger(position) || position < 1) return;
+
+        editPoints.value = pointsForPosition(position, editingLevel.id);
+
+        showMessage(
+            editMessage,
+            `Posizione #${position}: punti calcolati a metà tra i livelli vicini (puoi cambiarli a mano).`,
+            ""
+        );
+    });
+
+    document.getElementById("edit-cancel").addEventListener("click", closeEditModal);
+
+    editModal.addEventListener("click", event => {
+        if (event.target === editModal) closeEditModal();
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && editModal.classList.contains("show")) closeEditModal();
+    });
+
+    editForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        if (!isAdmin || !editingLevel) return;
+
+        const name = editName.value.trim();
+        const by = editBy.value.trim();
+        const diff = editDiff.value;
+        const points = Math.round(Number(editPoints.value) * 100) / 100;
+        const img = editImg.value.trim();
+
+        if (!name) {
+            showMessage(editMessage, "Scrivi il nome del livello.", "errore");
+            return;
+        }
+
+        if (!Number.isFinite(points) || points <= 0 || points > 1000) {
+            showMessage(editMessage, "I punti devono essere un numero tra 0,01 e 1000.", "errore");
+            return;
+        }
+
+        const imgOk = img === "" ||
+            /^https:\/\//i.test(img) ||
+            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(img);
+
+        if (!imgOk) {
+            showMessage(editMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
+            return;
+        }
+
+        if (levels.some(item => item.id !== editingLevel.id && item.name.toLowerCase() === name.toLowerCase())) {
+            showMessage(editMessage, "Esiste già un altro livello con questo nome.", "errore");
+            return;
+        }
+
+        editSave.disabled = true;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            batch.set(doc(db, "levels", editingLevel.id), {
+                name,
+                by: by || "Unknown",
+                diff,
+                img,
+                points,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+
+            await batch.commit();
+
+            closeEditModal();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                editMessage,
+                "Errore durante il salvataggio. Controlla che le regole Firestore permettano all'admin di scrivere in \"levels\".",
+                "errore"
+            );
+
+            editSave.disabled = false;
+        }
+    });
+
+    async function removeLevelFromList(level) {
+
+        if (!isAdmin) return;
+
+        const isBase = baseLevels.some(base => base.id === level.id);
+
+        const related = Object.entries(records)
+            .filter(([, record]) => record.levelId === level.id);
+
+        const question = isBase
+            ? `Togliere "${level.name}" dalla lista?\nIl livello viene nascosto: i record dei giocatori restano salvati e lo puoi ripristinare dal pannello admin.`
+            : `Eliminare "${level.name}"?\nVerranno eliminati anche ${related.length} record dei giocatori su questo livello.`;
+
+        if (!confirm(question)) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            if (isBase) {
+                batch.set(doc(db, "levels", level.id), { hidden: true }, { merge: true });
+            } else {
+                batch.delete(doc(db, "levels", level.id));
+                related.forEach(([key]) => batch.delete(doc(db, "records", key)));
+            }
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante la rimozione del livello.");
+        }
+    }
+
+    function renderHiddenLevels() {
+
+        if (!isAdmin) return;
+
+        hiddenLevelsList.innerHTML = "";
+
+        const hidden = levelsAll.filter(level => level.hidden);
+
+        if (hidden.length === 0) {
+            hiddenLevelsList.innerHTML = '<p class="vuoto">Nessun livello nascosto.</p>';
+            return;
+        }
+
+        hidden.forEach(level => {
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const strong = document.createElement("strong");
+            strong.textContent = level.name;
+
+            info.append(strong, document.createTextNode(` · ${formatLevelPoints(level.points)} pts · id ${level.id}`));
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const restore = document.createElement("button");
+            restore.type = "button";
+            restore.className = "pulsante pulsante-verde";
+            restore.textContent = "RESTORE";
+
+            restore.addEventListener("click", async () => {
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.set(doc(db, "levels", level.id), { hidden: false }, { merge: true });
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante il ripristino del livello.");
+                }
+            });
+
+            actions.appendChild(restore);
+            card.append(info, actions);
+            hiddenLevelsList.appendChild(card);
+        });
+    }
+
+
+    // --------------------------------------------------
     // LOGOUT
     // --------------------------------------------------
 
@@ -2499,8 +3813,16 @@ footer { animation: foot 5s ease-in-out infinite; }
     // AVVIO
     // --------------------------------------------------
 
+    document.querySelectorAll(".livello").forEach((card, index) => {
+        if (baseLevels[index]) {
+            card.dataset.levelId = baseLevels[index].id;
+        }
+    });
+
     listenToRecords();
+    listenToLevels();
     updateLeaderboard();
+    setAddMode("aredl");
 
 </script>
 
