@@ -605,6 +605,20 @@ footer { animation: foot 5s ease-in-out infinite; }
 .nav-center > :nth-child(3) { animation-delay: .34s; }
 .nav-center > :nth-child(4) { animation-delay: .46s; }
 
+
+/* ---------- STATO LIVE DELLA CLASSIFICA ---------- */
+.lb-live {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 4px 13px; border-radius: 14px;
+    background: rgba(150,150,150,.12); color: #999; font-size: .65rem; font-weight: 800; letter-spacing: 1.5px;
+    transition: background .3s ease, color .3s ease;
+}
+.lb-live .lb-dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #888; }
+.lb-live.online { background: rgba(0,230,118,.1); color: #00e676; }
+.lb-live.online .lb-dot { background: #00e676; }
+.lb-live.online .lb-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: ping 1.8s ease-out infinite; }
+.lb-live.error { background: rgba(255,82,82,.1); color: #ff6666; }
+.lb-live.error .lb-dot { background: #ff5252; }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -768,6 +782,7 @@ footer { animation: foot 5s ease-in-out infinite; }
             <h1 class="testo-illuminato">Leaderboard</h1>
             <p class="sottotitolo">Classifica dei gooners</p>
             <div class="linea-titolo"></div>
+            <div class="lb-live" id="lb-live"><span class="lb-dot"></span><span id="lb-live-text">CONNECTING...</span></div>
         </header>
 
         <section class="leaderboard">
@@ -956,29 +971,6 @@ footer { animation: foot 5s ease-in-out infinite; }
         mo.observe(el, { childList: true, characterData: true, subtree: true });
     });
 
-    /* Conteggio dei numeri della classifica all'ingresso */
-    const cnt = (el, delay) => {
-        const m = el.textContent.match(/\d[\d,]*\.?\d*/);
-        if (!m) return;
-        const raw = m[0], dec = (raw.split('.')[1] || '').length;
-        const to = parseFloat(raw.replace(/,/g, ''));
-        const pre = el.textContent.slice(0, m.index), post = el.textContent.slice(m.index + raw.length);
-        const fmt = (v) => pre + (dec ? v.toFixed(dec) : Math.round(v)) + post;
-        el.textContent = fmt(0);
-        setTimeout(() => {
-            const t0 = performance.now();
-            const step = (now) => {
-                const p = Math.min(1, (now - t0) / 1300);
-                el.textContent = fmt(to * ease(p));
-                if (p < 1) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-        }, delay);
-    };
-    $$('.rank-card').forEach((card, i) => {
-        card.querySelectorAll('.rank-punti, .rank-extra strong').forEach((el) => cnt(el, 1700 + i * 250));
-    });
-
     /* Particelle: braci rosse e verdi che salgono piano */
     const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
     document.body.prepend(cv);
@@ -1019,6 +1011,299 @@ footer { animation: foot 5s ease-in-out infinite; }
     })(0);
 })();
 
+
+</script>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
+        authDomain: "gs-demonlist.firebaseapp.com",
+        databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "gs-demonlist",
+        storageBucket: "gs-demonlist.firebasestorage.app",
+        messagingSenderId: "789414584664",
+        appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d",
+        measurementId: "G-1V7VX6QRHZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const players = ["Pothersouls", "Dadefff", "Leopelliz"];
+
+    const baseLevels = [
+        { id: "001", name: "Bloodbath", points: 250 },
+        { id: "002", name: "Future Funk II", points: 235 },
+        { id: "003", name: "Magma Bound", points: 220 },
+        { id: "004", name: "CraZy II", points: 205 },
+        { id: "005", name: "Sonic Wave Universe", points: 190 },
+        { id: "006", name: "Death Note", points: 175 },
+        { id: "007", name: "Stalemate", points: 160 },
+        { id: "008", name: "Jawbreaker", points: 145 },
+        { id: "009", name: "Future Funk", points: 130 },
+        { id: "010", name: "CraZy", points: 115 },
+        { id: "011", name: "Megalovania", points: 100 },
+        { id: "012", name: "Nine Circles", points: 90 },
+        { id: "013", name: "Troll Madness", points: 80 },
+        { id: "014", name: "HeLL", points: 70 },
+        { id: "015", name: "Phobros", points: 60 },
+        { id: "016", name: "Cycles v2 s", points: 50 },
+        { id: "017", name: "Sakupen Egg", points: 40 },
+        { id: "018", name: "Mechanical Showdown", points: 30 },
+        { id: "019", name: "Skeletal Shenanigans", points: 20 },
+        { id: "020", name: "VeritY", points: 15 }
+    ];
+
+    // Dati iniziali: restano visibili finché il database dei record è vuoto.
+    const initialProgress = {
+        Pothersouls: { "001": 100, "002": 100, "003": 100, "004": 100, "005": 100 },
+        Dadefff: { "001": 14, "002": 55, "005": 98 },
+        Leopelliz: {}
+    };
+
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let levelOverrides = {};
+    let records = {};
+    let hasAnyRecords = false;
+    let firstRender = true;
+
+    const live = document.getElementById("lb-live");
+    const liveText = document.getElementById("lb-live-text");
+
+    function setLive(state, text) {
+        live.className = "lb-live" + (state ? " " + state : "");
+        liveText.textContent = text;
+    }
+
+    // Livelli attuali = base + modifiche dell'admin (nome, punti, livelli aggiunti o nascosti).
+    function currentLevels() {
+
+        const merged = baseLevels.map(base => ({ ...base, ...(levelOverrides[base.id] || {}), id: base.id }));
+
+        Object.values(levelOverrides).forEach(item => {
+            if (!baseLevels.some(base => base.id === item.id)) merged.push(item);
+        });
+
+        merged.forEach(level => { level.points = Number(level.points) || 0; });
+
+        merged.sort((a, b) =>
+            b.points - a.points ||
+            String(a.id).localeCompare(String(b.id), undefined, { numeric: true })
+        );
+
+        return merged.filter(level => !level.hidden);
+    }
+
+    function getProgress(player, levelId) {
+
+        if (records[player] && records[player][levelId] !== undefined) {
+            return records[player][levelId];
+        }
+
+        if (!hasAnyRecords && initialProgress[player] && initialProgress[player][levelId] !== undefined) {
+            return initialProgress[player][levelId];
+        }
+
+        return null;
+    }
+
+    // Stessa formula della home: punti = punti del livello × (percentuale / 100).
+    function computeStats(player) {
+
+        let total = 0;
+        let beaten = 0;
+        let hardest = null;
+        let best = 0;
+
+        currentLevels().forEach(level => {
+
+            const progress = getProgress(player, level.id);
+
+            if (progress === null) return;
+
+            total += level.points * (progress / 100);
+            best = Math.max(best, progress);
+
+            if (progress >= 100) {
+                beaten++;
+                if (!hardest) hardest = level;
+            }
+        });
+
+        return { name: player, total, beaten, hardest, best };
+    }
+
+    function countTo(el, target, delay) {
+
+        // Nessun cambiamento: lascia andare avanti l'animazione già avviata.
+        if (el._target === target) return;
+
+        const from = el._shown ?? 0;
+
+        el._target = target;
+
+        cancelAnimationFrame(el._raf);
+        clearTimeout(el._timer);
+
+        const show = value => {
+            el._shown = value;
+            el.textContent = value;
+        };
+
+        if (reduce || from === target) {
+            show(target);
+            return;
+        }
+
+        el._timer = setTimeout(() => {
+
+            const start = performance.now();
+
+            const step = now => {
+                const k = Math.min(1, (now - start) / 1100);
+                const eased = 1 - Math.pow(1 - k, 3);
+                show(Math.round(from + (target - from) * eased));
+                if (k < 1) el._raf = requestAnimationFrame(step);
+            };
+
+            el._raf = requestAnimationFrame(step);
+
+        }, delay || 0);
+    }
+
+    function extraLine(label, value, valueFirst) {
+
+        const span = document.createElement("span");
+        const strong = document.createElement("strong");
+
+        strong.textContent = value;
+
+        if (valueFirst) span.append(strong, document.createTextNode(" " + label));
+        else span.append(document.createTextNode(label + " "), strong);
+
+        return span;
+    }
+
+    function fillCard(card, stats, index) {
+
+        const previous = card.dataset.player;
+
+        card.dataset.player = stats.name;
+        card.href = stats.name.toLowerCase() + ".html";
+
+        card.querySelector(".rank-avatar").textContent = stats.name.charAt(0).toUpperCase();
+        card.querySelector(".rank-info h2").textContent = stats.name;
+
+        countTo(
+            card.querySelector(".rank-punti"),
+            Math.round(stats.total),
+            firstRender ? 1700 + index * 250 : 0
+        );
+
+        card.querySelector(".rank-extra").replaceChildren(
+            extraLine("beaten", stats.beaten, true),
+            stats.beaten > 0
+                ? extraLine("Hardest:", stats.hardest.name, false)
+                : extraLine("Best progress:", stats.best > 0 ? stats.best + "%" : "--", false)
+        );
+
+        // Cambio di posizione: lampo verde sulla card e rimbalzo dell'avatar.
+        if (previous && previous !== stats.name && !reduce) {
+
+            card.animate(
+                [
+                    { boxShadow: "0 0 0 2px rgba(0,230,118,.9), 0 0 32px rgba(0,230,118,.55)" },
+                    { boxShadow: "0 0 0 0 rgba(0,230,118,0), 0 0 0 rgba(0,230,118,0)" }
+                ],
+                { duration: 1000, easing: "ease-out" }
+            );
+
+            card.querySelector(".rank-avatar").animate(
+                [{ transform: "scale(.55) rotate(-25deg)" }, { transform: "scale(1) rotate(0)" }],
+                { duration: 550, easing: "cubic-bezier(.3,1.6,.5,1)" }
+            );
+        }
+    }
+
+    function render() {
+
+        const ranking = players
+            .map(computeStats)
+            .sort((a, b) =>
+                b.total - a.total ||
+                b.beaten - a.beaten ||
+                a.name.localeCompare(b.name)
+            );
+
+        const cards = [...document.querySelectorAll(".leaderboard .rank-card")];
+
+        ranking.forEach((stats, index) => {
+            if (cards[index]) fillCard(cards[index], stats, index);
+        });
+
+        firstRender = false;
+    }
+
+    // I ritardi d'entrata restano legati allo slot, non al giocatore: così un cambio di posizione non li rilancia.
+    [...document.querySelectorAll(".leaderboard .rank-card")].forEach((card, index) => {
+        card.style.setProperty("--d", [1.2, 1.45, 1.7][index] + "s");
+        card.querySelector(".rank-punti").textContent = "0";
+        card.querySelector(".rank-punti")._shown = 0;
+    });
+
+    // Prima visualizzazione subito, con i dati iniziali; poi si aggiorna da solo con Firebase.
+    render();
+
+    onSnapshot(
+        collection(db, "records"),
+
+        snapshot => {
+
+            records = {};
+            hasAnyRecords = !snapshot.empty;
+
+            snapshot.forEach(documentSnapshot => {
+
+                const data = documentSnapshot.data();
+                const progress = Number(data.progress);
+
+                if (!players.includes(data.playerName) || !Number.isFinite(progress)) return;
+
+                if (!records[data.playerName]) records[data.playerName] = {};
+
+                records[data.playerName][data.levelId] = Math.max(0, Math.min(100, progress));
+            });
+
+            setLive("online", "LIVE · UPDATES AUTOMATICALLY");
+            render();
+        },
+
+        error => {
+            console.error("Firebase records error:", error);
+            setLive("error", "OFFLINE · SHOWING SAVED DATA");
+        }
+    );
+
+    onSnapshot(
+        collection(db, "levels"),
+
+        snapshot => {
+
+            levelOverrides = {};
+
+            snapshot.forEach(documentSnapshot => {
+                levelOverrides[documentSnapshot.id] = { ...documentSnapshot.data(), id: documentSnapshot.id };
+            });
+
+            render();
+        },
+
+        error => console.error("Firebase levels error:", error)
+    );
 
 </script>
 </body>
