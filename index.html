@@ -1011,6 +1011,22 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .modal-azioni { flex-direction: row; gap: 10px; }
 @keyframes modal-in { from { opacity: 0; transform: translateY(20px) scale(.94); } }
 
+
+/* ---------- SELETTORE IMMAGINE ---------- */
+.img-picker { display: flex; gap: 14px; align-items: flex-start; }
+.img-preview {
+    flex: 0 0 120px; width: 120px; height: 76px; border-radius: 7px; border: 1px dashed #555; overflow: hidden;
+    background: linear-gradient(135deg, #2a2a2a, #171717); display: flex; align-items: center; justify-content: center;
+    color: #666; font-size: .62rem; font-weight: 700; text-align: center; transition: border-color .2s ease, box-shadow .2s ease;
+}
+.img-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.img-preview.dragover { border-color: #00e676; box-shadow: 0 0 14px rgba(0,230,118,.3); }
+.img-controls { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.img-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.img-buttons .pulsante { padding: 8px 12px; font-size: .68rem; }
+.img-status { font-size: .7rem; line-height: 1.5; color: #888; min-height: 1em; }
+@media (max-width: 700px) { .img-picker { flex-direction: column; } }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -1612,8 +1628,20 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
                     </div>
 
                     <div class="campo campo-full">
-                        <label for="level-img">Image (https link or file name, optional)</label>
-                        <input id="level-img" type="text" maxlength="300" placeholder="https://... or name.png">
+                        <label for="level-img">Image</label>
+                        <div class="img-picker">
+                            <div class="img-preview" id="level-img-preview"><span>No image</span></div>
+                            <div class="img-controls">
+                                <input id="level-img" type="text" maxlength="300" placeholder="Link https or file name (optional)">
+                                <div class="img-buttons">
+                                    <button type="button" class="pulsante" id="level-img-upload">UPLOAD IMAGE</button>
+                                    <button type="button" class="pulsante pulsante-verde" id="level-img-fetch">GET THUMBNAIL FROM ID</button>
+                                    <button type="button" class="pulsante pulsante-rifiuta" id="level-img-clear">CLEAR</button>
+                                </div>
+                                <input type="file" id="level-img-file" accept="image/*" hidden>
+                                <p class="img-status" id="level-img-status">Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="campo campo-full">
@@ -1709,9 +1737,21 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
                     <input id="edit-points" type="number" min="0.01" max="1000" step="0.01" required>
                 </div>
 
-                <div class="campo">
-                    <label for="edit-img">Image (https link or file name)</label>
-                    <input id="edit-img" type="text" maxlength="300">
+                <div class="campo campo-full">
+                    <label for="edit-img">Image</label>
+                    <div class="img-picker">
+                        <div class="img-preview" id="edit-img-preview"><span>No image</span></div>
+                        <div class="img-controls">
+                            <input id="edit-img" type="text" maxlength="300" placeholder="Link https or file name (optional)">
+                            <div class="img-buttons">
+                                <button type="button" class="pulsante" id="edit-img-upload">UPLOAD IMAGE</button>
+                                <button type="button" class="pulsante pulsante-verde" id="edit-img-fetch">GET THUMBNAIL FROM ID</button>
+                                <button type="button" class="pulsante pulsante-rifiuta" id="edit-img-clear">CLEAR</button>
+                            </div>
+                            <input type="file" id="edit-img-file" accept="image/*" hidden>
+                            <p class="img-status" id="edit-img-status">Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="campo campo-full modal-azioni">
@@ -3311,9 +3351,11 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         levelDiff.value = "EXTREME DEMON";
         levelRank.value = item.rank || "";
         levelGdId.value = item.gdId || "";
-        levelImg.value = item.gdId
-            ? `https://levelthumbs.prevter.me/thumbnail/${item.gdId}/small`
-            : "";
+        addPicker.setValue("");
+
+        if (item.gdId) {
+            addPicker.fetchFromId(item.gdId);
+        }
 
         aredlResults.innerHTML = "";
         aredlQuery.value = item.name;
@@ -3363,7 +3405,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         const points = Math.round(Number(levelPoints.value) * 100) / 100;
         const rank = levelRank.value.trim() === "" ? null : Number(levelRank.value);
         const gdId = levelGdId.value.trim() === "" ? null : Number(levelGdId.value);
-        const img = levelImg.value.trim();
+        const img = addPicker.getValue();
 
         if (!name) {
             showMessage(levelMessage, "Scrivi il nome del livello.", "errore");
@@ -3385,9 +3427,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             return;
         }
 
-        const imgOk = img === "" ||
-            /^https:\/\//i.test(img) ||
-            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(img);
+        const imgOk = isValidImageValue(img);
 
         if (!imgOk) {
             showMessage(levelMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
@@ -3428,6 +3468,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             await batch.commit();
 
             levelForm.reset();
+            addPicker.reset();
             aredlQuery.value = "";
             aredlResults.innerHTML = "";
             selectedAredl = null;
@@ -3649,7 +3690,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 
         editDiff.value = level.diff || "EXTREME DEMON";
         editPoints.value = level.points;
-        editImg.value = level.img || "";
+        editPicker.setValue(level.img || "");
 
         editPosition.max = levels.length;
         editPosition.value = levels.findIndex(item => item.id === level.id) + 1;
@@ -3722,7 +3763,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         const by = editBy.value.trim();
         const diff = editDiff.value;
         const points = Math.round(Number(editPoints.value) * 100) / 100;
-        const img = editImg.value.trim();
+        const img = editPicker.getValue();
 
         if (!name) {
             showMessage(editMessage, "Scrivi il nome del livello.", "errore");
@@ -3734,9 +3775,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             return;
         }
 
-        const imgOk = img === "" ||
-            /^https:\/\//i.test(img) ||
-            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(img);
+        const imgOk = isValidImageValue(img);
 
         if (!imgOk) {
             showMessage(editMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
@@ -3867,6 +3906,285 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             hiddenLevelsList.appendChild(card);
         });
     }
+
+
+    // --------------------------------------------------
+    // IMMAGINI DEI LIVELLI: CARICAMENTO, RIDIMENSIONAMENTO E THUMBNAIL AUTOMATICO
+    // --------------------------------------------------
+
+    // Valori accettati: nessuna immagine, link https, nome di file nella cartella del sito
+    // oppure un'immagine caricata dal sito (data URL piccolo).
+    function isValidImageValue(value) {
+        return value === "" ||
+            /^https:\/\//i.test(value) ||
+            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(value) ||
+            (/^data:image\/(jpeg|png|webp);base64,/i.test(value) && value.length < 150000);
+    }
+
+    async function loadBitmap(blob) {
+
+        if (window.createImageBitmap) {
+            try {
+                return await createImageBitmap(blob);
+            } catch (_) {}
+        }
+
+        return await new Promise((resolve, reject) => {
+
+            const url = URL.createObjectURL(blob);
+            const image = new Image();
+
+            image.onload = () => { URL.revokeObjectURL(url); resolve(image); };
+            image.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Immagine non leggibile")); };
+
+            image.src = url;
+        });
+    }
+
+    // Ritaglia al formato 16:10 e riduce a circa 320x200, così pesa poche decine di KB.
+    async function resizeToDataUrl(blob) {
+
+        const bitmap = await loadBitmap(blob);
+        const sourceWidth = bitmap.naturalWidth || bitmap.width;
+        const sourceHeight = bitmap.naturalHeight || bitmap.height;
+
+        if (!sourceWidth || !sourceHeight) throw new Error("Immagine non valida");
+
+        const attempts = [[320, 200, 0.82], [320, 200, 0.7], [256, 160, 0.65], [200, 125, 0.6]];
+
+        for (const [width, height, quality] of attempts) {
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext("2d");
+
+            context.fillStyle = "#1e1e1e";
+            context.fillRect(0, 0, width, height);
+
+            const scale = Math.max(width / sourceWidth, height / sourceHeight);
+            const cropWidth = width / scale;
+            const cropHeight = height / scale;
+
+            context.drawImage(
+                bitmap,
+                (sourceWidth - cropWidth) / 2, (sourceHeight - cropHeight) / 2, cropWidth, cropHeight,
+                0, 0, width, height
+            );
+
+            const url = canvas.toDataURL("image/jpeg", quality);
+
+            if (url.length < 120000) return url;
+        }
+
+        throw new Error("Immagine troppo pesante");
+    }
+
+    // Prova a copiare il thumbnail dal servizio Level Thumbnails usando l'ID del livello.
+    async function thumbnailFromId(gdId) {
+
+        const urls = [
+            `https://levelthumbs.prevter.me/thumbnail/${gdId}`,
+            `https://levelthumbs.prevter.me/thumbnail/${gdId}/small`
+        ];
+
+        for (const url of urls) {
+
+            try {
+
+                const response = await fetch(url);
+
+                if (!response.ok) continue;
+
+                const blob = await response.blob();
+
+                if (!blob.type.startsWith("image/")) continue;
+
+                return { data: await resizeToDataUrl(blob) };
+
+            } catch (_) {}
+        }
+
+        // Se il browser non permette di copiarla, resta il link diretto (l'anteprima mostra se esiste).
+        return { link: urls[1] };
+    }
+
+    function createImagePicker(prefix, root, getGdId) {
+
+        const text = document.getElementById(`${prefix}-img`);
+        const file = document.getElementById(`${prefix}-img-file`);
+        const uploadButton = document.getElementById(`${prefix}-img-upload`);
+        const fetchButton = document.getElementById(`${prefix}-img-fetch`);
+        const clearButton = document.getElementById(`${prefix}-img-clear`);
+        const preview = document.getElementById(`${prefix}-img-preview`);
+        const status = document.getElementById(`${prefix}-img-status`);
+
+        const defaultHint = "Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.";
+
+        let data = "";
+
+        function setStatus(message, type) {
+            status.textContent = message;
+            status.style.color = type === "ok" ? "#00e676" : type === "error" ? "#ff6666" : "#888";
+        }
+
+        function refresh() {
+
+            const source = data || text.value.trim();
+
+            preview.replaceChildren();
+
+            if (source && isValidImageValue(source)) {
+
+                const image = document.createElement("img");
+                image.src = source;
+                image.alt = "";
+                image.addEventListener("error", () => {
+                    preview.replaceChildren(document.createTextNode("Image not found"));
+                });
+
+                preview.appendChild(image);
+
+            } else {
+
+                const empty = document.createElement("span");
+                empty.textContent = "No image";
+                preview.appendChild(empty);
+            }
+        }
+
+        async function useBlob(blob) {
+
+            if (!blob || !blob.type.startsWith("image/")) {
+                setStatus("Il file scelto non è un'immagine.", "error");
+                return;
+            }
+
+            setStatus("Ridimensiono l'immagine...", "");
+
+            try {
+
+                data = await resizeToDataUrl(blob);
+                text.value = "";
+
+                setStatus(`Immagine pronta (${Math.round(data.length / 1024)} KB). Si salva insieme al livello.`, "ok");
+                refresh();
+
+            } catch (error) {
+
+                console.error(error);
+                setStatus("Non riesco a usare questa immagine. Prova con un'altra.", "error");
+            }
+        }
+
+        async function fetchFromId(gdId) {
+
+            if (!gdId) {
+                setStatus("Serve l'ID del livello (campo GD level ID).", "error");
+                return;
+            }
+
+            setStatus("Cerco il thumbnail del livello...", "");
+            fetchButton.disabled = true;
+
+            try {
+
+                const result = await thumbnailFromId(gdId);
+
+                if (result.data) {
+                    data = result.data;
+                    text.value = "";
+                    setStatus(`Thumbnail copiato e salvato (${Math.round(data.length / 1024)} KB).`, "ok");
+                } else {
+                    data = "";
+                    text.value = result.link;
+                    setStatus("Non posso copiare il thumbnail: ho messo il link diretto. Se l'anteprima non appare, carica un'immagine a mano.", "error");
+                }
+
+                refresh();
+
+            } finally {
+                fetchButton.disabled = false;
+            }
+        }
+
+        uploadButton.addEventListener("click", () => file.click());
+
+        file.addEventListener("change", async () => {
+            if (file.files[0]) await useBlob(file.files[0]);
+            file.value = "";
+        });
+
+        clearButton.addEventListener("click", () => {
+            data = "";
+            text.value = "";
+            setStatus(defaultHint, "");
+            refresh();
+        });
+
+        fetchButton.addEventListener("click", () => fetchFromId(getGdId()));
+
+        text.addEventListener("input", () => {
+            data = "";
+            refresh();
+        });
+
+        // Incolla un'immagine (Ctrl+V) mentre il modulo è aperto.
+        root.addEventListener("paste", event => {
+
+            const item = [...(event.clipboardData?.files || [])].find(f => f.type.startsWith("image/"));
+
+            if (!item) return;
+
+            event.preventDefault();
+            useBlob(item);
+        });
+
+        // Trascina un'immagine sull'anteprima.
+        preview.addEventListener("dragover", event => {
+            event.preventDefault();
+            preview.classList.add("dragover");
+        });
+
+        preview.addEventListener("dragleave", () => preview.classList.remove("dragover"));
+
+        preview.addEventListener("drop", event => {
+            event.preventDefault();
+            preview.classList.remove("dragover");
+            if (event.dataTransfer.files[0]) useBlob(event.dataTransfer.files[0]);
+        });
+
+        refresh();
+
+        return {
+            getValue: () => data || text.value.trim(),
+
+            setValue: value => {
+                if (value && value.startsWith("data:")) {
+                    data = value;
+                    text.value = "";
+                } else {
+                    data = "";
+                    text.value = value || "";
+                }
+                setStatus(defaultHint, "");
+                refresh();
+            },
+
+            reset: () => {
+                data = "";
+                text.value = "";
+                setStatus(defaultHint, "");
+                refresh();
+            },
+
+            fetchFromId
+        };
+    }
+
+    const addPicker = createImagePicker("level", levelForm, () => Number(levelGdId.value) || null);
+    const editPicker = createImagePicker("edit", editModal, () => (editingLevel && editingLevel.gdId) || null);
 
 
     // --------------------------------------------------
