@@ -1643,6 +1643,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             <div class="admin-separatore"></div>
 
             <h2>Pending submissions</h2>
+            <p class="descrizione-extra" id="expiry-note"></p>
             <div id="pending-list">
                 <p class="vuoto">Loading submissions...</p>
             </div>
@@ -2560,6 +2561,78 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
     // LISTENER RICHIESTE IN ATTESA
     // --------------------------------------------------
 
+    // --------------------------------------------------
+    // RICHIESTE A SCADENZA
+    // --------------------------------------------------
+
+    // Dopo questo numero di giorni le richieste non gestite vengono eliminate da sole.
+    // Per cambiare il tempo basta modificare questo numero.
+    const REQUEST_EXPIRY_DAYS = 7;
+    const REQUEST_EXPIRY_MS = REQUEST_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
+    let lastRawPending = null;
+
+    async function deleteExpiredRequests(list) {
+
+        try {
+
+            for (let start = 0; start < list.length; start += 400) {
+
+                const batch = writeBatch(db);
+
+                list.slice(start, start + 400).forEach(item => {
+                    batch.delete(doc(db, "submissions", item.id));
+                });
+
+                await batch.commit();
+            }
+
+        } catch (error) {
+            console.error("Pulizia delle richieste scadute non riuscita:", error);
+        }
+    }
+
+    // Toglie dall'elenco le richieste scadute e, da admin, le cancella dal database.
+    function pruneExpiredRequests(raw) {
+
+        lastRawPending = raw;
+
+        const now = Date.now();
+        const fresh = [];
+        const expired = [];
+
+        raw.forEach(item => {
+
+            const created = item.data().createdAt;
+            const millis = created && typeof created.toMillis === "function" ? created.toMillis() : null;
+
+            if (millis !== null && now - millis > REQUEST_EXPIRY_MS) expired.push(item);
+            else fresh.push(item);
+        });
+
+        if (expired.length > 0 && isAdmin) {
+            deleteExpiredRequests(expired);
+        }
+
+        return {
+            empty: fresh.length === 0,
+            forEach: callback => fresh.forEach(callback)
+        };
+    }
+
+    // Controllo ogni ora anche se la pagina resta aperta.
+    setInterval(() => {
+        if (isAdmin && lastRawPending) pruneExpiredRequests(lastRawPending);
+    }, 60 * 60 * 1000);
+
+    const expiryNote = document.getElementById("expiry-note");
+
+    if (expiryNote) {
+        expiryNote.textContent =
+            `Le richieste non gestite vengono eliminate automaticamente dopo ${REQUEST_EXPIRY_DAYS} giorni.`;
+    }
+
+
     function startAdminListeners() {
 
         if (pendingUnsubscribe) {
@@ -2574,7 +2647,9 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         pendingUnsubscribe = onSnapshot(
             pendingQuery,
 
-            snapshot => {
+            rawSnapshot => {
+
+                const snapshot = pruneExpiredRequests(rawSnapshot);
 
                 pendingList.innerHTML = "";
 
