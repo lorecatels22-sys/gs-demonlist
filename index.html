@@ -1092,7 +1092,15 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .richiesta:hover { transform: translateX(6px); border-left-color: #ff5555; }
 .admin-contenuto:not([hidden]) { animation: fade-in .6s ease; }
 
-    </style>
+    
+/* ---------- PERFORMANCE: via le animazioni che ridisegnano elementi grandi a ogni frame ---------- */
+.barra-sinistra, .barra-destra { animation: none; will-change: auto; }
+.testo-illuminato { animation: none; }
+footer { animation: none; }
+.livello .punti, .livello .progressi, .giocatore-punti, .rank-punti { animation: none; }
+.giocatore-card::after { animation: none; }
+.badge-link, .btn-primary, .btn-danger { will-change: auto; }
+</style>
 </head>
 
 <body>
@@ -1563,7 +1571,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             <h2>Add a level</h2>
             <p class="descrizione-extra">
                 Cerca un livello della AREDL per nome (vedi anche il rank) oppure crea un livello custom, magari più facile.
-                In lista i livelli sono ordinati per punti.
+                Scegli la posizione in lista: i punti vengono calcolati da soli (a metà tra i livelli vicini).
             </p>
 
             <div class="admin-toolbar">
@@ -1613,8 +1621,13 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
                     </div>
 
                     <div class="campo">
-                        <label for="level-points">Points</label>
-                        <input id="level-points" type="number" min="0.01" max="1000" step="0.01" placeholder="Example: 45" required>
+                        <label for="level-position">Position in the list</label>
+                        <input id="level-position" type="number" min="1" step="1" placeholder="Example: 12" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-points">Points (calculated automatically)</label>
+                        <input id="level-points" type="number" step="0.01" readonly tabindex="-1" placeholder="—">
                     </div>
 
                     <div class="campo" id="rank-field">
@@ -1906,44 +1919,71 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         });
     };
 
-    /* Particelle: braci rosse e verdi che salgono piano */
+    /* Particelle: braci rosse e verdi (leggere: sprite già disegnati, niente sfocatura per frame) */
     const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
     document.body.prepend(cv);
     const ctx = cv.getContext('2d');
-    let W, H, dpr;
-    const resize = () => {
-        dpr = Math.min(devicePixelRatio || 1, 2);
-        W = cv.width = innerWidth * dpr;
-        H = cv.height = innerHeight * dpr;
-    };
+    let W = 0, H = 0;
+    const resize = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
     resize();
     addEventListener('resize', resize);
-    const count = innerWidth < 700 ? 22 : 48;
+
+    const makeSprite = (rgb) => {
+        const s = document.createElement('canvas');
+        s.width = s.height = 24;
+        const c = s.getContext('2d');
+        const g = c.createRadialGradient(12, 12, 0, 12, 12, 12);
+        g.addColorStop(0, `rgba(${rgb},1)`);
+        g.addColorStop(0.25, `rgba(${rgb},.55)`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        c.fillStyle = g;
+        c.fillRect(0, 0, 24, 24);
+        return s;
+    };
+    const sprites = [makeSprite('229,72,72'), makeSprite('0,230,118')];
+    const count = innerWidth < 700 ? 14 : 28;
     const mk = (init) => ({
         x: Math.random() * W,
-        y: init ? Math.random() * H : H + 10,
-        r: (Math.random() * 1.8 + 0.6) * dpr,
-        v: (Math.random() * 0.35 + 0.12) * dpr,
-        a: Math.random() * Math.PI * 2,
-        c: Math.random() < 0.75 ? '229,72,72' : '0,230,118',
+        y: init ? Math.random() * H : H + 20,
+        size: 5 + Math.random() * 8,
+        v: 0.25 + Math.random() * 0.6,
+        a: Math.random() * 6.283,
+        alpha: 0.35 + Math.random() * 0.4,
+        sprite: sprites[Math.random() < 0.75 ? 0 : 1],
     });
     const ps = Array.from({ length: count }, () => mk(true));
-    (function loop(t) {
+
+    let running = true, prev = 0, last = 0, frames = 0, slow = 0;
+    document.addEventListener('visibilitychange', () => {
+        running = !document.hidden;
+        if (running) requestAnimationFrame(loop);
+    });
+    function loop(t) {
+        if (!running) return;
+        requestAnimationFrame(loop);
+
+        // Se il dispositivo fa fatica (meno di ~40 fps) le particelle si spengono da sole.
+        if (prev) {
+            frames++;
+            if (t - prev > 25) slow++;
+            if (frames === 90) { if (slow > 55) { running = false; cv.remove(); return; } frames = 0; slow = 0; }
+        }
+        prev = t;
+
+        if (t - last < 33) return;            // 30 fps bastano per dei puntini che salgono piano
+        last = t;
+
         ctx.clearRect(0, 0, W, H);
         for (const p of ps) {
             p.y -= p.v;
-            p.x += Math.sin(t / 1500 + p.a) * 0.3 * dpr;
-            if (p.y < -10) Object.assign(p, mk(false));
-            const al = 0.25 + 0.25 * Math.sin(t / 700 + p.a);
-            ctx.fillStyle = `rgba(${p.c},${al})`;
-            ctx.shadowColor = `rgba(${p.c},.8)`;
-            ctx.shadowBlur = 8 * dpr;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, 6.283);
-            ctx.fill();
+            p.x += Math.sin(t / 1500 + p.a) * 0.5;
+            if (p.y < -20) Object.assign(p, mk(false));
+            ctx.globalAlpha = p.alpha * (0.7 + 0.3 * Math.sin(t / 700 + p.a));
+            ctx.drawImage(p.sprite, p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
         }
-        requestAnimationFrame(loop);
-    })(0);
+        ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(loop);
 })();
 
 
@@ -2166,7 +2206,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 
     function levelsSignature(list) {
         return JSON.stringify(list.map(level => [
-            level.id, level.name, level.points, level.img || "",
+            level.id, level.name, level.points, level.img ? level.img.length + ":" + level.img.slice(-24) : "",
             level.by || "", level.diff || "", level.source || "", level.aredlRank || ""
         ]));
     }
@@ -2320,6 +2360,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
                 updateLeaderboard();
 
                 decorateAdminTools();
+                refreshAddPosition();
 
                 if (isAdmin) {
                     renderAddedLevels();
@@ -3071,6 +3112,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
     const levelBy = document.getElementById("level-by");
     const levelDiff = document.getElementById("level-diff");
     const levelPoints = document.getElementById("level-points");
+    const levelPosition = document.getElementById("level-position");
     const levelRank = document.getElementById("level-rank");
     const levelGdId = document.getElementById("level-gdid");
     const levelImg = document.getElementById("level-img");
@@ -3366,8 +3408,33 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             "successo"
         );
 
-        levelPoints.focus();
+        levelPosition.focus();
     }
+
+    // Posizione scelta -> punti calcolati a metà tra i due livelli vicini.
+    function updateAutoPoints() {
+
+        const position = parseInt(levelPosition.value, 10);
+
+        levelPoints.value = Number.isInteger(position) && position >= 1
+            ? pointsForPosition(position, null)
+            : "";
+    }
+
+    // Tiene aggiornati il massimo consentito e la posizione proposta (in fondo alla lista).
+    function refreshAddPosition() {
+
+        levelPosition.max = levels.length + 1;
+        levelPosition.placeholder = `1 - ${levels.length + 1}`;
+
+        if (!levelPosition.value) {
+            levelPosition.value = levels.length + 1;
+        }
+
+        updateAutoPoints();
+    }
+
+    levelPosition.addEventListener("input", updateAutoPoints);
 
     function nextLevelId() {
 
@@ -3402,7 +3469,8 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
         const name = levelName.value.trim();
         const by = levelBy.value.trim();
         const diff = levelDiff.value;
-        const points = Math.round(Number(levelPoints.value) * 100) / 100;
+        const position = parseInt(levelPosition.value, 10);
+        const points = Number.isInteger(position) ? pointsForPosition(position, null) : NaN;
         const rank = levelRank.value.trim() === "" ? null : Number(levelRank.value);
         const gdId = levelGdId.value.trim() === "" ? null : Number(levelGdId.value);
         const img = addPicker.getValue();
@@ -3412,8 +3480,22 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             return;
         }
 
+        if (!Number.isInteger(position) || position < 1 || position > levels.length + 1) {
+            showMessage(levelMessage, `La posizione deve essere un numero da 1 a ${levels.length + 1}.`, "errore");
+            return;
+        }
+
         if (!Number.isFinite(points) || points <= 0 || points > 1000) {
-            showMessage(levelMessage, "I punti devono essere un numero tra 0,01 e 1000.", "errore");
+            showMessage(levelMessage, "Non riesco a calcolare i punti per questa posizione.", "errore");
+            return;
+        }
+
+        // Controllo che i punti calcolati lo mettano davvero nella posizione scelta.
+        const aboveLevel = levels[position - 2];
+        const belowLevel = levels[position - 1];
+
+        if ((aboveLevel && points >= aboveLevel.points) || (belowLevel && points <= belowLevel.points)) {
+            showMessage(levelMessage, "Non c'è più spazio tra i due livelli vicini: modifica i punti di uno dei due e riprova.", "errore");
             return;
         }
 
@@ -3468,6 +3550,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
             await batch.commit();
 
             levelForm.reset();
+            refreshAddPosition();
             addPicker.reset();
             aredlQuery.value = "";
             aredlResults.innerHTML = "";
@@ -3476,7 +3559,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 
             showMessage(
                 levelMessage,
-                `Livello aggiunto con id ${id}. Compare in lista in base ai suoi punti.`,
+                `Livello aggiunto in posizione #${position} con ${formatLevelPoints(points)} punti (id ${id}).`,
                 "successo"
             );
 
