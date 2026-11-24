@@ -1,720 +1,1105 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1e1e1e">
-<title>Announcements - G_S demon list</title>
-
-<link rel="icon" type="image/png" href="./gs-logo.png?v=3">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-
-html{background:#1e1e1e;scroll-behavior:smooth}
-
-body{
-    min-height:100vh;
-    background:#1e1e1e;
-    color:#fff;
-    font-family:'Montserrat',sans-serif;
-    overflow-x:hidden;
-    position:relative;
-}
-
-/* ANIMATIONS */
-
-@keyframes fadeUp{
-    from{opacity:0;transform:translateY(25px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-@keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
-}
-
-@keyframes lineGrow{
-    from{width:0}
-    to{width:75px}
-}
-
-@keyframes pulseLive{
-    0%,100%{opacity:1;transform:scale(1)}
-    50%{opacity:.7;transform:scale(1.05)}
-}
-
-@keyframes floatBtn{
-    0%,100%{transform:translateX(-50%) translateY(0)}
-    50%{transform:translateX(-50%) translateY(-4px)}
-}
-
-@keyframes popIn{
-    from{opacity:0;transform:translate(-50%,-50%) scale(.9)}
-    to{opacity:1;transform:translate(-50%,-50%) scale(1)}
-}
-
-/* SIDE IMAGES */
-
-.barra-sinistra,
-.barra-destra{
-    position:absolute;
-    top:0;
-    bottom:0;
-    width:30vw;
-    height:100%;
-    background-image:url("./miguel.png");
-    background-repeat:repeat-y;
-    background-size:100% auto;
-    background-position:top left;
-    opacity:.75;
-    pointer-events:none;
-    z-index:0;
-}
-
-.barra-sinistra{left:0}
-.barra-destra{right:0;transform:scaleX(-1)}
-
-/* MAIN */
-
-main{
-    position:relative;
-    z-index:1;
-    width:100%;
-    min-height:100vh;
-    padding:20px 0 90px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-/* NAVIGATION */
-
-.navigation-badges{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    width:min(1250px,96%);
-    margin:0 auto 25px;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:10;
-}
-
-.dropdown-container{
-    position:relative;
-    display:inline-block;
-}
-
-.badge-link{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:9px 18px;
-    background:rgba(32,32,32,.97);
-    border:1px solid #3b3b3b;
-    border-left:3px solid #e85a5a;
-    border-radius:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    text-decoration:none;
-    color:#f5f5f5;
-    font-size:.8rem;
-    font-weight:700;
-    transition:all .22s ease;
-    cursor:pointer;
-}
-
-.badge-link:hover{
-    transform:translateY(-2px);
-    background:rgba(42,42,42,.99);
-    border-color:#555;
-    border-left-color:#ff5555;
-}
-
-/* BACK TO THE LIST - STESSO STILE WHO? */
-
-.back-link{
-    border-left-color:#00e676;
-}
-
-.back-link:hover{
-    border-left-color:#00ff88;
-    color:#00e676;
-}
-
-.back-link .back-arrow{
-    color:#00e676;
-    font-size:.95rem;
-    font-weight:800;
-    transition:.25s ease;
-}
-
-.back-link:hover .back-arrow{
-    transform:translateX(-3px);
-}
-
-.badge-link img{
-    width:24px;
-    height:24px;
-    object-fit:cover;
-    border-radius:5px;
-    border:1px solid #555;
-    background:#252525;
-}
-
-.arrow{
-    font-size:.75rem;
-    font-weight:800;
-    color:#999;
-    transition:.25s;
-}
-
-.dropdown-container:hover .arrow{
-    transform:rotate(90deg);
-    color:#ff5555;
-}
-
-.dropdown-menu{
-    position:absolute;
-    top:100%;
-    left:50%;
-    padding-top:10px;
-    min-width:175px;
-    z-index:100;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    transform:translateX(-50%) translateY(-12px) scale(.96);
-    transition:all .3s cubic-bezier(.2,.8,.2,1);
-}
-
-.dropdown-container:hover .dropdown-menu{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-    transform:translateX(-50%) translateY(0) scale(1);
-}
-
-.dropdown-content{
-    background:rgba(28,28,28,.98);
-    border:1px solid #3b3b3b;
-    border-radius:10px;
-    box-shadow:0 8px 24px rgba(0,0,0,.4);
-    padding:8px 0;
-    display:flex;
-    flex-direction:column;
-}
-
-.dropdown-item{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 14px;
-    color:#f5f5f5;
-    text-decoration:none;
-    font-size:.78rem;
-    font-weight:700;
-    opacity:0;
-    transform:translateX(-12px);
-    transition:all .2s ease;
-}
-
-.dropdown-container:hover .dropdown-item{
-    opacity:1;
-    transform:translateX(0);
-}
-
-.dropdown-item:hover{
-    background:rgba(229,72,72,.15);
-    color:#ff5555;
-}
-
-.dropdown-item img{
-    width:22px;
-    height:22px;
-    object-fit:cover;
-    border-radius:4px;
-    border:1px solid #555;
-    background:#252525;
-}
-
-/* HEADER */
-
-header{
-    text-align:center;
-    width:min(900px,88%);
-    margin:0 auto;
-    animation:fadeUp .7s ease .2s both;
-}
-
-.testo-illuminato{
-    color:#fff;
-    font-size:clamp(2.4rem,5vw,3.6rem);
-    font-weight:900;
-    letter-spacing:-1.5px;
-}
-
-.sottotitolo{
-    margin-top:14px;
-    color:#999;
-    font-size:.95rem;
-    font-weight:500;
-    letter-spacing:2.5px;
-    animation:fadeIn 1s ease .6s both;
-}
-
-.linea-titolo{
-    width:75px;
-    height:3px;
-    margin:22px auto 0;
-    border-radius:10px;
-    background:#e54848;
-    animation:lineGrow .7s ease 1s both;
-}
-
-.live{
-    margin-top:16px;
-    color:#00e676;
-    font-weight:800;
-    letter-spacing:4px;
-    font-size:.9rem;
-    animation:pulseLive 2s ease-in-out infinite;
-}
-
-/* ANNOUNCEMENTS */
-
-.classifica{
-    width:min(900px,88%);
-    margin:40px auto 0;
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
-
-.livello{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding:22px 26px;
-    background:linear-gradient(135deg,rgba(32,32,32,.97),rgba(30,30,30,.97));
-    border:1px solid #3b3b3b;
-    border-left:4px solid #00e676;
-    border-radius:14px;
-    box-shadow:0 5px 18px rgba(0,0,0,.18);
-    opacity:0;
-    animation:fadeUp .6s ease forwards;
-    transition:all .35s ease;
-}
-
-.livello:hover{
-    transform:translateY(-5px) scale(1.01);
-    border-left-color:#00ff88;
-    box-shadow:0 15px 40px rgba(0,0,0,.4);
-}
-
-.livello .meta{
-    color:#00e676;
-    font-size:.7rem;
-    font-weight:800;
-    letter-spacing:2px;
-    text-transform:uppercase;
-}
-
-.livello h2{
-    color:#f5f5f5;
-    font-size:1.25rem;
-    font-weight:800;
-}
-
-.livello p{
-    color:#bbb;
-    font-size:.9rem;
-    line-height:1.7;
-    white-space:pre-wrap;
-}
-
-.livello .author{
-    color:#666;
-    font-size:.65rem;
-    margin-top:6px;
-    font-style:italic;
-}
-
-/* ADMIN PANEL */
-
-#adminPanel{
-    width:min(900px,88%);
-    margin:0 auto 25px;
-    background:rgba(32,32,32,.97);
-    border:1px solid #3b3b3b;
-    border-left:4px solid #00e676;
-    border-radius:12px;
-    padding:20px;
-    display:none;
-}
-
-#adminPanel input,
-#adminPanel textarea,
-#adminPanel select{
-    width:100%;
-    background:#1e1e1e;
-    color:#fff;
-    border:1px solid #3b3b3b;
-    border-radius:8px;
-    padding:11px;
-    margin:6px 0;
-    font-family:'Montserrat';
-    transition:.2s;
-}
-
-#adminPanel input:focus,
-#adminPanel textarea:focus{
-    border-color:#00e676;
-    outline:none;
-    box-shadow:0 0 0 3px rgba(0,230,118,.15);
-}
-
-#adminPanel button{
-    background:#00e676;
-    color:#000;
-    border:0;
-    border-radius:8px;
-    padding:10px 16px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s;
-    margin:4px 2px;
-}
-
-#adminPanel button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(0,230,118,.3);
-}
-
-.admin-info{
-    background:#1a1a1a;
-    border:1px solid #333;
-    border-radius:8px;
-    padding:12px;
-    margin:10px 0;
-    font-size:.8rem;
-    color:#aaa;
-}
-
-.admin-info b{color:#00e676}
-
-.log-list{
-    max-height:150px;
-    overflow-y:auto;
-    background:#111;
-    border-radius:8px;
-    padding:8px;
-    margin-top:10px;
-    font-size:.7rem;
-    color:#888;
-}
-
-.log-item{
-    padding:4px 0;
-    border-bottom:1px solid #222;
-}
-
-/* ADMIN BUTTON */
-
-.admin-btn{
-    position:fixed;
-    bottom:22px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:20;
-    background:rgba(32,32,32,.97);
-    border:1px solid #3b3b3b;
-    border-left:3px solid #e85a5a;
-    border-radius:20px;
-    padding:11px 22px;
-    color:#f5f5f5;
-    font-weight:800;
-    letter-spacing:1px;
-    cursor:pointer;
-    animation:floatBtn 3s ease-in-out infinite;
-    transition:.25s;
-}
-
-.admin-btn:hover{
-    background:#fff;
-    color:#000;
-    transform:translateX(-50%) translateY(-4px) scale(1.05);
-}
-
-/* NOTIFICATIONS */
-
-#notifOverlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    backdrop-filter:blur(4px);
-    z-index:100;
-    display:none;
-}
-
-#notifOverlay.show{display:block}
-
-#notifPopup{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    z-index:101;
-    width:min(420px,90%);
-    background:linear-gradient(135deg,#2a2a2a,#222);
-    border:1px solid #3b3b3b;
-    border-left:4px solid #00e676;
-    border-radius:16px;
-    padding:26px 22px;
-    display:none;
-    animation:popIn .4s ease;
-}
-
-#notifPopup.show{display:block}
-
-#notifPopup h3{
-    color:#fff;
-    font-size:1.15rem;
-    font-weight:800;
-    margin-bottom:8px;
-}
-
-#notifPopup p{
-    color:#999;
-    font-size:.85rem;
-    line-height:1.6;
-    margin-bottom:18px;
-}
-
-.notif-actions{
-    display:flex;
-    gap:10px;
-}
-
-.notif-actions button{
-    flex:1;
-    padding:11px;
-    border-radius:10px;
-    font-weight:800;
-    font-size:.82rem;
-    cursor:pointer;
-}
-
-.btn-yes{background:#00e676;color:#000;border:0}
-.btn-no{background:transparent;color:#888;border:1px solid #3a3a3a}
-
-/* FOOTER */
-
-footer{
-    width:min(900px,88%);
-    margin:40px auto 0;
-    text-align:center;
-    color:#666;
-    font-size:.75rem;
-    letter-spacing:1px;
-    padding:25px 10px;
-}
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-    .barra-sinistra,
-    .barra-destra{
-        width:22vw;
-        opacity:.45;
-    }
-
-    .classifica,
-    #adminPanel,
-    header,
-    footer{
-        width:95%;
-    }
-
-    main{padding-top:20px}
-
-    .navigation-badges{
-        width:95%;
-        gap:8px;
-        margin-bottom:25px;
-    }
-
-    .badge-link{
-        padding:6px 12px;
-        font-size:.68rem;
-    }
-
-    .badge-link img{
-        width:20px;
-        height:20px;
-    }
-
-    .livello{padding:18px}
-}
-
-/* ==================== ANIMAZIONI (stesse delle altre pagine) ==================== */
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e1e1e">
+
+    <title>G_S demon list</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: #1e1e1e;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1e1e1e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* SFONDO LATERALE */
+
+        .barra-sinistra,
+        .barra-destra {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30vw;
+            min-height: 100%;
+            background-image: url("./miguel.png");
+            background-repeat: repeat-y;
+            background-size: 100% auto;
+            background-position: top center;
+            opacity: 0.75;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .barra-sinistra { left: 0; }
+        .barra-destra { right: 0; transform: scaleX(-1); }
+
+        /* CONTENUTO */
+
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 0 90px;
+        }
+
+        /* NAVIGAZIONE */
+
+        .navigation-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: min(900px, 88%);
+            margin: 0 auto 25px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 18px;
+            background: rgba(32, 32, 32, 0.97);
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.18);
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            transition: .22s ease;
+            cursor: pointer;
+        }
+
+        .badge-link:hover {
+            transform: translateY(-2px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 6px 16px rgba(0,0,0,.3);
+        }
+
+        .badge-link img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: .2s ease;
+        }
+
+        .badge-link:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .arrow {
+            font-size: .75rem;
+            font-weight: 800;
+            color: #999;
+            transition: .25s ease;
+            display: inline-block;
+        }
+
+        .dropdown-container:hover .arrow {
+            transform: rotate(90deg);
+            color: #ff5555;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            padding-top: 10px;
+            min-width: 175px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(-12px) scale(.96);
+            transform-origin: top center;
+            transition: opacity .25s ease, transform .3s ease, visibility 0s linear .3s;
+        }
+
+        .dropdown-container:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+            transition: opacity .25s ease, transform .3s ease, visibility 0s;
+        }
+
+        .dropdown-content {
+            background: rgba(28,28,28,.98);
+            border: 1px solid #3b3b3b;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.4);
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: #f5f5f5;
+            text-decoration: none;
+            font-size: .78rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: background .2s ease, color .2s ease, opacity .2s ease, transform .2s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item {
+            opacity: 1;
+            transform: translateX(0);
+            transition: background .2s ease, color .2s ease, opacity .3s ease, transform .3s ease;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(1) {
+            transition-delay: 0s,0s,.06s,.06s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(2) {
+            transition-delay: 0s,0s,.12s,.12s;
+        }
+
+        .dropdown-container:hover .dropdown-item:nth-child(3) {
+            transition-delay: 0s,0s,.18s,.18s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(229,72,72,.15);
+            color: #ff5555;
+        }
+
+        .dropdown-item img {
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #252525;
+            transition: .2s ease;
+        }
+
+        .dropdown-item:hover img {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .badge-emoji {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: .85rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #252525;
+        }
+
+        /* TESTATA */
+
+        header {
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .testo-illuminato {
+            color: #fff;
+            font-size: clamp(2.1rem,5vw,3.4rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 25px rgba(255,255,255,.13);
+        }
+
+        .sottotitolo {
+            margin-top: 14px;
+            color: #999;
+            font-size: clamp(.75rem,1.5vw,.95rem);
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            line-height: 1.8;
+        }
+
+        .linea-titolo {
+            width: 75px;
+            height: 3px;
+            margin: 22px auto 0;
+            border-radius: 10px;
+            background: #e54848;
+            box-shadow: 0 0 14px rgba(229,72,72,.45);
+        }
+
+        /* GIOCATORI */
+
+        .giocatori {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 14px;
+        }
+
+        .giocatore-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 20px 14px 18px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-top: 3px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            text-decoration: none;
+            transition: .22s ease;
+        }
+
+        .giocatore-card:hover {
+            transform: translateY(-3px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-top-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
+        }
+
+        .giocatore-nome {
+            color: #f5f5f5;
+            font-size: .95rem;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+            text-align: center;
+        }
+
+        .giocatore-punti {
+            color: #00e676;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            text-shadow: 0 0 14px rgba(0,230,118,.4);
+        }
+
+        .giocatore-label {
+            color: #999;
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .giocatore-card:hover .giocatore-punti {
+            text-shadow: 0 0 20px rgba(0,230,118,.6);
+        }
+
+        /* CLASSIFICA */
+
+        .classifica {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 30px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .livello {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-height: 112px;
+            padding: 16px 22px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-left: 4px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            transition: .22s ease;
+        }
+
+        .livello:hover {
+            transform: translateY(-3px);
+            background: rgba(42,42,42,.99);
+            border-color: #555;
+            border-left-color: #ff5555;
+            box-shadow: 0 9px 26px rgba(0,0,0,.3);
+        }
+
+        .posizione {
+            color: #e85a5a;
+            font-size: 1rem;
+            font-weight: 800;
+            min-width: 48px;
+            letter-spacing: -.5px;
+        }
+
+        .livello img {
+            display: block;
+            flex-shrink: 0;
+            width: 120px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 7px;
+            background: #1e1e1e;
+            border: 1px solid #454545;
+            transition: filter .22s ease;
+        }
+
+        .livello:hover img {
+            filter: brightness(1.12);
+        }
+
+        .info-livello {
+            flex: 0 1 190px;
+            min-width: 0;
+        }
+
+        .info-livello h2 {
+            color: #f5f5f5;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
+        }
+
+        .info-livello p {
+            color: #999;
+            font-size: .8rem;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .progressi {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            margin-left: 12px;
+            margin-right: auto;
+            flex-shrink: 0;
+            padding: 10px 14px;
+            background: rgba(0,230,118,.045);
+            border: 1px solid rgba(0,230,118,.13);
+            border-radius: 9px;
+            box-shadow: 0 0 12px rgba(0,230,118,.10), 0 0 25px rgba(0,230,118,.05);
+            transition: .25s ease;
+        }
+
+        .progressi:hover {
+            background: rgba(0,230,118,.08);
+            border-color: rgba(0,230,118,.3);
+            box-shadow: 0 0 15px rgba(0,230,118,.18), 0 0 30px rgba(0,230,118,.08);
+        }
+
+        .progressi p {
+            color: #00e676;
+            font-size: .8rem;
+            font-weight: 700;
+            white-space: nowrap;
+            text-shadow: 0 0 8px rgba(0,230,118,.35);
+        }
+
+        .progressi a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: .2s ease;
+        }
+
+        .progressi a:hover {
+            color: #7dffb8;
+            border-bottom-color: rgba(125,255,184,.7);
+        }
+
+        .dati-destra {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .punti {
+            color: #ff5252;
+            font-size: .85rem;
+            font-weight: 800;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .difficolta {
+            color: #ff6666;
+            font-size: .7rem;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.6;
+            letter-spacing: .7px;
+            white-space: nowrap;
+        }
+
+        /* SEZIONI FIREBASE */
+
+        .sezione-extra {
+            position: relative;
+            z-index: 2;
+            width: min(900px,88%);
+            margin: 45px auto 0;
+            padding: 25px;
+            background: rgba(32,32,32,.97);
+            border: 1px solid #3b3b3b;
+            border-top: 3px solid #d94343;
+            border-radius: 10px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.2);
+        }
+
+        .sezione-extra h2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .descrizione-extra {
+            color: #999;
+            font-size: .8rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .campo label {
+            color: #bbb;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .campo input,
+        .campo select {
+            width: 100%;
+            padding: 12px 13px;
+            color: #fff;
+            background: #171717;
+            border: 1px solid #444;
+            border-radius: 7px;
+            outline: none;
+            font-family: inherit;
+            font-size: .82rem;
+            transition: border-color .2s ease;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: #e85a5a;
+        }
+
+        .campo select option {
+            background: #202020;
+        }
+
+        .campo-full {
+            grid-column: 1 / -1;
+        }
+
+        .pulsante {
+            padding: 12px 18px;
+            border: 1px solid #b93636;
+            border-radius: 7px;
+            background: #d94343;
+            color: #fff;
+            font-family: inherit;
+            font-size: .78rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .pulsante:hover {
+            background: #f05252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229,72,72,.2);
+        }
+
+        .pulsante:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pulsante-verde {
+            background: #087d49;
+            border-color: #00a85e;
+        }
+
+        .pulsante-verde:hover {
+            background: #09985a;
+        }
+
+        .messaggio {
+            margin-top: 14px;
+            font-size: .78rem;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .messaggio.successo { color: #00e676; }
+        .messaggio.errore { color: #ff6666; }
+
+        /* ADMIN */
+
+        .admin-login,
+        .admin-contenuto {
+            margin-top: 18px;
+        }
+
+        .admin-separatore {
+            height: 1px;
+            background: #3b3b3b;
+            margin: 22px 0;
+        }
+
+        .admin-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .richiesta {
+            padding: 15px;
+            margin-top: 12px;
+            background: #191919;
+            border: 1px solid #3b3b3b;
+            border-left: 3px solid #e85a5a;
+            border-radius: 8px;
+        }
+
+        .richiesta-info {
+            color: #ddd;
+            font-size: .8rem;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+        }
+
+        .richiesta-info strong {
+            color: #fff;
+        }
+
+        .richiesta-azioni {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pulsante-rifiuta {
+            background: #333;
+            border-color: #555;
+        }
+
+        .pulsante-rifiuta:hover {
+            background: #484848;
+        }
+
+        .vuoto {
+            color: #888;
+            font-size: .8rem;
+            padding: 15px 0;
+        }
+
+        .admin-stato {
+            color: #00e676;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        /* FOOTER */
+
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #666;
+            font-size: .75rem;
+            letter-spacing: 1px;
+            padding: 25px 10px 35px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+            .barra-sinistra,
+            .barra-destra {
+                width: 22vw;
+                opacity: .45;
+            }
+
+            main { padding-top: 30px; }
+
+            .navigation-badges {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .badge-link {
+                padding: 6px 12px;
+                font-size: .68rem;
+            }
+
+            .testo-illuminato { letter-spacing: -.8px; }
+            .sottotitolo { letter-spacing: 1px; }
+
+            .giocatori {
+                width: 95%;
+                margin-top: 28px;
+                gap: 8px;
+            }
+
+            .giocatore-card {
+                padding: 14px 6px 12px;
+                gap: 4px;
+            }
+
+            .giocatore-nome { font-size: .7rem; }
+            .giocatore-punti { font-size: 1.3rem; }
+            .giocatore-label { font-size: .48rem; letter-spacing: 1px; }
+
+            .classifica {
+                width: 95%;
+                margin-top: 22px;
+                gap: 11px;
+            }
+
+            .livello {
+                gap: 9px;
+                min-height: 90px;
+                padding: 11px 9px;
+            }
+
+            .posizione {
+                min-width: 34px;
+                font-size: .76rem;
+            }
+
+            .livello img {
+                width: 66px;
+                height: 53px;
+            }
+
+            .info-livello { flex: 1 1 auto; }
+            .info-livello h2 { font-size: .78rem; }
+            .info-livello p { font-size: .67rem; }
+
+            .progressi {
+                margin-left: 0;
+                padding: 7px 8px;
+                gap: 5px;
+            }
+
+            .progressi p { font-size: .59rem; }
+            .dati-destra { gap: 5px; }
+
+            .punti {
+                font-size: .59rem;
+                white-space: normal;
+                max-width: 85px;
+            }
+
+            .difficolta {
+                font-size: .5rem;
+                letter-spacing: 0;
+                white-space: normal;
+                max-width: 85px;
+            }
+
+            .sezione-extra {
+                width: 95%;
+                padding: 18px;
+                margin-top: 30px;
+            }
+
+            .form-grid { grid-template-columns: 1fr; }
+            .campo-full { grid-column: auto; }
+        }
+
+        @media (max-width: 420px) {
+            .giocatore-nome { font-size: .6rem; }
+            .giocatore-punti { font-size: 1.05rem; }
+
+            .livello {
+                gap: 7px;
+                padding: 10px 6px;
+            }
+
+            .posizione {
+                min-width: 29px;
+                font-size: .68rem;
+            }
+
+            .livello img {
+                width: 55px;
+                height: 47px;
+            }
+
+            .info-livello h2 { font-size: .7rem; }
+            .progressi { padding: 6px; }
+            .progressi p { font-size: .52rem; }
+            .punti { font-size: .52rem; max-width: 75px; }
+            .difficolta { font-size: .46rem; }
+        }
+
+        /* ==================== ANIMAZIONI ==================== */
+
+/* G_S demon list - animazioni extra. Caricare DOPO lo <style> della pagina. */
+
+/* ---------- INGRESSO PAGINA ---------- */
 @keyframes drop-in { from { opacity: 0; transform: translateY(-30px) scale(.8); } }
-@keyframes slide-card { from { opacity: 0; transform: translateX(-70px) scale(.96); } }
-@keyframes pop-up { from { opacity: 0; transform: translateY(18px) scale(.92); } }
-@keyframes fade-in2 { from { opacity: 0; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(50px) scale(.9); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes slide-l { from { opacity: 0; transform: translateX(-24px); } }
 @keyframes letter-in { from { opacity: 0; transform: translateY(-60px) rotate(-12deg) scale(.5); } 60% { transform: translateY(8px) rotate(3deg) scale(1.08); } }
 @keyframes sub-in { from { opacity: 0; letter-spacing: 12px; filter: blur(6px); } }
+@keyframes line-grow { from { width: 0; opacity: 0; } }
+@keyframes float { 50% { translate: 0 -5px; } }
+@keyframes glow-title { 50% { text-shadow: 0 0 40px rgba(255,255,255,.3), 0 0 12px rgba(229,72,72,.35); } }
+@keyframes glow-points { 50% { text-shadow: 0 0 26px rgba(0,230,118,.8); } }
 @keyframes shimmer { to { background-position: -200% 0; } }
 @keyframes sweep { from { transform: translateX(-120%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
 @keyframes nudge { 50% { translate: 3px 0; } }
-@keyframes nudge-l { 50% { translate: -4px 0; } }
-@keyframes wave { 40% { transform: translateY(-10px); color: #ff6666; } }
-@keyframes glow-title { 50% { text-shadow: 0 0 40px rgba(255,255,255,.3), 0 0 12px rgba(0,230,118,.35); } }
-@keyframes live-glow { 50% { text-shadow: 0 0 18px rgba(0,230,118,.9); } }
 @keyframes bar-breathe { from { filter: brightness(.9); } to { filter: brightness(1.3); } }
-@keyframes border-glow { 50% { box-shadow: -6px 0 22px rgba(0,230,118,.22), 0 5px 18px rgba(0,0,0,.18); } }
-@keyframes float-admin { 50% { translate: 0 -5px; } }
-@keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(1.35, 1.7); opacity: 0; } }
+@keyframes ping { from { transform: scale(1); opacity: .8; } to { transform: scale(3.2); opacity: 0; } }
 @keyframes blink { 50% { opacity: .25; } }
 @keyframes foot { 50% { letter-spacing: 3px; color: #999; } }
 @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+@keyframes wave { 40% { transform: translateY(-10px); color: #ff6666; } }
 
-/* ---------- SFONDO ---------- */
 .barra-sinistra, .barra-destra {
-    -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
-            mask-image: linear-gradient(to right, #000 35%, transparent 100%);
     animation: bar-breathe 7s ease-in-out infinite alternate;
 }
 
-/* ---------- NAV ---------- */
 .navigation-badges > * { animation: drop-in .7s cubic-bezier(.2,.9,.3,1.3) backwards; }
-.navigation-badges > :nth-child(1) { animation-delay: .08s; }
-.navigation-badges > :nth-child(2) { animation-delay: .19s; }
-.navigation-badges > :nth-child(3) { animation-delay: .30s; }
-.navigation-badges > :nth-child(4) { animation-delay: .41s; }
-.navigation-badges > :nth-child(5) { animation-delay: .52s; }
+.navigation-badges > :nth-child(1) { animation-delay: .1s; }
+.navigation-badges > :nth-child(2) { animation-delay: .22s; }
+.navigation-badges > :nth-child(3) { animation-delay: .34s; }
+.navigation-badges > :nth-child(4) { animation-delay: .46s; }
 
-.badge-link { position: relative; overflow: hidden; white-space: nowrap; }
-.badge-link::after {
-    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-    transform: translateX(-120%) skewX(-20deg);
-}
-.badge-link:hover::after { animation: sweep .8s ease; }
-.badge-link:hover { box-shadow: 0 6px 18px rgba(229,72,72,.3); }
-.badge-link:hover img { animation: wave .5s ease; }
-.badge-link:active { transform: scale(.95); }
-.arrow { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
-.dropdown-container:hover .arrow { animation: none; }
-.back-link:hover { box-shadow: 0 6px 18px rgba(0,230,118,.3); }
-.back-link .back-arrow { display: inline-block; animation: nudge-l 1.6s ease-in-out infinite; }
-.back-link:hover .back-arrow { animation: none; transform: translateX(-5px); }
-
-.dropdown-item { position: relative; }
-.dropdown-container:hover .dropdown-item:nth-child(1) { transition-delay: .05s; }
-.dropdown-container:hover .dropdown-item:nth-child(2) { transition-delay: .12s; }
-.dropdown-container:hover .dropdown-item:nth-child(3) { transition-delay: .19s; }
-.dropdown-item:hover { padding-left: 20px; }
-.dropdown-item:hover img { transform: rotate(-8deg) scale(1.15); }
-
-/* ---------- TITOLO ---------- */
 .testo-illuminato { animation: glow-title 4s ease-in-out 1.4s infinite; }
-.lettera { display: inline-block; white-space: pre; animation: letter-in .9s cubic-bezier(.2,.9,.3,1.2) backwards; animation-delay: calc(.5s + var(--i) * .08s); }
+.lettera { display: inline-block; animation: letter-in .9s cubic-bezier(.2,.9,.3,1.2) backwards; animation-delay: calc(.5s + var(--i) * .1s); }
 .testo-illuminato.ready .lettera { animation: none; }
-.testo-illuminato.ready:hover .lettera { animation: wave .6s ease calc(var(--i) * .05s); }
+.testo-illuminato.ready:hover .lettera { animation: wave .6s ease calc(var(--i) * .06s); }
 .sottotitolo { animation: sub-in 1.2s ease .9s backwards; }
 .linea-titolo {
-    background: linear-gradient(90deg, #e54848, #ff9a9a, #e54848); background-size: 200% 100%;
-    animation: lineGrow .7s ease 1s both, shimmer 2.5s linear 1.9s infinite;
+    background: linear-gradient(90deg, #e54848, #ff9a9a, #e54848);
+    background-size: 200% 100%;
+    animation: line-grow .8s ease 1.1s backwards, shimmer 2.5s linear 1.9s infinite;
 }
-.live { animation: pulseLive 2s ease-in-out infinite, live-glow 2s ease-in-out infinite, fadeIn 1s ease 1.3s backwards; }
+.intro p { animation: fade-in 1s ease 1.3s backwards; }
+.firebase-status { animation: fade-in 1s ease 1.6s backwards; }
 
-/* ---------- ANNUNCI ---------- */
-.livello {
-    opacity: 1; overflow: hidden;
-    animation: slide-card .8s cubic-bezier(.2,.9,.3,1.15) backwards, border-glow 4s ease-in-out 1.2s infinite;
-    transition: transform .15s ease-out, border-color .3s ease, box-shadow .3s ease;
+/* ---------- BADGE E MENU ---------- */
+.badge-link { position: relative; overflow: hidden; }
+.badge-link::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    transform: translateX(-120%) skewX(-20deg); pointer-events: none;
 }
-.livello.pre { animation-play-state: paused; }
-.livello:hover { animation-play-state: running, paused; }
+.badge-link:hover { box-shadow: 0 6px 18px rgba(229,72,72,.3); }
+.badge-link:hover::after { animation: sweep .8s ease; }
+.badge-link:hover img { animation: wave .5s ease; }
+.badge-link:active { transform: scale(.95); }
+.arrow { animation: nudge 1.6s ease-in-out infinite; display: inline-block; }
+
+/* ---------- CARD GIOCATORI ---------- */
+.giocatore-card {
+    --d: 1.2s;
+    position: relative; overflow: hidden;
+    animation: rise-in .9s cubic-bezier(.2,.9,.3,1.15) var(--d) backwards,
+               float 7s ease-in-out calc(var(--d) + 1s) infinite;
+    transition: transform .15s ease-out, background .22s, border-color .22s, box-shadow .3s;
+}
+.giocatore-card:nth-child(2) { --d: 1.4s; }
+.giocatore-card:nth-child(3) { --d: 1.6s; }
+.giocatore-card:hover {
+    animation-play-state: running, paused;
+    box-shadow: 0 14px 34px rgba(229,72,72,.22);
+}
+.giocatore-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), rgba(229,72,72,.18), transparent 70%);
+}
+.giocatore-card:hover::before { opacity: 1; }
+.giocatore-card::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; pointer-events: none;
+    background: linear-gradient(90deg, transparent, #ff7777, transparent);
+    background-size: 200% 100%; animation: shimmer 3s linear infinite;
+}
+.giocatore-nome { position: relative; }
+.giocatore-nome::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: #ff5555;
+    transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+.giocatore-nome:hover::after { transform: scaleX(1); }
+.giocatore-punti { animation: glow-points 2.8s ease-in-out infinite; transition: transform .25s ease; }
+.giocatore-card:hover .giocatore-punti { transform: scale(1.12); }
+.giocatore-card > .giocatore-label,
+.stat-riga, .progress-container { animation: slide-l .6s ease backwards; animation-delay: calc(var(--d) + .5s); }
+.stat-riga + .stat-riga { animation-delay: calc(var(--d) + .65s); }
+.progress-container { animation-delay: calc(var(--d) + .8s); }
+.stat-riga { transition: transform .2s ease, background .2s ease; border-radius: 4px; }
+.stat-riga:hover { transform: translateX(4px); }
+
+.progress-fill { position: relative; overflow: hidden; }
+.progress-fill::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 45%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    animation: sweep 2.2s ease-in-out infinite;
+}
+
+/* ---------- SEZIONE REGOLE ---------- */
+.reveal { opacity: 0; translate: -36px 0; }
+.reveal.in { opacity: 1; translate: 0 0; transition: opacity .7s ease, translate .7s cubic-bezier(.2,.9,.3,1.1), transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.sezione-extra.reveal { translate: 0 40px; }
+.regola { transition: transform .25s ease, background .25s ease, border-left-color .25s ease, box-shadow .25s ease; }
+.regola:hover { transform: translateX(8px); background: #222; border-left-color: #ff5555; box-shadow: -4px 0 14px rgba(229,72,72,.2); }
+
+/* ---------- STATO FIREBASE ---------- */
+.firebase-dot { position: relative; animation: blink 1s ease-in-out infinite; }
+.firebase-dot.online, .firebase-dot.error { animation: none; }
+.firebase-dot.online::after, .firebase-dot.error::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit;
+    animation: ping 1.8s ease-out infinite;
+}
+
+footer { animation: foot 5s ease-in-out infinite; }
+
+
+/* ---------- SFONDO FISSO ---------- */
+
+
+/* ---------- LUCE SOLO SUI RETTANGOLI ---------- */
+.regola { position: relative; }
+.regola, .sezione-extra { overflow: hidden; }
+.regola::before, .sezione-extra::before, .badge-link::before, .dropdown-item::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.18), transparent 70%);
+}
+.regola:hover::before, .sezione-extra:hover::before, .badge-link:hover::before, .dropdown-item:hover::before { opacity: 1; }
+
+/* ---------- SFONDO: bordo interno sfumato ---------- */
+.barra-sinistra, .barra-destra {
+    -webkit-mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+            mask-image: linear-gradient(to right, #000 35%, transparent 100%);
+}
+
+
+/* ---------- MOSTRA / NASCONDI PASSWORD ---------- */
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 78px; }
+.mostra-password {
+    position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+    padding: 5px 10px; border: 1px solid #444; border-radius: 5px; background: #222; color: #bbb;
+    font-family: inherit; font-size: .62rem; font-weight: 800; letter-spacing: 1px; cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
+}
+.mostra-password:hover { color: #00e676; border-color: rgba(0,230,118,.5); background: #1b2a22; }
+.mostra-password[aria-pressed="true"] { color: #00e676; border-color: rgba(0,230,118,.5); }
+
+
+/* ---------- AGGIUNTA LIVELLI ---------- */
+[hidden] { display: none !important; }
+.aredl-box { margin: 4px 0 14px; }
+.aredl-results { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.aredl-item {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
+    background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px;
+    color: #f5f5f5; font-family: inherit; font-size: .8rem; font-weight: 700; text-align: left; cursor: pointer;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.aredl-item:hover { background: #1b2a22; border-color: rgba(0,230,118,.5); transform: translateX(4px); }
+.aredl-rank { color: #00e676; min-width: 62px; }
+.aredl-rank.legacy { color: #c6a7ff; }
+.aredl-item:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.aredl-searchbar { display: flex; align-items: flex-end; gap: 10px; }
+.aredl-searchbar .campo { flex: 1; min-width: 0; }
+.aredl-name { flex: 1; overflow-wrap: anywhere; }
+.aredl-pts { color: #999; font-size: .68rem; white-space: nowrap; }
+.livello-thumb {
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 120px; height: 76px; border-radius: 7px; border: 1px solid #454545;
+    background: linear-gradient(135deg, #2a2a2a, #171717); color: #555; font-size: 1.8rem; font-weight: 800;
+}
+.info-livello .livello-tag { font-size: .65rem; font-weight: 800; letter-spacing: 1px; }
+.info-livello .tag-aredl { color: #7dffb8; }
+.info-livello .tag-custom { color: #ffb74d; }
+@media (max-width: 700px) { .livello-thumb { width: 66px; height: 53px; font-size: 1.2rem; } }
+@media (max-width: 420px) { .livello-thumb { width: 55px; height: 47px; } }
+
+
+/* ---------- MODIFICA LISTA (ADMIN) ---------- */
+.admin-tools { position: absolute; top: 8px; right: 8px; z-index: 5; display: none; gap: 6px; }
+body.admin-edit .admin-tools { display: flex; }
+.admin-tools button {
+    padding: 5px 10px; border: 1px solid #555; border-radius: 14px; background: rgba(20,20,20,.92); color: #ddd;
+    font-family: inherit; font-size: .6rem; font-weight: 800; letter-spacing: .5px; cursor: pointer;
+    transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.admin-tools button:hover { transform: translateY(-2px); background: #00e676; border-color: #00e676; color: #000; }
+.admin-tools button[data-act="remove"]:hover { background: #e54848; border-color: #e54848; color: #fff; }
+body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offset: -1px; }
+
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center;
+    padding: 16px; background: rgba(0,0,0,.72); backdrop-filter: blur(4px);
+}
+.modal-overlay.show { display: flex; }
+.modal {
+    width: min(620px, 100%); max-height: 92vh; overflow-y: auto; padding: 24px;
+    background: #202020; border: 1px solid #3b3b3b; border-top: 3px solid #00e676; border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6); animation: modal-in .35s cubic-bezier(.3,1.4,.5,1);
+}
+.modal h2 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+.modal-azioni { flex-direction: row; gap: 10px; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(20px) scale(.94); } }
+
+
+/* ---------- SELETTORE IMMAGINE ---------- */
+.img-picker { display: flex; gap: 14px; align-items: flex-start; }
+.img-preview {
+    flex: 0 0 120px; width: 120px; height: 76px; border-radius: 7px; border: 1px dashed #555; overflow: hidden;
+    background: linear-gradient(135deg, #2a2a2a, #171717); display: flex; align-items: center; justify-content: center;
+    color: #666; font-size: .62rem; font-weight: 700; text-align: center; transition: border-color .2s ease, box-shadow .2s ease;
+}
+.img-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.img-preview.dragover { border-color: #00e676; box-shadow: 0 0 14px rgba(0,230,118,.3); }
+.img-controls { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.img-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.img-buttons .pulsante { padding: 8px 12px; font-size: .68rem; }
+.img-status { font-size: .7rem; line-height: 1.5; color: #888; min-height: 1em; }
+@media (max-width: 700px) { .img-picker { flex-direction: column; } }
+
+/* ---------- EXTRA CREATI DA JS ---------- */
+.scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
+    background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
+.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.ripple { position: absolute; border-radius: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; pointer-events: none;
+    background: rgba(255,255,255,.35); animation: ripple .6s ease-out forwards; }
+
+@media (max-width: 700px) { .giocatore-card { animation-name: rise-in; } }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    .reveal { opacity: 1; translate: 0 0; }
+    .dropdown-item { opacity: 1; translate: 0 0; }
+}
+
+
+/* ---------- HOME: LIVELLI ---------- */
+@keyframes glow-red { 50% { text-shadow: 0 0 14px rgba(255,82,82,.75); } }
+@keyframes glow-box { to { box-shadow: 0 0 22px rgba(0,230,118,.24), 0 0 40px rgba(0,230,118,.1); } }
+@keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes slide-card { from { opacity: 0; transform: translateX(-70px) scale(.96); } }
+
+.lettera { white-space: pre; }
+
+.livello { overflow: hidden; }
+.livello.enter { animation: slide-card .8s cubic-bezier(.2,.9,.3,1.15) calc(1.2s + var(--i) * .15s) backwards; }
+.classifica > .livello:nth-child(even).reveal:not(.in) { translate: 50px 0; }
 .livello::before {
     content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.13), transparent 70%);
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
 }
 .livello:hover::before { opacity: 1; }
 .livello::after {
     content: ""; position: absolute; inset: 0 auto 0 0; width: 35%; pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
     transform: translateX(-120%) skewX(-20deg);
 }
 .livello:hover::after { animation: sweep .9s ease; }
-.livello > * { animation: pop-up .5s ease backwards; animation-delay: .35s; }
-.livello > :nth-child(2) { animation-delay: .45s; }
-.livello > :nth-child(3) { animation-delay: .55s; }
-.livello > :nth-child(4) { animation-delay: .65s; }
-.livello .meta::before { content: "●"; margin-right: 8px; animation: blink 2s ease-in-out infinite; }
-.livello h2 { position: relative; width: fit-content; max-width: 100%; }
-.livello h2::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: #00e676;
-    transform: scaleX(0); transform-origin: left; transition: transform .35s ease;
-}
-.livello:hover h2::after { transform: scaleX(1); }
-.livello button { transition: transform .2s ease, box-shadow .2s ease; }
-.livello button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,0,0,.25); }
+.posizione { display: inline-block; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+.livello:hover .posizione { transform: scale(1.25) rotate(-6deg); }
+.livello img { transition: filter .22s ease, transform .35s ease; }
+.livello:hover img { transform: scale(1.06) rotate(-1deg); }
+.livello .punti { animation: glow-red 2.6s ease-in-out infinite; }
+.livello .progressi { animation: glow-box 3.5s ease-in-out infinite alternate; }
+.difficolta { transition: letter-spacing .3s ease; }
+.livello:hover .difficolta { letter-spacing: 1.4px; }
 
-/* ---------- PANNELLO ADMIN ---------- */
-#adminPanel { animation: fadeUp .5s ease backwards; }
-#adminPanel button { position: relative; overflow: hidden; }
-#adminPanel button::after {
+/* ---------- HOME: FORM E ADMIN (le sezioni restano intatte) ---------- */
+.sezione-extra { overflow: visible; }
+.sezione-extra::before { display: none; }
+.campo input:focus, .campo select:focus { box-shadow: 0 0 0 3px rgba(229,72,72,.18); }
+.pulsante { position: relative; overflow: hidden; }
+.pulsante::after {
     content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
     transform: translateX(-120%) skewX(-20deg);
 }
-#adminPanel button:hover::after { animation: sweep .8s ease; }
-#adminPanel button:active { transform: scale(.95); }
-#loggedSection:not([style*="none"]) { animation: fade-in2 .6s ease; }
-.log-item { animation: pop-up .4s ease backwards; }
-#publishStatus:not(:empty) { animation: fade-in2 .4s ease; }
+.pulsante:hover:not(:disabled)::after { animation: sweep .8s ease; }
+.pulsante:active:not(:disabled) { transform: scale(.96); }
+.messaggio:not(:empty) { animation: fade-in .4s ease; }
+.messaggio.errore:not(:empty) { animation: shake .45s ease; }
+.richiesta { animation: slide-l .45s ease backwards; transition: transform .2s ease, border-left-color .2s ease; }
+.richiesta:hover { transform: translateX(6px); border-left-color: #ff5555; }
+.admin-contenuto:not([hidden]) { animation: fade-in .6s ease; }
 
-/* ---------- PULSANTE ADMIN ---------- */
-.admin-btn { animation: float-admin 3s ease-in-out infinite; }
-.admin-btn:hover { animation-play-state: paused; }
-.admin-btn::after {
-    content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
-    border: 1px solid rgba(229,72,72,.6); animation: ring 2.4s ease-out infinite;
-}
-
-/* ---------- POPUP NOTIFICHE ---------- */
-#notifPopup.show { animation: popIn .45s cubic-bezier(.3,1.5,.5,1); }
-.notif-actions button { transition: transform .2s ease, box-shadow .2s ease; }
-.notif-actions button:hover { transform: translateY(-2px); }
-.btn-yes:hover { box-shadow: 0 6px 18px rgba(0,230,118,.35); }
-
-footer { animation: foot 5s ease-in-out infinite; }
-
-/* ---------- EXTRA CREATI DA JS ---------- */
-.scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; pointer-events: none;
-    transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, #00e676, #7dffb8); box-shadow: 0 0 10px rgba(0,230,118,.6); }
-.fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.ripple { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; pointer-events: none;
-    background: rgba(255,255,255,.35); animation: ripple .6s ease-out forwards; }
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
-}
-
-.badge-link::before, .dropdown-item::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.18), transparent 70%);
-}
-.badge-link:hover::before, .dropdown-item:hover::before { opacity: 1; }
-.back-link::before { background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.2), transparent 70%); }
-
+    
+/* ---------- PERFORMANCE: via le animazioni che ridisegnano elementi grandi a ogni frame ---------- */
+.barra-sinistra, .barra-destra { animation: none; will-change: auto; }
+.testo-illuminato { animation: none; }
+footer { animation: none; }
+.livello .punti, .livello .progressi, .giocatore-punti, .rank-punti { animation: none; }
+.giocatore-card::after { animation: none; }
+.badge-link, .btn-primary, .btn-danger { will-change: auto; }
 </style>
 </head>
 
@@ -723,171 +1108,686 @@ footer { animation: foot 5s ease-in-out infinite; }
 <div class="barra-sinistra" aria-hidden="true"></div>
 <div class="barra-destra" aria-hidden="true"></div>
 
-<div id="notifOverlay"></div>
-
-<div id="notifPopup">
-    <h3>🔔 Attivare le notifiche?</h3>
-    <p>Vuoi ricevere una notifica di Windows per ogni nuovo announcement?</p>
-    <div class="notif-actions">
-        <button class="btn-no" id="notifNo">Non ora</button>
-        <button class="btn-yes" id="notifYes">Sì, attiva</button>
-    </div>
-</div>
-
 <main>
 
-<nav class="navigation-badges">
+    <!-- NAVIGAZIONE ORIGINALE -->
+    <nav class="navigation-badges">
 
-    <!-- BACK TO THE LIST: PRIMO ELEMENTO DELLA NAVIGAZIONE -->
-    <a href="./index.html" class="badge-link back-link">
-        <span class="back-arrow">←</span>
-        <span>Back to the list</span>
-    </a>
-
-    <div class="dropdown-container">
-        <a class="badge-link">
-            <img src="players.png" alt="Players">
-            <span>Players</span>
-            <span class="arrow">&gt;</span>
-        </a>
-
-        <div class="dropdown-menu">
-            <div class="dropdown-content">
-                <a href="who.html" class="dropdown-item">❓ Who?</a>
-
-                <a href="leaderboard.html" class="dropdown-item">
-                    <img src="lb.png" alt="Leaderboard">
-                    <span>Leaderboard</span>
-                </a>
+        <div class="dropdown-container">
+            <a class="badge-link">
+                <img src="players.png" alt="Players">
+                <span>Players</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="dropdown-content">
+                    <a href="who.html" class="dropdown-item">
+                        <span>❓ Who?</span>
+                    </a>
+                    <a href="leaderboard.html" class="dropdown-item">
+                        <img src="lb.png" alt="Leaderboard">
+                        <span>Leaderboard</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="dropdown-container">
-        <a class="badge-link">
-            <img src="games.png" alt="Games">
-            <span>Games</span>
-            <span class="arrow">&gt;</span>
-        </a>
-
-        <div class="dropdown-menu">
-            <div class="dropdown-content">
-
-                <a href="horse.html" class="dropdown-item">
-                    <img src="horse.png" alt="H.O.R.S.E.">
-                    <span>H.O.R.S.E.</span>
-                </a>
-
-                <a href="thedemonwheel.html" class="dropdown-item">
-                    <img src="tdw.png" alt="The Demon Wheel">
-                    <span>The Demon Wheel</span>
-                </a>
-
-                <a href="roulette.html" class="dropdown-item">
-                    <img src="roulette.png" alt="Roulette">
-                    <span>Roulette</span>
-                </a>
-
+        <div class="dropdown-container">
+            <a class="badge-link">
+                <img src="games.png" alt="Games">
+                <span>Games</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <div class="dropdown-menu">
+                <div class="dropdown-content">
+                    <a href="horse.html" class="dropdown-item">
+                        <img src="horse.png" alt="H.O.R.S.E.">
+                        <span>H.O.R.S.E.</span>
+                    </a>
+                    <a href="thedemonwheel.html" class="dropdown-item">
+                        <img src="tdw.png" alt="The Demon Wheel">
+                        <span>The Demon Wheel</span>
+                    </a>
+                    <a href="roulette.html" class="dropdown-item">
+                        <img src="roulette.png" alt="Roulette">
+                        <span>Roulette</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <a href="announcements.html" class="badge-link">
-        <img src="announcements.png" alt="Announcements">
-        <span>Announcements</span>
-    </a>
+        <a href="announcements.html" class="badge-link">
+            <img src="announcements.png" alt="Announcements">
+            <span>Announcements</span>
+        </a>
 
-    <a href="community.html" class="badge-link">
-        <span class="badge-emoji" aria-hidden="true">💬</span>
-        <span>Community</span>
-    </a>
+        <a href="community.html" class="badge-link">
+            <span class="badge-emoji">💬</span>
+            <span>Community</span>
+        </a>
 
-</nav>
+    </nav>
 
-<header>
-    <h1 class="testo-illuminato">ANNOUNCEMENTS</h1>
-    <p class="sottotitolo">Home of the gooners' demonlist</p>
-    <div class="linea-titolo"></div>
-    <div class="live">● LIVE</div>
-</header>
+    <header>
+        <h1 class="testo-illuminato">G_S demon list</h1>
+        <p class="sottotitolo">Home of the gooners' demonlist</p>
+        <div class="linea-titolo"></div>
+    </header>
 
-<div id="adminPanel">
+    <!-- PUNTI GIOCATORI -->
+    <section class="giocatori">
 
-    <h3 style="color:#00e676;margin-bottom:10px">
-        👑 ADMIN CONTROL PANEL
-    </h3>
+        <a href="pothersouls.html" class="giocatore-card">
+            <span class="giocatore-nome">Pothersouls</span>
+            <span class="giocatore-punti" id="total-Pothersouls">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
 
-    <div id="loginSection">
-        <input id="email" value="lorecatels22@gmail.com">
-        <input id="password" type="password" placeholder="Password admin">
-        <button id="loginBtn">Login come Admin</button>
+        <a href="dadefff.html" class="giocatore-card">
+            <span class="giocatore-nome">Dadefff</span>
+            <span class="giocatore-punti" id="total-Dadefff">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
 
-        <div id="loginStatus" style="color:#888;font-size:12px;margin:10px 0">
-            Non loggato
+        <a href="leopelliz.html" class="giocatore-card">
+            <span class="giocatore-nome">Leopelliz</span>
+            <span class="giocatore-punti" id="total-Leopelliz">--</span>
+            <span class="giocatore-label">TOTAL POINTS</span>
+        </a>
+
+    </section>
+
+    <!-- CLASSIFICA: TUTTI I 20 LIVELLI -->
+    <section class="classifica" id="classifica">
+
+        <article class="livello">
+            <span class="posizione">#001</span>
+            <img src="bloodbath.png" alt="Bloodbath">
+            <div class="info-livello"><h2>Bloodbath</h2><p>By Riot</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 14%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+250 pts (100%)</span><span class="difficolta">EXTREME DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#002</span>
+            <img src="futurefunk2.png" alt="Future Funk II">
+            <div class="info-livello"><h2>Future Funk II</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 55%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+235 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#003</span>
+            <img src="magmabound.png" alt="Magma Bound">
+            <div class="info-livello"><h2>Magma Bound</h2><p>By ScorchVx</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+220 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#004</span>
+            <img src="crazyii.png" alt="CraZy II">
+            <div class="info-livello"><h2>CraZy II</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+205 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#005</span>
+            <img src="swu.png" alt="Sonic Wave Universe">
+            <div class="info-livello"><h2>Sonic Wave Universe</h2><p>By LazerBlitz</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: 100%</p>
+                <p><a href="dadefff.html">Dadefff</a>: 98%</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+190 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#006</span>
+            <img src="deathnote.png" alt="Death Note">
+            <div class="info-livello"><h2>Death Note</h2><p>By Ruf</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+175 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#007</span>
+            <img src="stalemate.png" alt="Stalemate">
+            <div class="info-livello"><h2>Stalemate</h2><p>By Nox</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+160 pts (100%)</span><span class="difficolta">INSANE DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#008</span>
+            <img src="jawbreaker.png" alt="Jawbreaker">
+            <div class="info-livello"><h2>Jawbreaker</h2><p>By ZenthicAlpha</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+145 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#009</span>
+            <img src="futurefunk.png" alt="Future Funk">
+            <div class="info-livello"><h2>Future Funk</h2><p>By JonathanGD</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+130 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#010</span>
+            <img src="crazy.png" alt="CraZy">
+            <div class="info-livello"><h2>CraZy</h2><p>By DavJT</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+115 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#011</span>
+            <img src="megalovania.png" alt="Megalovania">
+            <div class="info-livello"><h2>Megalovania</h2><p>By AirSwipe</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+100 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#012</span>
+            <img src="ninecircles.png" alt="Nine Circles">
+            <div class="info-livello"><h2>Nine Circles</h2><p>By Zobros</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+90 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#013</span>
+            <img src="trollmadness.png" alt="Troll Madness">
+            <div class="info-livello"><h2>Troll Madness</h2><p>By FunnyGame</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+80 pts (100%)</span><span class="difficolta">HARD DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#014</span>
+            <img src="hell.png" alt="HeLL">
+            <div class="info-livello"><h2>HeLL</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+70 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#015</span>
+            <img src="phobros.png" alt="Phobros">
+            <div class="info-livello"><h2>Phobros</h2><p>By FunnyGame &amp; More</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+60 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#016</span>
+            <img src="cyclesv2s.png" alt="Cycles v2 s">
+            <div class="info-livello"><h2>Cycles v2 s</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+50 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#017</span>
+            <img src="sakupenegg.png" alt="Sakupen Egg">
+            <div class="info-livello"><h2>Sakupen Egg</h2><p>By EugenBro &amp; Endevour</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+40 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#018</span>
+            <img src="mechanicalshowdown.png" alt="Mechanical Showdown">
+            <div class="info-livello"><h2>Mechanical Showdown</h2><p>By TNTScrew</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+30 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#019</span>
+            <img src="ss.png" alt="Skeletal Shenanigans">
+            <div class="info-livello"><h2>Skeletal Shenanigans</h2><p>By TheRealMiLk</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+20 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+        <article class="livello">
+            <span class="posizione">#020</span>
+            <img src="verity.png" alt="VeritY">
+            <div class="info-livello"><h2>VeritY</h2><p>By Serponge</p></div>
+            <div class="progressi">
+                <p><a href="pothersouls.html">Pothersouls</a>: --</p>
+                <p><a href="dadefff.html">Dadefff</a>: --</p>
+                <p><a href="leopelliz.html">Leopelliz</a>: --</p>
+            </div>
+            <div class="dati-destra"><span class="punti">+15 pts (100%)</span><span class="difficolta">MEDIUM DEMON</span></div>
+        </article>
+
+
+    </section>
+
+    <!-- INVIO PROGRESSI -->
+    <section class="sezione-extra" id="invia-progressi">
+
+        <h2>Submit a progress</h2>
+        <p class="descrizione-extra">
+            Hai migliorato il tuo completamento di un livello? Invia qui il tuo nuovo record.
+            La richiesta verrà controllata da un amministratore prima di essere pubblicata.
+        </p>
+
+        <form id="submission-form">
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label for="playerName">Player</label>
+                    <select id="playerName" required>
+                        <option value="">Select player</option>
+                        <option value="Pothersouls">Pothersouls</option>
+                        <option value="Dadefff">Dadefff</option>
+                        <option value="Leopelliz">Leopelliz</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="levelId">Level</label>
+                    <select id="levelId" required>
+                        <option value="">Select level</option>
+                        <option value="001">#001 - Bloodbath</option>
+                        <option value="002">#002 - Future Funk II</option>
+                        <option value="003">#003 - Magma Bound</option>
+                        <option value="004">#004 - CraZy II</option>
+                        <option value="005">#005 - Sonic Wave Universe</option>
+                        <option value="006">#006 - Death Note</option>
+                        <option value="007">#007 - Stalemate</option>
+                        <option value="008">#008 - Jawbreaker</option>
+                        <option value="009">#009 - Future Funk</option>
+                        <option value="010">#010 - CraZy</option>
+                        <option value="011">#011 - Megalovania</option>
+                        <option value="012">#012 - Nine Circles</option>
+                        <option value="013">#013 - Troll Madness</option>
+                        <option value="014">#014 - HeLL</option>
+                        <option value="015">#015 - Phobros</option>
+                        <option value="016">#016 - Cycles v2 s</option>
+                        <option value="017">#017 - Sakupen Egg</option>
+                        <option value="018">#018 - Mechanical Showdown</option>
+                        <option value="019">#019 - Skeletal Shenanigans</option>
+                        <option value="020">#020 - VeritY</option>
+                    </select>
+                </div>
+
+                <div class="campo campo-full">
+                    <label for="progress">Progress (%)</label>
+                    <input id="progress" type="number" min="0" max="100" step="1" placeholder="Example: 85" required>
+                </div>
+
+                <div class="campo campo-full">
+                    <button class="pulsante" id="submit-button" type="submit">
+                        SEND SUBMISSION
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+        <p class="messaggio" id="submission-message" aria-live="polite"></p>
+
+    </section>
+
+    <!-- PANNELLO AMMINISTRATORE -->
+    <section class="sezione-extra" id="admin-panel">
+
+        <h2>Admin panel</h2>
+        <p class="descrizione-extra">
+            Area riservata agli amministratori della G_S demon list.
+        </p>
+
+        <div id="admin-login" class="admin-login">
+
+            <form id="admin-login-form">
+                <div class="form-grid">
+
+                    <div class="campo">
+                        <label for="admin-email">Email</label>
+                        <input id="admin-email" type="email" placeholder="Admin email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="admin-password">Password</label>
+                        <div class="password-wrap">
+                            <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password" required>
+                            <button type="button" class="mostra-password" id="toggle-password" aria-label="Show password" aria-pressed="false">SHOW</button>
+                        </div>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <button class="pulsante" id="login-button" type="submit">
+                            ADMIN LOGIN
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <p class="messaggio" id="login-message" aria-live="polite"></p>
         </div>
-    </div>
 
-    <div id="loggedSection" style="display:none">
+        <div id="admin-content" class="admin-contenuto" hidden>
 
-        <div class="admin-info">
-            <div>Loggato come: <b id="adminEmailDisplay"></b></div>
-            <div>UID: <b id="adminUidDisplay"></b></div>
-            <div>Ultimo accesso: <b id="lastAccess"></b></div>
+            <p class="admin-stato">● Admin authenticated</p>
 
-            <button id="logoutBtn" style="background:#222;color:#fff;border:1px solid #444;margin-top:8px">
-                Logout
-            </button>
+            <div class="admin-toolbar">
+                <button class="pulsante pulsante-verde" id="import-button" type="button">
+                    IMPORT INITIAL PROGRESS
+                </button>
+
+                <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
+
+                <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
+                    LOGOUT
+                </button>
+            </div>
+
+            <p class="messaggio" id="import-message"></p>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Add a level</h2>
+            <p class="descrizione-extra">
+                Cerca il livello per nome nella ricerca qui sotto per compilare i dati da solo, oppure scrivili a mano.
+                Scegli la posizione in lista: i punti vengono calcolati da soli (a metà tra i livelli vicini).
+            </p>
+
+            <div id="aredl-box" class="aredl-box">
+                <div class="aredl-searchbar">
+                    <div class="campo">
+                        <label for="aredl-query">Search on AREDL (name or rank)</label>
+                        <input id="aredl-query" type="search" placeholder="Level name or rank..." autocomplete="off">
+                    </div>
+                    <button type="button" class="pulsante pulsante-rifiuta" id="reload-aredl">↻ REFRESH</button>
+                </div>
+                <p class="messaggio" id="aredl-status" aria-live="polite"></p>
+                <div class="aredl-results" id="aredl-results"></div>
+            </div>
+
+            <form id="level-form">
+                <div class="form-grid">
+
+                    <div class="campo">
+                        <label for="level-name">Level name</label>
+                        <input id="level-name" type="text" maxlength="60" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-by">Creator / publisher</label>
+                        <input id="level-by" type="text" maxlength="40">
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-diff">Difficulty</label>
+                        <select id="level-diff">
+                            <option>EXTREME DEMON</option>
+                            <option>INSANE DEMON</option>
+                            <option>HARD DEMON</option>
+                            <option>MEDIUM DEMON</option>
+                            <option>EASY DEMON</option>
+                            <option>INSANE</option>
+                            <option>HARD</option>
+                            <option>HARDER</option>
+                            <option>NORMAL</option>
+                            <option>EASY</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-position">Position in the list</label>
+                        <input id="level-position" type="number" min="1" step="1" placeholder="Example: 12" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-points">Points (calculated automatically)</label>
+                        <input id="level-points" type="number" step="0.01" readonly tabindex="-1" placeholder="—">
+                    </div>
+
+                    <div class="campo" id="rank-field">
+                        <label for="level-rank">AREDL rank</label>
+                        <input id="level-rank" type="number" min="1" step="1" placeholder="Filled by the search">
+                    </div>
+
+                    <div class="campo">
+                        <label for="level-gdid">GD level ID (optional)</label>
+                        <input id="level-gdid" type="number" min="1" step="1">
+                    </div>
+
+                    <div class="campo campo-full">
+                        <label for="level-img">Image</label>
+                        <div class="img-picker">
+                            <div class="img-preview" id="level-img-preview"><span>No image</span></div>
+                            <div class="img-controls">
+                                <input id="level-img" type="text" maxlength="300" placeholder="Link https or file name (optional)">
+                                <div class="img-buttons">
+                                    <button type="button" class="pulsante" id="level-img-upload">UPLOAD IMAGE</button>
+                                    <button type="button" class="pulsante pulsante-verde" id="level-img-fetch">GET THUMBNAIL FROM ID</button>
+                                    <button type="button" class="pulsante pulsante-rifiuta" id="level-img-clear">CLEAR</button>
+                                </div>
+                                <input type="file" id="level-img-file" accept="image/*" hidden>
+                                <p class="img-status" id="level-img-status">Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <button class="pulsante pulsante-verde" id="add-level-button" type="submit">ADD LEVEL</button>
+                    </div>
+
+                </div>
+            </form>
+
+            <p class="messaggio" id="level-message" aria-live="polite"></p>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Added levels</h2>
+            <div id="added-levels-list">
+                <p class="vuoto">Loading levels...</p>
+            </div>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Hidden levels</h2>
+            <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
+            <div id="hidden-levels-list">
+                <p class="vuoto">Loading levels...</p>
+            </div>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Pending submissions</h2>
+            <p class="descrizione-extra" id="expiry-note"></p>
+            <div id="pending-list">
+                <p class="vuoto">Loading submissions...</p>
+            </div>
+
+            <div class="admin-separatore"></div>
+
+            <h2>Approved records</h2>
+            <div id="approved-list">
+                <p class="vuoto">Loading records...</p>
+            </div>
+
         </div>
 
-        <h4 style="color:#fff;margin:15px 0 8px">
-            📢 Pubblica nuovo announcement
-        </h4>
-
-        <select id="tag">
-            <option value="NEWS">NEWS</option>
-            <option value="UPDATE">UPDATE</option>
-            <option value="EVENT">EVENT</option>
-            <option value="MAINTENANCE">MAINTENANCE</option>
-            <option value="IMPORTANT">IMPORTANT</option>
-        </select>
-
-        <input id="title" placeholder="Titolo (es: Nuovo livello aggiunto!)">
-        <textarea id="text" rows="5" placeholder="Testo dettagliato dell'annuncio..."></textarea>
-
-        <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="publishBtn" style="flex:1">🚀 Pubblica</button>
-            <button id="previewBtn" style="background:#333;color:#fff;flex:0.5">👁️ Anteprima</button>
-        </div>
-
-        <div id="publishStatus" style="font-size:12px;margin-top:8px;color:#888"></div>
-
-        <h4 style="color:#fff;margin:20px 0 8px">
-            📜 Storico accessi admin (ultimi 10)
-        </h4>
-
-        <div id="adminLogs" class="log-list">Caricamento...</div>
-
-    </div>
-</div>
-
-<section class="classifica" id="list">
-    Loading...
-</section>
-
-<footer>G_S demon list</footer>
+    </section>
 
 </main>
 
-<button class="admin-btn" id="adminToggle">ADMIN</button>
+<!-- MODIFICA LIVELLO (SOLO ADMIN) -->
+<div class="modal-overlay" id="edit-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+
+        <h2 id="edit-title">Edit level</h2>
+        <p class="descrizione-extra">
+            Cambia i dati del livello. In lista i livelli sono ordinati per punti: se cambi la posizione, i punti vengono ricalcolati.
+        </p>
+
+        <form id="edit-form">
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label for="edit-name">Level name</label>
+                    <input id="edit-name" type="text" maxlength="60" required>
+                </div>
+
+                <div class="campo">
+                    <label for="edit-by">Creator / publisher</label>
+                    <input id="edit-by" type="text" maxlength="40">
+                </div>
+
+                <div class="campo">
+                    <label for="edit-diff">Difficulty</label>
+                    <select id="edit-diff">
+                        <option>EXTREME DEMON</option>
+                        <option>INSANE DEMON</option>
+                        <option>HARD DEMON</option>
+                        <option>MEDIUM DEMON</option>
+                        <option>EASY DEMON</option>
+                        <option>INSANE</option>
+                        <option>HARD</option>
+                        <option>HARDER</option>
+                        <option>NORMAL</option>
+                        <option>EASY</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="edit-position">Position in the list</label>
+                    <input id="edit-position" type="number" min="1" step="1">
+                </div>
+
+                <div class="campo">
+                    <label for="edit-points">Points</label>
+                    <input id="edit-points" type="number" min="0.01" max="1000" step="0.01" required>
+                </div>
+
+                <div class="campo campo-full">
+                    <label for="edit-img">Image</label>
+                    <div class="img-picker">
+                        <div class="img-preview" id="edit-img-preview"><span>No image</span></div>
+                        <div class="img-controls">
+                            <input id="edit-img" type="text" maxlength="300" placeholder="Link https or file name (optional)">
+                            <div class="img-buttons">
+                                <button type="button" class="pulsante" id="edit-img-upload">UPLOAD IMAGE</button>
+                                <button type="button" class="pulsante pulsante-verde" id="edit-img-fetch">GET THUMBNAIL FROM ID</button>
+                                <button type="button" class="pulsante pulsante-rifiuta" id="edit-img-clear">CLEAR</button>
+                            </div>
+                            <input type="file" id="edit-img-file" accept="image/*" hidden>
+                            <p class="img-status" id="edit-img-status">Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campo campo-full modal-azioni">
+                    <button class="pulsante pulsante-verde" id="edit-save" type="submit">SAVE</button>
+                    <button class="pulsante pulsante-rifiuta" id="edit-cancel" type="button">CANCEL</button>
+                </div>
+
+            </div>
+        </form>
+
+        <p class="messaggio" id="edit-message" aria-live="polite"></p>
+
+    </div>
+</div>
+
+<footer>G_S demon list</footer>
+
+<!-- ANIMAZIONI -->
 
 <script>
+/* G_S demon list - animazioni extra (da caricare con "defer") */
 (() => {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const $$ = (s) => [...document.querySelectorAll(s)];
     if (reduce) return;
 
-    /* Titolo lettera per lettera (poi onda in hover, senza farlo sparire) */
+    /* Titolo diviso in lettere */
     const h1 = document.querySelector('.testo-illuminato');
     if (h1) {
         const t = h1.textContent.trim();
@@ -901,10 +1801,10 @@ footer { animation: foot 5s ease-in-out infinite; }
             s.setAttribute('aria-hidden', 'true');
             h1.appendChild(s);
         });
-        setTimeout(() => h1.classList.add('ready'), 500 + t.length * 80 + 1000);
+        setTimeout(() => h1.classList.add('ready'), 500 + t.length * 100 + 1000);
     }
 
-    /* Barra di avanzamento dello scroll */
+    /* Barra di scroll + bagliore del cursore */
     const bar = Object.assign(document.createElement('div'), { className: 'scroll-bar' });
     document.body.appendChild(bar);
     addEventListener('scroll', () => {
@@ -912,625 +1812,2535 @@ footer { animation: foot 5s ease-in-out infinite; }
         bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
     }, { passive: true });
 
-    /* Luce che segue il mouse solo sui rettangoli + inclinazione 3D degli annunci */
+    /* Luce che segue il mouse solo sopra i rettangoli */
     if (fine) {
-        const sel = '.livello, .badge-link, .dropdown-item';
-        let tilted = null;
+        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item';
         document.addEventListener('mousemove', (e) => {
             const el = e.target.closest(sel);
-            const card = e.target.closest('.livello');
-            if (tilted && tilted !== card) { tilted.style.transform = ''; tilted = null; }
             if (!el) return;
             const r = el.getBoundingClientRect();
-            const x = (e.clientX - r.left) / r.width;
-            const y = (e.clientY - r.top) / r.height;
-            el.style.setProperty('--mx', x * 100 + '%');
-            el.style.setProperty('--my', y * 100 + '%');
-            if (card) {
-                card.style.transform = `perspective(900px) rotateX(${(0.5 - y) * 4}deg) rotateY(${(x - 0.5) * 5}deg) translateY(-4px)`;
-                tilted = card;
-            }
+            el.style.setProperty('--mx', ((e.clientX - r.left) / r.width) * 100 + '%');
+            el.style.setProperty('--my', ((e.clientY - r.top) / r.height) * 100 + '%');
         }, { passive: true });
     }
 
-    /* Onda al click sui badge e sulle voci dei menu */
+    /* Rivelazione allo scroll (solo per ciò che è sotto la piega) */
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); const t = e.target; setTimeout(() => { t.style.transitionDelay = ''; }, 1000); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    $$('.livello').forEach((el, i) => {
+        if (el.getBoundingClientRect().top > innerHeight * 0.9) {
+            el.classList.add('reveal');
+            el.style.transitionDelay = (el.classList.contains('regola') ? (i % 3) * 0.1 : 0) + 's';
+            io.observe(el);
+        }
+    });
+
+    /* Inclinazione 3D + luce sulle card */
+    if (fine) {
+        $$('.giocatore-card').forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width;
+                const y = (e.clientY - r.top) / r.height;
+                card.style.setProperty('--mx', x * 100 + '%');
+                card.style.setProperty('--my', y * 100 + '%');
+                card.style.transform = `perspective(800px) rotateX(${(0.5 - y) * 10}deg) rotateY(${(x - 0.5) * 12}deg) translateY(-4px)`;
+            });
+            card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+        });
+    }
+
+    /* Ripple al click */
     document.addEventListener('click', (e) => {
-        const host = e.target.closest('.badge-link, .dropdown-item');
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card');
         if (!host) return;
         const r = host.getBoundingClientRect();
         const s = document.createElement('span');
         s.className = 'ripple';
         s.style.left = e.clientX - r.left + 'px';
         s.style.top = e.clientY - r.top + 'px';
+        if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
         host.style.overflow = 'hidden';
         host.appendChild(s);
         setTimeout(() => s.remove(), 650);
     });
 
-    /* Annunci sotto la piega: l'entrata parte solo quando arrivano in vista */
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.remove('pre'); io.unobserve(en.target); } });
-    }, { threshold: 0.1 });
-    const list = document.getElementById('list');
-    if (list) {
-        new MutationObserver(() => {
-            list.querySelectorAll('.livello:not([data-fx])').forEach((el) => {
-                el.dataset.fx = '1';
-                if (el.getBoundingClientRect().top > innerHeight * 0.9) { el.classList.add('pre'); io.observe(el); }
-            });
-        }).observe(list, { childList: true });
+    /* Conteggio animato dei numeri aggiornati da Firebase */
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    function countUp(el) {
+        if (el.textContent === el._last) return;
+        const txt = el.textContent;
+        const m = txt.match(/\d[\d,]*\.?\d*/);
+        if (!m) return;
+        const raw = m[0];
+        const dec = (raw.split('.')[1] || '').length;
+        const to = parseFloat(raw.replace(/,/g, ''));
+        const from = el._shown ?? 0;
+        el._shown = to;
+        const pre = txt.slice(0, m.index);
+        const post = txt.slice(m.index + raw.length);
+        cancelAnimationFrame(el._raf);
+        const t0 = performance.now();
+        const step = (now) => {
+            const p = Math.min(1, (now - t0) / 1100);
+            const v = from + (to - from) * ease(p);
+            const n = Number(dec ? v.toFixed(dec) : Math.round(v));
+            const s = n.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+            el._last = pre + s + post;
+            el.textContent = el._last;
+            if (p < 1) el._raf = requestAnimationFrame(step);
+        };
+        el._raf = requestAnimationFrame(step);
     }
+    const mo = new MutationObserver((list) => list.forEach((m) => countUp(m.target.nodeType === 3 ? m.target.parentNode : m.target)));
+    $$('[id$="-points"], [id$="-beaten"], [id$="-progress-text"], [id^="total-"]').forEach((el) => {
+        mo.observe(el, { childList: true, characterData: true, subtree: true });
+    });
 
-    /* Particelle: braci rosse e verdi che salgono piano */
+    /* Livelli già visibili al caricamento: entrata a cascata */
+    $$('.livello').forEach((el, i) => {
+        if (!el.classList.contains('reveal')) { el.style.setProperty('--i', i); el.classList.add('enter'); }
+    });
+
+    /* Livelli aggiunti dopo il caricamento (es. da Firestore): stessa entrata */
+    const seenLevels = new WeakSet($$('.livello'));
+    window.gsLevelsRendered = () => {
+        $$('.livello').forEach((el) => {
+            if (seenLevels.has(el)) return;
+            seenLevels.add(el);
+            if (el.getBoundingClientRect().top > innerHeight * 0.9) { el.classList.add('reveal'); io.observe(el); }
+            else { el.style.setProperty('--i', 0); el.classList.add('enter'); }
+        });
+    };
+
+    /* Particelle: braci rosse e verdi (leggere: sprite già disegnati, niente sfocatura per frame) */
     const cv = Object.assign(document.createElement('canvas'), { className: 'fx-canvas' });
     document.body.prepend(cv);
     const ctx = cv.getContext('2d');
-    let W, H, dpr;
-    const resize = () => {
-        dpr = Math.min(devicePixelRatio || 1, 2);
-        W = cv.width = innerWidth * dpr;
-        H = cv.height = innerHeight * dpr;
-    };
+    let W = 0, H = 0;
+    const resize = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
     resize();
     addEventListener('resize', resize);
-    const count = innerWidth < 700 ? 22 : 48;
+
+    const makeSprite = (rgb) => {
+        const s = document.createElement('canvas');
+        s.width = s.height = 24;
+        const c = s.getContext('2d');
+        const g = c.createRadialGradient(12, 12, 0, 12, 12, 12);
+        g.addColorStop(0, `rgba(${rgb},1)`);
+        g.addColorStop(0.25, `rgba(${rgb},.55)`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        c.fillStyle = g;
+        c.fillRect(0, 0, 24, 24);
+        return s;
+    };
+    const sprites = [makeSprite('229,72,72'), makeSprite('0,230,118')];
+    const count = innerWidth < 700 ? 14 : 28;
     const mk = (init) => ({
         x: Math.random() * W,
-        y: init ? Math.random() * H : H + 10,
-        r: (Math.random() * 1.8 + 0.6) * dpr,
-        v: (Math.random() * 0.35 + 0.12) * dpr,
-        a: Math.random() * Math.PI * 2,
-        c: Math.random() < 0.75 ? '229,72,72' : '0,230,118',
+        y: init ? Math.random() * H : H + 20,
+        size: 5 + Math.random() * 8,
+        v: 0.25 + Math.random() * 0.6,
+        a: Math.random() * 6.283,
+        alpha: 0.35 + Math.random() * 0.4,
+        sprite: sprites[Math.random() < 0.75 ? 0 : 1],
     });
     const ps = Array.from({ length: count }, () => mk(true));
-    (function loop(t) {
+
+    let running = true, prev = 0, last = 0, frames = 0, slow = 0;
+    document.addEventListener('visibilitychange', () => {
+        running = !document.hidden;
+        if (running) requestAnimationFrame(loop);
+    });
+    function loop(t) {
+        if (!running) return;
+        requestAnimationFrame(loop);
+
+        // Se il dispositivo fa fatica (meno di ~40 fps) le particelle si spengono da sole.
+        if (prev) {
+            frames++;
+            if (t - prev > 25) slow++;
+            if (frames === 90) { if (slow > 55) { running = false; cv.remove(); return; } frames = 0; slow = 0; }
+        }
+        prev = t;
+
+        if (t - last < 33) return;            // 30 fps bastano per dei puntini che salgono piano
+        last = t;
+
         ctx.clearRect(0, 0, W, H);
         for (const p of ps) {
             p.y -= p.v;
-            p.x += Math.sin(t / 1500 + p.a) * 0.3 * dpr;
-            if (p.y < -10) Object.assign(p, mk(false));
-            const al = 0.25 + 0.25 * Math.sin(t / 700 + p.a);
-            ctx.fillStyle = `rgba(${p.c},${al})`;
-            ctx.shadowColor = `rgba(${p.c},.8)`;
-            ctx.shadowBlur = 8 * dpr;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, 6.283);
-            ctx.fill();
+            p.x += Math.sin(t / 1500 + p.a) * 0.5;
+            if (p.y < -20) Object.assign(p, mk(false));
+            ctx.globalAlpha = p.alpha * (0.7 + 0.3 * Math.sin(t / 700 + p.a));
+            ctx.drawImage(p.sprite, p.x - p.size, p.y - p.size, p.size * 2, p.size * 2);
         }
-        requestAnimationFrame(loop);
-    })(0);
+        ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(loop);
 })();
 
 
 </script>
 
+<script>
+(() => {
+    const input = document.getElementById('admin-password');
+    const btn = document.getElementById('toggle-password');
+    if (!input || !btn) return;
+    btn.addEventListener('click', () => {
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.textContent = show ? 'HIDE' : 'SHOW';
+        btn.setAttribute('aria-pressed', String(show));
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        input.focus();
+    });
+})();
+</script>
+
 <script type="module">
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
-import {
-    getFirestore,
-    collection,
-    query,
-    orderBy,
-    onSnapshot,
-    addDoc,
-    serverTimestamp,
-    deleteDoc,
-    doc,
-    limit
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        doc,
+        getDocs,
+        onSnapshot,
+        writeBatch,
+        serverTimestamp,
+        query,
+        orderBy
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
-    authDomain: "gs-demonlist.firebaseapp.com",
-    databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "gs-demonlist",
-    storageBucket: "gs-demonlist.firebasestorage.app",
-    messagingSenderId: "789414584664",
-    appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d"
-};
+    // --------------------------------------------------
+    // FIREBASE CONFIGURATION
+    // --------------------------------------------------
 
-const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-// NOTIFICATIONS
-
-const overlay = document.getElementById('notifOverlay');
-const popup = document.getElementById('notifPopup');
-
-let notificationsEnabled = localStorage.getItem('gs_notif') === 'true';
-let notifAsked = localStorage.getItem('gs_notif_asked') === 'true';
-
-let knownIds = new Set();
-let firstLoad = true;
-
-
-function showPopup(){
-    overlay.classList.add('show');
-    popup.classList.add('show');
-}
-
-function hidePopup(){
-    overlay.classList.remove('show');
-    popup.classList.remove('show');
-}
-
-
-async function enableNotifications(){
-
-    if(!('Notification' in window)){
-        hidePopup();
-        return;
-    }
-
-    const perm = await Notification.requestPermission();
-
-    if(perm === 'granted'){
-
-        localStorage.setItem('gs_notif','true');
-        localStorage.setItem('gs_notif_asked','true');
-
-        hidePopup();
-
-        new Notification('G_S demon list',{
-            body:'Notifiche attivate!',
-            icon:'./announcements.png'
-        });
-
-        notificationsEnabled = true;
-
-    }else{
-
-        localStorage.setItem('gs_notif','false');
-        localStorage.setItem('gs_notif_asked','true');
-
-        hidePopup();
-    }
-}
-
-
-document.getElementById('notifYes').onclick = enableNotifications;
-
-document.getElementById('notifNo').onclick = () => {
-    localStorage.setItem('gs_notif_asked','true');
-    localStorage.setItem('gs_notif','false');
-    hidePopup();
-};
-
-overlay.onclick = hidePopup;
-
-
-window.addEventListener('load',()=>{
-
-    setTimeout(()=>{
-
-        if(
-            !notifAsked &&
-            'Notification' in window &&
-            Notification.permission !== 'granted' &&
-            Notification.permission !== 'denied'
-        ){
-            showPopup();
-        }
-
-    },1200);
-
-});
-
-
-function sendWindowsNotification(title,text,tag){
-
-    if(!notificationsEnabled || Notification.permission !== 'granted'){
-        return;
-    }
-
-    const n = new Notification(title,{
-        body:text.substring(0,120),
-        icon:'./announcements.png',
-        tag
-    });
-
-    n.onclick = () => {
-        window.focus();
-        n.close();
+    const firebaseConfig = {
+        apiKey: "AIzaSyBLKY1OEOA2-5eJObCjJMeKCasSLf8WmrU",
+        authDomain: "gs-demonlist.firebaseapp.com",
+        databaseURL: "https://gs-demonlist-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "gs-demonlist",
+        storageBucket: "gs-demonlist.firebasestorage.app",
+        messagingSenderId: "789414584664",
+        appId: "1:789414584664:web:634d9f1b5dc16f10f6c52d",
+        measurementId: "G-1V7VX6QRHZ"
     };
-}
+
+    const ADMIN_UID = "fuJ0msz9njbbD2Ra85CjurHM0qR2";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
 
-// ANNOUNCEMENTS
+    // --------------------------------------------------
+    // LIVELLI E PUNTEGGI
+    // --------------------------------------------------
 
-const listEl = document.getElementById('list');
+    const baseLevels = [
+        { id: "001", name: "Bloodbath", points: 250, img: "bloodbath.png", by: "Riot", diff: "EXTREME DEMON" },
+        { id: "002", name: "Future Funk II", points: 235, img: "futurefunk2.png", by: "JonathanGD", diff: "INSANE DEMON" },
+        { id: "003", name: "Magma Bound", points: 220, img: "magmabound.png", by: "ScorchVx", diff: "INSANE DEMON" },
+        { id: "004", name: "CraZy II", points: 205, img: "crazyii.png", by: "DavJT", diff: "INSANE DEMON" },
+        { id: "005", name: "Sonic Wave Universe", points: 190, img: "swu.png", by: "LazerBlitz", diff: "INSANE DEMON" },
+        { id: "006", name: "Death Note", points: 175, img: "deathnote.png", by: "Ruf", diff: "INSANE DEMON" },
+        { id: "007", name: "Stalemate", points: 160, img: "stalemate.png", by: "Nox", diff: "INSANE DEMON" },
+        { id: "008", name: "Jawbreaker", points: 145, img: "jawbreaker.png", by: "ZenthicAlpha", diff: "HARD DEMON" },
+        { id: "009", name: "Future Funk", points: 130, img: "futurefunk.png", by: "JonathanGD", diff: "HARD DEMON" },
+        { id: "010", name: "CraZy", points: 115, img: "crazy.png", by: "DavJT", diff: "HARD DEMON" },
+        { id: "011", name: "Megalovania", points: 100, img: "megalovania.png", by: "AirSwipe", diff: "HARD DEMON" },
+        { id: "012", name: "Nine Circles", points: 90, img: "ninecircles.png", by: "Zobros", diff: "HARD DEMON" },
+        { id: "013", name: "Troll Madness", points: 80, img: "trollmadness.png", by: "FunnyGame", diff: "HARD DEMON" },
+        { id: "014", name: "HeLL", points: 70, img: "hell.png", by: "Serponge", diff: "MEDIUM DEMON" },
+        { id: "015", name: "Phobros", points: 60, img: "phobros.png", by: "FunnyGame & More", diff: "MEDIUM DEMON" },
+        { id: "016", name: "Cycles v2 s", points: 50, img: "cyclesv2s.png", by: "TheRealMiLk", diff: "MEDIUM DEMON" },
+        { id: "017", name: "Sakupen Egg", points: 40, img: "sakupenegg.png", by: "EugenBro & Endevour", diff: "MEDIUM DEMON" },
+        { id: "018", name: "Mechanical Showdown", points: 30, img: "mechanicalshowdown.png", by: "TNTScrew", diff: "MEDIUM DEMON" },
+        { id: "019", name: "Skeletal Shenanigans", points: 20, img: "ss.png", by: "TheRealMiLk", diff: "MEDIUM DEMON" },
+        { id: "020", name: "VeritY", points: 15, img: "verity.png", by: "Serponge", diff: "MEDIUM DEMON" }
+    ];
 
-const q = query(
-    collection(db,"announcements"),
-    orderBy("createdAt","desc")
-);
+    // Livelli attuali = livelli base + livelli aggiunti/modificati su Firestore
+    let levels = baseLevels.map(level => ({ ...level }));
+    let levelOverrides = {};
+
+    const players = ["Pothersouls", "Dadefff", "Leopelliz"];
+
+    const initialProgress = [
+        { playerName: "Pothersouls", levelId: "001", progress: 100 },
+        { playerName: "Pothersouls", levelId: "002", progress: 100 },
+        { playerName: "Pothersouls", levelId: "003", progress: 100 },
+        { playerName: "Pothersouls", levelId: "004", progress: 100 },
+        { playerName: "Pothersouls", levelId: "005", progress: 100 },
+        { playerName: "Dadefff", levelId: "001", progress: 14 },
+        { playerName: "Dadefff", levelId: "002", progress: 55 },
+        { playerName: "Dadefff", levelId: "005", progress: 98 }
+    ];
+
+    let records = {};
+    let recordsLoaded = false;
+    let isAdmin = false;
+    let pendingUnsubscribe = null;
+    let recordsUnsubscribe = null;
 
 
-onSnapshot(q,(snap)=>{
+    // --------------------------------------------------
+    // ELEMENTI HTML
+    // --------------------------------------------------
 
-    if(snap.empty){
+    const submissionForm = document.getElementById("submission-form");
+    const submissionMessage = document.getElementById("submission-message");
+    const submitButton = document.getElementById("submit-button");
 
-        listEl.innerHTML = `
-            <article class="livello" style="opacity:1">
-                <h2>No announcements yet.</h2>
-            </article>
-        `;
+    const adminLogin = document.getElementById("admin-login");
+    const adminContent = document.getElementById("admin-content");
 
-        return;
+    const loginForm = document.getElementById("admin-login-form");
+    const loginMessage = document.getElementById("login-message");
+    const loginButton = document.getElementById("login-button");
+
+    const pendingList = document.getElementById("pending-list");
+    const approvedList = document.getElementById("approved-list");
+
+    const importButton = document.getElementById("import-button");
+    const importMessage = document.getElementById("import-message");
+
+
+    // --------------------------------------------------
+    // FUNZIONI UTILI
+    // --------------------------------------------------
+
+    function showMessage(element, message, type = "") {
+        element.textContent = message;
+        element.className = "messaggio " + type;
     }
 
-    const currentIds = [];
+    function getRecordKey(playerName, levelId) {
+        return `${playerName}_${levelId}`;
+    }
 
-    snap.forEach(d => currentIds.push(d.id));
+    function formatPoints(value) {
+        return Number(value).toFixed(2).replace(/\.00$/, "");
+    }
+
+    function getProgress(playerName, levelId) {
+        const key = getRecordKey(playerName, levelId);
+
+        if (records[key] !== undefined) {
+            return records[key].progress;
+        }
+
+        // I dati originali rimangono visibili finché il database è vuoto.
+        if (Object.keys(records).length === 0) {
+            const original = initialProgress.find(item =>
+                item.playerName === playerName && item.levelId === levelId
+            );
+
+            return original ? original.progress : null;
+        }
+
+        return null;
+    }
 
 
-    if(!firstLoad){
+    // --------------------------------------------------
+    // LIVELLI DINAMICI (base + livelli aggiunti da Firestore)
+    // --------------------------------------------------
 
-        const newOnes = currentIds.filter(id => !knownIds.has(id));
+    const pad = n => String(n).padStart(3, "0");
 
-        if(newOnes.length > 0){
+    function formatLevelPoints(value) {
+        return Number(value).toFixed(2).replace(/\.?0+$/, "");
+    }
 
-            const newDoc = snap.docs.find(d => d.id === newOnes[0]);
+    // Tutti i livelli, compresi quelli nascosti dall'admin (servono al pannello per ripristinarli).
+    let levelsAll = [];
 
-            if(newDoc){
+    function mergeLevels(overrides) {
 
-                const data = newDoc.data();
+        const merged = baseLevels.map(base => ({
+            ...base,
+            ...(overrides[base.id] || {}),
+            id: base.id
+        }));
 
-                sendWindowsNotification(
-                    `${data.tag || 'NEWS'}: ${data.title}`,
-                    data.text || 'Nuovo annuncio',
-                    newDoc.id
-                );
+        Object.values(overrides).forEach(item => {
+            if (!baseLevels.some(base => base.id === item.id)) {
+                merged.push(item);
             }
-        }
-    }
-
-
-    listEl.innerHTML = "";
-
-    let i = 0;
-
-    snap.forEach(d=>{
-
-        const data = d.data();
-
-        const date = data.createdAt?.toDate
-            ? data.createdAt.toDate().toLocaleString('it-IT',{
-                day:'2-digit',
-                month:'short',
-                year:'numeric',
-                hour:'2-digit',
-                minute:'2-digit'
-            })
-            : "";
-
-        const author = data.authorEmail
-            ? `Pubblicato da ${data.authorEmail}`
-            : "";
-
-        const div = document.createElement('article');
-
-        div.className = 'livello';
-        div.style.animationDelay = (i * .12) + 's';
-
-        div.innerHTML = `
-            <div class="meta">${(data.tag || 'NEWS')} • ${date}</div>
-            <h2></h2>
-            <p></p>
-            <div class="author"></div>
-        `;
-
-        div.querySelector('h2').textContent = data.title || '';
-        div.querySelector('p').textContent = data.text || '';
-        div.querySelector('.author').textContent = author;
-
-
-        if(auth.currentUser?.uid === ADMIN_UID){
-
-            const deleteButton = document.createElement('button');
-
-            deleteButton.textContent = 'Delete';
-
-            deleteButton.style.cssText = `
-                margin-top:10px;
-                background:#220000;
-                color:#ff7777;
-                border:1px solid #f00;
-                border-radius:8px;
-                padding:6px 12px;
-                cursor:pointer;
-            `;
-
-            deleteButton.onclick = () => window.delAnn(d.id);
-
-            div.appendChild(deleteButton);
-        }
-
-
-        listEl.appendChild(div);
-
-        i++;
-    });
-
-
-    knownIds = new Set(currentIds);
-    firstLoad = false;
-
-},(error)=>{
-
-    console.error("Announcements error:",error);
-
-    listEl.innerHTML = `
-        <article class="livello" style="opacity:1">
-            <h2>Unable to load announcements.</h2>
-            <p>Controlla la connessione a Firebase.</p>
-        </article>
-    `;
-
-});
-
-
-window.delAnn = async(id)=>{
-
-    if(!confirm("Eliminare questo annuncio?")){
-        return;
-    }
-
-    try{
-
-        await deleteDoc(doc(db,"announcements",id));
-
-    }catch(error){
-
-        console.error("Delete error:",error);
-        alert("Errore durante l'eliminazione dell'annuncio.");
-    }
-};
-
-
-// ADMIN PANEL
-
-document.getElementById('adminToggle').onclick = () => {
-
-    const p = document.getElementById('adminPanel');
-
-    // Si legge lo stile reale: all'inizio il pannello è nascosto dal CSS, non dall'attributo style.
-    p.style.display = getComputedStyle(p).display === 'none'
-        ? 'block'
-        : 'none';
-};
-
-
-// ADMIN LOGIN
-
-document.getElementById('loginBtn').onclick = async()=>{
-
-    const status = document.getElementById('loginStatus');
-
-    try{
-
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('password').value;
-
-        const cred = await signInWithEmailAndPassword(auth,email,pass);
-
-        if(cred.user.uid === ADMIN_UID){
-
-            await addDoc(collection(db,"admin_logs"),{
-                uid:cred.user.uid,
-                email:cred.user.email,
-                loginAt:serverTimestamp(),
-                userAgent:navigator.userAgent,
-                timestamp:new Date().toISOString()
-            });
-
-        }else{
-
-            status.innerText = "Questo account non è autorizzato come admin.";
-        }
-
-    }catch(e){
-
-        status.innerText = e.message;
-    }
-};
-
-
-// LOGOUT
-
-document.getElementById('logoutBtn').onclick = () => signOut(auth);
-
-
-// PUBLISH ANNOUNCEMENT
-
-document.getElementById('publishBtn').onclick = async()=>{
-
-    const tag = document.getElementById('tag').value;
-    const title = document.getElementById('title').value.trim();
-    const text = document.getElementById('text').value.trim();
-
-    const statusEl = document.getElementById('publishStatus');
-
-    if(!title || !text){
-
-        statusEl.innerText = "❌ Inserisci titolo e testo";
-        statusEl.style.color = "#ff5555";
-
-        return;
-    }
-
-    statusEl.innerText = "⏳ Pubblicazione...";
-
-    try{
-
-        await addDoc(collection(db,"announcements"),{
-
-            tag,
-            title,
-            text,
-
-            authorEmail:auth.currentUser?.email || "unknown",
-            authorUid:auth.currentUser?.uid || "",
-
-            createdAt:serverTimestamp()
-
         });
 
-        statusEl.innerText = "✅ Pubblicato con successo!";
-        statusEl.style.color = "#00e676";
+        merged.forEach(level => {
+            level.points = Number(level.points) || 0;
+        });
 
-        document.getElementById('title').value = "";
-        document.getElementById('text').value = "";
-
-        setTimeout(()=>{
-            statusEl.innerText = "";
-        },3000);
-
-    }catch(err){
-
-        statusEl.innerText = "❌ Errore: " + err.message;
-        statusEl.style.color = "#ff5555";
-    }
-};
-
-
-// PREVIEW
-
-document.getElementById('previewBtn').onclick = ()=>{
-
-    const t = document.getElementById('title').value || "Titolo di esempio";
-    const txt = document.getElementById('text').value || "Testo di esempio...";
-    const tag = document.getElementById('tag').value;
-
-    const preview = document.createElement('article');
-
-    preview.className = 'livello';
-    preview.style.opacity = '1';
-    preview.style.borderLeftColor = '#ffaa00';
-
-    const meta = document.createElement('div');
-    meta.className = 'meta';
-    meta.style.color = '#ffaa00';
-    meta.textContent = `ANTEPRIMA • ${tag}`;
-
-    const heading = document.createElement('h2');
-    heading.textContent = t;
-
-    const paragraph = document.createElement('p');
-    paragraph.textContent = txt;
-
-    preview.append(meta,heading,paragraph);
-
-    listEl.prepend(preview);
-};
-
-
-// AUTH STATE
-
-let logsUnsubscribe = null;
-
-onAuthStateChanged(auth,(u)=>{
-
-    const loginSection = document.getElementById('loginSection');
-    const loggedSection = document.getElementById('loggedSection');
-    const s = document.getElementById('loginStatus');
-
-    if(logsUnsubscribe){
-        logsUnsubscribe();
-        logsUnsubscribe = null;
-    }
-
-
-    if(u && u.uid === ADMIN_UID){
-
-        s.innerText = "Admin: " + u.email;
-
-        loginSection.style.display = "none";
-        loggedSection.style.display = "block";
-
-        document.getElementById('adminEmailDisplay').innerText = u.email;
-        document.getElementById('adminUidDisplay').innerText = u.uid;
-
-        document.getElementById('lastAccess').innerText =
-            new Date().toLocaleString('it-IT');
-
-
-        const logsQuery = query(
-            collection(db,"admin_logs"),
-            orderBy("loginAt","desc"),
-            limit(10)
+        // In lista i livelli sono ordinati per punti (dal più alto).
+        merged.sort((a, b) =>
+            b.points - a.points ||
+            String(a.id).localeCompare(String(b.id), undefined, { numeric: true })
         );
 
-        logsUnsubscribe = onSnapshot(logsQuery,(snap)=>{
+        levelsAll = merged;
 
-            const logsEl = document.getElementById('adminLogs');
+        return merged.filter(level => !level.hidden);
+    }
 
-            if(snap.empty){
-                logsEl.innerHTML = "Nessun log";
+    function levelsSignature(list) {
+        return JSON.stringify(list.map(level => [
+            level.id, level.name, level.points, level.img ? level.img.length + ":" + level.img.slice(-24) : "",
+            level.by || "", level.diff || "", level.source || "", level.aredlRank || ""
+        ]));
+    }
+
+    let renderedSignature = levelsSignature(mergeLevels({}));
+
+    function makeThumbPlaceholder(name) {
+        const box = document.createElement("div");
+        box.className = "livello-thumb";
+        box.textContent = (name || "?").trim().charAt(0).toUpperCase();
+        return box;
+    }
+
+    function buildLevelCard(level, index) {
+
+        const card = document.createElement("article");
+        card.className = "livello";
+        card.dataset.levelId = level.id;
+
+        const position = document.createElement("span");
+        position.className = "posizione";
+        position.textContent = `#${pad(index + 1)}`;
+
+        let thumb;
+
+        if (level.img) {
+            thumb = document.createElement("img");
+            thumb.src = level.img;
+            thumb.alt = level.name;
+            thumb.loading = "lazy";
+            thumb.addEventListener("error", () => {
+                thumb.replaceWith(makeThumbPlaceholder(level.name));
+            });
+        } else {
+            thumb = makeThumbPlaceholder(level.name);
+        }
+
+        const info = document.createElement("div");
+        info.className = "info-livello";
+
+        const title = document.createElement("h2");
+        title.textContent = level.name;
+
+        const author = document.createElement("p");
+        author.textContent = `By ${level.by || "Unknown"}`;
+
+        info.append(title, author);
+
+        if (level.source === "aredl" || level.source === "custom") {
+            const tag = document.createElement("p");
+            tag.className = "livello-tag " + (level.source === "aredl" ? "tag-aredl" : "tag-custom");
+            tag.textContent = level.source === "aredl"
+                ? (level.aredlRank ? `AREDL #${level.aredlRank}` : "AREDL")
+                : "CUSTOM LEVEL";
+            info.appendChild(tag);
+        }
+
+        const progress = document.createElement("div");
+        progress.className = "progressi";
+
+        players.forEach(name => {
+            const row = document.createElement("p");
+            const link = document.createElement("a");
+            link.href = `${name.toLowerCase()}.html`;
+            link.textContent = name;
+            row.append(link, document.createTextNode(": --"));
+            progress.appendChild(row);
+        });
+
+        const right = document.createElement("div");
+        right.className = "dati-destra";
+
+        const points = document.createElement("span");
+        points.className = "punti";
+        points.textContent = `+${formatLevelPoints(level.points)} pts (100%)`;
+
+        const difficulty = document.createElement("span");
+        difficulty.className = "difficolta";
+        difficulty.textContent = level.diff || "";
+
+        right.append(points, difficulty);
+
+        card.append(position, thumb, info, progress, right);
+
+        return card;
+    }
+
+    function renderLevelCards() {
+
+        const container = document.getElementById("classifica");
+
+        container.replaceChildren(
+            ...levels.map((level, index) => buildLevelCard(level, index))
+        );
+
+        renderedSignature = levelsSignature(levels);
+
+        updateLeaderboard();
+        decorateAdminTools();
+
+        if (typeof window.gsLevelsRendered === "function") {
+            window.gsLevelsRendered();
+        }
+    }
+
+    function populateLevelSelect() {
+
+        const select = document.getElementById("levelId");
+        const current = select.value;
+
+        select.innerHTML = "";
+
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Select level";
+        select.appendChild(placeholder);
+
+        levels.forEach((level, index) => {
+            const option = document.createElement("option");
+            option.value = level.id;
+            option.textContent = `#${pad(index + 1)} - ${level.name}`;
+            select.appendChild(option);
+        });
+
+        select.value = current;
+    }
+
+    function listenToLevels() {
+
+        onSnapshot(
+            collection(db, "levels"),
+
+            snapshot => {
+
+                levelOverrides = {};
+
+                snapshot.forEach(documentSnapshot => {
+                    levelOverrides[documentSnapshot.id] = {
+                        ...documentSnapshot.data(),
+                        id: documentSnapshot.id
+                    };
+                });
+
+                levels = mergeLevels(levelOverrides);
+
+                if (levelsSignature(levels) !== renderedSignature) {
+                    renderLevelCards();
+                }
+
+                populateLevelSelect();
+                updateLeaderboard();
+
+                decorateAdminTools();
+                refreshAddPosition();
+
+                if (isAdmin) {
+                    renderAddedLevels();
+                    renderHiddenLevels();
+                }
+
+            },
+
+            error => {
+                console.error("Errore caricamento livelli:", error);
+            }
+        );
+    }
+
+
+    // --------------------------------------------------
+    // AGGIORNAMENTO DELLA CLASSIFICA
+    // --------------------------------------------------
+
+    function updateLeaderboard() {
+
+        const levelCards = document.querySelectorAll(".livello");
+
+        levelCards.forEach(card => {
+
+            const level = levels.find(item => item.id === card.dataset.levelId);
+            if (!level) return;
+
+            const progressRows = card.querySelectorAll(".progressi p");
+
+            progressRows.forEach(row => {
+
+                const playerLink = row.querySelector("a");
+                if (!playerLink) return;
+
+                const playerName = playerLink.textContent.trim();
+                const progress = getProgress(playerName, level.id);
+
+                // Aggiorna solo il testo dopo il link.
+                const value = progress === null ? "--" : `${progress}%`;
+
+                row.lastChild.textContent = `: ${value}`;
+            });
+        });
+
+        // Calcolo punti totali proporzionali.
+        players.forEach(playerName => {
+
+            let total = 0;
+
+            levels.forEach(level => {
+
+                const progress = getProgress(playerName, level.id);
+
+                if (progress !== null) {
+                    total += level.points * (progress / 100);
+                }
+
+            });
+
+            const totalElement = document.getElementById(`total-${playerName}`);
+
+            if (totalElement) {
+                totalElement.textContent = formatPoints(total);
+            }
+
+        });
+    }
+
+
+    // --------------------------------------------------
+    // ASCOLTO RECORD FIRESTORE
+    // --------------------------------------------------
+
+    function listenToRecords() {
+
+        if (recordsUnsubscribe) {
+            recordsUnsubscribe();
+        }
+
+        recordsUnsubscribe = onSnapshot(
+            collection(db, "records"),
+
+            snapshot => {
+
+                records = {};
+
+                snapshot.forEach(documentSnapshot => {
+
+                    const data = documentSnapshot.data();
+
+                    if (
+                        data.playerName &&
+                        data.levelId &&
+                        typeof data.progress === "number"
+                    ) {
+                        records[getRecordKey(data.playerName, data.levelId)] = data;
+                    }
+
+                });
+
+                recordsLoaded = true;
+                updateLeaderboard();
+
+                if (isAdmin) {
+                    renderApprovedRecords();
+                }
+
+            },
+
+            error => {
+                console.error("Errore caricamento records:", error);
+            }
+        );
+    }
+
+
+    // --------------------------------------------------
+    // INVIO PROGRESSI
+    // --------------------------------------------------
+
+    submissionForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const playerName = document.getElementById("playerName").value;
+        const levelId = document.getElementById("levelId").value;
+        const progress = Number(document.getElementById("progress").value);
+
+        if (!players.includes(playerName)) {
+            showMessage(submissionMessage, "Seleziona un giocatore valido.", "errore");
+            return;
+        }
+
+        if (!levels.some(level => level.id === levelId)) {
+            showMessage(submissionMessage, "Seleziona un livello valido.", "errore");
+            return;
+        }
+
+        if (!Number.isInteger(progress) || progress < 0 || progress > 100) {
+            showMessage(submissionMessage, "Inserisci una percentuale da 0 a 100.", "errore");
+            return;
+        }
+
+        // Si possono inviare tutti i record che si vuole, ma mai una percentuale più bassa di un record precedente.
+        const previousRecord = getProgress(playerName, levelId);
+
+        if (previousRecord !== null && progress < previousRecord) {
+            showMessage(
+                submissionMessage,
+                `${playerName} ha già un record del ${previousRecord}% su questo livello: non puoi inviare una percentuale più bassa.`,
+                "errore"
+            );
+            return;
+        }
+
+        // Stesso controllo sulle richieste già inviate da questo browser (anche se non ancora approvate).
+        const sentKey = `${playerName}_${levelId}`;
+        let sentRecords = {};
+
+        try {
+            sentRecords = JSON.parse(localStorage.getItem("gs_sent_progress") || "{}") || {};
+        } catch (_) {}
+
+        if (typeof sentRecords[sentKey] === "number" && progress < sentRecords[sentKey]) {
+            showMessage(
+                submissionMessage,
+                `Hai già inviato il ${sentRecords[sentKey]}% su questo livello: non puoi inviare una percentuale più bassa.`,
+                "errore"
+            );
+            return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "SENDING...";
+
+        try {
+
+            await addDoc(collection(db, "submissions"), {
+                playerName,
+                levelId,
+                progress,
+                status: "pending",
+                createdAt: serverTimestamp()
+            });
+
+            try {
+                sentRecords[sentKey] = Math.max(progress, sentRecords[sentKey] || 0);
+                localStorage.setItem("gs_sent_progress", JSON.stringify(sentRecords));
+            } catch (_) {}
+
+            submissionForm.reset();
+
+            showMessage(
+                submissionMessage,
+                "Richiesta inviata! Verrà controllata da un amministratore.",
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            const submitErrors = {
+                "permission-denied": "Firebase ha rifiutato l'invio: le regole di Firestore non lo permettono (ad esempio un limite di richieste).",
+                "resource-exhausted": "Firebase ha raggiunto il limite giornaliero di scritture. Riprova domani.",
+                "unavailable": "Firebase non è raggiungibile: controlla la connessione e riprova.",
+                "failed-precondition": "Firebase non può completare l'operazione in questo momento."
+            };
+
+            showMessage(
+                submissionMessage,
+                (submitErrors[error.code] || "Errore durante l'invio. Riprova più tardi.") +
+                (error.code ? " [" + error.code + "]" : ""),
+                "errore"
+            );
+
+        } finally {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "SEND SUBMISSION";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // LOGIN ADMIN
+    // --------------------------------------------------
+
+    loginForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const email = document.getElementById("admin-email").value.trim();
+        const password = document.getElementById("admin-password").value;
+
+        loginButton.disabled = true;
+        loginButton.textContent = "LOGGING IN...";
+
+        try {
+
+            await signInWithEmailAndPassword(auth, email, password);
+
+        } catch (error) {
+
+            console.error(error);
+
+            const loginErrors = {
+                "auth/invalid-credential": "Email o password errata (oppure l'utente non esiste).",
+                "auth/wrong-password": "Password errata.",
+                "auth/user-not-found": "Nessun utente con questa email.",
+                "auth/invalid-email": "L'email non è scritta in modo valido.",
+                "auth/user-disabled": "Questo account è stato disattivato.",
+                "auth/too-many-requests": "Troppi tentativi: aspetta qualche minuto oppure reimposta la password da Firebase.",
+                "auth/unauthorized-domain": "Questo dominio non è autorizzato in Firebase (Authentication > Settings > Authorized domains).",
+                "auth/operation-not-allowed": "Il login con email e password non è attivo in Firebase (Authentication > Sign-in method).",
+                "auth/network-request-failed": "Problema di rete: riprova."
+            };
+
+            showMessage(
+                loginMessage,
+                (loginErrors[error.code] || "Login non riuscito.") + " [" + (error.code || "errore sconosciuto") + "]",
+                "errore"
+            );
+
+        } finally {
+
+            loginButton.disabled = false;
+            loginButton.textContent = "ADMIN LOGIN";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // CONTROLLO AUTENTICAZIONE
+    // --------------------------------------------------
+
+    onAuthStateChanged(auth, async user => {
+
+        if (user && user.uid === ADMIN_UID) {
+
+            isAdmin = true;
+
+            adminLogin.hidden = true;
+            adminContent.hidden = false;
+
+            startAdminListeners();
+            renderAddedLevels();
+            renderHiddenLevels();
+            decorateAdminTools();
+            setEditMode(true);
+
+        } else {
+
+            isAdmin = false;
+            document.body.classList.remove("admin-edit");
+
+            adminLogin.hidden = false;
+            adminContent.hidden = true;
+
+            if (pendingUnsubscribe) {
+                pendingUnsubscribe();
+                pendingUnsubscribe = null;
+            }
+
+            if (user) {
+                await signOut(auth);
+                showMessage(loginMessage, "Questo account non è autorizzato come admin.", "errore");
+            }
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // LISTENER RICHIESTE IN ATTESA
+    // --------------------------------------------------
+
+    // --------------------------------------------------
+    // RICHIESTE A SCADENZA
+    // --------------------------------------------------
+
+    // Dopo questo numero di giorni le richieste non gestite vengono eliminate da sole.
+    // Per cambiare il tempo basta modificare questo numero.
+    const REQUEST_EXPIRY_DAYS = 7;
+    const REQUEST_EXPIRY_MS = REQUEST_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
+    let lastRawPending = null;
+
+    async function deleteExpiredRequests(list) {
+
+        try {
+
+            for (let start = 0; start < list.length; start += 400) {
+
+                const batch = writeBatch(db);
+
+                list.slice(start, start + 400).forEach(item => {
+                    batch.delete(doc(db, "submissions", item.id));
+                });
+
+                await batch.commit();
+            }
+
+        } catch (error) {
+            console.error("Pulizia delle richieste scadute non riuscita:", error);
+        }
+    }
+
+    // Toglie dall'elenco le richieste scadute e, da admin, le cancella dal database.
+    function pruneExpiredRequests(raw) {
+
+        lastRawPending = raw;
+
+        const now = Date.now();
+        const fresh = [];
+        const expired = [];
+
+        raw.forEach(item => {
+
+            const created = item.data().createdAt;
+            const millis = created && typeof created.toMillis === "function" ? created.toMillis() : null;
+
+            if (millis !== null && now - millis > REQUEST_EXPIRY_MS) expired.push(item);
+            else fresh.push(item);
+        });
+
+        if (expired.length > 0 && isAdmin) {
+            deleteExpiredRequests(expired);
+        }
+
+        return {
+            empty: fresh.length === 0,
+            forEach: callback => fresh.forEach(callback)
+        };
+    }
+
+    // Controllo ogni ora anche se la pagina resta aperta.
+    setInterval(() => {
+        if (isAdmin && lastRawPending) pruneExpiredRequests(lastRawPending);
+    }, 60 * 60 * 1000);
+
+    const expiryNote = document.getElementById("expiry-note");
+
+    if (expiryNote) {
+        expiryNote.textContent =
+            `Le richieste non gestite vengono eliminate automaticamente dopo ${REQUEST_EXPIRY_DAYS} giorni.`;
+    }
+
+
+    function startAdminListeners() {
+
+        if (pendingUnsubscribe) {
+            pendingUnsubscribe();
+        }
+
+        const pendingQuery = query(
+            collection(db, "submissions"),
+            orderBy("createdAt", "desc")
+        );
+
+        pendingUnsubscribe = onSnapshot(
+            pendingQuery,
+
+            rawSnapshot => {
+
+                const snapshot = pruneExpiredRequests(rawSnapshot);
+
+                pendingList.innerHTML = "";
+
+                if (snapshot.empty) {
+                    pendingList.innerHTML = '<p class="vuoto">Nessuna richiesta in attesa.</p>';
+                    return;
+                }
+
+                snapshot.forEach(documentSnapshot => {
+
+                    const data = documentSnapshot.data();
+                    const requestId = documentSnapshot.id;
+
+                    const level = levels.find(item => item.id === data.levelId);
+
+                    const card = document.createElement("div");
+                    card.className = "richiesta";
+
+                    const info = document.createElement("div");
+                    info.className = "richiesta-info";
+
+                    const playerLine = document.createElement("div");
+                    playerLine.innerHTML = "<strong>Player:</strong> ";
+
+                    const playerText = document.createTextNode(data.playerName || "Unknown");
+                    playerLine.appendChild(playerText);
+
+                    const levelLine = document.createElement("div");
+                    levelLine.innerHTML = "<strong>Level:</strong> ";
+
+                    const levelText = document.createTextNode(
+                        level ? `${level.id} - ${level.name}` : (data.levelId || "Unknown")
+                    );
+                    levelLine.appendChild(levelText);
+
+                    const progressLine = document.createElement("div");
+                    progressLine.innerHTML = "<strong>Progress:</strong> ";
+
+                    const progressText = document.createTextNode(`${data.progress}%`);
+                    progressLine.appendChild(progressText);
+
+                    info.append(playerLine, levelLine, progressLine);
+
+                    const actions = document.createElement("div");
+                    actions.className = "richiesta-azioni";
+
+                    const approveButton = document.createElement("button");
+                    approveButton.className = "pulsante pulsante-verde";
+                    approveButton.textContent = "APPROVE";
+                    approveButton.addEventListener("click", () => approveSubmission(requestId, data));
+
+                    const rejectButton = document.createElement("button");
+                    rejectButton.className = "pulsante pulsante-rifiuta";
+                    rejectButton.textContent = "REJECT";
+                    rejectButton.addEventListener("click", () => rejectSubmission(requestId));
+
+                    actions.append(approveButton, rejectButton);
+                    card.append(info, actions);
+                    pendingList.appendChild(card);
+
+                });
+
+            },
+
+            error => {
+                console.error(error);
+                pendingList.innerHTML = '<p class="messaggio errore">Errore nel caricamento delle richieste.</p>';
+            }
+        );
+
+    }
+
+
+    // --------------------------------------------------
+    // APPROVAZIONE RICHIESTA
+    // --------------------------------------------------
+
+    async function approveSubmission(requestId, data) {
+
+        if (!isAdmin) return;
+
+        if (
+            !players.includes(data.playerName) ||
+            !levels.some(level => level.id === data.levelId) ||
+            typeof data.progress !== "number" ||
+            data.progress < 0 ||
+            data.progress > 100
+        ) {
+            alert("Questa richiesta contiene dati non validi.");
+            return;
+        }
+
+        const currentRecord = getProgress(data.playerName, data.levelId);
+
+        if (currentRecord !== null && data.progress < currentRecord) {
+            alert(
+                `${data.playerName} ha già un record del ${currentRecord}% su questo livello: ` +
+                `questa richiesta (${data.progress}%) è più bassa e non può essere approvata. Puoi rifiutarla.`
+            );
+            return;
+        }
+
+        const confirmApproval = confirm(
+            `Confermi il record di ${data.playerName} al ${data.progress}%?`
+        );
+
+        if (!confirmApproval) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            const recordId = getRecordKey(data.playerName, data.levelId);
+
+            const recordRef = doc(db, "records", recordId);
+            const submissionRef = doc(db, "submissions", requestId);
+
+            batch.set(recordRef, {
+                playerName: data.playerName,
+                levelId: data.levelId,
+                progress: data.progress,
+                updatedAt: serverTimestamp()
+            });
+
+            batch.delete(submissionRef);
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante l'approvazione del record.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // RIFIUTO RICHIESTA
+    // --------------------------------------------------
+
+    async function rejectSubmission(requestId) {
+
+        if (!isAdmin) return;
+
+        if (!confirm("Vuoi rifiutare questa richiesta?")) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            batch.delete(doc(db, "submissions", requestId));
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante il rifiuto della richiesta.");
+
+        }
+
+    }
+
+
+    // --------------------------------------------------
+    // VISUALIZZAZIONE RECORD APPROVATI
+    // --------------------------------------------------
+
+    function renderApprovedRecords() {
+
+        if (!isAdmin) return;
+
+        approvedList.innerHTML = "";
+
+        const entries = Object.entries(records);
+
+        if (entries.length === 0) {
+            approvedList.innerHTML = '<p class="vuoto">Nessun record approvato nel database.</p>';
+            return;
+        }
+
+        entries.sort((a, b) => {
+            return a[1].levelId.localeCompare(b[1].levelId);
+        });
+
+        entries.forEach(([key, data]) => {
+
+            const level = levels.find(item => item.id === data.levelId);
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const playerLine = document.createElement("div");
+            playerLine.innerHTML = "<strong>Player:</strong> ";
+            playerLine.appendChild(document.createTextNode(data.playerName));
+
+            const levelLine = document.createElement("div");
+            levelLine.innerHTML = "<strong>Level:</strong> ";
+            levelLine.appendChild(document.createTextNode(
+                level ? `${level.id} - ${level.name}` : data.levelId
+            ));
+
+            const progressLine = document.createElement("div");
+            progressLine.innerHTML = "<strong>Progress:</strong> ";
+            progressLine.appendChild(document.createTextNode(`${data.progress}%`));
+
+            info.append(playerLine, levelLine, progressLine);
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const editButton = document.createElement("button");
+            editButton.className = "pulsante";
+            editButton.textContent = "EDIT PROGRESS";
+
+            editButton.addEventListener("click", async () => {
+
+                const newValue = prompt(
+                    `Nuova percentuale per ${data.playerName} - ${level?.name || data.levelId}:`,
+                    data.progress
+                );
+
+                if (newValue === null) return;
+
+                const newProgress = Number(newValue);
+
+                if (!Number.isInteger(newProgress) || newProgress < 0 || newProgress > 100) {
+                    alert("Inserisci un numero intero tra 0 e 100.");
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+
+                    batch.set(doc(db, "records", key), {
+                        playerName: data.playerName,
+                        levelId: data.levelId,
+                        progress: newProgress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante la modifica.");
+
+                }
+
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "pulsante pulsante-rifiuta";
+            deleteButton.textContent = "DELETE RECORD";
+
+            deleteButton.addEventListener("click", async () => {
+
+                if (!confirm(`Eliminare il record di ${data.playerName} su ${level?.name || data.levelId}?`)) {
+                    return;
+                }
+
+                try {
+
+                    const batch = writeBatch(db);
+                    batch.delete(doc(db, "records", key));
+                    await batch.commit();
+
+                } catch (error) {
+
+                    console.error(error);
+                    alert("Errore durante l'eliminazione.");
+
+                }
+
+            });
+
+            actions.append(editButton, deleteButton);
+            card.append(info, actions);
+            approvedList.appendChild(card);
+
+        });
+
+    }
+
+
+    // --------------------------------------------------
+    // IMPORTAZIONE PROGRESSI INIZIALI
+    // --------------------------------------------------
+
+    importButton.addEventListener("click", async () => {
+
+        if (!isAdmin) return;
+
+        if (!confirm(
+            "Vuoi importare i progressi iniziali? I record già presenti non verranno sovrascritti."
+        )) {
+            return;
+        }
+
+        importButton.disabled = true;
+        importButton.textContent = "IMPORTING...";
+
+        try {
+
+            const snapshot = await getDocs(collection(db, "records"));
+
+            const existingIds = new Set(
+                snapshot.docs.map(documentSnapshot => documentSnapshot.id)
+            );
+
+            const batch = writeBatch(db);
+            let imported = 0;
+
+            initialProgress.forEach(item => {
+
+                const recordId = getRecordKey(item.playerName, item.levelId);
+
+                if (!existingIds.has(recordId)) {
+
+                    batch.set(doc(db, "records", recordId), {
+                        playerName: item.playerName,
+                        levelId: item.levelId,
+                        progress: item.progress,
+                        updatedAt: serverTimestamp()
+                    });
+
+                    imported++;
+
+                }
+
+            });
+
+            if (imported > 0) {
+                await batch.commit();
+            }
+
+            showMessage(
+                importMessage,
+                imported === 0
+                    ? "I progressi iniziali risultano già importati."
+                    : `Importazione completata: ${imported} record aggiunti.`,
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                importMessage,
+                "Errore durante l'importazione. Controlla le regole Firestore.",
+                "errore"
+            );
+
+        } finally {
+
+            importButton.disabled = false;
+            importButton.textContent = "IMPORT INITIAL PROGRESS";
+
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // AGGIUNTA NUOVI LIVELLI (AREDL O CUSTOM)
+    // --------------------------------------------------
+
+    const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v2";
+    const AREDL_CACHE_TTL = 60 * 60 * 1000;
+
+    const aredlBox = document.getElementById("aredl-box");
+    const aredlQuery = document.getElementById("aredl-query");
+    const aredlStatus = document.getElementById("aredl-status");
+    const aredlResults = document.getElementById("aredl-results");
+    const reloadAredl = document.getElementById("reload-aredl");
+
+    const levelForm = document.getElementById("level-form");
+    const levelName = document.getElementById("level-name");
+    const levelBy = document.getElementById("level-by");
+    const levelDiff = document.getElementById("level-diff");
+    const levelPoints = document.getElementById("level-points");
+    const levelPosition = document.getElementById("level-position");
+    const levelRank = document.getElementById("level-rank");
+    const levelGdId = document.getElementById("level-gdid");
+    const levelImg = document.getElementById("level-img");
+    const rankField = document.getElementById("rank-field");
+    const addLevelButton = document.getElementById("add-level-button");
+    const levelMessage = document.getElementById("level-message");
+    const addedLevelsList = document.getElementById("added-levels-list");
+
+    let addMode = "aredl";
+    let selectedAredl = null;
+    let aredlLevels = [];
+    let aredlLoaded = false;
+    let aredlLoading = false;
+
+    function setAddMode(mode) {
+
+        addMode = mode;
+
+        // La ricerca resta sempre visibile; il rank compare solo dopo aver scelto un livello AREDL.
+        rankField.hidden = mode !== "aredl";
+
+        if (mode === "custom") {
+            selectedAredl = null;
+            levelRank.value = "";
+        }
+    }
+
+    // Normalizza un livello della risposta AREDL (la posizione è null per i livelli Legacy).
+    function normalizeAredlLevel(item) {
+
+        if (!item || typeof item !== "object") return null;
+
+        const level = item.level && typeof item.level === "object"
+            ? { ...item.level, ...item }
+            : item;
+
+        const name = typeof level.name === "string" ? level.name.trim() : "";
+        if (!name) return null;
+
+        const rawStatus = String(level.status || "").trim();
+        const status = rawStatus || (level.legacy === true ? "Legacy" : (level.position != null ? "MainList" : "Legacy"));
+        if (["Pending", "Removed"].includes(status)) return null;
+
+        const rawPosition = level.position ?? level.rank ?? null;
+        const parsed = rawPosition === null || rawPosition === "" ? null : Number(rawPosition);
+        const rank = Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : null;
+
+        const publisherRaw = level.publisher;
+        const publisher = typeof publisherRaw === "string"
+            ? publisherRaw
+            : ((publisherRaw && (publisherRaw.global_name || publisherRaw.username || publisherRaw.name)) || "");
+
+        const gdId = Number.isInteger(level.level_id) ? level.level_id : null;
+
+        return {
+            id: String(level.id ?? gdId ?? `${name.toLowerCase()}-${rank ?? "legacy"}`),
+            name,
+            rank,
+            status,
+            gdId,
+            publisher: String(publisher || "")
+        };
+    }
+
+    function extractAredlArray(payload) {
+
+        if (Array.isArray(payload)) return payload;
+        if (!payload || typeof payload !== "object") return [];
+
+        for (const candidate of [payload.levels, payload.data, payload.results, payload.items]) {
+            if (Array.isArray(candidate)) return candidate;
+            if (candidate && typeof candidate === "object") {
+                if (Array.isArray(candidate.levels)) return candidate.levels;
+                if (Array.isArray(candidate.data)) return candidate.data;
+            }
+        }
+
+        return [];
+    }
+
+    function readAredlCache() {
+        try {
+            const cached = JSON.parse(localStorage.getItem(AREDL_CACHE_KEY) || "null");
+            if (cached && Array.isArray(cached.levels)) return cached;
+        } catch (_) {}
+        return null;
+    }
+
+    // Prova gli indirizzi AREDL uno dopo l'altro e usa il primo che risponde con livelli utilizzabili.
+    const AREDL_APIS = [
+        "https://api.aredl.net/v2/api/aredl/levels",
+        "https://api.aredl.net/api/aredl/levels",
+        "https://api.aredl.net/v2/api/levels?exclude_pending=true&exclude_removed=true"
+    ];
+
+    async function fetchAredlLevels() {
+        let lastError = null;
+
+        for (const url of AREDL_APIS) {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 12000);
+
+            try {
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: { "Accept": "application/json" },
+                    signal: controller.signal
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status} (${url})`);
+
+                const payload = await response.json();
+                const normalized = extractAredlArray(payload).map(normalizeAredlLevel).filter(Boolean);
+
+                if (!normalized.length) throw new Error(`Nessun livello utilizzabile (${url})`);
+
+                return normalized;
+
+            } catch (error) {
+                lastError = error;
+                console.warn("AREDL endpoint non utilizzabile:", url, error);
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
+        throw lastError || new Error("AREDL non raggiungibile");
+    }
+
+    async function loadAredl(force = false) {
+
+        if (aredlLoading) return;
+
+        const cached = readAredlCache();
+        const cachedLevels = cached
+            ? cached.levels.filter(level => level && typeof level.name === "string")
+            : [];
+
+        if (!force && cachedLevels.length && Date.now() - Number(cached.savedAt || 0) < AREDL_CACHE_TTL) {
+            aredlLevels = cachedLevels;
+            aredlLoaded = true;
+            showMessage(aredlStatus, `AREDL collegata: ${aredlLevels.length} livelli disponibili (da cache).`, "successo");
+            renderAredlResults();
+            return;
+        }
+
+        aredlLoading = true;
+        reloadAredl.disabled = true;
+        showMessage(aredlStatus, "Mi collego al database AREDL...", "");
+
+        try {
+
+            const normalized = await fetchAredlLevels();
+
+            const unique = new Map();
+            normalized.forEach(level => unique.set(level.id, level));
+
+            // Prima i livelli della lista principale per posizione, poi i legacy in ordine alfabetico.
+            aredlLevels = [...unique.values()].sort((a, b) => {
+                if (a.rank !== null && b.rank !== null) return a.rank - b.rank;
+                if (a.rank !== null) return -1;
+                if (b.rank !== null) return 1;
+                return a.name.localeCompare(b.name);
+            });
+
+            aredlLoaded = true;
+
+            try {
+                localStorage.setItem(AREDL_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), levels: aredlLevels }));
+            } catch (_) {}
+
+            showMessage(aredlStatus, `AREDL collegata: ${aredlLevels.length} livelli disponibili.`, "successo");
+
+        } catch (error) {
+
+            console.error("AREDL:", error);
+
+            if (cachedLevels.length) {
+                aredlLevels = cachedLevels;
+                aredlLoaded = true;
+                showMessage(aredlStatus, `AREDL non raggiungibile: uso i ${aredlLevels.length} livelli salvati.`, "errore");
+            } else {
+                aredlLoaded = false;
+                showMessage(
+                    aredlStatus,
+                    "Non riesco a collegarmi ad AREDL. Premi REFRESH tra poco, oppure compila i campi a mano qui sotto (anche il rank).",
+                    "errore"
+                );
+            }
+
+        } finally {
+
+            aredlLoading = false;
+            reloadAredl.disabled = false;
+            renderAredlResults();
+
+        }
+    }
+
+    function aredlAlreadyAdded(item) {
+        return levels.some(level =>
+            (level.aredlId && String(level.aredlId) === String(item.id)) ||
+            level.name.toLowerCase() === item.name.toLowerCase()
+        );
+    }
+
+    function renderAredlResults() {
+
+        aredlResults.innerHTML = "";
+
+        const raw = aredlQuery.value.trim().toLowerCase();
+
+        if (!raw || !aredlLoaded) return;
+
+        const query = raw.replace(/^#/, "");
+        const isNumber = /^\d+$/.test(query);
+
+        if (!isNumber && query.length < 2) return;
+
+        const matches = aredlLevels
+            .filter(level =>
+                level.name.toLowerCase().includes(query) ||
+                (level.rank !== null && String(level.rank) === query)
+            )
+            .slice(0, 25);
+
+        if (matches.length === 0) {
+            aredlResults.innerHTML = '<p class="vuoto">Nessun livello trovato su AREDL.</p>';
+            return;
+        }
+
+        matches.forEach(item => {
+
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "aredl-item";
+
+            const rank = document.createElement("span");
+            rank.className = "aredl-rank" + (item.rank === null ? " legacy" : "");
+            rank.textContent = item.rank !== null ? `#${item.rank}` : "LEGACY";
+
+            const name = document.createElement("span");
+            name.className = "aredl-name";
+            name.textContent = item.name;
+
+            button.append(rank, name);
+
+            if (aredlAlreadyAdded(item)) {
+                button.disabled = true;
+                const added = document.createElement("span");
+                added.className = "aredl-pts";
+                added.textContent = "già in lista";
+                button.appendChild(added);
+            } else {
+                button.addEventListener("click", () => selectAredl(item));
+            }
+
+            aredlResults.appendChild(button);
+        });
+
+        if (matches.length === 25) {
+            const note = document.createElement("p");
+            note.className = "vuoto";
+            note.textContent = "Primi 25 risultati: scrivi più lettere per restringere.";
+            aredlResults.appendChild(note);
+        }
+    }
+
+    function selectAredl(item) {
+
+        setAddMode("custom");
+
+        selectedAredl = item;
+
+        levelName.value = item.name;
+        levelBy.value = item.publisher || "";
+        levelDiff.value = "EXTREME DEMON";
+        levelRank.value = item.rank || "";
+        levelGdId.value = item.gdId || "";
+        addPicker.setValue("");
+
+        if (item.gdId) {
+            addPicker.fetchFromId(item.gdId);
+        }
+
+        aredlResults.innerHTML = "";
+        aredlQuery.value = item.name;
+
+        showMessage(
+            aredlStatus,
+            `Selezionato: ${item.rank ? "AREDL #" + item.rank : "AREDL legacy (senza rank)"} · ${item.name}. Scegli i punti e premi ADD LEVEL.`,
+            "successo"
+        );
+
+        levelPosition.focus();
+    }
+
+    // Posizione scelta -> punti calcolati a metà tra i due livelli vicini.
+    function updateAutoPoints() {
+
+        const position = parseInt(levelPosition.value, 10);
+
+        levelPoints.value = Number.isInteger(position) && position >= 1
+            ? pointsForPosition(position, null)
+            : "";
+    }
+
+    // Tiene aggiornati il massimo consentito e la posizione proposta (in fondo alla lista).
+    function refreshAddPosition() {
+
+        levelPosition.max = levels.length + 1;
+        levelPosition.placeholder = `1 - ${levels.length + 1}`;
+
+        if (!levelPosition.value) {
+            levelPosition.value = levels.length + 1;
+        }
+
+        updateAutoPoints();
+    }
+
+    levelPosition.addEventListener("input", updateAutoPoints);
+
+    function nextLevelId() {
+
+        const max = (levelsAll.length ? levelsAll : levels).reduce((highest, level) => {
+            const number = parseInt(level.id, 10);
+            return Number.isFinite(number) ? Math.max(highest, number) : highest;
+        }, 0);
+
+        return pad(max + 1);
+    }
+
+    aredlQuery.addEventListener("focus", () => {
+        if (!aredlLoaded && !aredlLoading) loadAredl();
+    });
+
+    aredlQuery.addEventListener("input", () => {
+        if (!aredlLoaded && !aredlLoading) loadAredl();
+        renderAredlResults();
+    });
+
+    reloadAredl.addEventListener("click", () => loadAredl(true));
+
+    levelForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        if (!isAdmin) return;
+
+        const name = levelName.value.trim();
+        const by = levelBy.value.trim();
+        const diff = levelDiff.value;
+        const position = parseInt(levelPosition.value, 10);
+        const points = Number.isInteger(position) ? pointsForPosition(position, null) : NaN;
+        const rank = levelRank.value.trim() === "" ? null : Number(levelRank.value);
+        const gdId = levelGdId.value.trim() === "" ? null : Number(levelGdId.value);
+        const img = addPicker.getValue();
+
+        if (!name) {
+            showMessage(levelMessage, "Scrivi il nome del livello.", "errore");
+            return;
+        }
+
+        if (!Number.isInteger(position) || position < 1 || position > levels.length + 1) {
+            showMessage(levelMessage, `La posizione deve essere un numero da 1 a ${levels.length + 1}.`, "errore");
+            return;
+        }
+
+        if (!Number.isFinite(points) || points <= 0 || points > 1000) {
+            showMessage(levelMessage, "Non riesco a calcolare i punti per questa posizione.", "errore");
+            return;
+        }
+
+        // Controllo che i punti calcolati lo mettano davvero nella posizione scelta.
+        const aboveLevel = levels[position - 2];
+        const belowLevel = levels[position - 1];
+
+        if ((aboveLevel && points >= aboveLevel.points) || (belowLevel && points <= belowLevel.points)) {
+            showMessage(levelMessage, "Non c'è più spazio tra i due livelli vicini: modifica i punti di uno dei due e riprova.", "errore");
+            return;
+        }
+
+        if (rank !== null && (!Number.isInteger(rank) || rank < 1)) {
+            showMessage(levelMessage, "Il rank AREDL deve essere un numero intero da 1 in su.", "errore");
+            return;
+        }
+
+        if (gdId !== null && (!Number.isInteger(gdId) || gdId < 1)) {
+            showMessage(levelMessage, "L'ID del livello deve essere un numero intero.", "errore");
+            return;
+        }
+
+        const imgOk = isValidImageValue(img);
+
+        if (!imgOk) {
+            showMessage(levelMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
+            return;
+        }
+
+        if (
+            levels.some(level => level.name.toLowerCase() === name.toLowerCase()) ||
+            (addMode === "aredl" && selectedAredl && levels.some(level => level.aredlId && String(level.aredlId) === String(selectedAredl.id)))
+        ) {
+            showMessage(levelMessage, "Esiste già un livello con questo nome.", "errore");
+            return;
+        }
+
+        const id = nextLevelId();
+
+        const data = {
+            name,
+            points,
+            by: by || "Unknown",
+            diff,
+            img,
+            source: addMode,
+            createdAt: serverTimestamp()
+        };
+
+        if (addMode === "aredl" && rank !== null) data.aredlRank = rank;
+        if (addMode === "aredl" && selectedAredl) data.aredlId = selectedAredl.id;
+        if (gdId !== null) data.gdId = gdId;
+
+        addLevelButton.disabled = true;
+        addLevelButton.textContent = "ADDING...";
+
+        try {
+
+            const batch = writeBatch(db);
+            batch.set(doc(db, "levels", id), data);
+            await batch.commit();
+
+            levelForm.reset();
+            refreshAddPosition();
+            addPicker.reset();
+            aredlQuery.value = "";
+            aredlResults.innerHTML = "";
+            selectedAredl = null;
+            setAddMode("custom");
+            showMessage(aredlStatus, "", "");
+
+            showMessage(
+                levelMessage,
+                `Livello aggiunto in posizione #${position} con ${formatLevelPoints(points)} punti (id ${id}).`,
+                "successo"
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                levelMessage,
+                "Errore durante il salvataggio. Controlla che le regole Firestore permettano all'admin di scrivere in \"levels\".",
+                "errore"
+            );
+
+        } finally {
+
+            addLevelButton.disabled = false;
+            addLevelButton.textContent = "ADD LEVEL";
+
+        }
+
+    });
+
+    function renderAddedLevels() {
+
+        if (!isAdmin) return;
+
+        addedLevelsList.innerHTML = "";
+
+        const added = levels.filter(level => !baseLevels.some(base => base.id === level.id));
+
+        if (added.length === 0) {
+            addedLevelsList.innerHTML = '<p class="vuoto">Nessun livello aggiunto finora.</p>';
+            return;
+        }
+
+        added.forEach(level => {
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const lines = [
+                ["Level", `${level.name} (id ${level.id})`],
+                ["Type", level.source === "aredl"
+                    ? `AREDL${level.aredlRank ? " #" + level.aredlRank : ""}`
+                    : "Custom"],
+                ["Difficulty", level.diff || "-"],
+                ["Points", formatLevelPoints(level.points)]
+            ];
+
+            lines.forEach(([label, value]) => {
+                const line = document.createElement("div");
+                const strong = document.createElement("strong");
+                strong.textContent = label + ": ";
+                line.append(strong, document.createTextNode(value));
+                info.appendChild(line);
+            });
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.className = "pulsante";
+            editButton.textContent = "EDIT POINTS";
+
+            editButton.addEventListener("click", async () => {
+
+                const value = prompt(`Nuovi punti per ${level.name}:`, level.points);
+
+                if (value === null) return;
+
+                const newPoints = Math.round(Number(value) * 100) / 100;
+
+                if (!Number.isFinite(newPoints) || newPoints <= 0 || newPoints > 1000) {
+                    alert("Inserisci un numero tra 0,01 e 1000.");
+                    return;
+                }
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.update(doc(db, "levels", level.id), { points: newPoints });
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante la modifica dei punti.");
+                }
+
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "pulsante pulsante-rifiuta";
+            deleteButton.textContent = "DELETE LEVEL";
+
+            deleteButton.addEventListener("click", async () => {
+
+                const related = Object.entries(records)
+                    .filter(([, record]) => record.levelId === level.id);
+
+                if (!confirm(
+                    `Eliminare "${level.name}"?\nVerranno eliminati anche ${related.length} record dei giocatori su questo livello.`
+                )) {
+                    return;
+                }
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.delete(doc(db, "levels", level.id));
+                    related.forEach(([key]) => batch.delete(doc(db, "records", key)));
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante l'eliminazione del livello.");
+                }
+
+            });
+
+            actions.append(editButton, deleteButton);
+            card.append(info, actions);
+            addedLevelsList.appendChild(card);
+        });
+    }
+
+
+    // --------------------------------------------------
+    // MODIFICA DELLA LISTA DIRETTAMENTE DAL SITO (SOLO ADMIN)
+    // --------------------------------------------------
+
+    let editMode = true;
+    let editingLevel = null;
+
+    const editModal = document.getElementById("edit-modal");
+    const editForm = document.getElementById("edit-form");
+    const editName = document.getElementById("edit-name");
+    const editBy = document.getElementById("edit-by");
+    const editDiff = document.getElementById("edit-diff");
+    const editPoints = document.getElementById("edit-points");
+    const editPosition = document.getElementById("edit-position");
+    const editImg = document.getElementById("edit-img");
+    const editMessage = document.getElementById("edit-message");
+    const editSave = document.getElementById("edit-save");
+    const hiddenLevelsList = document.getElementById("hidden-levels-list");
+
+    function setEditMode(on) {
+
+        editMode = on;
+
+        document.body.classList.toggle("admin-edit", isAdmin && editMode);
+
+        const button = document.getElementById("edit-mode-button");
+
+        if (button) {
+            button.textContent = editMode ? "EDIT MODE: ON" : "EDIT MODE: OFF";
+        }
+    }
+
+    // Aggiunge i pulsanti EDIT / REMOVE a ogni livello (si vedono solo da admin in edit mode).
+    function decorateAdminTools() {
+
+        document.querySelectorAll(".livello").forEach(card => {
+
+            if (card.querySelector(".admin-tools")) return;
+
+            const tools = document.createElement("div");
+            tools.className = "admin-tools";
+
+            [["edit", "✎ EDIT"], ["remove", "✕ REMOVE"]].forEach(([action, label]) => {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.dataset.act = action;
+                button.textContent = label;
+                tools.appendChild(button);
+            });
+
+            card.appendChild(tools);
+        });
+    }
+
+    document.getElementById("classifica").addEventListener("click", event => {
+
+        const button = event.target.closest(".admin-tools button");
+
+        if (!button || !isAdmin) return;
+
+        const card = button.closest(".livello");
+        const level = levels.find(item => item.id === card.dataset.levelId);
+
+        if (!level) return;
+
+        if (button.dataset.act === "edit") openEditModal(level);
+        if (button.dataset.act === "remove") removeLevelFromList(level);
+    });
+
+    document.getElementById("edit-mode-button").addEventListener("click", () => setEditMode(!editMode));
+
+    function openEditModal(level) {
+
+        editingLevel = level;
+
+        editName.value = level.name || "";
+        editBy.value = level.by || "";
+
+        if (level.diff && ![...editDiff.options].some(option => option.value === level.diff)) {
+            const extra = document.createElement("option");
+            extra.textContent = level.diff;
+            editDiff.appendChild(extra);
+        }
+
+        editDiff.value = level.diff || "EXTREME DEMON";
+        editPoints.value = level.points;
+        editPicker.setValue(level.img || "");
+
+        editPosition.max = levels.length;
+        editPosition.value = levels.findIndex(item => item.id === level.id) + 1;
+
+        showMessage(editMessage, "", "");
+
+        editSave.disabled = false;
+        editModal.classList.add("show");
+        editName.focus();
+    }
+
+    function closeEditModal() {
+        editModal.classList.remove("show");
+        editingLevel = null;
+    }
+
+    // Punti da assegnare per mettere il livello in una certa posizione (a metà tra i vicini).
+    function pointsForPosition(position, excludeId) {
+
+        const others = levels.filter(item => item.id !== excludeId);
+        const index = Math.max(1, Math.min(others.length + 1, position));
+
+        const above = others[index - 2];
+        const below = others[index - 1];
+
+        let value;
+
+        if (above && below) value = (above.points + below.points) / 2;
+        else if (!above && below) value = below.points + 5;
+        else if (above && !below) value = above.points > 10 ? above.points - 5 : above.points / 2;
+        else value = 100;
+
+        return Math.max(0.01, Math.round(value * 100) / 100);
+    }
+
+    editPosition.addEventListener("change", () => {
+
+        if (!editingLevel) return;
+
+        const position = parseInt(editPosition.value, 10);
+
+        if (!Number.isInteger(position) || position < 1) return;
+
+        editPoints.value = pointsForPosition(position, editingLevel.id);
+
+        showMessage(
+            editMessage,
+            `Posizione #${position}: punti calcolati a metà tra i livelli vicini (puoi cambiarli a mano).`,
+            ""
+        );
+    });
+
+    document.getElementById("edit-cancel").addEventListener("click", closeEditModal);
+
+    editModal.addEventListener("click", event => {
+        if (event.target === editModal) closeEditModal();
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && editModal.classList.contains("show")) closeEditModal();
+    });
+
+    editForm.addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        if (!isAdmin || !editingLevel) return;
+
+        const name = editName.value.trim();
+        const by = editBy.value.trim();
+        const diff = editDiff.value;
+        const points = Math.round(Number(editPoints.value) * 100) / 100;
+        const img = editPicker.getValue();
+
+        if (!name) {
+            showMessage(editMessage, "Scrivi il nome del livello.", "errore");
+            return;
+        }
+
+        if (!Number.isFinite(points) || points <= 0 || points > 1000) {
+            showMessage(editMessage, "I punti devono essere un numero tra 0,01 e 1000.", "errore");
+            return;
+        }
+
+        const imgOk = isValidImageValue(img);
+
+        if (!imgOk) {
+            showMessage(editMessage, "L'immagine deve essere un link https oppure il nome di un file (es. livello.png).", "errore");
+            return;
+        }
+
+        if (levels.some(item => item.id !== editingLevel.id && item.name.toLowerCase() === name.toLowerCase())) {
+            showMessage(editMessage, "Esiste già un altro livello con questo nome.", "errore");
+            return;
+        }
+
+        editSave.disabled = true;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            batch.set(doc(db, "levels", editingLevel.id), {
+                name,
+                by: by || "Unknown",
+                diff,
+                img,
+                points,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+
+            await batch.commit();
+
+            closeEditModal();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                editMessage,
+                "Errore durante il salvataggio. Controlla che le regole Firestore permettano all'admin di scrivere in \"levels\".",
+                "errore"
+            );
+
+            editSave.disabled = false;
+        }
+    });
+
+    async function removeLevelFromList(level) {
+
+        if (!isAdmin) return;
+
+        const isBase = baseLevels.some(base => base.id === level.id);
+
+        const related = Object.entries(records)
+            .filter(([, record]) => record.levelId === level.id);
+
+        const question = isBase
+            ? `Togliere "${level.name}" dalla lista?\nIl livello viene nascosto: i record dei giocatori restano salvati e lo puoi ripristinare dal pannello admin.`
+            : `Eliminare "${level.name}"?\nVerranno eliminati anche ${related.length} record dei giocatori su questo livello.`;
+
+        if (!confirm(question)) return;
+
+        try {
+
+            const batch = writeBatch(db);
+
+            if (isBase) {
+                batch.set(doc(db, "levels", level.id), { hidden: true }, { merge: true });
+            } else {
+                batch.delete(doc(db, "levels", level.id));
+                related.forEach(([key]) => batch.delete(doc(db, "records", key)));
+            }
+
+            await batch.commit();
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Errore durante la rimozione del livello.");
+        }
+    }
+
+    function renderHiddenLevels() {
+
+        if (!isAdmin) return;
+
+        hiddenLevelsList.innerHTML = "";
+
+        const hidden = levelsAll.filter(level => level.hidden);
+
+        if (hidden.length === 0) {
+            hiddenLevelsList.innerHTML = '<p class="vuoto">Nessun livello nascosto.</p>';
+            return;
+        }
+
+        hidden.forEach(level => {
+
+            const card = document.createElement("div");
+            card.className = "richiesta";
+
+            const info = document.createElement("div");
+            info.className = "richiesta-info";
+
+            const strong = document.createElement("strong");
+            strong.textContent = level.name;
+
+            info.append(strong, document.createTextNode(` · ${formatLevelPoints(level.points)} pts · id ${level.id}`));
+
+            const actions = document.createElement("div");
+            actions.className = "richiesta-azioni";
+
+            const restore = document.createElement("button");
+            restore.type = "button";
+            restore.className = "pulsante pulsante-verde";
+            restore.textContent = "RESTORE";
+
+            restore.addEventListener("click", async () => {
+
+                try {
+                    const batch = writeBatch(db);
+                    batch.set(doc(db, "levels", level.id), { hidden: false }, { merge: true });
+                    await batch.commit();
+                } catch (error) {
+                    console.error(error);
+                    alert("Errore durante il ripristino del livello.");
+                }
+            });
+
+            actions.appendChild(restore);
+            card.append(info, actions);
+            hiddenLevelsList.appendChild(card);
+        });
+    }
+
+
+    // --------------------------------------------------
+    // IMMAGINI DEI LIVELLI: CARICAMENTO, RIDIMENSIONAMENTO E THUMBNAIL AUTOMATICO
+    // --------------------------------------------------
+
+    // Valori accettati: nessuna immagine, link https, nome di file nella cartella del sito
+    // oppure un'immagine caricata dal sito (data URL piccolo).
+    function isValidImageValue(value) {
+        return value === "" ||
+            /^https:\/\//i.test(value) ||
+            /^[\w./-]+\.(png|jpe?g|webp|gif)$/i.test(value) ||
+            (/^data:image\/(jpeg|png|webp);base64,/i.test(value) && value.length < 150000);
+    }
+
+    async function loadBitmap(blob) {
+
+        if (window.createImageBitmap) {
+            try {
+                return await createImageBitmap(blob);
+            } catch (_) {}
+        }
+
+        return await new Promise((resolve, reject) => {
+
+            const url = URL.createObjectURL(blob);
+            const image = new Image();
+
+            image.onload = () => { URL.revokeObjectURL(url); resolve(image); };
+            image.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Immagine non leggibile")); };
+
+            image.src = url;
+        });
+    }
+
+    // Ritaglia al formato 16:10 e riduce a circa 320x200, così pesa poche decine di KB.
+    async function resizeToDataUrl(blob) {
+
+        const bitmap = await loadBitmap(blob);
+        const sourceWidth = bitmap.naturalWidth || bitmap.width;
+        const sourceHeight = bitmap.naturalHeight || bitmap.height;
+
+        if (!sourceWidth || !sourceHeight) throw new Error("Immagine non valida");
+
+        const attempts = [[320, 200, 0.82], [320, 200, 0.7], [256, 160, 0.65], [200, 125, 0.6]];
+
+        for (const [width, height, quality] of attempts) {
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext("2d");
+
+            context.fillStyle = "#1e1e1e";
+            context.fillRect(0, 0, width, height);
+
+            const scale = Math.max(width / sourceWidth, height / sourceHeight);
+            const cropWidth = width / scale;
+            const cropHeight = height / scale;
+
+            context.drawImage(
+                bitmap,
+                (sourceWidth - cropWidth) / 2, (sourceHeight - cropHeight) / 2, cropWidth, cropHeight,
+                0, 0, width, height
+            );
+
+            const url = canvas.toDataURL("image/jpeg", quality);
+
+            if (url.length < 120000) return url;
+        }
+
+        throw new Error("Immagine troppo pesante");
+    }
+
+    // Prova a copiare il thumbnail dal servizio Level Thumbnails usando l'ID del livello.
+    async function thumbnailFromId(gdId) {
+
+        const urls = [
+            `https://levelthumbs.prevter.me/thumbnail/${gdId}`,
+            `https://levelthumbs.prevter.me/thumbnail/${gdId}/small`
+        ];
+
+        for (const url of urls) {
+
+            try {
+
+                const response = await fetch(url);
+
+                if (!response.ok) continue;
+
+                const blob = await response.blob();
+
+                if (!blob.type.startsWith("image/")) continue;
+
+                return { data: await resizeToDataUrl(blob) };
+
+            } catch (_) {}
+        }
+
+        // Se il browser non permette di copiarla, resta il link diretto (l'anteprima mostra se esiste).
+        return { link: urls[1] };
+    }
+
+    function createImagePicker(prefix, root, getGdId) {
+
+        const text = document.getElementById(`${prefix}-img`);
+        const file = document.getElementById(`${prefix}-img-file`);
+        const uploadButton = document.getElementById(`${prefix}-img-upload`);
+        const fetchButton = document.getElementById(`${prefix}-img-fetch`);
+        const clearButton = document.getElementById(`${prefix}-img-clear`);
+        const preview = document.getElementById(`${prefix}-img-preview`);
+        const status = document.getElementById(`${prefix}-img-status`);
+
+        const defaultHint = "Upload, paste (Ctrl+V) or drop an image: it is resized and saved instantly.";
+
+        let data = "";
+
+        function setStatus(message, type) {
+            status.textContent = message;
+            status.style.color = type === "ok" ? "#00e676" : type === "error" ? "#ff6666" : "#888";
+        }
+
+        function refresh() {
+
+            const source = data || text.value.trim();
+
+            preview.replaceChildren();
+
+            if (source && isValidImageValue(source)) {
+
+                const image = document.createElement("img");
+                image.src = source;
+                image.alt = "";
+                image.addEventListener("error", () => {
+                    preview.replaceChildren(document.createTextNode("Image not found"));
+                });
+
+                preview.appendChild(image);
+
+            } else {
+
+                const empty = document.createElement("span");
+                empty.textContent = "No image";
+                preview.appendChild(empty);
+            }
+        }
+
+        async function useBlob(blob) {
+
+            if (!blob || !blob.type.startsWith("image/")) {
+                setStatus("Il file scelto non è un'immagine.", "error");
                 return;
             }
 
-            logsEl.innerHTML = "";
+            setStatus("Ridimensiono l'immagine...", "");
 
-            snap.forEach(d=>{
+            try {
 
-                const data = d.data();
+                data = await resizeToDataUrl(blob);
+                text.value = "";
 
-                const date = data.loginAt?.toDate
-                    ? data.loginAt.toDate().toLocaleString('it-IT')
-                    : data.timestamp || "";
+                setStatus(`Immagine pronta (${Math.round(data.length / 1024)} KB). Si salva insieme al livello.`, "ok");
+                refresh();
 
-                const div = document.createElement('div');
+            } catch (error) {
 
-                div.className = 'log-item';
+                console.error(error);
+                setStatus("Non riesco a usare questa immagine. Prova con un'altra.", "error");
+            }
+        }
 
-                div.textContent =
-                    `${date} - ${data.email} - ${data.userAgent?.substring(0,40)}...`;
+        async function fetchFromId(gdId) {
 
-                logsEl.appendChild(div);
-            });
+            if (!gdId) {
+                setStatus("Serve l'ID del livello (campo GD level ID).", "error");
+                return;
+            }
 
-        },(error)=>{
+            setStatus("Cerco il thumbnail del livello...", "");
+            fetchButton.disabled = true;
 
-            console.error("Admin logs error:",error);
+            try {
 
-            document.getElementById('adminLogs').textContent =
-                "Errore nel caricamento dei log.";
+                const result = await thumbnailFromId(gdId);
+
+                if (result.data) {
+                    data = result.data;
+                    text.value = "";
+                    setStatus(`Thumbnail copiato e salvato (${Math.round(data.length / 1024)} KB).`, "ok");
+                } else {
+                    data = "";
+                    text.value = result.link;
+                    setStatus("Non posso copiare il thumbnail: ho messo il link diretto. Se l'anteprima non appare, carica un'immagine a mano.", "error");
+                }
+
+                refresh();
+
+            } finally {
+                fetchButton.disabled = false;
+            }
+        }
+
+        uploadButton.addEventListener("click", () => file.click());
+
+        file.addEventListener("change", async () => {
+            if (file.files[0]) await useBlob(file.files[0]);
+            file.value = "";
         });
 
+        clearButton.addEventListener("click", () => {
+            data = "";
+            text.value = "";
+            setStatus(defaultHint, "");
+            refresh();
+        });
 
-    }else if(u){
+        fetchButton.addEventListener("click", () => fetchFromId(getGdId()));
 
-        s.innerText = "Utente non admin: " + u.email;
+        text.addEventListener("input", () => {
+            data = "";
+            refresh();
+        });
 
-        loginSection.style.display = "block";
-        loggedSection.style.display = "none";
+        // Incolla un'immagine (Ctrl+V) mentre il modulo è aperto.
+        root.addEventListener("paste", event => {
 
-    }else{
+            const item = [...(event.clipboardData?.files || [])].find(f => f.type.startsWith("image/"));
 
-        s.innerText = "Non loggato - accedi come admin";
+            if (!item) return;
 
-        loginSection.style.display = "block";
-        loggedSection.style.display = "none";
+            event.preventDefault();
+            useBlob(item);
+        });
+
+        // Trascina un'immagine sull'anteprima.
+        preview.addEventListener("dragover", event => {
+            event.preventDefault();
+            preview.classList.add("dragover");
+        });
+
+        preview.addEventListener("dragleave", () => preview.classList.remove("dragover"));
+
+        preview.addEventListener("drop", event => {
+            event.preventDefault();
+            preview.classList.remove("dragover");
+            if (event.dataTransfer.files[0]) useBlob(event.dataTransfer.files[0]);
+        });
+
+        refresh();
+
+        return {
+            getValue: () => data || text.value.trim(),
+
+            setValue: value => {
+                if (value && value.startsWith("data:")) {
+                    data = value;
+                    text.value = "";
+                } else {
+                    data = "";
+                    text.value = value || "";
+                }
+                setStatus(defaultHint, "");
+                refresh();
+            },
+
+            reset: () => {
+                data = "";
+                text.value = "";
+                setStatus(defaultHint, "");
+                refresh();
+            },
+
+            fetchFromId
+        };
     }
 
-});
+    const addPicker = createImagePicker("level", levelForm, () => Number(levelGdId.value) || null);
+    const editPicker = createImagePicker("edit", editModal, () => (editingLevel && editingLevel.gdId) || null);
+
+
+    // --------------------------------------------------
+    // LOGOUT
+    // --------------------------------------------------
+
+    document.getElementById("logout-button").addEventListener("click", async () => {
+
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error(error);
+        }
+
+    });
+
+
+    // --------------------------------------------------
+    // AVVIO
+    // --------------------------------------------------
+
+    document.querySelectorAll(".livello").forEach((card, index) => {
+        if (baseLevels[index]) {
+            card.dataset.levelId = baseLevels[index].id;
+        }
+    });
+
+    listenToRecords();
+    listenToLevels();
+    updateLeaderboard();
+    setAddMode("aredl");
 
 </script>
 
