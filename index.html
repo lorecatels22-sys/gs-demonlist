@@ -329,6 +329,46 @@
             text-shadow: 0 0 20px rgba(0,230,118,.6);
         }
 
+        /* PLAYER PROGRESS TRACKER */
+        .tracker {
+            width: 100%;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .tracker-bar {
+            width: 100%;
+            height: 6px;
+            border-radius: 99px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        .tracker-fill {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #00a85e, #00e676);
+            box-shadow: 0 0 10px rgba(0,230,118,.45);
+            transition: width .8s cubic-bezier(.2,.9,.3,1.1);
+        }
+        .tracker-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 10px;
+            color: #888;
+            font-size: .58rem;
+            font-weight: 600;
+            letter-spacing: .3px;
+        }
+        .tracker-stats b {
+            color: #ccc;
+            font-weight: 800;
+        }
+
         /* CLASSIFICA */
 
         .classifica {
@@ -713,6 +753,8 @@
             .giocatore-nome { font-size: .7rem; }
             .giocatore-punti { font-size: 1.3rem; }
             .giocatore-label { font-size: .48rem; letter-spacing: 1px; }
+            .tracker-stats { font-size: .5rem; gap: 4px 6px; }
+            .tracker { margin-top: 5px; gap: 5px; }
 
             .classifica {
                 width: 95%;
@@ -1591,10 +1633,9 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .detail-progress-list { display: flex; flex-direction: column; gap: 8px; }
 .detail-progress-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
     background: #191919;
     border: 1px solid #3b3b3b;
     border-left: 3px solid #e85a5a;
@@ -1605,6 +1646,12 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
     transform: translateX(4px);
     border-left-color: #ff5555;
     background: #1f1f1f;
+}
+.detail-progress-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 .detail-progress-row a {
     color: #f5f5f5;
@@ -1620,6 +1667,31 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
     text-shadow: 0 0 8px rgba(0,230,118,.35);
 }
 .detail-progress-val.empty { color: #666; text-shadow: none; }
+.detail-progress-bar {
+    width: 100%;
+    height: 7px;
+    border-radius: 99px;
+    background: #121212;
+    border: 1px solid #333;
+    overflow: hidden;
+}
+.detail-progress-bar > span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #c62828, #e54848, #ff7777);
+    box-shadow: 0 0 10px rgba(229,72,72,.4);
+    transition: width .7s cubic-bezier(.2,.9,.3,1.1);
+}
+.detail-progress-bar > span.done {
+    background: linear-gradient(90deg, #00a85e, #00e676);
+    box-shadow: 0 0 10px rgba(0,230,118,.45);
+}
+.detail-progress-bar > span.empty {
+    width: 0 !important;
+    box-shadow: none;
+}
 .detail-video-wrap {
     position: relative;
     width: 100%;
@@ -1754,22 +1826,46 @@ footer { animation: none; }
     <!-- PUNTI GIOCATORI -->
     <section class="giocatori">
 
-        <a href="pothersouls.html" class="giocatore-card">
+        <a href="pothersouls.html" class="giocatore-card" data-player="Pothersouls">
             <span class="giocatore-nome">Pothersouls</span>
             <span class="giocatore-punti" id="total-Pothersouls">--</span>
             <span class="giocatore-label">TOTAL POINTS</span>
+            <div class="tracker">
+                <div class="tracker-bar"><span class="tracker-fill" id="tracker-fill-Pothersouls"></span></div>
+                <div class="tracker-stats">
+                    <span><b id="tracker-beaten-Pothersouls">0</b> beaten</span>
+                    <span><b id="tracker-progress-Pothersouls">0</b> in progress</span>
+                    <span><b id="tracker-avg-Pothersouls">0%</b> avg</span>
+                </div>
+            </div>
         </a>
 
-        <a href="dadefff.html" class="giocatore-card">
+        <a href="dadefff.html" class="giocatore-card" data-player="Dadefff">
             <span class="giocatore-nome">Dadefff</span>
             <span class="giocatore-punti" id="total-Dadefff">--</span>
             <span class="giocatore-label">TOTAL POINTS</span>
+            <div class="tracker">
+                <div class="tracker-bar"><span class="tracker-fill" id="tracker-fill-Dadefff"></span></div>
+                <div class="tracker-stats">
+                    <span><b id="tracker-beaten-Dadefff">0</b> beaten</span>
+                    <span><b id="tracker-progress-Dadefff">0</b> in progress</span>
+                    <span><b id="tracker-avg-Dadefff">0%</b> avg</span>
+                </div>
+            </div>
         </a>
 
-        <a href="leopelliz.html" class="giocatore-card">
+        <a href="leopelliz.html" class="giocatore-card" data-player="Leopelliz">
             <span class="giocatore-nome">Leopelliz</span>
             <span class="giocatore-punti" id="total-Leopelliz">--</span>
             <span class="giocatore-label">TOTAL POINTS</span>
+            <div class="tracker">
+                <div class="tracker-bar"><span class="tracker-fill" id="tracker-fill-Leopelliz"></span></div>
+                <div class="tracker-stats">
+                    <span><b id="tracker-beaten-Leopelliz">0</b> beaten</span>
+                    <span><b id="tracker-progress-Leopelliz">0</b> in progress</span>
+                    <span><b id="tracker-avg-Leopelliz">0%</b> avg</span>
+                </div>
+            </div>
         </a>
 
     </section>
@@ -3078,10 +3174,16 @@ footer { animation: none; }
             });
         });
 
-        // Calcolo punti totali proporzionali.
+        // Punti totali + player progress tracker
+        const totalLevels = levels.length || 1;
+
         players.forEach(playerName => {
 
             let total = 0;
+            let beaten = 0;
+            let inProgress = 0;
+            let progressSum = 0;
+            let withProgress = 0;
 
             levels.forEach(level => {
 
@@ -3089,15 +3191,33 @@ footer { animation: none; }
 
                 if (progress !== null) {
                     total += level.points * (progress / 100);
+                    progressSum += progress;
+                    withProgress++;
+                    if (progress >= 100) beaten++;
+                    else if (progress > 0) inProgress++;
                 }
 
             });
 
             const totalElement = document.getElementById(`total-${playerName}`);
-
             if (totalElement) {
                 totalElement.textContent = formatPoints(total);
             }
+
+            const completionPct = Math.round((beaten / totalLevels) * 100);
+            const avgPct = withProgress > 0 ? Math.round(progressSum / withProgress) : 0;
+
+            const fill = document.getElementById(`tracker-fill-${playerName}`);
+            if (fill) fill.style.width = `${completionPct}%`;
+
+            const beatenEl = document.getElementById(`tracker-beaten-${playerName}`);
+            if (beatenEl) beatenEl.textContent = String(beaten);
+
+            const progEl = document.getElementById(`tracker-progress-${playerName}`);
+            if (progEl) progEl.textContent = String(inProgress);
+
+            const avgEl = document.getElementById(`tracker-avg-${playerName}`);
+            if (avgEl) avgEl.textContent = `${avgPct}%`;
 
         });
     }
@@ -4568,21 +4688,43 @@ footer { animation: none; }
         }
         if (level.gdId) addTag(`ID ${level.gdId}`, "");
 
-        // Progressi giocatori
+        // Progressi giocatori (tracker)
         const progBox = document.getElementById("detail-progress");
         progBox.replaceChildren();
         players.forEach(name => {
             const progress = getProgress(name, level.id);
+            const pct = progress === null ? 0 : progress;
+
             const row = document.createElement("div");
             row.className = "detail-progress-row";
+
+            const top = document.createElement("div");
+            top.className = "detail-progress-top";
+
             const link = document.createElement("a");
             link.href = `${name.toLowerCase()}.html`;
             link.textContent = name;
+
             const val = document.createElement("span");
             val.className = "detail-progress-val" + (progress === null ? " empty" : "");
             val.textContent = progress === null ? "—" : `${progress}%`;
-            row.append(link, val);
+
+            top.append(link, val);
+
+            const bar = document.createElement("div");
+            bar.className = "detail-progress-bar";
+            const fill = document.createElement("span");
+            if (progress === null) fill.className = "empty";
+            else if (pct >= 100) fill.className = "done";
+            fill.style.width = "0%";
+            bar.appendChild(fill);
+
+            row.append(top, bar);
             progBox.appendChild(row);
+
+            requestAnimationFrame(() => {
+                fill.style.width = `${pct}%`;
+            });
         });
 
         // Video showcase
