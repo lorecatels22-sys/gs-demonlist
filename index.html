@@ -1492,6 +1492,171 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 }
 .modal:hover::before { opacity: 1; }
 
+/* --- SCHEDA DETTAGLIO LIVELLO --- */
+.livello { cursor: pointer; }
+.detail-modal {
+    width: min(720px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 0;
+    border-top: 3px solid #e54848;
+}
+.detail-hero {
+    position: relative;
+    display: flex;
+    gap: 18px;
+    align-items: stretch;
+    padding: 22px 22px 18px;
+    background: linear-gradient(180deg, rgba(229,72,72,.08), transparent 70%);
+    border-bottom: 1px solid #3b3b3b;
+}
+.detail-thumb {
+    flex: 0 0 160px;
+    width: 160px;
+    height: 100px;
+    border-radius: 8px;
+    border: 1px solid #454545;
+    object-fit: cover;
+    background: #171717;
+}
+.detail-thumb-ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 160px;
+    width: 160px;
+    height: 100px;
+    border-radius: 8px;
+    border: 1px solid #454545;
+    background: linear-gradient(135deg, #2a2a2a, #171717);
+    color: #555;
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+.detail-hero-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.detail-pos {
+    color: #e85a5a;
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+.detail-hero-info h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.detail-by { color: #999; font-size: .82rem; }
+.detail-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.detail-tag {
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #444;
+    background: #1a1a1a;
+    color: #ccc;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+.detail-tag.diff { color: #ff6666; border-color: rgba(255,102,102,.35); }
+.detail-tag.pts { color: #00e676; border-color: rgba(0,230,118,.35); }
+.detail-tag.aredl { color: #7dffb8; border-color: rgba(125,255,184,.3); }
+.detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #555;
+    border-radius: 50%;
+    background: rgba(20,20,20,.9);
+    color: #ddd;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+    z-index: 2;
+}
+.detail-close:hover { background: #e54848; border-color: #e54848; color: #fff; transform: scale(1.06); }
+.detail-body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 18px; }
+.detail-section-title {
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: #999;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+.detail-progress-list { display: flex; flex-direction: column; gap: 8px; }
+.detail-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #191919;
+    border: 1px solid #3b3b3b;
+    border-left: 3px solid #e85a5a;
+    border-radius: 8px;
+    transition: .2s ease;
+}
+.detail-progress-row:hover {
+    transform: translateX(4px);
+    border-left-color: #ff5555;
+    background: #1f1f1f;
+}
+.detail-progress-row a {
+    color: #f5f5f5;
+    font-weight: 700;
+    font-size: .85rem;
+    text-decoration: none;
+}
+.detail-progress-row a:hover { color: #ff5555; }
+.detail-progress-val {
+    color: #00e676;
+    font-weight: 800;
+    font-size: .9rem;
+    text-shadow: 0 0 8px rgba(0,230,118,.35);
+}
+.detail-progress-val.empty { color: #666; text-shadow: none; }
+.detail-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    border: 1px solid #3b3b3b;
+    background: #111;
+    overflow: hidden;
+}
+.detail-video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+.detail-video-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    min-height: 180px;
+    padding: 20px;
+    text-align: center;
+    color: #888;
+    font-size: .8rem;
+    line-height: 1.6;
+}
+.detail-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.detail-links .pulsante { padding: 9px 14px; font-size: .72rem; text-decoration: none; display: inline-flex; align-items: center; }
+@media (max-width: 700px) {
+    .detail-hero { flex-direction: column; gap: 12px; }
+    .detail-thumb, .detail-thumb-ph { width: 100%; flex: none; height: 140px; }
+}
+
 .modal .campo input,
 .modal .campo select,
 .sezione-extra .campo input,
@@ -2254,6 +2419,36 @@ footer { animation: none; }
 
         <p class="messaggio" id="edit-message" aria-live="polite"></p>
 
+    </div>
+</div>
+
+<!-- SCHEDA DETTAGLIO LIVELLO -->
+<div class="modal-overlay" id="level-detail-modal">
+    <div class="modal detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button type="button" class="detail-close" id="detail-close" aria-label="Chiudi">×</button>
+        <div class="detail-hero" id="detail-hero">
+            <div class="detail-thumb-ph" id="detail-thumb">?</div>
+            <div class="detail-hero-info">
+                <span class="detail-pos" id="detail-pos">#---</span>
+                <h2 id="detail-title">Level</h2>
+                <p class="detail-by" id="detail-by">By —</p>
+                <div class="detail-tags" id="detail-tags"></div>
+            </div>
+        </div>
+        <div class="detail-body">
+            <div>
+                <p class="detail-section-title">Progressi giocatori</p>
+                <div class="detail-progress-list" id="detail-progress"></div>
+            </div>
+            <div>
+                <p class="detail-section-title">Showcase video</p>
+                <div class="detail-video-wrap" id="detail-video"></div>
+            </div>
+            <div>
+                <p class="detail-section-title">Link utili</p>
+                <div class="detail-links" id="detail-links"></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -4276,15 +4471,193 @@ footer { animation: none; }
 
         const button = event.target.closest(".admin-tools button");
 
-        if (!button || !isAdmin) return;
+        if (button && isAdmin) {
+            const card = button.closest(".livello");
+            const level = levels.find(item => item.id === card.dataset.levelId);
+            if (!level) return;
+            if (button.dataset.act === "edit") openEditModal(level);
+            if (button.dataset.act === "remove") removeLevelFromList(level);
+            return;
+        }
 
-        const card = button.closest(".livello");
+        // Click su un link giocatore: lascia il comportamento normale
+        if (event.target.closest("a")) return;
+
+        const card = event.target.closest(".livello");
+        if (!card) return;
+
         const level = levels.find(item => item.id === card.dataset.levelId);
-
         if (!level) return;
 
-        if (button.dataset.act === "edit") openEditModal(level);
-        if (button.dataset.act === "remove") removeLevelFromList(level);
+        const index = levels.findIndex(item => item.id === level.id);
+        openLevelDetail(level, index);
+    });
+
+    // --------------------------------------------------
+    // SCHEDA DETTAGLIO LIVELLO
+    // --------------------------------------------------
+
+    const detailModal = document.getElementById("level-detail-modal");
+    const detailClose = document.getElementById("detail-close");
+
+    function youtubeIdFromUrl(url) {
+        if (!url || typeof url !== "string") return null;
+        const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([A-Za-z0-9_-]{6,})/);
+        return m ? m[1] : null;
+    }
+
+    function openLevelDetail(level, index) {
+        if (!detailModal) return;
+
+        const pos = index >= 0 ? index + 1 : levels.findIndex(l => l.id === level.id) + 1;
+
+        document.getElementById("detail-pos").textContent = `#${pad(pos)}`;
+        document.getElementById("detail-title").textContent = level.name || "Level";
+        document.getElementById("detail-by").textContent = `By ${level.by || "Unknown"}`;
+
+        const hero = document.getElementById("detail-hero");
+        let thumbBox = document.getElementById("detail-thumb");
+        if (!thumbBox && hero) {
+            thumbBox = document.createElement("div");
+            thumbBox.id = "detail-thumb";
+            hero.insertBefore(thumbBox, hero.firstChild);
+        }
+        if (thumbBox) {
+            if (level.img) {
+                const img = document.createElement("img");
+                img.className = "detail-thumb";
+                img.id = "detail-thumb";
+                img.src = level.img;
+                img.alt = level.name || "";
+                img.addEventListener("error", () => {
+                    const ph = document.createElement("div");
+                    ph.className = "detail-thumb-ph";
+                    ph.id = "detail-thumb";
+                    ph.textContent = (level.name || "?").charAt(0).toUpperCase();
+                    img.replaceWith(ph);
+                });
+                thumbBox.replaceWith(img);
+            } else {
+                if (thumbBox.tagName === "IMG") {
+                    const ph = document.createElement("div");
+                    ph.className = "detail-thumb-ph";
+                    ph.id = "detail-thumb";
+                    ph.textContent = (level.name || "?").charAt(0).toUpperCase();
+                    thumbBox.replaceWith(ph);
+                } else {
+                    thumbBox.className = "detail-thumb-ph";
+                    thumbBox.textContent = (level.name || "?").charAt(0).toUpperCase();
+                }
+            }
+        }
+
+        const tags = document.getElementById("detail-tags");
+        tags.replaceChildren();
+        const addTag = (text, cls) => {
+            const span = document.createElement("span");
+            span.className = "detail-tag" + (cls ? " " + cls : "");
+            span.textContent = text;
+            tags.appendChild(span);
+        };
+        if (level.diff) addTag(level.diff, "diff");
+        addTag(`+${formatLevelPoints(level.points)} pts`, "pts");
+        if (level.source === "aredl") {
+            addTag(level.aredlRank ? `AREDL #${level.aredlRank}` : "AREDL", "aredl");
+        } else if (level.source === "custom") {
+            addTag("CUSTOM", "");
+        }
+        if (level.gdId) addTag(`ID ${level.gdId}`, "");
+
+        // Progressi giocatori
+        const progBox = document.getElementById("detail-progress");
+        progBox.replaceChildren();
+        players.forEach(name => {
+            const progress = getProgress(name, level.id);
+            const row = document.createElement("div");
+            row.className = "detail-progress-row";
+            const link = document.createElement("a");
+            link.href = `${name.toLowerCase()}.html`;
+            link.textContent = name;
+            const val = document.createElement("span");
+            val.className = "detail-progress-val" + (progress === null ? " empty" : "");
+            val.textContent = progress === null ? "—" : `${progress}%`;
+            row.append(link, val);
+            progBox.appendChild(row);
+        });
+
+        // Video showcase
+        const videoBox = document.getElementById("detail-video");
+        videoBox.replaceChildren();
+        const ytId = youtubeIdFromUrl(level.video || level.showcase || "");
+        if (ytId) {
+            const iframe = document.createElement("iframe");
+            iframe.src = `https://www.youtube.com/embed/${ytId}`;
+            iframe.title = `${level.name} showcase`;
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+            iframe.loading = "lazy";
+            videoBox.appendChild(iframe);
+        } else {
+            const fallback = document.createElement("div");
+            fallback.className = "detail-video-fallback";
+            const p = document.createElement("p");
+            p.textContent = "Nessun video collegato a questo livello.";
+            const a = document.createElement("a");
+            a.className = "pulsante";
+            a.href = `https://www.youtube.com/results?search_query=${encodeURIComponent((level.name || "") + " geometry dash")}`;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.textContent = "CERCA SU YOUTUBE";
+            fallback.append(p, a);
+            videoBox.appendChild(fallback);
+        }
+
+        // Link utili
+        const links = document.getElementById("detail-links");
+        links.replaceChildren();
+        const makeLink = (href, label, green) => {
+            const a = document.createElement("a");
+            a.className = "pulsante" + (green ? " pulsante-verde" : "");
+            a.href = href;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.textContent = label;
+            links.appendChild(a);
+        };
+        makeLink(
+            `https://www.youtube.com/results?search_query=${encodeURIComponent((level.name || "") + " geometry dash showcase")}`,
+            "▶ YouTube showcase"
+        );
+        if (level.gdId) {
+            makeLink(`https://gdbrowser.com/${level.gdId}`, "GDBrowser", true);
+            makeLink(`https://www.boomlings.com/database/downloadGJLevel22.php?levelID=${level.gdId}`, "Level ID: " + level.gdId);
+        }
+        if (level.aredlRank) {
+            makeLink("https://aredl.net/", "AREDL #" + level.aredlRank, true);
+        }
+
+        detailModal.classList.add("show");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeLevelDetail() {
+        if (!detailModal) return;
+        detailModal.classList.remove("show");
+        document.body.style.overflow = "";
+        const videoBox = document.getElementById("detail-video");
+        if (videoBox) videoBox.replaceChildren();
+    }
+
+    if (detailClose) detailClose.addEventListener("click", closeLevelDetail);
+    if (detailModal) {
+        detailModal.addEventListener("click", event => {
+            if (event.target === detailModal) closeLevelDetail();
+        });
+    }
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && detailModal && detailModal.classList.contains("show")) {
+            closeLevelDetail();
+        }
     });
 
     document.getElementById("edit-mode-button").addEventListener("click", () => setEditMode(!editMode));
