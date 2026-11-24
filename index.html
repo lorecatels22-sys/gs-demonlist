@@ -960,12 +960,31 @@ footer { animation: foot 5s ease-in-out infinite; }
 .aredl-box { margin: 4px 0 14px; }
 .aredl-results { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 .aredl-item {
+    position: relative;
+    overflow: hidden;
     display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
     background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px;
     color: #f5f5f5; font-family: inherit; font-size: .8rem; font-weight: 700; text-align: left; cursor: pointer;
-    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    animation: slide-l .4s ease backwards;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .22s ease;
 }
-.aredl-item:hover { background: #1b2a22; border-color: rgba(0,230,118,.5); transform: translateX(4px); }
+.aredl-item:hover {
+    background: #1b2a22;
+    border-color: rgba(0,230,118,.5);
+    transform: translateX(4px);
+    box-shadow: -3px 0 12px rgba(0,230,118,.15);
+}
+.aredl-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.16), transparent 70%);
+}
+.aredl-item:hover::before { opacity: 1; }
 .aredl-rank { color: #00e676; min-width: 62px; }
 .aredl-rank.legacy { color: #c6a7ff; }
 .aredl-item:disabled { opacity: .45; cursor: not-allowed; transform: none; }
@@ -1027,6 +1046,183 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .img-status { font-size: .7rem; line-height: 1.5; color: #888; min-height: 1em; }
 @media (max-width: 700px) { .img-picker { flex-direction: column; } }
 
+
+/* ---------- PANNELLO ADMIN A SCHEDE ---------- */
+@keyframes tab-in { from { opacity: 0; transform: translateY(10px); } }
+.admin-topbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #3b3b3b; }
+.admin-topbar .admin-stato { margin: 0; }
+.admin-topbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-topbar-actions .pulsante { padding: 9px 14px; font-size: .7rem; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+/* --- RETTANGOLI ABILITÀ ADMIN --- */
+.admin-abilita {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 0 0 22px;
+}
+.admin-abilita-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px 14px 14px;
+    background: rgba(32,32,32,.97);
+    border: 1px solid #3b3b3b;
+    border-left: 4px solid #d94343;
+    border-radius: 10px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.18);
+    color: #f5f5f5;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.admin-abilita-card:nth-child(1) { animation-delay: .05s; }
+.admin-abilita-card:nth-child(2) { animation-delay: .12s; }
+.admin-abilita-card:nth-child(3) { animation-delay: .19s; }
+.admin-abilita-card:nth-child(4) { animation-delay: .26s; }
+.admin-abilita-card:nth-child(5) { animation-delay: .33s; }
+.admin-abilita-card:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.admin-abilita-card.active {
+    border-left-color: #00e676;
+    background: rgba(0,230,118,.06);
+    box-shadow: 0 0 18px rgba(0,230,118,.12), 0 5px 18px rgba(0,0,0,.2);
+}
+.admin-abilita-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-abilita-card:hover::before { opacity: 1; }
+.admin-abilita-card.active::before {
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.14), transparent 70%);
+}
+.admin-abilita-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-abilita-card:hover::after { animation: sweep .9s ease; }
+.admin-abilita-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+.admin-abilita-title {
+    font-size: .88rem;
+    font-weight: 800;
+    color: #f5f5f5;
+    line-height: 1.25;
+}
+.admin-abilita-desc {
+    font-size: .68rem;
+    font-weight: 500;
+    color: #999;
+    line-height: 1.45;
+}
+.admin-abilita-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 22px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.1);
+    font-size: .66rem;
+    font-weight: 800;
+    text-align: center;
+}
+.admin-abilita-count.alert {
+    background: #e54848;
+    color: #fff;
+}
+.admin-abilita-count.zero { opacity: .45; }
+.admin-abilita-card.active .admin-abilita-count {
+    background: rgba(0,230,118,.25);
+    color: #00e676;
+}
+.admin-abilita-card.active .admin-abilita-count.alert {
+    background: #e54848;
+    color: #fff;
+}
+@media (max-width: 700px) {
+    .admin-abilita { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .admin-abilita-card { padding: 12px 10px; }
+    .admin-abilita-title { font-size: .78rem; }
+    .admin-abilita-desc { font-size: .62rem; }
+}
+@media (max-width: 420px) {
+    .admin-abilita { grid-template-columns: 1fr; }
+}
+
+.admin-tab {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #252525; border: 1px solid #3b3b3b;
+    border-radius: 20px; color: #ccc; font-family: inherit; font-size: .76rem; font-weight: 800; cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.admin-tab:hover { border-color: #666; color: #fff; transform: translateY(-2px); }
+.admin-tab.active { background: rgba(0,230,118,.14); border-color: #00e676; color: #00e676; }
+.tab-count { min-width: 20px; padding: 1px 7px; border-radius: 10px; background: rgba(255,255,255,.1); font-size: .66rem; text-align: center; }
+.admin-tab.active .tab-count { background: rgba(0,230,118,.25); }
+.tab-count.alert { background: #e54848; color: #fff; }
+.tab-count.zero { opacity: .55; }
+.admin-tabpanel { animation: tab-in .35s ease; }
+.admin-sub { font-size: .98rem; font-weight: 800; margin: 0 0 6px; color: #f5f5f5; }
+.admin-tabpanel .descrizione-extra { margin-bottom: 14px; }
+.admin-card {
+    position: relative;
+    overflow: hidden;
+    padding: 16px;
+    margin-top: 12px;
+    background: #191919;
+    border: 1px solid #3b3b3b;
+    border-left: 3px solid #00e676;
+    border-radius: 8px;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, border-color .22s ease, box-shadow .25s ease, background .22s ease;
+}
+.admin-card > strong { display: block; margin-bottom: 6px; font-size: .85rem; }
+.admin-card:nth-child(1) { animation-delay: .05s; }
+.admin-card:nth-child(2) { animation-delay: .12s; }
+.admin-card:nth-child(3) { animation-delay: .19s; }
+.admin-card:hover {
+    transform: translateY(-3px);
+    border-color: #555;
+    box-shadow: 0 8px 22px rgba(0,0,0,.28);
+}
+.admin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.14), transparent 70%);
+}
+.admin-card:hover::before { opacity: 1; }
+.admin-help { margin: 8px 0 0 18px; color: #aaa; font-size: .78rem; line-height: 1.8; }
+.admin-help b { color: #ddd; }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -1074,9 +1270,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .difficolta { transition: letter-spacing .3s ease; }
 .livello:hover .difficolta { letter-spacing: 1.4px; }
 
-/* ---------- HOME: FORM E ADMIN (le sezioni restano intatte) ---------- */
-.sezione-extra { overflow: visible; }
-.sezione-extra::before { display: none; }
+/* ---------- HOME: FORM E ADMIN ---------- */
 .campo input:focus, .campo select:focus { box-shadow: 0 0 0 3px rgba(229,72,72,.18); }
 .pulsante { position: relative; overflow: hidden; }
 .pulsante::after {
@@ -1088,12 +1282,230 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .pulsante:active:not(:disabled) { transform: scale(.96); }
 .messaggio:not(:empty) { animation: fade-in .4s ease; }
 .messaggio.errore:not(:empty) { animation: shake .45s ease; }
-.richiesta { animation: slide-l .45s ease backwards; transition: transform .2s ease, border-left-color .2s ease; }
-.richiesta:hover { transform: translateX(6px); border-left-color: #ff5555; }
+
 .admin-contenuto:not([hidden]) { animation: fade-in .6s ease; }
 
-    
-/* ---------- PERFORMANCE: via le animazioni che ridisegnano elementi grandi a ogni frame ---------- */
+/* ============================================================
+   ANIMAZIONI COMPLETE SU TUTTI I RETTANGOLI
+   (identiche a .livello / .giocatore-card: alone rosso cursore, sweep, hover)
+   ============================================================ */
+
+/* --- SEZIONI EXTRA (Submit + Admin panel) --- */
+.sezione-extra {
+    position: relative;
+    overflow: hidden;
+    animation: rise-in .85s cubic-bezier(.2,.9,.3,1.1) .15s backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.sezione-extra:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-top-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.sezione-extra::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    display: block !important;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.sezione-extra:hover::before { opacity: 1; }
+.sezione-extra::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.sezione-extra:hover::after { animation: sweep .9s ease; }
+
+/* --- RICHIESTE --- */
+.richiesta {
+    position: relative;
+    overflow: hidden;
+    animation: slide-l .45s ease backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, border-left-color .22s ease, box-shadow .3s ease;
+}
+.richiesta:hover {
+    transform: translateY(-3px) translateX(4px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.richiesta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.richiesta:hover::before { opacity: 1; }
+.richiesta::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.richiesta:hover::after { animation: sweep .9s ease; }
+
+/* --- ADMIN CARDS --- */
+.admin-card {
+    position: relative;
+    overflow: hidden;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.admin-card:nth-child(1) { animation-delay: .05s; }
+.admin-card:nth-child(2) { animation-delay: .12s; }
+.admin-card:nth-child(3) { animation-delay: .19s; }
+.admin-card:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.admin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-card:hover::before { opacity: 1; }
+.admin-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-card:hover::after { animation: sweep .9s ease; }
+
+/* --- AREDL ITEMS --- */
+.aredl-item {
+    position: relative;
+    overflow: hidden;
+    animation: slide-l .4s ease backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.aredl-item:hover {
+    transform: translateY(-2px) translateX(4px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.aredl-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.aredl-item:hover::before { opacity: 1; }
+.aredl-item::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.aredl-item:hover::after { animation: sweep .9s ease; }
+
+/* --- ADMIN TABS --- */
+.admin-tab {
+    position: relative;
+    overflow: hidden;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .22s ease;
+}
+.admin-tab:hover {
+    border-color: #666;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+}
+.admin-tab.active {
+    box-shadow: 0 0 14px rgba(0,230,118,.2);
+}
+.admin-tab::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-tab:hover::before { opacity: 1; }
+.admin-tab::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 40%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-tab:hover::after { animation: sweep .8s ease; }
+
+/* --- MODAL --- */
+.modal {
+    position: relative;
+    overflow: hidden;
+    animation: modal-in .35s cubic-bezier(.3,1.4,.5,1);
+}
+.modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.12), transparent 70%);
+}
+.modal:hover::before { opacity: 1; }
+
+.modal .campo input,
+.modal .campo select,
+.sezione-extra .campo input,
+.sezione-extra .campo select {
+    transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.modal .campo input:focus,
+.modal .campo select:focus,
+.sezione-extra .campo input:focus,
+.sezione-extra .campo select:focus {
+    transform: translateY(-1px);
+}
+
+/* ---------- PERFORMANCE ---------- */
 .barra-sinistra, .barra-destra { animation: none; will-change: auto; }
 .testo-illuminato { animation: none; }
 footer { animation: none; }
@@ -1550,34 +1962,75 @@ footer { animation: none; }
 
         <div id="admin-content" class="admin-contenuto" hidden>
 
-            <p class="admin-stato">● Admin authenticated</p>
+            <div class="admin-topbar">
+                <p class="admin-stato">● Admin authenticated</p>
+                <div class="admin-topbar-actions">
+                    <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
+                    <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">LOGOUT</button>
+                </div>
+            </div>
 
-            <div class="admin-toolbar">
-                <button class="pulsante pulsante-verde" id="import-button" type="button">
-                    IMPORT INITIAL PROGRESS
+            <!-- RETTANGOLI ABILITÀ ADMIN -->
+            <div class="admin-abilita" role="tablist" aria-label="Sezioni admin">
+                <button type="button" class="admin-abilita-card active" data-tab="requests" role="tab" aria-selected="true">
+                    <span class="admin-abilita-icon">📥</span>
+                    <span class="admin-abilita-title">Approvazione progressi</span>
+                    <span class="admin-abilita-desc">Approva o rifiuta i progressi inviati dai giocatori</span>
+                    <span class="admin-abilita-count tab-count" id="count-requests">0</span>
                 </button>
-
-                <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
-
-                <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
-                    LOGOUT
+                <button type="button" class="admin-abilita-card" data-tab="records" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">🏆</span>
+                    <span class="admin-abilita-title">Record approvati</span>
+                    <span class="admin-abilita-desc">Modifica o elimina i record già salvati</span>
+                    <span class="admin-abilita-count tab-count" id="count-records">0</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="add" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">➕</span>
+                    <span class="admin-abilita-title">Aggiungi livelli</span>
+                    <span class="admin-abilita-desc">Nuovi livelli da AREDL o scritti a mano</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="levels" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">📋</span>
+                    <span class="admin-abilita-title">Gestione livelli</span>
+                    <span class="admin-abilita-desc">Livelli aggiunti e livelli nascosti</span>
+                    <span class="admin-abilita-count tab-count" id="count-levels">0</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="tools" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">⚙️</span>
+                    <span class="admin-abilita-title">Strumenti</span>
+                    <span class="admin-abilita-desc">Import progressi e guida del pannello</span>
                 </button>
             </div>
 
-            <p class="messaggio" id="import-message"></p>
-
-            <div class="admin-separatore"></div>
-
-            <h2>Add a level</h2>
-            <p class="descrizione-extra">
-                Cerca un livello della AREDL per nome (vedi anche il rank) oppure crea un livello custom, magari più facile.
-                Scegli la posizione in lista: i punti vengono calcolati da soli (a metà tra i livelli vicini).
-            </p>
-
-            <div class="admin-toolbar">
-                <button type="button" class="pulsante pulsante-verde" id="tab-aredl">AREDL LEVEL</button>
-                <button type="button" class="pulsante pulsante-rifiuta" id="tab-custom">CUSTOM LEVEL</button>
+            <!-- SEZIONE: APPROVAZIONE PROGRESSI -->
+            <div class="admin-tabpanel" id="panel-requests" role="tabpanel">
+                <h3 class="admin-sub">📥 Approvazione progressi</h3>
+                <p class="descrizione-extra">
+                    Sono i progressi inviati dai giocatori. <strong>APPROVE</strong> salva il record, <strong>REJECT</strong> elimina la richiesta.
+                </p>
+                <p class="descrizione-extra" id="expiry-note"></p>
+                <div id="pending-list">
+                    <p class="vuoto">Loading submissions...</p>
+                </div>
             </div>
+
+            <!-- SEZIONE: RECORD APPROVATI -->
+            <div class="admin-tabpanel" id="panel-records" role="tabpanel" hidden>
+                <h3 class="admin-sub">🏆 Record approvati</h3>
+                <p class="descrizione-extra">
+                    Qui puoi correggere la percentuale di un record (<strong>EDIT PROGRESS</strong>) oppure eliminarlo (<strong>DELETE RECORD</strong>).
+                </p>
+                <div id="approved-list">
+                    <p class="vuoto">Loading records...</p>
+                </div>
+            </div>
+
+            <!-- SEZIONE: AGGIUNGI LIVELLI -->
+            <div class="admin-tabpanel" id="panel-add" role="tabpanel" hidden>
+                <h3 class="admin-sub">➕ Aggiungi livelli</h3>
+                <p class="descrizione-extra">
+                    1) Cerca il livello per nome (la ricerca compila i dati da sola) oppure scrivili a mano. 2) Scegli la posizione in lista: i punti si calcolano da soli. 3) Premi <strong>ADD LEVEL</strong>.
+                </p>
 
             <div id="aredl-box" class="aredl-box">
                 <div class="aredl-searchbar">
@@ -1666,34 +2119,58 @@ footer { animation: none; }
 
             <p class="messaggio" id="level-message" aria-live="polite"></p>
 
-            <div class="admin-separatore"></div>
 
-            <h2>Added levels</h2>
-            <div id="added-levels-list">
-                <p class="vuoto">Loading levels...</p>
             </div>
 
-            <div class="admin-separatore"></div>
+            <!-- SEZIONE: GESTIONE LIVELLI -->
+            <div class="admin-tabpanel" id="panel-levels" role="tabpanel" hidden>
+                <h3 class="admin-sub">📋 Gestione livelli</h3>
+                <p class="descrizione-extra">
+                    Per cambiare un livello usa i pulsanti <strong>✎ EDIT</strong> e <strong>✕ REMOVE</strong> direttamente sulla lista in alto (con <strong>EDIT MODE: ON</strong>).
+                    Qui sotto trovi i livelli che hai aggiunto tu e quelli nascosti.
+                </p>
 
-            <h2>Hidden levels</h2>
-            <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
-            <div id="hidden-levels-list">
-                <p class="vuoto">Loading levels...</p>
+                <h3 class="admin-sub">Added levels</h3>
+                <div id="added-levels-list">
+                    <p class="vuoto">Loading levels...</p>
+                </div>
+
+                <div class="admin-separatore"></div>
+
+                <h3 class="admin-sub">Hidden levels</h3>
+                <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
+                <div id="hidden-levels-list">
+                    <p class="vuoto">Loading levels...</p>
+                </div>
             </div>
 
-            <div class="admin-separatore"></div>
+            <!-- SEZIONE: STRUMENTI -->
+            <div class="admin-tabpanel" id="panel-tools" role="tabpanel" hidden>
+                <h3 class="admin-sub">⚙️ Strumenti</h3>
 
-            <h2>Pending submissions</h2>
-            <p class="descrizione-extra" id="expiry-note"></p>
-            <div id="pending-list">
-                <p class="vuoto">Loading submissions...</p>
-            </div>
+                <div class="admin-card">
+                    <strong>Importa i progressi iniziali</strong>
+                    <p class="descrizione-extra">
+                        Copia nel database i progressi di partenza dei giocatori. I record già presenti non vengono sovrascritti.
+                    </p>
+                    <button class="pulsante pulsante-verde" id="import-button" type="button">
+                        IMPORT INITIAL PROGRESS
+                    </button>
+                    <p class="messaggio" id="import-message"></p>
+                </div>
 
-            <div class="admin-separatore"></div>
-
-            <h2>Approved records</h2>
-            <div id="approved-list">
-                <p class="vuoto">Loading records...</p>
+                <div class="admin-card">
+                    <strong>Come funziona il pannello — tutte le abilità</strong>
+                    <ul class="admin-help">
+                        <li><b>📥 Approvazione progressi:</b> i progressi inviati dai giocatori. APPROVE salva il record, REJECT elimina la richiesta. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
+                        <li><b>🏆 Record approvati:</b> i record già salvati. Puoi modificare la percentuale (EDIT PROGRESS) oppure eliminarli (DELETE RECORD).</li>
+                        <li><b>➕ Aggiungi livelli:</b> nuovo livello dalla AREDL (ricerca automatica) o scritto a mano, con immagine, difficoltà e posizione. I punti si calcolano automaticamente.</li>
+                        <li><b>📋 Gestione livelli:</b> elenco dei livelli aggiunti e dei livelli nascosti. Da qui puoi ripristinare i livelli nascosti.</li>
+                        <li><b>⚙️ Strumenti:</b> importa i progressi iniziali e consulta questa guida.</li>
+                        <li><b>EDIT MODE:</b> mostra o nasconde i pulsanti ✎ EDIT e ✕ REMOVE direttamente sulle card della classifica in alto.</li>
+                        <li><b>Logout:</b> esci dall'area amministratore in qualsiasi momento.</li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -1819,7 +2296,7 @@ footer { animation: none; }
 
     /* Luce che segue il mouse solo sopra i rettangoli */
     if (fine) {
-        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item';
+        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item, .admin-card, .richiesta, .aredl-item, .sezione-extra, .admin-tab, .admin-abilita-card, .modal';
         document.addEventListener('mousemove', (e) => {
             const el = e.target.closest(sel);
             if (!el) return;
@@ -1858,7 +2335,7 @@ footer { animation: none; }
 
     /* Ripple al click */
     document.addEventListener('click', (e) => {
-        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card');
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .admin-card, .richiesta, .aredl-item, .admin-tab, .admin-abilita-card');
         if (!host) return;
         const r = host.getBoundingClientRect();
         const s = document.createElement('span');
@@ -2505,6 +2982,35 @@ footer { animation: none; }
             return;
         }
 
+        // Si possono inviare tutti i record che si vuole, ma mai una percentuale più bassa di un record precedente.
+        const previousRecord = getProgress(playerName, levelId);
+
+        if (previousRecord !== null && progress < previousRecord) {
+            showMessage(
+                submissionMessage,
+                `${playerName} ha già un record del ${previousRecord}% su questo livello: non puoi inviare una percentuale più bassa.`,
+                "errore"
+            );
+            return;
+        }
+
+        // Stesso controllo sulle richieste già inviate da questo browser (anche se non ancora approvate).
+        const sentKey = `${playerName}_${levelId}`;
+        let sentRecords = {};
+
+        try {
+            sentRecords = JSON.parse(localStorage.getItem("gs_sent_progress") || "{}") || {};
+        } catch (_) {}
+
+        if (typeof sentRecords[sentKey] === "number" && progress < sentRecords[sentKey]) {
+            showMessage(
+                submissionMessage,
+                `Hai già inviato il ${sentRecords[sentKey]}% su questo livello: non puoi inviare una percentuale più bassa.`,
+                "errore"
+            );
+            return;
+        }
+
         submitButton.disabled = true;
         submitButton.textContent = "SENDING...";
 
@@ -2518,6 +3024,11 @@ footer { animation: none; }
                 createdAt: serverTimestamp()
             });
 
+            try {
+                sentRecords[sentKey] = Math.max(progress, sentRecords[sentKey] || 0);
+                localStorage.setItem("gs_sent_progress", JSON.stringify(sentRecords));
+            } catch (_) {}
+
             submissionForm.reset();
 
             showMessage(
@@ -2530,9 +3041,17 @@ footer { animation: none; }
 
             console.error(error);
 
+            const submitErrors = {
+                "permission-denied": "Firebase ha rifiutato l'invio: le regole di Firestore non lo permettono (ad esempio un limite di richieste).",
+                "resource-exhausted": "Firebase ha raggiunto il limite giornaliero di scritture. Riprova domani.",
+                "unavailable": "Firebase non è raggiungibile: controlla la connessione e riprova.",
+                "failed-precondition": "Firebase non può completare l'operazione in questo momento."
+            };
+
             showMessage(
                 submissionMessage,
-                "Errore durante l'invio. Riprova più tardi.",
+                (submitErrors[error.code] || "Errore durante l'invio. Riprova più tardi.") +
+                (error.code ? " [" + error.code + "]" : ""),
                 "errore"
             );
 
@@ -2697,6 +3216,7 @@ footer { animation: none; }
 
         return {
             empty: fresh.length === 0,
+            size: fresh.length,
             forEach: callback => fresh.forEach(callback)
         };
     }
@@ -2731,6 +3251,8 @@ footer { animation: none; }
             rawSnapshot => {
 
                 const snapshot = pruneExpiredRequests(rawSnapshot);
+
+                setTabCount("requests", snapshot.size);
 
                 pendingList.innerHTML = "";
 
@@ -2823,6 +3345,16 @@ footer { animation: none; }
             return;
         }
 
+        const currentRecord = getProgress(data.playerName, data.levelId);
+
+        if (currentRecord !== null && data.progress < currentRecord) {
+            alert(
+                `${data.playerName} ha già un record del ${currentRecord}% su questo livello: ` +
+                `questa richiesta (${data.progress}%) è più bassa e non può essere approvata. Puoi rifiutarla.`
+            );
+            return;
+        }
+
         const confirmApproval = confirm(
             `Confermi il record di ${data.playerName} al ${data.progress}%?`
         );
@@ -2898,6 +3430,8 @@ footer { animation: none; }
         approvedList.innerHTML = "";
 
         const entries = Object.entries(records);
+
+        setTabCount("records", entries.length);
 
         if (entries.length === 0) {
             approvedList.innerHTML = '<p class="vuoto">Nessun record approvato nel database.</p>';
@@ -3099,8 +3633,6 @@ footer { animation: none; }
     const AREDL_CACHE_KEY = "gs_aredl_levels_cache_v2";
     const AREDL_CACHE_TTL = 60 * 60 * 1000;
 
-    const tabAredl = document.getElementById("tab-aredl");
-    const tabCustom = document.getElementById("tab-custom");
     const aredlBox = document.getElementById("aredl-box");
     const aredlQuery = document.getElementById("aredl-query");
     const aredlStatus = document.getElementById("aredl-status");
@@ -3131,10 +3663,7 @@ footer { animation: none; }
 
         addMode = mode;
 
-        tabAredl.className = "pulsante " + (mode === "aredl" ? "pulsante-verde" : "pulsante-rifiuta");
-        tabCustom.className = "pulsante " + (mode === "custom" ? "pulsante-verde" : "pulsante-rifiuta");
-
-        aredlBox.hidden = mode !== "aredl";
+        // La ricerca resta sempre visibile; il rank compare solo dopo aver scelto un livello AREDL.
         rankField.hidden = mode !== "aredl";
 
         if (mode === "custom") {
@@ -3386,6 +3915,8 @@ footer { animation: none; }
 
     function selectAredl(item) {
 
+        setAddMode("custom");
+
         selectedAredl = item;
 
         levelName.value = item.name;
@@ -3445,9 +3976,6 @@ footer { animation: none; }
 
         return pad(max + 1);
     }
-
-    tabAredl.addEventListener("click", () => setAddMode("aredl"));
-    tabCustom.addEventListener("click", () => setAddMode("custom"));
 
     aredlQuery.addEventListener("focus", () => {
         if (!aredlLoaded && !aredlLoading) loadAredl();
@@ -3555,6 +4083,7 @@ footer { animation: none; }
             aredlQuery.value = "";
             aredlResults.innerHTML = "";
             selectedAredl = null;
+            setAddMode("custom");
             showMessage(aredlStatus, "", "");
 
             showMessage(
@@ -3587,6 +4116,8 @@ footer { animation: none; }
         if (!isAdmin) return;
 
         addedLevelsList.innerHTML = "";
+
+        setTabCount("levels", levels.length);
 
         const added = levels.filter(level => !baseLevels.some(base => base.id === level.id));
 
@@ -4268,6 +4799,48 @@ footer { animation: none; }
 
     const addPicker = createImagePicker("level", levelForm, () => Number(levelGdId.value) || null);
     const editPicker = createImagePicker("edit", editModal, () => (editingLevel && editingLevel.gdId) || null);
+
+
+    // --------------------------------------------------
+    // PANNELLO ADMIN A SCHEDE
+    // --------------------------------------------------
+
+    function showAdminTab(name) {
+
+        document.querySelectorAll(".admin-abilita-card").forEach(tab => {
+            const active = tab.dataset.tab === name;
+            tab.classList.toggle("active", active);
+            tab.setAttribute("aria-selected", String(active));
+        });
+
+        document.querySelectorAll(".admin-tabpanel").forEach(panel => {
+            panel.hidden = panel.id !== "panel-" + name;
+        });
+
+        try { sessionStorage.setItem("gs_admin_tab", name); } catch (_) {}
+    }
+
+    function setTabCount(name, value) {
+
+        const element = document.getElementById("count-" + name);
+
+        if (!element) return;
+
+        element.textContent = value;
+        element.classList.toggle("zero", !value);
+        element.classList.toggle("alert", name === "requests" && value > 0);
+    }
+
+    document.querySelectorAll(".admin-abilita-card").forEach(tab => {
+        tab.addEventListener("click", () => showAdminTab(tab.dataset.tab));
+    });
+
+    (function () {
+        let saved = "requests";
+        try { saved = sessionStorage.getItem("gs_admin_tab") || "requests"; } catch (_) {}
+        if (!document.getElementById("panel-" + saved)) saved = "requests";
+        showAdminTab(saved);
+    })();
 
 
     // --------------------------------------------------
