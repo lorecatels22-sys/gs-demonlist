@@ -960,12 +960,31 @@ footer { animation: foot 5s ease-in-out infinite; }
 .aredl-box { margin: 4px 0 14px; }
 .aredl-results { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 .aredl-item {
+    position: relative;
+    overflow: hidden;
     display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
     background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px;
     color: #f5f5f5; font-family: inherit; font-size: .8rem; font-weight: 700; text-align: left; cursor: pointer;
-    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    animation: slide-l .4s ease backwards;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .22s ease;
 }
-.aredl-item:hover { background: #1b2a22; border-color: rgba(0,230,118,.5); transform: translateX(4px); }
+.aredl-item:hover {
+    background: #1b2a22;
+    border-color: rgba(0,230,118,.5);
+    transform: translateX(4px);
+    box-shadow: -3px 0 12px rgba(0,230,118,.15);
+}
+.aredl-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.16), transparent 70%);
+}
+.aredl-item:hover::before { opacity: 1; }
 .aredl-rank { color: #00e676; min-width: 62px; }
 .aredl-rank.legacy { color: #c6a7ff; }
 .aredl-item:disabled { opacity: .45; cursor: not-allowed; transform: none; }
@@ -1049,8 +1068,38 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .admin-tabpanel { animation: tab-in .35s ease; }
 .admin-sub { font-size: .98rem; font-weight: 800; margin: 0 0 6px; color: #f5f5f5; }
 .admin-tabpanel .descrizione-extra { margin-bottom: 14px; }
-.admin-card { padding: 16px; margin-top: 12px; background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px; }
+.admin-card {
+    position: relative;
+    overflow: hidden;
+    padding: 16px;
+    margin-top: 12px;
+    background: #191919;
+    border: 1px solid #3b3b3b;
+    border-left: 3px solid #00e676;
+    border-radius: 8px;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, border-color .22s ease, box-shadow .25s ease, background .22s ease;
+}
 .admin-card > strong { display: block; margin-bottom: 6px; font-size: .85rem; }
+.admin-card:nth-child(1) { animation-delay: .05s; }
+.admin-card:nth-child(2) { animation-delay: .12s; }
+.admin-card:nth-child(3) { animation-delay: .19s; }
+.admin-card:hover {
+    transform: translateY(-3px);
+    border-color: #555;
+    box-shadow: 0 8px 22px rgba(0,0,0,.28);
+}
+.admin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.14), transparent 70%);
+}
+.admin-card:hover::before { opacity: 1; }
 .admin-help { margin: 8px 0 0 18px; color: #aaa; font-size: .78rem; line-height: 1.8; }
 .admin-help b { color: #ddd; }
 
@@ -1101,9 +1150,7 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .difficolta { transition: letter-spacing .3s ease; }
 .livello:hover .difficolta { letter-spacing: 1.4px; }
 
-/* ---------- HOME: FORM E ADMIN (le sezioni restano intatte) ---------- */
-.sezione-extra { overflow: visible; }
-.sezione-extra::before { display: none; }
+/* ---------- HOME: FORM E ADMIN ---------- */
 .campo input:focus, .campo select:focus { box-shadow: 0 0 0 3px rgba(229,72,72,.18); }
 .pulsante { position: relative; overflow: hidden; }
 .pulsante::after {
@@ -1115,12 +1162,230 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .pulsante:active:not(:disabled) { transform: scale(.96); }
 .messaggio:not(:empty) { animation: fade-in .4s ease; }
 .messaggio.errore:not(:empty) { animation: shake .45s ease; }
-.richiesta { animation: slide-l .45s ease backwards; transition: transform .2s ease, border-left-color .2s ease; }
-.richiesta:hover { transform: translateX(6px); border-left-color: #ff5555; }
+
 .admin-contenuto:not([hidden]) { animation: fade-in .6s ease; }
 
-    
-/* ---------- PERFORMANCE: via le animazioni che ridisegnano elementi grandi a ogni frame ---------- */
+/* ============================================================
+   ANIMAZIONI COMPLETE SU TUTTI I RETTANGOLI
+   (identiche a .livello / .giocatore-card: alone rosso cursore, sweep, hover)
+   ============================================================ */
+
+/* --- SEZIONI EXTRA (Submit + Admin panel) --- */
+.sezione-extra {
+    position: relative;
+    overflow: hidden;
+    animation: rise-in .85s cubic-bezier(.2,.9,.3,1.1) .15s backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.sezione-extra:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-top-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.sezione-extra::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    display: block !important;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.sezione-extra:hover::before { opacity: 1; }
+.sezione-extra::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.sezione-extra:hover::after { animation: sweep .9s ease; }
+
+/* --- RICHIESTE --- */
+.richiesta {
+    position: relative;
+    overflow: hidden;
+    animation: slide-l .45s ease backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, border-left-color .22s ease, box-shadow .3s ease;
+}
+.richiesta:hover {
+    transform: translateY(-3px) translateX(4px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.richiesta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.richiesta:hover::before { opacity: 1; }
+.richiesta::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.richiesta:hover::after { animation: sweep .9s ease; }
+
+/* --- ADMIN CARDS --- */
+.admin-card {
+    position: relative;
+    overflow: hidden;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.admin-card:nth-child(1) { animation-delay: .05s; }
+.admin-card:nth-child(2) { animation-delay: .12s; }
+.admin-card:nth-child(3) { animation-delay: .19s; }
+.admin-card:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.admin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-card:hover::before { opacity: 1; }
+.admin-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-card:hover::after { animation: sweep .9s ease; }
+
+/* --- AREDL ITEMS --- */
+.aredl-item {
+    position: relative;
+    overflow: hidden;
+    animation: slide-l .4s ease backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.aredl-item:hover {
+    transform: translateY(-2px) translateX(4px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.aredl-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.aredl-item:hover::before { opacity: 1; }
+.aredl-item::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.aredl-item:hover::after { animation: sweep .9s ease; }
+
+/* --- ADMIN TABS --- */
+.admin-tab {
+    position: relative;
+    overflow: hidden;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .22s ease;
+}
+.admin-tab:hover {
+    border-color: #666;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+}
+.admin-tab.active {
+    box-shadow: 0 0 14px rgba(0,230,118,.2);
+}
+.admin-tab::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-tab:hover::before { opacity: 1; }
+.admin-tab::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 40%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-tab:hover::after { animation: sweep .8s ease; }
+
+/* --- MODAL --- */
+.modal {
+    position: relative;
+    overflow: hidden;
+    animation: modal-in .35s cubic-bezier(.3,1.4,.5,1);
+}
+.modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.12), transparent 70%);
+}
+.modal:hover::before { opacity: 1; }
+
+.modal .campo input,
+.modal .campo select,
+.sezione-extra .campo input,
+.sezione-extra .campo select {
+    transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.modal .campo input:focus,
+.modal .campo select:focus,
+.sezione-extra .campo input:focus,
+.sezione-extra .campo select:focus {
+    transform: translateY(-1px);
+}
+
+/* ---------- PERFORMANCE ---------- */
 .barra-sinistra, .barra-destra { animation: none; will-change: auto; }
 .testo-illuminato { animation: none; }
 footer { animation: none; }
@@ -1585,6 +1850,19 @@ footer { animation: none; }
                 </div>
             </div>
 
+            <!-- PANORAMICA ABILITÀ ADMIN -->
+            <div class="admin-card">
+                <strong>Abilità dell'amministratore</strong>
+                <ul class="admin-help">
+                    <li><b>📥 Requests</b> — Approva o rifiuta i progressi inviati dai giocatori</li>
+                    <li><b>🏆 Records</b> — Modifica o elimina i record già approvati</li>
+                    <li><b>➕ Add level</b> — Aggiungi nuovi livelli (da AREDL o custom) con immagine e posizione</li>
+                    <li><b>📋 Manage levels</b> — Visualizza livelli aggiunti e ripristina quelli nascosti</li>
+                    <li><b>⚙️ Tools</b> — Importa progressi iniziali e consulta la guida completa</li>
+                    <li><b>EDIT MODE</b> — Mostra i pulsanti ✎ EDIT / ✕ REMOVE direttamente sulla classifica</li>
+                </ul>
+            </div>
+
             <nav class="admin-tabs" role="tablist" aria-label="Admin sections">
                 <button type="button" class="admin-tab active" data-tab="requests" role="tab" aria-selected="true">📥 Requests <span class="tab-count" id="count-requests">0</span></button>
                 <button type="button" class="admin-tab" data-tab="records" role="tab" aria-selected="false">🏆 Records <span class="tab-count" id="count-records">0</span></button>
@@ -1593,35 +1871,32 @@ footer { animation: none; }
                 <button type="button" class="admin-tab" data-tab="tools" role="tab" aria-selected="false">⚙️ Tools</button>
             </nav>
 
-            <!-- RICHIESTE DEI GIOCATORI -->
+            <!-- SEZIONE: RICHIESTE DEI GIOCATORI -->
             <div class="admin-tabpanel" id="panel-requests" role="tabpanel">
-                <h3 class="admin-sub">Richieste di progresso da controllare</h3>
+                <h3 class="admin-sub">📥 Requests — Richieste di progresso da controllare</h3>
                 <p class="descrizione-extra">
                     Sono i progressi inviati dai giocatori. <strong>APPROVE</strong> salva il record, <strong>REJECT</strong> elimina la richiesta.
                 </p>
-            <p class="descrizione-extra" id="expiry-note"></p>
-            <div id="pending-list">
-                <p class="vuoto">Loading submissions...</p>
+                <p class="descrizione-extra" id="expiry-note"></p>
+                <div id="pending-list">
+                    <p class="vuoto">Loading submissions...</p>
+                </div>
             </div>
 
-
-            </div>
-
-            <!-- RECORD APPROVATI -->
+            <!-- SEZIONE: RECORD APPROVATI -->
             <div class="admin-tabpanel" id="panel-records" role="tabpanel" hidden>
-                <h3 class="admin-sub">Record già approvati</h3>
+                <h3 class="admin-sub">🏆 Records — Record già approvati</h3>
                 <p class="descrizione-extra">
                     Qui puoi correggere la percentuale di un record (<strong>EDIT PROGRESS</strong>) oppure eliminarlo (<strong>DELETE RECORD</strong>).
                 </p>
-            <div id="approved-list">
-                <p class="vuoto">Loading records...</p>
+                <div id="approved-list">
+                    <p class="vuoto">Loading records...</p>
+                </div>
             </div>
 
-            </div>
-
-            <!-- AGGIUNGERE UN LIVELLO -->
+            <!-- SEZIONE: AGGIUNGERE UN LIVELLO -->
             <div class="admin-tabpanel" id="panel-add" role="tabpanel" hidden>
-                <h3 class="admin-sub">Aggiungi un livello alla lista</h3>
+                <h3 class="admin-sub">➕ Add level — Aggiungi un livello alla lista</h3>
                 <p class="descrizione-extra">
                     1) Cerca il livello per nome (la ricerca compila i dati da sola) oppure scrivili a mano. 2) Scegli la posizione in lista: i punti si calcolano da soli. 3) Premi <strong>ADD LEVEL</strong>.
                 </p>
@@ -1716,34 +1991,31 @@ footer { animation: none; }
 
             </div>
 
-            <!-- GESTIRE I LIVELLI -->
+            <!-- SEZIONE: GESTIRE I LIVELLI -->
             <div class="admin-tabpanel" id="panel-levels" role="tabpanel" hidden>
-                <h3 class="admin-sub">Modificare la lista</h3>
+                <h3 class="admin-sub">📋 Manage levels — Modificare la lista</h3>
                 <p class="descrizione-extra">
                     Per cambiare un livello usa i pulsanti <strong>✎ EDIT</strong> e <strong>✕ REMOVE</strong> direttamente sulla lista in alto (con <strong>EDIT MODE: ON</strong>).
                     Qui sotto trovi i livelli che hai aggiunto tu e quelli nascosti.
                 </p>
 
-            <h3 class="admin-sub">Added levels</h3>
-            <div id="added-levels-list">
-                <p class="vuoto">Loading levels...</p>
-            </div>
-
+                <h3 class="admin-sub">Added levels</h3>
+                <div id="added-levels-list">
+                    <p class="vuoto">Loading levels...</p>
+                </div>
 
                 <div class="admin-separatore"></div>
 
-            <h3 class="admin-sub">Hidden levels</h3>
-            <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
-            <div id="hidden-levels-list">
-                <p class="vuoto">Loading levels...</p>
+                <h3 class="admin-sub">Hidden levels</h3>
+                <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
+                <div id="hidden-levels-list">
+                    <p class="vuoto">Loading levels...</p>
+                </div>
             </div>
 
-
-            </div>
-
-            <!-- STRUMENTI -->
+            <!-- SEZIONE: STRUMENTI -->
             <div class="admin-tabpanel" id="panel-tools" role="tabpanel" hidden>
-                <h3 class="admin-sub">Strumenti</h3>
+                <h3 class="admin-sub">⚙️ Tools — Strumenti</h3>
 
                 <div class="admin-card">
                     <strong>Importa i progressi iniziali</strong>
@@ -1751,19 +2023,20 @@ footer { animation: none; }
                         Copia nel database i progressi di partenza dei giocatori. I record già presenti non vengono sovrascritti.
                     </p>
                     <button class="pulsante pulsante-verde" id="import-button" type="button">
-                    IMPORT INITIAL PROGRESS
-                </button>
+                        IMPORT INITIAL PROGRESS
+                    </button>
                     <p class="messaggio" id="import-message"></p>
                 </div>
 
                 <div class="admin-card">
-                    <strong>Come funziona il pannello</strong>
+                    <strong>Come funziona il pannello — tutte le abilità</strong>
                     <ul class="admin-help">
-                        <li><b>Requests:</b> i progressi inviati dai giocatori. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
-                        <li><b>Records:</b> i record approvati, modificabili o eliminabili.</li>
-                        <li><b>Add level:</b> nuovo livello dalla AREDL o scritto a mano, con immagine e posizione.</li>
-                        <li><b>Manage levels:</b> livelli aggiunti e livelli nascosti (si ripristinano da qui).</li>
-                        <li><b>EDIT MODE:</b> mostra o nasconde i pulsanti di modifica sulla lista.</li>
+                        <li><b>📥 Requests:</b> i progressi inviati dai giocatori. APPROVE salva il record, REJECT elimina la richiesta. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
+                        <li><b>🏆 Records:</b> i record già approvati. Puoi modificare la percentuale (EDIT PROGRESS) oppure eliminarli (DELETE RECORD).</li>
+                        <li><b>➕ Add level:</b> nuovo livello dalla AREDL (ricerca automatica) o scritto a mano, con immagine, difficoltà e posizione. I punti si calcolano automaticamente.</li>
+                        <li><b>📋 Manage levels:</b> elenco dei livelli aggiunti e dei livelli nascosti. Da qui puoi ripristinare i livelli nascosti.</li>
+                        <li><b>EDIT MODE:</b> mostra o nasconde i pulsanti ✎ EDIT e ✕ REMOVE direttamente sulle card della classifica in alto.</li>
+                        <li><b>Logout:</b> esci dall'area amministratore in qualsiasi momento.</li>
                     </ul>
                 </div>
             </div>
@@ -1891,7 +2164,7 @@ footer { animation: none; }
 
     /* Luce che segue il mouse solo sopra i rettangoli */
     if (fine) {
-        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item';
+        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item, .admin-card, .richiesta, .aredl-item, .sezione-extra, .admin-tab, .modal';
         document.addEventListener('mousemove', (e) => {
             const el = e.target.closest(sel);
             if (!el) return;
@@ -1930,7 +2203,7 @@ footer { animation: none; }
 
     /* Ripple al click */
     document.addEventListener('click', (e) => {
-        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card');
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .admin-card, .richiesta, .aredl-item, .admin-tab');
         if (!host) return;
         const r = host.getBoundingClientRect();
         const s = document.createElement('span');
