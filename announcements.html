@@ -1027,6 +1027,33 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .img-status { font-size: .7rem; line-height: 1.5; color: #888; min-height: 1em; }
 @media (max-width: 700px) { .img-picker { flex-direction: column; } }
 
+
+/* ---------- PANNELLO ADMIN A SCHEDE ---------- */
+@keyframes tab-in { from { opacity: 0; transform: translateY(10px); } }
+.admin-topbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #3b3b3b; }
+.admin-topbar .admin-stato { margin: 0; }
+.admin-topbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.admin-topbar-actions .pulsante { padding: 9px 14px; font-size: .7rem; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.admin-tab {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #252525; border: 1px solid #3b3b3b;
+    border-radius: 20px; color: #ccc; font-family: inherit; font-size: .76rem; font-weight: 800; cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.admin-tab:hover { border-color: #666; color: #fff; transform: translateY(-2px); }
+.admin-tab.active { background: rgba(0,230,118,.14); border-color: #00e676; color: #00e676; }
+.tab-count { min-width: 20px; padding: 1px 7px; border-radius: 10px; background: rgba(255,255,255,.1); font-size: .66rem; text-align: center; }
+.admin-tab.active .tab-count { background: rgba(0,230,118,.25); }
+.tab-count.alert { background: #e54848; color: #fff; }
+.tab-count.zero { opacity: .55; }
+.admin-tabpanel { animation: tab-in .35s ease; }
+.admin-sub { font-size: .98rem; font-weight: 800; margin: 0 0 6px; color: #f5f5f5; }
+.admin-tabpanel .descrizione-extra { margin-bottom: 14px; }
+.admin-card { padding: 16px; margin-top: 12px; background: #191919; border: 1px solid #3b3b3b; border-left: 3px solid #00e676; border-radius: 8px; }
+.admin-card > strong { display: block; margin-bottom: 6px; font-size: .85rem; }
+.admin-help { margin: 8px 0 0 18px; color: #aaa; font-size: .78rem; line-height: 1.8; }
+.admin-help b { color: #ddd; }
+
 /* ---------- EXTRA CREATI DA JS ---------- */
 .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 999; transform-origin: left; transform: scaleX(0);
     background: linear-gradient(90deg, #e54848, #ff9a9a); box-shadow: 0 0 10px rgba(229,72,72,.6); pointer-events: none; }
@@ -1550,29 +1577,54 @@ footer { animation: none; }
 
         <div id="admin-content" class="admin-contenuto" hidden>
 
-            <p class="admin-stato">● Admin authenticated</p>
-
-            <div class="admin-toolbar">
-                <button class="pulsante pulsante-verde" id="import-button" type="button">
-                    IMPORT INITIAL PROGRESS
-                </button>
-
-                <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
-
-                <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">
-                    LOGOUT
-                </button>
+            <div class="admin-topbar">
+                <p class="admin-stato">● Admin authenticated</p>
+                <div class="admin-topbar-actions">
+                    <button class="pulsante" id="edit-mode-button" type="button">EDIT MODE: ON</button>
+                    <button class="pulsante pulsante-rifiuta" id="logout-button" type="button">LOGOUT</button>
+                </div>
             </div>
 
-            <p class="messaggio" id="import-message"></p>
+            <nav class="admin-tabs" role="tablist" aria-label="Admin sections">
+                <button type="button" class="admin-tab active" data-tab="requests" role="tab" aria-selected="true">📥 Requests <span class="tab-count" id="count-requests">0</span></button>
+                <button type="button" class="admin-tab" data-tab="records" role="tab" aria-selected="false">🏆 Records <span class="tab-count" id="count-records">0</span></button>
+                <button type="button" class="admin-tab" data-tab="add" role="tab" aria-selected="false">➕ Add level</button>
+                <button type="button" class="admin-tab" data-tab="levels" role="tab" aria-selected="false">📋 Manage levels <span class="tab-count" id="count-levels">0</span></button>
+                <button type="button" class="admin-tab" data-tab="tools" role="tab" aria-selected="false">⚙️ Tools</button>
+            </nav>
 
-            <div class="admin-separatore"></div>
+            <!-- RICHIESTE DEI GIOCATORI -->
+            <div class="admin-tabpanel" id="panel-requests" role="tabpanel">
+                <h3 class="admin-sub">Richieste di progresso da controllare</h3>
+                <p class="descrizione-extra">
+                    Sono i progressi inviati dai giocatori. <strong>APPROVE</strong> salva il record, <strong>REJECT</strong> elimina la richiesta.
+                </p>
+            <p class="descrizione-extra" id="expiry-note"></p>
+            <div id="pending-list">
+                <p class="vuoto">Loading submissions...</p>
+            </div>
 
-            <h2>Add a level</h2>
-            <p class="descrizione-extra">
-                Cerca il livello per nome nella ricerca qui sotto per compilare i dati da solo, oppure scrivili a mano.
-                Scegli la posizione in lista: i punti vengono calcolati da soli (a metà tra i livelli vicini).
-            </p>
+
+            </div>
+
+            <!-- RECORD APPROVATI -->
+            <div class="admin-tabpanel" id="panel-records" role="tabpanel" hidden>
+                <h3 class="admin-sub">Record già approvati</h3>
+                <p class="descrizione-extra">
+                    Qui puoi correggere la percentuale di un record (<strong>EDIT PROGRESS</strong>) oppure eliminarlo (<strong>DELETE RECORD</strong>).
+                </p>
+            <div id="approved-list">
+                <p class="vuoto">Loading records...</p>
+            </div>
+
+            </div>
+
+            <!-- AGGIUNGERE UN LIVELLO -->
+            <div class="admin-tabpanel" id="panel-add" role="tabpanel" hidden>
+                <h3 class="admin-sub">Aggiungi un livello alla lista</h3>
+                <p class="descrizione-extra">
+                    1) Cerca il livello per nome (la ricerca compila i dati da sola) oppure scrivili a mano. 2) Scegli la posizione in lista: i punti si calcolano da soli. 3) Premi <strong>ADD LEVEL</strong>.
+                </p>
 
             <div id="aredl-box" class="aredl-box">
                 <div class="aredl-searchbar">
@@ -1661,34 +1713,59 @@ footer { animation: none; }
 
             <p class="messaggio" id="level-message" aria-live="polite"></p>
 
-            <div class="admin-separatore"></div>
 
-            <h2>Added levels</h2>
+            </div>
+
+            <!-- GESTIRE I LIVELLI -->
+            <div class="admin-tabpanel" id="panel-levels" role="tabpanel" hidden>
+                <h3 class="admin-sub">Modificare la lista</h3>
+                <p class="descrizione-extra">
+                    Per cambiare un livello usa i pulsanti <strong>✎ EDIT</strong> e <strong>✕ REMOVE</strong> direttamente sulla lista in alto (con <strong>EDIT MODE: ON</strong>).
+                    Qui sotto trovi i livelli che hai aggiunto tu e quelli nascosti.
+                </p>
+
+            <h3 class="admin-sub">Added levels</h3>
             <div id="added-levels-list">
                 <p class="vuoto">Loading levels...</p>
             </div>
 
-            <div class="admin-separatore"></div>
 
-            <h2>Hidden levels</h2>
+                <div class="admin-separatore"></div>
+
+            <h3 class="admin-sub">Hidden levels</h3>
             <p class="descrizione-extra">Livelli tolti dalla lista. I record dei giocatori restano salvati: ripristinandoli tornano in classifica.</p>
             <div id="hidden-levels-list">
                 <p class="vuoto">Loading levels...</p>
             </div>
 
-            <div class="admin-separatore"></div>
 
-            <h2>Pending submissions</h2>
-            <p class="descrizione-extra" id="expiry-note"></p>
-            <div id="pending-list">
-                <p class="vuoto">Loading submissions...</p>
             </div>
 
-            <div class="admin-separatore"></div>
+            <!-- STRUMENTI -->
+            <div class="admin-tabpanel" id="panel-tools" role="tabpanel" hidden>
+                <h3 class="admin-sub">Strumenti</h3>
 
-            <h2>Approved records</h2>
-            <div id="approved-list">
-                <p class="vuoto">Loading records...</p>
+                <div class="admin-card">
+                    <strong>Importa i progressi iniziali</strong>
+                    <p class="descrizione-extra">
+                        Copia nel database i progressi di partenza dei giocatori. I record già presenti non vengono sovrascritti.
+                    </p>
+                    <button class="pulsante pulsante-verde" id="import-button" type="button">
+                    IMPORT INITIAL PROGRESS
+                </button>
+                    <p class="messaggio" id="import-message"></p>
+                </div>
+
+                <div class="admin-card">
+                    <strong>Come funziona il pannello</strong>
+                    <ul class="admin-help">
+                        <li><b>Requests:</b> i progressi inviati dai giocatori. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
+                        <li><b>Records:</b> i record approvati, modificabili o eliminabili.</li>
+                        <li><b>Add level:</b> nuovo livello dalla AREDL o scritto a mano, con immagine e posizione.</li>
+                        <li><b>Manage levels:</b> livelli aggiunti e livelli nascosti (si ripristinano da qui).</li>
+                        <li><b>EDIT MODE:</b> mostra o nasconde i pulsanti di modifica sulla lista.</li>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -2734,6 +2811,7 @@ footer { animation: none; }
 
         return {
             empty: fresh.length === 0,
+            size: fresh.length,
             forEach: callback => fresh.forEach(callback)
         };
     }
@@ -2768,6 +2846,8 @@ footer { animation: none; }
             rawSnapshot => {
 
                 const snapshot = pruneExpiredRequests(rawSnapshot);
+
+                setTabCount("requests", snapshot.size);
 
                 pendingList.innerHTML = "";
 
@@ -2945,6 +3025,8 @@ footer { animation: none; }
         approvedList.innerHTML = "";
 
         const entries = Object.entries(records);
+
+        setTabCount("records", entries.length);
 
         if (entries.length === 0) {
             approvedList.innerHTML = '<p class="vuoto">Nessun record approvato nel database.</p>';
@@ -3630,6 +3712,8 @@ footer { animation: none; }
 
         addedLevelsList.innerHTML = "";
 
+        setTabCount("levels", levels.length);
+
         const added = levels.filter(level => !baseLevels.some(base => base.id === level.id));
 
         if (added.length === 0) {
@@ -4310,6 +4394,48 @@ footer { animation: none; }
 
     const addPicker = createImagePicker("level", levelForm, () => Number(levelGdId.value) || null);
     const editPicker = createImagePicker("edit", editModal, () => (editingLevel && editingLevel.gdId) || null);
+
+
+    // --------------------------------------------------
+    // PANNELLO ADMIN A SCHEDE
+    // --------------------------------------------------
+
+    function showAdminTab(name) {
+
+        document.querySelectorAll(".admin-tab").forEach(tab => {
+            const active = tab.dataset.tab === name;
+            tab.classList.toggle("active", active);
+            tab.setAttribute("aria-selected", String(active));
+        });
+
+        document.querySelectorAll(".admin-tabpanel").forEach(panel => {
+            panel.hidden = panel.id !== "panel-" + name;
+        });
+
+        try { sessionStorage.setItem("gs_admin_tab", name); } catch (_) {}
+    }
+
+    function setTabCount(name, value) {
+
+        const element = document.getElementById("count-" + name);
+
+        if (!element) return;
+
+        element.textContent = value;
+        element.classList.toggle("zero", !value);
+        element.classList.toggle("alert", name === "requests" && value > 0);
+    }
+
+    document.querySelectorAll(".admin-tab").forEach(tab => {
+        tab.addEventListener("click", () => showAdminTab(tab.dataset.tab));
+    });
+
+    (function () {
+        let saved = "requests";
+        try { saved = sessionStorage.getItem("gs_admin_tab") || "requests"; } catch (_) {}
+        if (!document.getElementById("panel-" + saved)) saved = "requests";
+        showAdminTab(saved);
+    })();
 
 
     // --------------------------------------------------
