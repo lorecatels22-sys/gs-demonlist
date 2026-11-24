@@ -1054,6 +1054,126 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 .admin-topbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .admin-topbar-actions .pulsante { padding: 9px 14px; font-size: .7rem; }
 .admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+/* --- RETTANGOLI ABILITÀ ADMIN --- */
+.admin-abilita {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 0 0 22px;
+}
+.admin-abilita-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px 14px 14px;
+    background: rgba(32,32,32,.97);
+    border: 1px solid #3b3b3b;
+    border-left: 4px solid #d94343;
+    border-radius: 10px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.18);
+    color: #f5f5f5;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    animation: rise-in .7s cubic-bezier(.2,.9,.3,1.15) backwards;
+    transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .3s ease;
+}
+.admin-abilita-card:nth-child(1) { animation-delay: .05s; }
+.admin-abilita-card:nth-child(2) { animation-delay: .12s; }
+.admin-abilita-card:nth-child(3) { animation-delay: .19s; }
+.admin-abilita-card:nth-child(4) { animation-delay: .26s; }
+.admin-abilita-card:nth-child(5) { animation-delay: .33s; }
+.admin-abilita-card:hover {
+    transform: translateY(-3px);
+    background: rgba(42,42,42,.99);
+    border-color: #555;
+    border-left-color: #ff5555;
+    box-shadow: 0 9px 26px rgba(0,0,0,.3);
+}
+.admin-abilita-card.active {
+    border-left-color: #00e676;
+    background: rgba(0,230,118,.06);
+    box-shadow: 0 0 18px rgba(0,230,118,.12), 0 5px 18px rgba(0,0,0,.2);
+}
+.admin-abilita-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(229,72,72,.16), transparent 70%);
+}
+.admin-abilita-card:hover::before { opacity: 1; }
+.admin-abilita-card.active::before {
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,230,118,.14), transparent 70%);
+}
+.admin-abilita-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+}
+.admin-abilita-card:hover::after { animation: sweep .9s ease; }
+.admin-abilita-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+.admin-abilita-title {
+    font-size: .88rem;
+    font-weight: 800;
+    color: #f5f5f5;
+    line-height: 1.25;
+}
+.admin-abilita-desc {
+    font-size: .68rem;
+    font-weight: 500;
+    color: #999;
+    line-height: 1.45;
+}
+.admin-abilita-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 22px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.1);
+    font-size: .66rem;
+    font-weight: 800;
+    text-align: center;
+}
+.admin-abilita-count.alert {
+    background: #e54848;
+    color: #fff;
+}
+.admin-abilita-count.zero { opacity: .45; }
+.admin-abilita-card.active .admin-abilita-count {
+    background: rgba(0,230,118,.25);
+    color: #00e676;
+}
+.admin-abilita-card.active .admin-abilita-count.alert {
+    background: #e54848;
+    color: #fff;
+}
+@media (max-width: 700px) {
+    .admin-abilita { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .admin-abilita-card { padding: 12px 10px; }
+    .admin-abilita-title { font-size: .78rem; }
+    .admin-abilita-desc { font-size: .62rem; }
+}
+@media (max-width: 420px) {
+    .admin-abilita { grid-template-columns: 1fr; }
+}
+
 .admin-tab {
     display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #252525; border: 1px solid #3b3b3b;
     border-radius: 20px; color: #ccc; font-family: inherit; font-size: .76rem; font-weight: 800; cursor: pointer;
@@ -1850,30 +1970,41 @@ footer { animation: none; }
                 </div>
             </div>
 
-            <!-- PANORAMICA ABILITÀ ADMIN -->
-            <div class="admin-card">
-                <strong>Abilità dell'amministratore</strong>
-                <ul class="admin-help">
-                    <li><b>📥 Requests</b> — Approva o rifiuta i progressi inviati dai giocatori</li>
-                    <li><b>🏆 Records</b> — Modifica o elimina i record già approvati</li>
-                    <li><b>➕ Add level</b> — Aggiungi nuovi livelli (da AREDL o custom) con immagine e posizione</li>
-                    <li><b>📋 Manage levels</b> — Visualizza livelli aggiunti e ripristina quelli nascosti</li>
-                    <li><b>⚙️ Tools</b> — Importa progressi iniziali e consulta la guida completa</li>
-                    <li><b>EDIT MODE</b> — Mostra i pulsanti ✎ EDIT / ✕ REMOVE direttamente sulla classifica</li>
-                </ul>
+            <!-- RETTANGOLI ABILITÀ ADMIN -->
+            <div class="admin-abilita" role="tablist" aria-label="Sezioni admin">
+                <button type="button" class="admin-abilita-card active" data-tab="requests" role="tab" aria-selected="true">
+                    <span class="admin-abilita-icon">📥</span>
+                    <span class="admin-abilita-title">Approvazione progressi</span>
+                    <span class="admin-abilita-desc">Approva o rifiuta i progressi inviati dai giocatori</span>
+                    <span class="admin-abilita-count tab-count" id="count-requests">0</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="records" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">🏆</span>
+                    <span class="admin-abilita-title">Record approvati</span>
+                    <span class="admin-abilita-desc">Modifica o elimina i record già salvati</span>
+                    <span class="admin-abilita-count tab-count" id="count-records">0</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="add" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">➕</span>
+                    <span class="admin-abilita-title">Aggiungi livelli</span>
+                    <span class="admin-abilita-desc">Nuovi livelli da AREDL o scritti a mano</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="levels" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">📋</span>
+                    <span class="admin-abilita-title">Gestione livelli</span>
+                    <span class="admin-abilita-desc">Livelli aggiunti e livelli nascosti</span>
+                    <span class="admin-abilita-count tab-count" id="count-levels">0</span>
+                </button>
+                <button type="button" class="admin-abilita-card" data-tab="tools" role="tab" aria-selected="false">
+                    <span class="admin-abilita-icon">⚙️</span>
+                    <span class="admin-abilita-title">Strumenti</span>
+                    <span class="admin-abilita-desc">Import progressi e guida del pannello</span>
+                </button>
             </div>
 
-            <nav class="admin-tabs" role="tablist" aria-label="Admin sections">
-                <button type="button" class="admin-tab active" data-tab="requests" role="tab" aria-selected="true">📥 Requests <span class="tab-count" id="count-requests">0</span></button>
-                <button type="button" class="admin-tab" data-tab="records" role="tab" aria-selected="false">🏆 Records <span class="tab-count" id="count-records">0</span></button>
-                <button type="button" class="admin-tab" data-tab="add" role="tab" aria-selected="false">➕ Add level</button>
-                <button type="button" class="admin-tab" data-tab="levels" role="tab" aria-selected="false">📋 Manage levels <span class="tab-count" id="count-levels">0</span></button>
-                <button type="button" class="admin-tab" data-tab="tools" role="tab" aria-selected="false">⚙️ Tools</button>
-            </nav>
-
-            <!-- SEZIONE: RICHIESTE DEI GIOCATORI -->
+            <!-- SEZIONE: APPROVAZIONE PROGRESSI -->
             <div class="admin-tabpanel" id="panel-requests" role="tabpanel">
-                <h3 class="admin-sub">📥 Requests — Richieste di progresso da controllare</h3>
+                <h3 class="admin-sub">📥 Approvazione progressi</h3>
                 <p class="descrizione-extra">
                     Sono i progressi inviati dai giocatori. <strong>APPROVE</strong> salva il record, <strong>REJECT</strong> elimina la richiesta.
                 </p>
@@ -1885,7 +2016,7 @@ footer { animation: none; }
 
             <!-- SEZIONE: RECORD APPROVATI -->
             <div class="admin-tabpanel" id="panel-records" role="tabpanel" hidden>
-                <h3 class="admin-sub">🏆 Records — Record già approvati</h3>
+                <h3 class="admin-sub">🏆 Record approvati</h3>
                 <p class="descrizione-extra">
                     Qui puoi correggere la percentuale di un record (<strong>EDIT PROGRESS</strong>) oppure eliminarlo (<strong>DELETE RECORD</strong>).
                 </p>
@@ -1894,9 +2025,9 @@ footer { animation: none; }
                 </div>
             </div>
 
-            <!-- SEZIONE: AGGIUNGERE UN LIVELLO -->
+            <!-- SEZIONE: AGGIUNGI LIVELLI -->
             <div class="admin-tabpanel" id="panel-add" role="tabpanel" hidden>
-                <h3 class="admin-sub">➕ Add level — Aggiungi un livello alla lista</h3>
+                <h3 class="admin-sub">➕ Aggiungi livelli</h3>
                 <p class="descrizione-extra">
                     1) Cerca il livello per nome (la ricerca compila i dati da sola) oppure scrivili a mano. 2) Scegli la posizione in lista: i punti si calcolano da soli. 3) Premi <strong>ADD LEVEL</strong>.
                 </p>
@@ -1991,9 +2122,9 @@ footer { animation: none; }
 
             </div>
 
-            <!-- SEZIONE: GESTIRE I LIVELLI -->
+            <!-- SEZIONE: GESTIONE LIVELLI -->
             <div class="admin-tabpanel" id="panel-levels" role="tabpanel" hidden>
-                <h3 class="admin-sub">📋 Manage levels — Modificare la lista</h3>
+                <h3 class="admin-sub">📋 Gestione livelli</h3>
                 <p class="descrizione-extra">
                     Per cambiare un livello usa i pulsanti <strong>✎ EDIT</strong> e <strong>✕ REMOVE</strong> direttamente sulla lista in alto (con <strong>EDIT MODE: ON</strong>).
                     Qui sotto trovi i livelli che hai aggiunto tu e quelli nascosti.
@@ -2015,7 +2146,7 @@ footer { animation: none; }
 
             <!-- SEZIONE: STRUMENTI -->
             <div class="admin-tabpanel" id="panel-tools" role="tabpanel" hidden>
-                <h3 class="admin-sub">⚙️ Tools — Strumenti</h3>
+                <h3 class="admin-sub">⚙️ Strumenti</h3>
 
                 <div class="admin-card">
                     <strong>Importa i progressi iniziali</strong>
@@ -2031,10 +2162,11 @@ footer { animation: none; }
                 <div class="admin-card">
                     <strong>Come funziona il pannello — tutte le abilità</strong>
                     <ul class="admin-help">
-                        <li><b>📥 Requests:</b> i progressi inviati dai giocatori. APPROVE salva il record, REJECT elimina la richiesta. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
-                        <li><b>🏆 Records:</b> i record già approvati. Puoi modificare la percentuale (EDIT PROGRESS) oppure eliminarli (DELETE RECORD).</li>
-                        <li><b>➕ Add level:</b> nuovo livello dalla AREDL (ricerca automatica) o scritto a mano, con immagine, difficoltà e posizione. I punti si calcolano automaticamente.</li>
-                        <li><b>📋 Manage levels:</b> elenco dei livelli aggiunti e dei livelli nascosti. Da qui puoi ripristinare i livelli nascosti.</li>
+                        <li><b>📥 Approvazione progressi:</b> i progressi inviati dai giocatori. APPROVE salva il record, REJECT elimina la richiesta. Quelle non gestite si eliminano da sole dopo alcuni giorni.</li>
+                        <li><b>🏆 Record approvati:</b> i record già salvati. Puoi modificare la percentuale (EDIT PROGRESS) oppure eliminarli (DELETE RECORD).</li>
+                        <li><b>➕ Aggiungi livelli:</b> nuovo livello dalla AREDL (ricerca automatica) o scritto a mano, con immagine, difficoltà e posizione. I punti si calcolano automaticamente.</li>
+                        <li><b>📋 Gestione livelli:</b> elenco dei livelli aggiunti e dei livelli nascosti. Da qui puoi ripristinare i livelli nascosti.</li>
+                        <li><b>⚙️ Strumenti:</b> importa i progressi iniziali e consulta questa guida.</li>
                         <li><b>EDIT MODE:</b> mostra o nasconde i pulsanti ✎ EDIT e ✕ REMOVE direttamente sulle card della classifica in alto.</li>
                         <li><b>Logout:</b> esci dall'area amministratore in qualsiasi momento.</li>
                     </ul>
@@ -2164,7 +2296,7 @@ footer { animation: none; }
 
     /* Luce che segue il mouse solo sopra i rettangoli */
     if (fine) {
-        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item, .admin-card, .richiesta, .aredl-item, .sezione-extra, .admin-tab, .modal';
+        const sel = '.giocatore-card, .livello, .badge-link, .dropdown-item, .admin-card, .richiesta, .aredl-item, .sezione-extra, .admin-tab, .admin-abilita-card, .modal';
         document.addEventListener('mousemove', (e) => {
             const el = e.target.closest(sel);
             if (!el) return;
@@ -2203,7 +2335,7 @@ footer { animation: none; }
 
     /* Ripple al click */
     document.addEventListener('click', (e) => {
-        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .admin-card, .richiesta, .aredl-item, .admin-tab');
+        const host = e.target.closest('.badge-link, .dropdown-item, .giocatore-card, .admin-card, .richiesta, .aredl-item, .admin-tab, .admin-abilita-card');
         if (!host) return;
         const r = host.getBoundingClientRect();
         const s = document.createElement('span');
@@ -4675,7 +4807,7 @@ footer { animation: none; }
 
     function showAdminTab(name) {
 
-        document.querySelectorAll(".admin-tab").forEach(tab => {
+        document.querySelectorAll(".admin-abilita-card").forEach(tab => {
             const active = tab.dataset.tab === name;
             tab.classList.toggle("active", active);
             tab.setAttribute("aria-selected", String(active));
@@ -4699,7 +4831,7 @@ footer { animation: none; }
         element.classList.toggle("alert", name === "requests" && value > 0);
     }
 
-    document.querySelectorAll(".admin-tab").forEach(tab => {
+    document.querySelectorAll(".admin-abilita-card").forEach(tab => {
         tab.addEventListener("click", () => showAdminTab(tab.dataset.tab));
     });
 
