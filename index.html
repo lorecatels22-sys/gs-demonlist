@@ -1724,6 +1724,42 @@ body.admin-edit .livello { outline: 1px dashed rgba(0,230,118,.25); outline-offs
 }
 .detail-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .detail-links .pulsante { padding: 9px 14px; font-size: .72rem; text-decoration: none; display: inline-flex; align-items: center; }
+.detail-video-admin {
+    margin-top: 12px;
+    padding: 14px;
+    background: #191919;
+    border: 1px solid #3b3b3b;
+    border-left: 3px solid #00e676;
+    border-radius: 8px;
+}
+.detail-video-admin label {
+    display: block;
+    color: #bbb;
+    font-size: .72rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.detail-video-admin-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+.detail-video-admin-row input {
+    flex: 1;
+    min-width: 180px;
+    padding: 11px 12px;
+    color: #fff;
+    background: #171717;
+    border: 1px solid #444;
+    border-radius: 7px;
+    outline: none;
+    font-family: inherit;
+    font-size: .82rem;
+}
+.detail-video-admin-row input:focus { border-color: #e85a5a; }
+.detail-video-admin-row .pulsante { padding: 10px 14px; font-size: .72rem; }
+.detail-video-admin .messaggio { margin-top: 8px; }
 @media (max-width: 700px) {
     .detail-hero { flex-direction: column; gap: 12px; }
     .detail-thumb, .detail-thumb-ph { width: 100%; flex: none; height: 140px; }
@@ -2355,6 +2391,11 @@ footer { animation: none; }
                     </div>
 
                     <div class="campo campo-full">
+                        <label for="level-video">Showcase video (YouTube link)</label>
+                        <input id="level-video" type="url" maxlength="300" placeholder="https://www.youtube.com/watch?v=... oppure youtu.be/...">
+                    </div>
+
+                    <div class="campo campo-full">
                         <label for="level-img">Image</label>
                         <div class="img-picker">
                             <div class="img-preview" id="level-img-preview"><span>No image</span></div>
@@ -2489,6 +2530,11 @@ footer { animation: none; }
                 </div>
 
                 <div class="campo campo-full">
+                    <label for="edit-video">Showcase video (YouTube link)</label>
+                    <input id="edit-video" type="url" maxlength="300" placeholder="https://www.youtube.com/watch?v=... oppure youtu.be/...">
+                </div>
+
+                <div class="campo campo-full">
                     <label for="edit-img">Image</label>
                     <div class="img-picker">
                         <div class="img-preview" id="edit-img-preview"><span>No image</span></div>
@@ -2539,6 +2585,15 @@ footer { animation: none; }
             <div>
                 <p class="detail-section-title">Showcase video</p>
                 <div class="detail-video-wrap" id="detail-video"></div>
+                <div id="detail-video-admin" class="detail-video-admin" hidden>
+                    <label for="detail-video-input">Video YouTube di questo livello</label>
+                    <div class="detail-video-admin-row">
+                        <input id="detail-video-input" type="url" maxlength="300" placeholder="https://www.youtube.com/watch?v=... oppure youtu.be/...">
+                        <button type="button" class="pulsante pulsante-verde" id="detail-video-save">SALVA VIDEO</button>
+                        <button type="button" class="pulsante pulsante-rifiuta" id="detail-video-clear">TOGLI</button>
+                    </div>
+                    <p class="messaggio" id="detail-video-msg" aria-live="polite"></p>
+                </div>
             </div>
             <div>
                 <p class="detail-section-title">Link utili</p>
@@ -3962,6 +4017,7 @@ footer { animation: none; }
     const levelPosition = document.getElementById("level-position");
     const levelRank = document.getElementById("level-rank");
     const levelGdId = document.getElementById("level-gdid");
+    const levelVideo = document.getElementById("level-video");
     const levelImg = document.getElementById("level-img");
     const rankField = document.getElementById("rank-field");
     const addLevelButton = document.getElementById("add-level-button");
@@ -4316,6 +4372,7 @@ footer { animation: none; }
         const points = Number.isInteger(position) ? pointsForPosition(position, null) : NaN;
         const rank = levelRank.value.trim() === "" ? null : Number(levelRank.value);
         const gdId = levelGdId.value.trim() === "" ? null : Number(levelGdId.value);
+        const video = (levelVideo?.value || "").trim();
         const img = addPicker.getValue();
 
         if (!name) {
@@ -4352,6 +4409,11 @@ footer { animation: none; }
             return;
         }
 
+        if (video && !youtubeIdFromUrl(video)) {
+            showMessage(levelMessage, "Il video deve essere un link YouTube valido (youtube.com o youtu.be).", "errore");
+            return;
+        }
+
         const imgOk = isValidImageValue(img);
 
         if (!imgOk) {
@@ -4382,6 +4444,7 @@ footer { animation: none; }
         if (addMode === "aredl" && rank !== null) data.aredlRank = rank;
         if (addMode === "aredl" && selectedAredl) data.aredlId = selectedAredl.id;
         if (gdId !== null) data.gdId = gdId;
+        if (video) data.video = video;
 
         addLevelButton.disabled = true;
         addLevelButton.textContent = "ADDING...";
@@ -4547,6 +4610,7 @@ footer { animation: none; }
     const editDiff = document.getElementById("edit-diff");
     const editPoints = document.getElementById("edit-points");
     const editPosition = document.getElementById("edit-position");
+    const editVideo = document.getElementById("edit-video");
     const editImg = document.getElementById("edit-img");
     const editMessage = document.getElementById("edit-message");
     const editSave = document.getElementById("edit-save");
@@ -4619,6 +4683,12 @@ footer { animation: none; }
 
     const detailModal = document.getElementById("level-detail-modal");
     const detailClose = document.getElementById("detail-close");
+    const detailVideoAdmin = document.getElementById("detail-video-admin");
+    const detailVideoInput = document.getElementById("detail-video-input");
+    const detailVideoSave = document.getElementById("detail-video-save");
+    const detailVideoClear = document.getElementById("detail-video-clear");
+    const detailVideoMsg = document.getElementById("detail-video-msg");
+    let currentDetailLevel = null;
 
     function youtubeIdFromUrl(url) {
         if (!url || typeof url !== "string") return null;
@@ -4731,6 +4801,17 @@ footer { animation: none; }
 
     function openLevelDetail(level, index) {
         if (!detailModal) return;
+
+        currentDetailLevel = level;
+
+        if (detailVideoAdmin) {
+            detailVideoAdmin.hidden = !isAdmin;
+            if (detailVideoInput) detailVideoInput.value = level.video || level.showcase || "";
+            if (detailVideoMsg) {
+                detailVideoMsg.textContent = "";
+                detailVideoMsg.className = "messaggio";
+            }
+        }
 
         const pos = index >= 0 ? index + 1 : levels.findIndex(l => l.id === level.id) + 1;
 
@@ -4898,8 +4979,94 @@ footer { animation: none; }
         if (!detailModal) return;
         detailModal.classList.remove("show");
         document.body.style.overflow = "";
+        currentDetailLevel = null;
         const videoBox = document.getElementById("detail-video");
         if (videoBox) videoBox.replaceChildren();
+    }
+
+    async function saveDetailVideo(url) {
+        if (!isAdmin || !currentDetailLevel) return;
+
+        const video = (url || "").trim();
+        if (video && !youtubeIdFromUrl(video)) {
+            if (detailVideoMsg) {
+                detailVideoMsg.textContent = "Inserisci un link YouTube valido.";
+                detailVideoMsg.className = "messaggio errore";
+            }
+            return;
+        }
+
+        if (detailVideoSave) detailVideoSave.disabled = true;
+        if (detailVideoClear) detailVideoClear.disabled = true;
+        if (detailVideoMsg) {
+            detailVideoMsg.textContent = "Salvataggio…";
+            detailVideoMsg.className = "messaggio";
+        }
+
+        try {
+            const batch = writeBatch(db);
+            batch.set(doc(db, "levels", currentDetailLevel.id), {
+                video: video || "",
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            await batch.commit();
+
+            currentDetailLevel.video = video || "";
+            const live = levels.find(l => l.id === currentDetailLevel.id);
+            if (live) live.video = video || "";
+
+            if (typeof videoCache !== "undefined") {
+                videoCache.delete(currentDetailLevel.id);
+                videoCache.delete(currentDetailLevel.name);
+            }
+
+            const videoBox = document.getElementById("detail-video");
+            if (videoBox) {
+                if (video) {
+                    renderYoutubeEmbed(videoBox, video, `${currentDetailLevel.name} showcase`);
+                } else {
+                    // Ricarica da AREDL se hai tolto il video manuale
+                    videoBox.replaceChildren();
+                    const loading = document.createElement("div");
+                    loading.className = "detail-video-fallback";
+                    loading.innerHTML = "<p>Carico lo showcase…</p>";
+                    videoBox.appendChild(loading);
+                    const videoUrl = await fetchShowcaseVideo(currentDetailLevel);
+                    if (videoUrl) renderYoutubeEmbed(videoBox, videoUrl, `${currentDetailLevel.name} showcase`);
+                    else {
+                        videoBox.replaceChildren();
+                        const fallback = document.createElement("div");
+                        fallback.className = "detail-video-fallback";
+                        fallback.innerHTML = "<p>Nessuno showcase trovato per questo livello.</p>";
+                        videoBox.appendChild(fallback);
+                    }
+                }
+            }
+
+            if (detailVideoMsg) {
+                detailVideoMsg.textContent = video ? "Video salvato." : "Video rimosso.";
+                detailVideoMsg.className = "messaggio successo";
+            }
+        } catch (error) {
+            console.error(error);
+            if (detailVideoMsg) {
+                detailVideoMsg.textContent = "Errore nel salvataggio. Controlla di essere admin e le regole Firestore.";
+                detailVideoMsg.className = "messaggio errore";
+            }
+        } finally {
+            if (detailVideoSave) detailVideoSave.disabled = false;
+            if (detailVideoClear) detailVideoClear.disabled = false;
+        }
+    }
+
+    if (detailVideoSave) {
+        detailVideoSave.addEventListener("click", () => saveDetailVideo(detailVideoInput?.value || ""));
+    }
+    if (detailVideoClear) {
+        detailVideoClear.addEventListener("click", () => {
+            if (detailVideoInput) detailVideoInput.value = "";
+            saveDetailVideo("");
+        });
     }
 
     if (detailClose) detailClose.addEventListener("click", closeLevelDetail);
@@ -4931,6 +5098,7 @@ footer { animation: none; }
 
         editDiff.value = level.diff || "EXTREME DEMON";
         editPoints.value = level.points;
+        if (editVideo) editVideo.value = level.video || level.showcase || "";
         editPicker.setValue(level.img || "");
 
         editPosition.max = levels.length;
@@ -5004,6 +5172,7 @@ footer { animation: none; }
         const by = editBy.value.trim();
         const diff = editDiff.value;
         const points = Math.round(Number(editPoints.value) * 100) / 100;
+        const video = (editVideo?.value || "").trim();
         const img = editPicker.getValue();
 
         if (!name) {
@@ -5013,6 +5182,11 @@ footer { animation: none; }
 
         if (!Number.isFinite(points) || points <= 0 || points > 1000) {
             showMessage(editMessage, "I punti devono essere un numero tra 0,01 e 1000.", "errore");
+            return;
+        }
+
+        if (video && !youtubeIdFromUrl(video)) {
+            showMessage(editMessage, "Il video deve essere un link YouTube valido (youtube.com o youtu.be).", "errore");
             return;
         }
 
@@ -5040,8 +5214,15 @@ footer { animation: none; }
                 diff,
                 img,
                 points,
+                video: video || "",
                 updatedAt: serverTimestamp()
             }, { merge: true });
+
+            // Invalida la cache video di questo livello
+            if (typeof videoCache !== "undefined") {
+                videoCache.delete(editingLevel.id);
+                videoCache.delete(editingLevel.name);
+            }
 
             await batch.commit();
 
